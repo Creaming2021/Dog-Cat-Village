@@ -1,9 +1,9 @@
 import React from 'react';
-import './App.css';
+import styles from './App.module.css';
 
 function App() {
   return (
-    <div>
+    <div className={styles.app__size}>
       <h1>마지막 블록체인</h1>
     </div>
   );
