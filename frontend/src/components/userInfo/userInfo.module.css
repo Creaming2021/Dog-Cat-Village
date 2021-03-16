@@ -19,32 +19,38 @@ button {
   align-items: center;
 }
 
-.user-img {
+.user-img-box {
   width: 17.5rem;
   height: 17.5rem;
   border-radius: 50%;
   margin-bottom: 2em;
 }
 
+.user-img {
+  width: 17.5rem;
+  height: 17.5rem;
+  border-radius: 50%;
+}
+
 .user-description {
   position: absolute;
   top: 0;
   left: 0;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: white;
   background-color: black;
-  opacity: 0;
+  opacity: 0.8;
   /* transition: all 3000ms ease-in; */
   width: 100%;
   height: 100%;
   border-radius: 30px;
 }
 
-.user-img:hover .user-description {
-  opacity: 0.8;
+.user-img-box:hover .user-description {
+  display: flex;
 }
 
 .user-info-edit-btn {

@@ -40,6 +40,10 @@ button {
   color: #D9D9D9;
 }
 
+.img-input-tag {
+  display: none;
+}
+
 .user-img-edit-btn:hover {
   color: #FFCE00;
 }
