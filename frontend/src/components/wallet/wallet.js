@@ -14,7 +14,7 @@ function Wallet() {
       </div>
       <div className={styles['coin-btns']}>
         <button className={styles['coin-charge-btn']}>충전하기</button> 
-        ㅣ
+        <div className={styles['division-line']}>ㅣ</div>
         <button className={styles['coin-withdraw-btn']}>출금하기</button>
       </div>
     </div>
