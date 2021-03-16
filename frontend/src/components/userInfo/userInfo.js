@@ -13,7 +13,7 @@ function UserInfo() {
       <div>
         <button className={styles['user-info-edit-btn']}>수정</button> 
         ㅣ<button className={styles['user-unsubs-btn']}>탈퇴</button>
-        </div>
+      </div>
     </div>
   );
 };
