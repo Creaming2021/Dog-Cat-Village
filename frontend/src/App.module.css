@@ -1,4 +1,12 @@
-.app__size {
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+.app {
+  font-family: 'Roboto', sans-serif;
   width: 100%;
-  background-color: aqua;
+}
+
+@media screen and (max-width: 480px) {
+  .app {
+    width: 100%;
+  }
 }
