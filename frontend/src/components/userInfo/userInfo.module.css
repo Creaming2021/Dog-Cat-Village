@@ -1,3 +1,12 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
 .user-info {
   background-color: burlywood;
   width: 30rem;
@@ -10,14 +19,14 @@
   align-items: center;
 }
 
-.user-info-img {
+.user-img {
   width: 17.5rem;
   height: 17.5rem;
   border-radius: 50%;
   margin-bottom: 2em;
 }
 
-.user-info-description {
+.user-description {
   position: absolute;
   top: 0;
   left: 0;
@@ -34,17 +43,17 @@
   border-radius: 30px;
 }
 
-.user-info-img:hover .user-info-description {
+.user-img:hover .user-description {
   opacity: 0.8;
 }
 
-.user-info-edit-button {
+.user-info-edit-btn {
   border: none;
   background-color: transparent;
   font-size: 1rem;
 }
 
-.user-info-unsubs-button {
+.user-unsubs-btn {
   border: none;
   background-color: transparent;
   font-size: 1rem;
