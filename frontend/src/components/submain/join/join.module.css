@@ -1,0 +1,10 @@
+.join{
+    width: 100%;
+    height: 100vh;
+    margin: 0px auto;
+}
+
+.icon-at{
+    display: inline;
+    margin: 0 17px;
+}
