@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import styles from './mainCategory.module.css';
 import commons from '../../../common/common.module.css';
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 type MainCategoryProps = {

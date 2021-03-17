@@ -1,3 +1,20 @@
+.text-big{
+    font-weight: 900;
+    font-size: 50px;
+    color: #5E5E5E;
+}
+
+.text-middle-bold{
+    font-weight: bold;
+    font-size: 25px;
+    color: #838383;
+}
+
+.text-middle-light{
+    font-size: 25px;
+    color: #747474;
+}
+
 .btn-middle {
     border: none;
     border-radius: 10px;
