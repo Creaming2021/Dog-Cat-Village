@@ -12,7 +12,7 @@ import styles from './subMain.module.css';
 const SubMain = () => {
     type CategoryType = 'home' | 'notice' | 'board' | 'animal' | 'chatting' | 'donation';  
     
-    const [category, setCategory] = useState<CategoryType>('home');
+    const [category, setCategory] = useState<CategoryType>('animal');
 
     const onChangeCategory = (category: CategoryType): void => {
         setCategory(category);
@@ -30,7 +30,7 @@ const SubMain = () => {
         {category === 'board' &&
             <Board/>}
         {category === 'animal' &&
-            <Animal/>}
+            <Animal type='center'/>}
         {category === 'chatting' &&
             <Chatting/>}
         {category === 'donation' &&

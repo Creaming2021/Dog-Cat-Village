@@ -65,3 +65,15 @@
     padding: 20px;
     resize: none;
 }
+
+.input-medium {
+    background-color: transparent;
+    border-width: 0 0 2px;
+    border-color: white;
+
+    width: 250px;
+    height: 30px;
+
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
