@@ -6,7 +6,9 @@ import LogIn from '../logIn/logIn';
 import Main from '../main/main';
 
 const Control = () => {
-    const [view, setView] = useState<'main' | 'logIn' | 'join' | 'findPassword' >('main');
+    type ViewType = 'main' | 'logIn' | 'join' | 'findPassword';
+    
+    const [view, setView] = useState<ViewType>('main');
     const [type, setType] = useState<string>('');
 
     const goToMain = (): void => {
