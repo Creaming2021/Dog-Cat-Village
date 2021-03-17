@@ -1,0 +1,27 @@
+.btn-middle {
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    width: 195px;
+    height: 60px;
+    margin: 5px;
+}
+
+.text-color{
+    color: #788E6E;
+}
+
+.text-color:hover{
+    color: #454545;
+}
+
+.bg-green{
+    background-color: #F3FBE4;
+    color: #454545;
+}
+
+.bg-green:hover{
+    background-color: #788E6E;
+    color: white;
+}
