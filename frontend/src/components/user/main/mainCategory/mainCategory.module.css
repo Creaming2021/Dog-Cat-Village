@@ -1,7 +1,8 @@
 .main-category {
-    display: inline-block;
+    /* display: inline-block; */
     width: 450px;
     height: 840px;
+    float: left;
 }
 
 .top {
