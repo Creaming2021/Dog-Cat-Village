@@ -5,10 +5,10 @@ import { faBroadcastTower, faUsers, faCoins } from "@fortawesome/free-solid-svg-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { stringify } from 'node:querystring';
 
-type StreamingProps = {
+type OnAirStreamingProps = {
 }
 
-const Streaming = ({ }: StreamingProps) => {
+const OnAirStreaming = ({ }: OnAirStreamingProps) => {
     return (
     <div className={styles.streaming}>
         <div className={styles['title-box']}>
@@ -31,6 +31,22 @@ const Streaming = ({ }: StreamingProps) => {
             </div>
         </div>
         <div className={styles.content}>스트리밍 오늘의 내용<br/>오늘은 날이 좋네요!</div>
+    </div>
+    );
+}
+
+type ReadyStreamingProps = {
+
+}
+
+const ReadyStreaming = ({}: ReadyStreamingProps) => {
+    return(
+    <div className={styles.streaming}>
+        <input className={commons['input-title']} 
+                placeholder="오늘의 스트리밍 제목을 입력하세요."/>
+        <textarea className={commons['input-content']}
+                placeholder="오늘의 스트리밍 내용을 입력하세요."/>
+        <button className={`${commons['bg-green']} ${commons['btn-middle']}`}>스트리밍 시작하기</button>
     </div>
     );
 }
@@ -90,8 +106,11 @@ const DonationCard = ({ id, nickname, imageUrl, total}: DonationCardProps) => {
     </>);
 }
 
+type HomeProps = {
+    type: string,
+}
 
-const Home = () => {
+const Home = ({ type }: HomeProps) => {
     const userList : DonationCardProps[] = [
         {id: 1, nickname:'첫번째', imageUrl:'', total:1234 },
         {id: 2, nickname:'두번째', imageUrl:'', total:1 },
@@ -102,7 +121,10 @@ const Home = () => {
         {id: 7, nickname:'일곱번째', imageUrl:'', total:1234567 }];
 
     return (<>
-    <Streaming/>
+    { type === 'user'
+        ? <OnAirStreaming/>
+        : <ReadyStreaming/>
+    }
     <Donation
         userList={userList}/>
     </>);

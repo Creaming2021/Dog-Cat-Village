@@ -24,7 +24,7 @@ const SubMain = () => {
         <MainCategory
             onChangeCategory={onChangeCategory}/>
         {category === 'home' &&
-            <Home/>}
+            <Home type='user'/>}
         {category === 'notice' &&
             <Notice/>}
         {category === 'board' &&
