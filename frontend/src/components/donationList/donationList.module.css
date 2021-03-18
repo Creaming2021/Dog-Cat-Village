@@ -10,7 +10,7 @@ button {
 .donation-container {
   width: 640px;
   height: 820px;
-  border: 1px solid black;
+  background-color: white;
   border-radius: 30px;
   padding: 20px;
 }
@@ -34,7 +34,7 @@ button {
   width: 400px;
   height: 34px;
   border: none;
-  border-bottom: solid 1px #595959;
+  border-bottom: solid 2px #838383;
   margin-right: 10px;
 }
 
