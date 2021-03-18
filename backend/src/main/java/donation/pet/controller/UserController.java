@@ -34,14 +34,14 @@ public class UserController {
 
     @ApiOperation("닉네임 중복 확인")
     @PostMapping("/check")
-    public ResponseEntity<Void> checkNickname(@RequestBody DuplReqDto dto) throws Exception {
+    public ResponseEntity<Void> checkNickname(@RequestBody DuplReqDto dto) {
         userService.checkDuplicatedNickname(dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @ApiOperation("일반 사용자 로그인")
     @PostMapping("/login")
-    public ResponseEntity<UserResDto> loginByUser(@RequestBody LoginReqDto dto) throws Exception {
+    public ResponseEntity<UserResDto> loginByUser(@RequestBody LoginReqDto dto) {
         UserResDto resDto = userService.login(dto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(resDto);
     }

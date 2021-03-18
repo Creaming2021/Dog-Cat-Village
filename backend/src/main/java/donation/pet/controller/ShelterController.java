@@ -32,7 +32,7 @@ public class ShelterController {
 
     @ApiOperation("보호소 사용자 로그인")
     @PostMapping("/login")
-    public ResponseEntity<ShelterResDto> loginByShelter(@RequestBody LoginReqDto dto){
+    public ResponseEntity<ShelterResDto> loginByShelter(@RequestBody LoginReqDto dto) {
         ShelterResDto resDto = shelterService.login(dto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(resDto);
     }

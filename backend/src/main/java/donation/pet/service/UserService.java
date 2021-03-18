@@ -16,7 +16,8 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.net.URL;
-import java.util.Random;
+
+import static donation.pet.util.MailUtil.*;
 
 @RequiredArgsConstructor
 @Service
@@ -25,7 +26,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final JavaMailSender javaMailSender;
 
-    public UserResDto login(LoginReqDto dto) throws Exception {
+    public UserResDto login(LoginReqDto dto) {
         User user = userRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new BaseException(ErrorCode.UNEXPECTED_USER));
         if(!user.getAccept().equals("true")) {
@@ -41,7 +42,7 @@ public class UserService {
         return resDto;
     }
 
-    public void checkDuplicatedNickname(DuplReqDto dto) throws Exception {
+    public void checkDuplicatedNickname(DuplReqDto dto) {
         if(userRepository.findByNickname(dto.getNickname()).isPresent()) {
             throw new BaseException(ErrorCode.MEMBER_DUPLICATED_NICKNAME);
         }
@@ -63,7 +64,7 @@ public class UserService {
         user = userRepository.save(user);
     }
 
-    public void checkEmailKey(String key, String email){
+    public void checkEmailKey(String key, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new BaseException(ErrorCode.UNEXPECTED_USER));
         if(user.getAccept().equals(key)){
@@ -78,56 +79,4 @@ public class UserService {
         }
     }
 
-
-    // 메일 전송
-    public void sendMail(String email, String key) {
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom("noreply@bowmew.co.kr");
-            messageHelper.setTo(email);
-            messageHelper.setSubject("[멍냥커넥트]에서 도착한 이메일입니다.");
-            URL url = new URL("http://localhost:8080/api/users/authentication/" + key + "/" + email);
-            String content = stringBuilder.append("하단의 버튼으로 접속하여 인증해주세요.")
-                    .append("\n").append("<a href='").append(url).append("'>")
-                    .append("인증하기</a>")
-                    .toString();
-            messageHelper.setText(content, true);
-        };
-        javaMailSender.send(messagePreparator);
-
-    }
-
-    /* 난수 이용한 키 생성 */
-    private boolean lowerCheck;
-    private int size;
-
-    public String getKey(boolean lowerCheck, int size){
-        this.lowerCheck = lowerCheck;
-        this.size = size;
-        return init();
-    }
-
-    /* 이메일 난수 만드는 메소드 */
-    private String init(){
-        Random ran = new Random();
-        StringBuffer sb = new StringBuffer();
-        int num = 0;
-        do {
-            num = ran.nextInt(75) + 48;
-            if ((num >= 48 && num <= 57)
-                    || (num >= 65 && num <= 90)
-                    || (num >= 97 && num <= 122)) {
-                sb.append((char) num);
-            } else {
-                continue;
-            }
-        } while (sb.length() < size);
-        if (lowerCheck) {
-            return sb.toString().toLowerCase();
-        }
-        return sb.toString();
-    }
 }
