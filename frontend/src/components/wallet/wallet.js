@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './wallet.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoins } from "@fortawesome/free-solid-svg-icons";
+import { faCoins } from '@fortawesome/free-solid-svg-icons';
 
 function Wallet() {
   return (
