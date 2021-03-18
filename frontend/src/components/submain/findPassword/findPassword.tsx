@@ -28,36 +28,38 @@ const FindPassword = ({ type, goToJoin, goToLogIn, email, onChangeFindPassword, 
     <div className={`${styles['find-password']} 
                     ${type === 'user' ? commons['bg-gradient-yellow-green']
                                     : commons['bg-gradient-green-blue']}`}>
-        <button 
-            className={commons['btn-text']}
-            onClick={() => goToLogIn(type)}>로그인 하러 가기</button>
-        <button 
-            className={commons['btn-text']}
-            onClick={() => goToJoin(type)}>회원가입 하러 가기</button>
-        <div className={commons['text-big']}>
-            이메일을
+        <div className={`${commons['box-white']} ${styles.box}`}>
+            <button 
+                className={`${commons['btn-text']} ${commons['text-left']}
+                            ${type === 'user'? commons['text-yellow']:commons['text-blue']}`}
+                onClick={() => goToLogIn(type)}>로그인 하러 가기</button>
+            <button 
+                className={`${commons['btn-text']} ${commons['text-right']}
+                            ${type === 'user'? commons['text-yellow']:commons['text-blue']}`}
+                onClick={() => goToJoin(type)}>회원가입 하러 가기</button>
+            <div className={`${commons['text-big']} ${styles['text-main']}`}>
+                이메일을<br/>확인하세요
+            </div>
+            <form onSubmit={onSubmitFindPassword}>
+            <input
+                className={`${commons['input-big']} ${styles.input}
+                            ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
+                type="email"
+                name="email"
+                value={email}
+                onKeyUp={onEnter}
+                onChange={onChangeFindPassword}
+                placeholder="이메일"
+                /><br/>
+            <input 
+                type="submit"
+                className={`${commons['btn-big']}  ${styles.btn}
+                            ${type === 'user'? commons['bg-yellow']:commons['bg-blue']}`}
+                onClick={onSubmitFindPassword}
+                value="FIND PW"/>
+            </form>
+            
         </div>
-        <div className={commons['text-big']}>
-            확인하세요
-        </div>
-        <form onSubmit={onSubmitFindPassword}>
-        <input
-            className={`${commons['input-big']} 
-                        ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
-            type="email"
-            name="email"
-            value={email}
-            onKeyUp={onEnter}
-            onChange={onChangeFindPassword}
-            placeholder="이메일"
-            /><br/>
-        <input 
-            type="submit"
-            className={`${commons['btn-big']} 
-                        ${type === 'user'? commons['bg-yellow']:commons['bg-blue']}`}
-            onClick={onSubmitFindPassword}
-            value="FIND PW"/>
-        </form>
     </div>
     );
 }

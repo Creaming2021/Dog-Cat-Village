@@ -54,12 +54,12 @@ const SignIn = ({ type, goToMain, goToJoin, goToFindPassword, signInInput, onCha
         </div>
         <div className={`${styles.box} ${styles.right}`}>
             <button 
-                className={`${commons['btn-text']} ${styles['text-left']}
-                            ${type === 'user'? styles['text-yellow']:styles['text-blue']}`}
+                className={`${commons['btn-text']} ${commons['text-left']}
+                            ${type === 'user'? commons['text-yellow']:commons['text-blue']}`}
                 onClick={goToMain}>이전으로</button>
             <button 
-                className={`${commons['btn-text']}  ${styles['text-right']}
-                            ${type === 'user'? styles['text-yellow']:styles['text-blue']}`}
+                className={`${commons['btn-text']}  ${commons['text-right']}
+                            ${type === 'user'? commons['text-yellow']:commons['text-blue']}`}
                 onClick={() => goToJoin(type)}>회원가입 하러 가기</button>
             <form onSubmit={onSubmitLogIn}>
                 <input 
@@ -79,11 +79,11 @@ const SignIn = ({ type, goToMain, goToJoin, goToFindPassword, signInInput, onCha
                     onChange={onChangeSignIn} 
                     placeholder="PW"/><br/>
                 <button 
-                    className={`${commons['btn-text']} ${styles['text-left']}
-                                 ${type === 'user'? styles['text-yellow']:styles['text-blue']}`} 
+                    className={`${commons['btn-text']} ${commons['text-left']}
+                                 ${type === 'user'? commons['text-yellow']:commons['text-blue']}`} 
                     onClick={() => goToFindPassword(type)}>비밀번호 찾기</button>
-                <button className={`${commons['btn-text']} ${styles['text-right']}
-                                ${type === 'user'? styles['text-yellow']:styles['text-blue']}`}>자동 로그인</button><br/>
+                <button className={`${commons['btn-text']} ${commons['text-right']}
+                                ${type === 'user'? commons['text-yellow']:commons['text-blue']}`}>자동 로그인</button><br/>
                 <input 
                     type="submit"
                     className={`${commons['btn-big']} 

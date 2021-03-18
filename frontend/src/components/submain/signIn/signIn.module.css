@@ -43,29 +43,3 @@
     margin: 40px 0px;
     line-height: 40px;
 }
-
-.text-yellow{
-    margin: 10px 0px;
-}
-
-.text-yellow:hover{
-    color: #FFCE00;
-    cursor: pointer;
-}
-
-.text-blue{
-    margin: 10px 0px;
-}
-
-.text-blue:hover{
-    color: #16A8EB;
-    cursor: pointer;
-}
-
-.text-left{
-    float: left;
-}
-
-.text-right{
-    float: right;
-}
