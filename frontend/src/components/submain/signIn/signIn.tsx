@@ -63,7 +63,7 @@ const SignIn = ({ type, goToMain, goToJoin, goToFindPassword, signInInput, onCha
                 onClick={() => goToJoin(type)}>회원가입 하러 가기</button>
             <form onSubmit={onSubmitLogIn}>
                 <input 
-                    className={`${commons['input-big']} 
+                    className={`${commons['input-big']} ${styles.input}
                                 ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
                     type="email" 
                     name="email"
@@ -71,7 +71,7 @@ const SignIn = ({ type, goToMain, goToJoin, goToFindPassword, signInInput, onCha
                     onChange={onChangeSignIn}  
                     placeholder="E-mail"/><br/>
                 <input 
-                    className={`${commons['input-big']} 
+                    className={`${commons['input-big']} ${styles.input}
                                 ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
                     type="password" 
                     name="password"
