@@ -1,3 +1,9 @@
+.text-xbig{
+    font-weight: 900;
+    font-size: 70px;
+    color: #5E5E5E;
+}
+
 .text-big{
     font-weight: 900;
     font-size: 50px;
@@ -12,6 +18,11 @@
 
 .text-middle-light{
     font-size: 25px;
+    color: #747474;
+}
+
+.text-small-light{
+    font-size: 20px;
     color: #747474;
 }
 
@@ -56,6 +67,21 @@
     padding-left: 10px;
 }
 
+.input-xsmall {
+    background-color: transparent;
+    border-width: 0 0 2px;
+    border-color: white;
+
+    width: 90px;
+    height: 30px;
+
+    margin-bottom: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    padding-left: 10px;
+}
+
+
 .border-yellow {
     border-color: #FFCE00;
 }
@@ -72,6 +98,7 @@
 .bg-yellow:hover {
     color: white;
     background-color: #FFCE00;
+    cursor: pointer;
 }
 
 .bg-blue {
@@ -82,6 +109,7 @@
 .bg-blue:hover {
     color: white;
     background-color: #16A8EB;
+    cursor: pointer;
 }
 
 .bg-gradient-yellow-blue{

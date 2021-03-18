@@ -43,21 +43,23 @@ const SignIn = ({ type, goToMain, goToJoin, goToFindPassword, signInInput, onCha
     return (
     <div className={`${styles.logIn} ${type === 'user'? styles.dog : styles.cat}`}>
         <div className={`${styles.box} ${styles.left}`}>
-            <div className={commons['text-big']}>
-                동물과 관련된
-            </div>
-            <div className={commons['text-big']}>
+            <div className={`${commons['text-xbig']} ${styles['main-text']}`}>
+                동물과 관련된<br/>
                 공익 느낌의 멘트
             </div>
-            <div className={commons['text-middle-light']}>
-                오신걸 환영한다는 말과 간단한 서비스 소개</div>
+            <div className={`${commons['text-small-light']} ${styles['sub-text']}`}>
+                오신걸 환영한다는 말과 간단한 서비스 소개<br/>
+                오신걸 환영한다는 말과<br/> 간단한 서비스 소개 오신걸 환영한다
+            </div>
         </div>
         <div className={`${styles.box} ${styles.right}`}>
             <button 
-                className={commons['btn-text']}
+                className={`${commons['btn-text']} ${styles['text-left']}
+                            ${type === 'user'? styles['text-yellow']:styles['text-blue']}`}
                 onClick={goToMain}>이전으로</button>
             <button 
-                className={commons['btn-text']}
+                className={`${commons['btn-text']}  ${styles['text-right']}
+                            ${type === 'user'? styles['text-yellow']:styles['text-blue']}`}
                 onClick={() => goToJoin(type)}>회원가입 하러 가기</button>
             <form onSubmit={onSubmitLogIn}>
                 <input 
@@ -77,9 +79,11 @@ const SignIn = ({ type, goToMain, goToJoin, goToFindPassword, signInInput, onCha
                     onChange={onChangeSignIn} 
                     placeholder="PW"/><br/>
                 <button 
-                    className={commons['btn-text']}
+                    className={`${commons['btn-text']} ${styles['text-left']}
+                                 ${type === 'user'? styles['text-yellow']:styles['text-blue']}`} 
                     onClick={() => goToFindPassword(type)}>비밀번호 찾기</button>
-                <button className={commons['btn-text']}>자동 로그인</button>
+                <button className={`${commons['btn-text']} ${styles['text-right']}
+                                ${type === 'user'? styles['text-yellow']:styles['text-blue']}`}>자동 로그인</button><br/>
                 <input 
                     type="submit"
                     className={`${commons['btn-big']} 
