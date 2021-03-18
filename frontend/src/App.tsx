@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import styles from './App.module.css';
-import Control from './components/submain/control/control';
+import UserContainer from './containers/user_container';
 
 function App() {
   return (
     <div className={styles.app}>
-      <Route path="/" component={Control}/>
+      <Route path="/" component={UserContainer} exact/>
       {/* <Route path="/user" component={User}/>
       <Route path="/center" component={Center}/> */}
     </div>
