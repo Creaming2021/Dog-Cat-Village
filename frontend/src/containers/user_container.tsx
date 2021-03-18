@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import rootReducer from '../modules/index';
 import { useSelector, useDispatch } from 'react-redux';
 import * as UserAction from '../modules/user';
@@ -8,8 +8,10 @@ import Main from '../components/submain/main/main';
 import FindPassword from '../components/submain/findPassword/findPassword';
 import SignIn from '../components/submain/signIn/signIn';
 import SignUp from '../components/submain/signUp/signUp';
+import { useHistory } from 'react-router-dom';
 
 const UserContainer = () => {
+    const history = useHistory();
     type ViewType = 'main' | 'logIn' | 'join' | 'findPassword';
     
     const [view, setView] = useState<ViewType>('main');
@@ -38,16 +40,15 @@ const UserContainer = () => {
     // store에 있는 state와 dispatch 가져오는 작업
     const user = useSelector( (state: any) => state.user.userInfo);
     const dispatch = useDispatch();
-    
-    // useEffect(() => {
-    //     if(user.logIn){
-    //         initialLogInInput();
-    //         history.push(`/${user.}`);
-    //     }
-    // }, [userInfo]);
+
+    useEffect(() => {
+        if(user.logIn){
+            history.push(`/${type}`);
+        }
+    }, [user]);
 
     // 로그인 
-    const initialLogInInput: SignInInputType = {
+    const initialSignInInput: SignInInputType = {
         email: '',
         password: '',
     }
@@ -65,9 +66,15 @@ const UserContainer = () => {
 
     const initialFindPasswordInput: string = '';
 
-    const [ signInInput, setSignInInput ] = useState<SignInInputType>(initialLogInInput);
+    const [ signInInput, setSignInInput ] = useState<SignInInputType>(initialSignInInput);
     const [ signUpInput, setSignUpInput ] = useState<SignUpInputType>(initialSignUpInputType);
     const [ email, setEmail ] = useState<string>(initialFindPasswordInput);
+
+    useEffect(()=>{
+        setSignInInput(initialSignInInput);
+        setSignUpInput(initialSignUpInputType);
+        setEmail(initialFindPasswordInput);
+    }, [view]);
 
     // 로그인 정보 데이터 수정
     const onChangeSignIn = (e: React.ChangeEvent<HTMLInputElement>) => {

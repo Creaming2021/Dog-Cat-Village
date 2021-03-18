@@ -7,6 +7,7 @@ function App() {
   return (
     <div className={styles.app}>
       <Route path="/" component={UserContainer} exact/>
+      <Route path="/user" exact/>
       {/* <Route path="/user" component={User}/>
       <Route path="/center" component={Center}/> */}
     </div>

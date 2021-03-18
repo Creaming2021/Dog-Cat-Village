@@ -2,7 +2,6 @@ import { createAction, handleActions } from 'redux-actions';
 import * as UserAPI from '../service/user';
 import { applyPenders } from 'redux-pender';
 import { updateObject } from '../service/common';
-import client from '../service/client';
 
 // user 관련 요청 액션 타입
 const LOG_IN = 'user/LOG_IN';
