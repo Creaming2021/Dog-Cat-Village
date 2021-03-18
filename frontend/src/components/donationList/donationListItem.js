@@ -1,14 +1,18 @@
 import React from 'react';
-import styels from './donationListItem.module.css';
+import styles from './donationListItem.module.css';
 
 function DonationListItem({ data }) {
   return (
-    <div>
-      <img src={data.img} />
-      <div>{data.amount}</div>
-      <div>{data.transcation}</div>
-      <div>{data.balance}</div>
-      <div>{data.date}</div>
+    <div className={styles['item-box']}>
+      <img src={data.img} className={styles['item-img']} />
+      <div className={styles['middle-box']}>
+        <div className={styles['item-amount']} >{data.amount}</div>
+        <div className={styles['item-transcation']} >{data.transcation}</div>
+      </div>
+      <div className={styles['right-box']}>
+        <div className={styles['item-balance']} >{data.balance}</div>
+        <div className={styles['item-date']}>{data.date}</div>
+      </div>
     </div>
   );
 };

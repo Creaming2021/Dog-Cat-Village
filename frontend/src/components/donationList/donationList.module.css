@@ -53,7 +53,7 @@ button {
   color: #ffce00;
 }
 
-.list-container {
+.main-container {
   width: 600px;
   height: 740px;
   background-color: #f3f3f3;
@@ -65,6 +65,7 @@ button {
 .date-filter {
   display: flex;
   justify-content: space-between;
+  height: 55px;
   padding: 0 20px;
 }
 
@@ -74,6 +75,7 @@ button {
   background-color: transparent;
   font-size: 25px;
   color: #858585;
+  padding: 0;
 }
 
 .left-btn:hover,
@@ -87,6 +89,29 @@ button {
   font-weight: 900;
 }
 
+.list-container {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  height: 650px;
+}
+
+.list-container-active {
+  overflow-y: scroll;
+}
+
 .list-line {
   color: #838383;
+}
+
+.more-btn {
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.more-btn:hover {
+  color: #ffce00;
 }
