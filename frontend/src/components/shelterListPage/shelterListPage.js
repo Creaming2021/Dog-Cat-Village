@@ -79,13 +79,24 @@ const shelterList = [
 
 function ShelterListPage() {
   return (
-    <div className={styles['main-container']}>
-      {
-        shelterList.map((data) => {
-          return <ShelterListItem data={data} />;
-        })
-      }
-    </div>
+    <>
+      <div>
+        {/* 로고 */}
+        {/* 네브바 */}
+        {/* 마이페이지 아이콘 */}
+      </div>
+      <div className={styles['main-container']}>
+        {
+          shelterList.map((data) => {
+            return (
+              <div className={styles['shelter-item-container']}>
+                <ShelterListItem data={data} />
+              </div>
+            )
+          })
+        }
+      </div>
+    </>
   );
 };
 
