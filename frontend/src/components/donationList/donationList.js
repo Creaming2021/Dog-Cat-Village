@@ -90,7 +90,7 @@ function DonationList() {
             DonationDataList.map((data) => {
               return (
                 <>
-                  <hr/>
+                  <hr className={styles.['list-line']}/>
                   <DonationListItem data={data} />
                 </>
               )
