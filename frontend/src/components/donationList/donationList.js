@@ -1,5 +1,7 @@
 import React from 'react';
-import style from './donationList.module.css';
+import styles from './donationList.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import DonationListItem from './donationListItem';
 
 
@@ -68,18 +70,34 @@ const DonationDataList = [
 function DonationList() {
   return (
     <>
-      {/* 필터링 */}
-      {/* 날짜필터링 */} 
-      {
-        DonationDataList.map((data) => {
-          return (
-            <>
-              <hr/>
-              <DonationListItem data={data} />
-            </>
-          )
-        })
-      }
+      <div className={styles['donation-container']}>
+        <div className={styles['search-container']}>
+          <select name="options" className={styles.options}>
+            <option value="all">모두</option>
+            <option value="charge">충전</option>
+            <option value="donate">기부</option>
+          </select>
+          <input type="search" placeholder="보호소 명" className={styles['search-box']} />
+          <FontAwesomeIcon icon={faSearch} className={styles['search-icon']} />
+        </div>
+        <div className={styles['list-container']}>
+          <div className={styles['date-filter']}>
+            <button className={styles['left-btn']}>◀</button>
+            <p className={styles.date}>2021.03</p>
+            <button className={styles['right-btn']}>▶</button>
+          </div>
+          {
+            DonationDataList.map((data) => {
+              return (
+                <>
+                  <hr/>
+                  <DonationListItem data={data} />
+                </>
+              )
+            })
+          }
+        </div>
+      </div>
     </>
   );
 };
