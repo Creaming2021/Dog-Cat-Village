@@ -1,49 +1,33 @@
 import React, { useState } from 'react';
-import styles from './logIn.module.css';
+import styles from './signIn.module.css';
 import commons from '../../common/common.module.css';
+import { SignInInputType } from '../../../interface/user';
 
-type JoinProps = {
+type SignInProps = {
     type: string,
     goToMain: () => void,
     goToJoin: ( type: string ) => void,
     goToFindPassword: ( type: string ) => void,
+    signInInput: SignInInputType,
+    onChangeSignIn: ( e: React.ChangeEvent<HTMLInputElement>) => void,
+    signIn: () => void,
 }
 
-const LogIn = ({ type, goToMain, goToJoin, goToFindPassword } : JoinProps) => {
-    type LogInInputType = {
-        email: string,
-        password: string,
-    }
-
-    const initialLogInInput: LogInInputType = {
-        email: '',
-        password: '',
-    }
-    
-    const [ logInInput, setLogInInput ] = useState<LogInInputType>(initialLogInInput);
+const SignIn = ({ type, goToMain, goToJoin, goToFindPassword, signInInput, onChangeSignIn, signIn } : SignInProps) => {
     // 로그인폼 구성하는 속성들 비구조화 할당
-    const { email, password } = logInInput;
-
-    // 로그인 정보 데이터 수정
-    const onChangeLogIn = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-
-        setLogInInput({ 
-            ...logInInput,
-            [name]: value});
-    }
-
-    const onEnter = (e: any) => {
-        if(e.keyCode === 13){
-            // onSubmitLogIn(e);
-        }
-    }
+    const { email, password } = signInInput;
+    
+    // const onEnter = (e: any) => {
+    //     if(e.keyCode === 13){
+    //         // onSubmitLogIn(e);
+    //     }
+    // }
 
     // 로그인 할 조건이 맞는지 확인하는 함수
     const onSubmitLogIn = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLInputElement>) => {
         e.preventDefault();
         if(validatePW(password)){
-            console.log("로그인 요청");
+            signIn();
         }
     }
 
@@ -82,7 +66,7 @@ const LogIn = ({ type, goToMain, goToJoin, goToFindPassword } : JoinProps) => {
                     type="email" 
                     name="email"
                     value={email}
-                    onChange={onChangeLogIn}  
+                    onChange={onChangeSignIn}  
                     placeholder="E-mail"/><br/>
                 <input 
                     className={`${commons['input-big']} 
@@ -90,7 +74,7 @@ const LogIn = ({ type, goToMain, goToJoin, goToFindPassword } : JoinProps) => {
                     type="password" 
                     name="password"
                     value={password}
-                    onChange={onChangeLogIn} 
+                    onChange={onChangeSignIn} 
                     placeholder="PW"/><br/>
                 <button 
                     className={commons['btn-text']}
@@ -107,4 +91,4 @@ const LogIn = ({ type, goToMain, goToJoin, goToFindPassword } : JoinProps) => {
     </div>);
 }
 
-export default LogIn;
+export default SignIn;

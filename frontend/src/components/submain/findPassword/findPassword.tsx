@@ -6,20 +6,12 @@ type FindPasswordProps = {
     type: string,
     goToJoin: ( type: string ) => void,
     goToLogIn: ( type: string ) => void,
+    email: string,
+    onChangeFindPassword: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    findPW?: () => void,
 }
 
-const FindPassword = ({ type, goToJoin, goToLogIn } : FindPasswordProps) => {
-    const initialFindPasswordInput: string = '';
-
-    const [ email, setEmail ] = useState<string>(initialFindPasswordInput);
-
-    // 이메일 정보 데이터 수정
-    const onChangeFindPassword = (e:any) => {
-        const { value } = e.target;
-
-        setEmail(value);
-    }
-
+const FindPassword = ({ type, goToJoin, goToLogIn, email, onChangeFindPassword, findPW } : FindPasswordProps) => {
     const onEnter = (e: any) => {
       if(e.keyCode === 13){
         //onSubmitFindPW();
@@ -29,6 +21,7 @@ const FindPassword = ({ type, goToJoin, goToLogIn } : FindPasswordProps) => {
     const onSubmitFindPassword = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLInputElement>) => {
         e.preventDefault();
         console.log("비밀번호 찾기 요청");
+        //findPW();
     }
 
     return (

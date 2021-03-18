@@ -1,57 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import styles from './join.module.css';
+import styles from './signUp.module.css';
 import commons from '../../common/common.module.css';
+import { SignUpInputType } from '../../../interface/user';
 
-type JoinProps = {
+type SignUpProps = {
     type: string,
     goToLogIn: ( type: string ) => void,
+    signUpInput: SignUpInputType,
+    onChangeSignUp: ( e: React.ChangeEvent<HTMLInputElement>) => void,
+    signUp: () => void,
+    checkNickname: () => void,
 }
 
-const Join = ({ type, goToLogIn } : JoinProps) => {
-    type JoinInputType = {
-        emailId: string,
-        emailSite: string,
-        nickname: string,
-        password: string,
-        passwordConfirm: string,
-        phoneNumber1: string,
-        phoneNumber2: string,
-        phoneNumber3: string,
-    }
+const SignUp = ({ type, goToLogIn, signUpInput, onChangeSignUp, signUp, checkNickname } : SignUpProps) => {
+    const [ passwordCheck, setPasswordCheck ] = useState<boolean>(false);
 
-    const initialJoinInputType: JoinInputType = {
-        emailId: '',
-        emailSite: '',
-        nickname: '',
-        password: '',
-        passwordConfirm: '',
-        phoneNumber1: '',
-        phoneNumber2: '',
-        phoneNumber3: '',
-    }
-
-    const [joinInput, setJoinInput ] = useState<JoinInputType>(initialJoinInputType);
-    const [passwordCheck, setPasswordCheck ] = useState<boolean>(false);
     // 회원가입폼 구성하는 속성들 비구조화 할당
     const { emailId, emailSite, nickname, password, 
-        passwordConfirm, phoneNumber1, phoneNumber2, phoneNumber3 } = joinInput;
+        passwordConfirm, phoneNumber1, phoneNumber2, phoneNumber3 } = signUpInput;
     
-
-    // 회원가입 정보 데이터 수정
-    const onChangeJoin = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-
-        setJoinInput({
-            ...joinInput,
-            [name]: value,
-        })
-    }
-
-    const onEnter = (e: any) => {
-        if(e.keyCode === 13){
-            // onSubmitSignUp(e);
-        }
-    }
+    // const onEnter = (e: any) => {
+    //     if(e.keyCode === 13){
+    //         // onSubmitSignUp(e);
+    //     }
+    // }
 
     // 비밀번호를 입력할 때마다 비교하는 함수
     useEffect(() => {
@@ -59,12 +31,16 @@ const Join = ({ type, goToLogIn } : JoinProps) => {
     }, [ password, passwordConfirm ]);
 
     // 회원가입 할 조건이 맞는지 확인하는 함수
-    const onSubmitSignUp = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLInputElement>) => {
+    const onSubmitSignUp = (e: React.FormEvent<HTMLFormElement> 
+            | React.MouseEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        if(validateNickName(nickname)   
+
+        if(e.currentTarget.name === 'duplication'){
+            checkNickname();
+        }else if(validateNickName(nickname)   
             && validatePW(password) 
             && passwordCheck ){
-                console.log("회원가입 요청");
+                signUp();
         }
     }
 
@@ -113,8 +89,8 @@ const Join = ({ type, goToLogIn } : JoinProps) => {
                 type="text"
                 name="emailId" 
                 value={emailId}
-                onChange={onChangeJoin} 
-                placeholder="이메일"/>
+                onChange={onChangeSignUp} 
+                placeholder="E-mail"/>
             <div className={styles['icon-at']}>@</div>
             <input  
                 className={`${commons['input-small']} 
@@ -122,39 +98,65 @@ const Join = ({ type, goToLogIn } : JoinProps) => {
                 type="text"
                 name="emailSite" 
                 value={emailSite} 
-                onChange={onChangeJoin} 
-                placeholder="직접입력"/><br/>
-            <input 
-                className={`${commons['input-big']} 
-                            ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
-                type="text"
-                name="nickname" 
-                value={nickname}
-                onChange={onChangeJoin} 
-                placeholder="닉네임"/><br/>
+                onChange={onChangeSignUp} 
+                placeholder="xxx.com"/><br/>
             <input 
                 className={`${commons['input-big']} 
                             ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
                 type="password"
                 name="password" 
                 value={password} 
-                onChange={onChangeJoin} 
-                placeholder="비밀번호"/><br/>
+                onChange={onChangeSignUp} 
+                placeholder="PW"/><br/>
             <input  
                 className={`${commons['input-big']} 
                             ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
                 type="password"
                 name="passwordConfirm" 
                 value={passwordConfirm}
-                onChange={onChangeJoin} 
-                placeholder="비밀번호 확인"/>
-
+                onChange={onChangeSignUp} 
+                placeholder="PW CONFIRM"/>
             {passwordCheck
                 ? <p className={styles.comment_confirm_PW}>
                     비밀번호가 일치합니다.</p>
                 : <p className={styles.comment_confirm_PW}>
                     비밀번호가 일치하지 않습니다.</p>
             }
+            <input 
+                className={`${commons['input-small']} 
+                            ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
+                type="text"
+                name="nickname" 
+                value={nickname}
+                onChange={onChangeSignUp} 
+                placeholder="NICKNAME"/>
+            <button
+                name="duplication"
+                onClick={onSubmitSignUp}>중복 확인</button><br/>
+            <input 
+                className={`${commons['input-xsmall']} 
+                            ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
+                type="number"
+                name="phoneNumber1" 
+                value={phoneNumber1}
+                onChange={onChangeSignUp} 
+                placeholder="010"/>-
+            <input 
+                className={`${commons['input-xsmall']} 
+                            ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
+                type="text"
+                name="phoneNumber2" 
+                value={phoneNumber2}
+                onChange={onChangeSignUp} 
+                placeholder="1234"/>-
+            <input 
+                className={`${commons['input-xsmall']} 
+                            ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
+                type="text"
+                name="phoneNumber3" 
+                value={phoneNumber3}
+                onChange={onChangeSignUp} 
+                placeholder="5678"/><br/>
             
             <input
                 type="submit"
@@ -167,4 +169,4 @@ const Join = ({ type, goToLogIn } : JoinProps) => {
     );
 }
 
-export default Join;
+export default SignUp;
