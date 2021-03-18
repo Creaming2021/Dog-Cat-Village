@@ -23,9 +23,10 @@ function UserInfo() {
                 <h3>010-2325-3970</h3>
               </div>
             </div>
-            <div>
+            <div className={styles['btn-container']}>
               <button className={styles['user-info-edit-btn']} onClick={changeEditState}>수정</button> 
-              ㅣ<button className={styles['user-unsubs-btn']}>탈퇴</button>
+              <div className={styles['btn-divide-line']}>ㅣ</div>
+              <button className={styles['user-unsubs-btn']}>탈퇴</button>
             </div>
           </div>
       }
