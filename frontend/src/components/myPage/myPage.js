@@ -20,11 +20,19 @@ function MyPage() {
       </div>
       <div className={styles.content}>
         <div className={styles.leftbox}>
-          <UserInfo className={styles['user-info']} />
-          <Wallet className={styles.wallet} />
+          <div className={styles['user-info-container']}>
+            <UserInfo  />
+          </div>
+          <div className={styles['wallet-container']}>
+            <Wallet className={styles.wallet} />
+          </div>
         </div>
-        <DonationList className={styles['donation-list']}/>
-        <DonatedShelterList className={styles['donated-shelter-list']}/>
+        <div className={styles['donation-list-container']}>
+          <DonationList />
+        </div>
+        <div className={styles['donated-shelter-list-container']}>
+          <DonatedShelterList />
+        </div>
       </div>
     </div>
   );
