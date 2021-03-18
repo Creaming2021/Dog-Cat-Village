@@ -1,7 +1,8 @@
 export interface SignUpInputType {
     emailId: string,
     emailSite: string,
-    nickname: string,
+    nickname?: string,
+    name?: string,
     password: string,
     passwordConfirm: string,
     phoneNumber1: string,

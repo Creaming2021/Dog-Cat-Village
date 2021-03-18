@@ -17,7 +17,7 @@ const SignUp = ({ type, goToLogIn, signUpInput, onChangeSignUp, signUp, checkNic
 
     // 회원가입폼 구성하는 속성들 비구조화 할당
     const { emailId, emailSite, nickname, password, 
-        passwordConfirm, phoneNumber1, phoneNumber2, phoneNumber3 } = signUpInput;
+        passwordConfirm, phoneNumber1, phoneNumber2, phoneNumber3, name } = signUpInput;
     
     // const onEnter = (e: any) => {
     //     if(e.keyCode === 13){
@@ -37,7 +37,7 @@ const SignUp = ({ type, goToLogIn, signUpInput, onChangeSignUp, signUp, checkNic
 
         if(e.currentTarget.name === 'duplication'){
             checkNickname();
-        }else if(validateNickName(nickname)   
+        }else if(validateNickName(nickname || " ")   
             && validatePW(password) 
             && passwordCheck ){
                 signUp();
@@ -79,92 +79,103 @@ const SignUp = ({ type, goToLogIn, signUpInput, onChangeSignUp, signUp, checkNic
     <div className={`${styles.join} 
                     ${type === 'user' ? commons['bg-gradient-yellow-green']
                                     : commons['bg-gradient-green-blue']}`}>
-        <button 
-                className={commons['btn-text']}
-                onClick={() => goToLogIn(type)}>로그인 하러 가기</button>
-        <form onSubmit={onSubmitSignUp}>
-            <input  
-                className={`${commons['input-small']} 
-                            ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
-                type="text"
-                name="emailId" 
-                value={emailId}
-                onChange={onChangeSignUp} 
-                placeholder="E-mail"/>
-            <div className={styles['icon-at']}>@</div>
-            <input  
-                className={`${commons['input-small']} 
-                            ${type === 'user'? commons['border-yellow']:commons['border-blue']}`} 
-                type="text"
-                name="emailSite" 
-                value={emailSite} 
-                onChange={onChangeSignUp} 
-                placeholder="xxx.com"/><br/>
-            <input 
-                className={`${commons['input-big']} 
-                            ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
-                type="password"
-                name="password" 
-                value={password} 
-                onChange={onChangeSignUp} 
-                placeholder="PW"/><br/>
-            <input  
-                className={`${commons['input-big']} 
-                            ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
-                type="password"
-                name="passwordConfirm" 
-                value={passwordConfirm}
-                onChange={onChangeSignUp} 
-                placeholder="PW CONFIRM"/>
-            {passwordCheck
-                ? <p className={styles.comment_confirm_PW}>
-                    비밀번호가 일치합니다.</p>
-                : <p className={styles.comment_confirm_PW}>
-                    비밀번호가 일치하지 않습니다.</p>
-            }
-            <input 
-                className={`${commons['input-small']} 
-                            ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
-                type="text"
-                name="nickname" 
-                value={nickname}
-                onChange={onChangeSignUp} 
-                placeholder="NICKNAME"/>
-            <button
-                name="duplication"
-                onClick={onSubmitSignUp}>중복 확인</button><br/>
-            <input 
-                className={`${commons['input-xsmall']} 
-                            ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
-                type="number"
-                name="phoneNumber1" 
-                value={phoneNumber1}
-                onChange={onChangeSignUp} 
-                placeholder="010"/>-
-            <input 
-                className={`${commons['input-xsmall']} 
-                            ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
-                type="text"
-                name="phoneNumber2" 
-                value={phoneNumber2}
-                onChange={onChangeSignUp} 
-                placeholder="1234"/>-
-            <input 
-                className={`${commons['input-xsmall']} 
-                            ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
-                type="text"
-                name="phoneNumber3" 
-                value={phoneNumber3}
-                onChange={onChangeSignUp} 
-                placeholder="5678"/><br/>
-            
-            <input
-                type="submit"
-                className={`${commons['btn-big']} 
-                            ${type === 'user'? commons['bg-yellow']:commons['bg-blue']}`}
-                onClick={onSubmitSignUp}
-                value="SIGN IN"/>
-        </form>
+        <div className={`${commons['box-white']} ${styles.box}`}>
+            <button 
+                    className={`${commons['btn-text']} ${commons['text-right']} ${styles.button}
+                                ${type === 'user'? commons['text-yellow']:commons['text-blue']}`}
+                    onClick={() => goToLogIn(type)}>로그인 하러 가기</button>
+            <form onSubmit={onSubmitSignUp} className={styles.form}>
+                <input  
+                    className={`${commons['input-small']} ${styles.input}
+                                ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
+                    type="text"
+                    name="emailId" 
+                    value={emailId}
+                    onChange={onChangeSignUp} 
+                    placeholder="E-mail"/>
+                <div className={styles['icon-at']}>@</div>
+                <input  
+                    className={`${commons['input-small']} ${styles.input}
+                                ${type === 'user'? commons['border-yellow']:commons['border-blue']}`} 
+                    type="text"
+                    name="emailSite" 
+                    value={emailSite} 
+                    onChange={onChangeSignUp} 
+                    placeholder="xxx.com"/><br/>
+                <input 
+                    className={`${commons['input-big']} ${styles.input}
+                                ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
+                    type="password"
+                    name="password" 
+                    value={password} 
+                    onChange={onChangeSignUp} 
+                    placeholder="PW"/><br/>
+                <input  
+                    className={`${commons['input-big']} ${styles.input}
+                                ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
+                    type="password"
+                    name="passwordConfirm" 
+                    value={passwordConfirm}
+                    onChange={onChangeSignUp} 
+                    placeholder="PW CONFIRM"/><br/>
+                {passwordCheck ||
+                    <p className={styles.red}>비밀번호가 일치하지 않습니다.</p>
+                }
+                { type === 'user'
+                ? <><input 
+                        className={`${styles['input-nickname']} ${styles.input}
+                                    ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
+                        type="text"
+                        name="nickname" 
+                        value={nickname}
+                        onChange={onChangeSignUp} 
+                        placeholder="NICKNAME"/>
+                    <button
+                        className={styles['btn-check']}
+                        name="duplication"
+                        onClick={onSubmitSignUp}>중복 확인</button><br/></>
+                :  <><input 
+                        className={`${commons['input-big']} ${styles.input}
+                                    ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
+                        type="text"
+                        name="name" 
+                        value={name}
+                        onChange={onChangeSignUp} 
+                        placeholder="단체명"/><br/></>
+                }
+                <input 
+                    className={`${commons['input-xsmall']} ${styles.input}
+                                ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
+                    type="text"
+                    name="phoneNumber1" 
+                    value={phoneNumber1}
+                    onChange={onChangeSignUp} 
+                    placeholder="010"/>-
+                <input 
+                    className={`${commons['input-xsmall']} ${styles.input}
+                                ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
+                    type="text"
+                    name="phoneNumber2" 
+                    value={phoneNumber2}
+                    onChange={onChangeSignUp} 
+                    placeholder="1234"/>-
+                <input 
+                    className={`${commons['input-xsmall']} ${styles.input}
+                                ${type === 'user'? commons['border-yellow']:commons['border-blue']}`}
+                    type="text"
+                    name="phoneNumber3" 
+                    value={phoneNumber3}
+                    onChange={onChangeSignUp} 
+                    placeholder="5678"/><br/>
+                
+                <input
+                    type="submit"
+                    className={`${commons['btn-big']} ${styles.btn}
+                                ${type === 'user'? commons['bg-yellow']:commons['bg-blue']}`}
+                    onClick={onSubmitSignUp}
+                    value="SIGN IN"/>
+            </form>
+        </div>
     </div>
     );
 }
