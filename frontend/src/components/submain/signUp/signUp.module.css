@@ -1,0 +1,88 @@
+.join{
+    width: 100%;
+    height: 870px;
+    margin: 0px auto;
+}
+
+.box{
+    position: fixed;
+    bottom: 0px;
+    left: 30%;
+    transform: translateX(-50%);
+}
+
+.box .button{
+    margin: 20px 30px 0px 0px;
+}
+
+.form{
+    clear: both;
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    padding-top: 80px;
+}
+
+.input {
+    margin-top: 30px;
+}
+
+.icon-at{
+    display: inline;
+    margin: 0 17px;
+}
+
+p{
+    margin: auto;
+    font-size: 10px;
+}
+
+.red{
+    padding-right: 220px;
+    color: red;
+}
+
+.blue{
+    padding-right: 250px;
+    color: darkgray;
+}
+
+.input-nickname{
+    background-color: transparent;
+    border-width: 0 0 2px;
+
+    width: 195px;
+    height: 30px;
+
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+
+.btn-check{
+    width: 150px;
+    height: 35px;
+    border: 1px solid #D9D9D9;
+    background-color: transparent;
+    color: #5e5e5e;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-left: 15px;
+}
+
+.btn-check:hover{
+    width: 150px;
+    height: 35px;
+    border: 0px;
+    background-color: #FCE274;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.btn{
+    margin-top: 90px;
+}

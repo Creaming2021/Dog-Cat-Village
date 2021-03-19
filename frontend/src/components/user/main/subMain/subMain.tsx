@@ -20,7 +20,7 @@ const SubMain = () => {
 
     return (
     <div className={styles['sub-main']}>
-        <Nav/>
+        <Nav name="centerMainPage"/>
         <MainCategory
             onChangeCategory={onChangeCategory}/>
         {category === 'home' &&

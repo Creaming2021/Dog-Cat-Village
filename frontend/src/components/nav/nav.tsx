@@ -1,7 +1,11 @@
 import React from 'react';
 import styles from './nav.module.css';
 
-const Nav = () => {
+type NavProps = {
+    name: String,
+};
+
+const Nav = ({ name } : NavProps) => {
     return (<div className={styles.nav}></div>);
 }
 
