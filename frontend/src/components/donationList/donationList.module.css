@@ -1,0 +1,118 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+.donation-container {
+  width: 640px;
+  height: 820px;
+  background-color: white;
+  border-radius: 30px;
+  padding: 20px;
+}
+
+.search-container {
+  display: flex;
+}
+
+.options {
+  border: solid 1px #d9d9d9;
+  border-radius: 5px;
+  width: 131px;
+  height: 34px;
+  color: #939393;
+  font-size: 17px;
+  text-align-last: center;
+  margin-right: 10px;
+}
+
+.search-box {
+  width: 400px;
+  height: 34px;
+  border: none;
+  border-bottom: solid 2px #838383;
+  margin-right: 10px;
+}
+
+.search-box::placeholder {
+  font-size: 17px;
+  color: #939393;
+  padding-left: 15px;
+}
+
+.search-icon {
+  font-size: 30px;
+  color: #dedede;
+  cursor: pointer;
+}
+
+.search-icon:hover {
+  color: #ffce00;
+}
+
+.main-container {
+  width: 600px;
+  height: 740px;
+  background-color: #f3f3f3;
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 0 20px;
+}
+
+.date-filter {
+  display: flex;
+  justify-content: space-between;
+  height: 55px;
+  padding: 0 20px;
+}
+
+.left-btn,
+.right-btn {
+  border: none;
+  background-color: transparent;
+  font-size: 25px;
+  color: #858585;
+  padding: 0;
+}
+
+.left-btn:hover,
+.right-btn:hover {
+  color: #ffce00;
+}
+
+.date {
+  color: #000000;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.list-container {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  height: 650px;
+}
+
+.list-container-active {
+  overflow-y: scroll;
+}
+
+.list-line {
+  color: #838383;
+}
+
+.more-btn {
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.more-btn:hover {
+  color: #ffce00;
+}
