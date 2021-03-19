@@ -77,7 +77,10 @@
   height: 30px;
   margin-bottom: 10px;
   padding-left: 10px;
+  border-width: 0 0 2px;
+
 }
+
 .text-small-light {
   font-size: 20px;
   color: #747474;
