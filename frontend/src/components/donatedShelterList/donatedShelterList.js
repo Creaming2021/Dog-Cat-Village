@@ -36,7 +36,7 @@ const donatedShelterDataList = [
 ]
 
 
-function DonatedShelterList() {
+const DonatedShelterList = () => {
 
   return (
     <div className={styles['list-container']}>

@@ -3,7 +3,7 @@ import styles from './userInfo.module.css';
 import UserInfoEdit from './userInfoEdit';
 
 
-function UserInfo() {
+const UserInfo = () => {
   const [editState, setEditState] = useState(false);
 
   const changeEditState = () => {
@@ -13,7 +13,8 @@ function UserInfo() {
   return (
     <>
       {
-        editState ? <UserInfoEdit setEditState={setEditState} />
+        editState 
+        ? <UserInfoEdit setEditState={setEditState} />
         : <div className={styles['user-info']}>
             <div className={styles['user-img-box']}>
               <img src="../../images/jiyoung.png" alt="fakeimgdata" className={styles['user-img']}/>

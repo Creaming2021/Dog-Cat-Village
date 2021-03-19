@@ -7,7 +7,7 @@ import UserInfo from '../userInfo/userInfo';
 import Wallet from '../wallet/wallet';
 
 
-function MyPage() {
+const MyPage = () => {
   
   const [userType, setUserType] = useState('user');
 

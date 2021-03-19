@@ -3,7 +3,7 @@ import styles from './wallet.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 
-function Wallet() {
+const Wallet = () => {
   return (
     <div className={styles.wallet}>
       <h1 className={styles['wallet-title']}>내 지갑</h1>

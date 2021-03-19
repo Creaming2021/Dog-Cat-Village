@@ -3,7 +3,7 @@ import styles from './shelterListItem.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
-function ShelterListItem({data}) {
+const ShelterListItem = ({data}) => {
   return (
     <div className={styles['shelter-container']}>
       <div className={styles['img-container']}>

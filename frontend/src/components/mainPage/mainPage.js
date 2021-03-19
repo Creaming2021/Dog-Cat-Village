@@ -3,7 +3,7 @@ import styles from './mainPage.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVideo, faCoins,  faDog } from '@fortawesome/free-solid-svg-icons';
 
-function MainPage() {
+const MainPage = () => {
   return (
     <>
       <div className={styles['upper-part']}>

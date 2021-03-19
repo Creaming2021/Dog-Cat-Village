@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './donationListItem.module.css';
 
-function DonationListItem({ data }) {
+const DonationListItem = ({ data }) => {
   return (
     <div className={styles['item-box']}>
       <img src={data.img} className={styles['item-img']} />

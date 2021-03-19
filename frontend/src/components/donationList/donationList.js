@@ -82,7 +82,7 @@ const DonationDataList = [
 ]
 
 
-function DonationList() {
+const DonationList = () => {
   const [moreBtnState, setMoreBtnState] = useState(false);
 
   const controlMoreBtn = () => {

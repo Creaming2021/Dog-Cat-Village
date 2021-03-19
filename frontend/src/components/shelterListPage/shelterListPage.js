@@ -77,7 +77,7 @@ const shelterList = [
 ]
 
 
-function ShelterListPage() {
+const ShelterListPage = () => {
   return (
     <>
       <div>

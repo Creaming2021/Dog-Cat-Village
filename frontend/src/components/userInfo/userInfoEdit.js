@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './userInfoEdit.module.css';
 
-function UserInfoEdit(props) {
+const UserInfoEdit = (props) => {
   const [imgUrl, setImgUrl] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [password1, setPassword1] = useState('');

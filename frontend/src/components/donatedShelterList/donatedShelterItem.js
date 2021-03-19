@@ -3,7 +3,7 @@ import styles from './donatedShelterItem.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from "@fortawesome/free-solid-svg-icons";
 
-function DonatedShelterItem({ data }) {
+const DonatedShelterItem = ({ data }) => {
   return (
     <div className={styles['items-container']}>
       <div className={styles['item-box']}>
