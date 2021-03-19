@@ -36,7 +36,7 @@
     - 유기동물 보호소 후원 & 입양 매칭 서비스
 - **마스코트 : 김쿠로, 3살**
 
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5e0cb30a-a20e-4521-93c1-4e466ef83469/F353704C-2D78-4D56-BB06-8A4D408A168A.jpeg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5e0cb30a-a20e-4521-93c1-4e466ef83469/F353704C-2D78-4D56-BB06-8A4D408A168A.jpeg)
+ ![쿠로쨩](./document/img/kuro.jpeg)
 
 # 📘 Tech Log
 
@@ -93,7 +93,7 @@ a 누르고 나오는 템플릿 양식에 맞춰서
 저장 없이 취소 하고 싶을 때는 :q!
 ```
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6aeffd4d-bea0-45bb-a2a8-be2b34df9080/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6aeffd4d-bea0-45bb-a2a8-be2b34df9080/Untitled.png)
+![vi명령어](./document/img/vi.png)
 
 ```jsx
 [타입] 제목
@@ -125,13 +125,13 @@ chore : 기타 변경사항 (빌드 스크립트 수정 등)
 ------------------
 ```
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a650df94-5b22-435d-bb85-745a324815cf/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a650df94-5b22-435d-bb85-745a324815cf/Untitled.png)
+![jira사용법1](./document/img/jira-example.png)
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7b90053b-588c-4d77-98b0-d63d727fe924/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7b90053b-588c-4d77-98b0-d63d727fe924/Untitled.png)
+![jira사용법2](./document/img/jira-example2.png)
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5b427aeb-7e14-4843-aae8-4dc0b46d1e2a/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5b427aeb-7e14-4843-aae8-4dc0b46d1e2a/Untitled.png)
+![commit](./document/img/commit-example.png)
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/53e5f766-4f48-4fe3-bf1d-4a76cbbe5dfe/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/53e5f766-4f48-4fe3-bf1d-4a76cbbe5dfe/Untitled.png)
+![gitflow](./document/img/gitflow.png)
 
 - Proposal
 - Wireframe
