@@ -22,7 +22,7 @@ const MainCategory = ({ onChangeCategory}: MainCategoryProps) => {
     <div className={styles['main-category']}>
         <div className={styles.top}>
             <img className={styles.profile} 
-                src="" alt="프로필 이미지"/>
+                src="https://pds.joins.com/news/component/htmlphoto_mmdata/202003/16/fd00acc3-bba5-433e-a3a7-6ad536141cfd.jpg" alt="프로필 이미지"/>
             <div className={styles.title}>동렬 아저씨의 동물농장</div>
             <div className={styles.site}>www.naver.com</div>
             <div className={styles.info}>010-1234-5678</div>
