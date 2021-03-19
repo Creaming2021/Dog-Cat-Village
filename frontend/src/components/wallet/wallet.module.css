@@ -1,0 +1,85 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+.wallet {
+  background-color: white;
+  width: 30rem;
+  height: 350px;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.wallet-title {
+  font-size: 15px;
+  margin-top: 0;
+  margin-bottom: 3.5em;
+  color: #5e5e5e;
+  font-weight: 900;
+}
+
+.hashnumber {
+  font-size: 1.25rem;
+  color: #b4b4b4;
+  margin-bottom: 1em;
+}
+
+.coin-container {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.coin-icon {
+  font-size: 4.375rem;
+  color: #ffce00;
+  padding-top: 10px;
+  margin-right: 20px;
+}
+
+.coin {
+  font-size: 4.375rem;
+  font-weight: 900;
+  color: #ffce00;
+}
+
+.coin-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.coin-charge-btn {
+  border: none;
+  background-color: transparent;
+  color: #5e5e5e;
+  font-weight: 900;
+}
+
+.coin-charge-btn:hover {
+  color: #ffce00;
+}
+
+.division-line {
+  color: #595959;
+  font-weight: 900;
+}
+
+.coin-withdraw-btn {
+  border: none;
+  background-color: transparent;
+  color: #5e5e5e;
+  font-weight: 900;
+}
+
+.coin-withdraw-btn:hover {
+  color: #ffce00;
+}

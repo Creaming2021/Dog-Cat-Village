@@ -1,0 +1,47 @@
+.item-box {
+  display: flex;
+  padding: 8px 20px;
+  align-items: center;
+}
+
+.item-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 30px;
+  flex: 1;
+}
+
+.middle-box {
+  flex: 5;
+}
+
+.item-amount {
+  font-size: 22px;
+  margin-bottom: 5px;
+  font-weight: 900;
+}
+
+.item-transcation {
+  font-size: 15px;
+  color: #939393;
+}
+
+.right-box {
+  text-align: right;
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-balance {
+  font-size: 15px;
+  font-weight: 900;
+  color: #939393;
+  margin-bottom: 12px;
+}
+
+.item-date {
+  font-size: 12px;
+  color: #939393;
+}

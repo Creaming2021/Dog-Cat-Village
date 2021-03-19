@@ -1,0 +1,158 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+.user-info-edit {
+  background-color: white;
+  width: 30rem;
+  height: 440px;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-info-img {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.user-img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.user-img-edit-btn {
+  border: none;
+  background-color: transparent;
+  font-size: 0.5rem;
+  color: #d9d9d9;
+}
+
+.img-input-tag {
+  display: none;
+}
+
+.user-img-edit-btn:hover {
+  color: #ffce00;
+}
+
+.user-input-form {
+  border: none;
+  border-bottom: solid 2px #ffce00;
+  background-color: transparent;
+  padding: 0 10px;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.user-input-form::placeholder {
+  font-size: 12px;
+  color: #a7a7a7;
+}
+
+.current-pw {
+  width: 15.625rem;
+  height: 35px;
+}
+
+.new-pw {
+  width: 15.625rem;
+  height: 35px;
+}
+
+.new-pw-confirm {
+  width: 15.625rem;
+  height: 35px;
+}
+
+.nickname {
+  width: 10rem;
+  height: 35px;
+  margin-right: 0.5em;
+}
+
+.nickname-check {
+  width: 5rem;
+  height: 35px;
+  font-size: 12px;
+  color: #a7a7a7;
+  border: solid 2px #e5e5e5;
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+.phonenumber {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.phonenumber1 {
+  width: 3.75rem;
+  height: 35px;
+  text-align: center;
+  margin-right: 3px;
+}
+
+.phonenumber2 {
+  width: 5rem;
+  height: 35px;
+  text-align: center;
+  margin-right: 3px;
+}
+
+.phonenumber3 {
+  width: 5rem;
+  height: 35px;
+  text-align: center;
+  margin-right: 3px;
+}
+
+.phonenumber-dash {
+  color: #a7a7a7;
+  margin: 0;
+  height: 35px;
+  line-height: 35px;
+}
+
+.edit-btns {
+  display: flex;
+  flex-direction: row;
+}
+
+.edit-cancel-btn {
+  border: none;
+  background-color: transparent;
+  font-size: 0.9rem;
+  font-weight: 900;
+  color: #5e5e5e;
+  margin: 0 1em;
+}
+
+.edit-cancel-btn:hover {
+  color: #ffce00;
+}
+
+.edit-confirm-btn {
+  border: none;
+  background-color: transparent;
+  font-size: 0.9rem;
+  font-weight: 900;
+  color: #5e5e5e;
+  margin: 0 1em;
+}
+
+.edit-confirm-btn:hover {
+  color: #ffce00;
+}

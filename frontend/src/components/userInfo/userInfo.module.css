@@ -1,0 +1,89 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+.user-info {
+  background-color: white;
+  width: 30rem;
+  height: 440px;
+  border-radius: 30px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-img-box {
+  width: 17.5rem;
+  height: 17.5rem;
+  border-radius: 50%;
+  margin-bottom: 2em;
+}
+
+.user-img {
+  width: 17.5rem;
+  height: 17.5rem;
+  border-radius: 50%;
+}
+
+.user-description {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: black;
+  opacity: 0.8;
+  /* transition: all 3000ms ease-in; */
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+}
+
+.user-img-box:hover .user-description {
+  display: flex;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.user-info-edit-btn {
+  border: none;
+  background-color: transparent;
+  font-size: 1rem;
+  font-weight: 900;
+  color: #5e5e5e;
+}
+
+.btn-divide-line {
+  font-size: 1rem;
+  font-weight: 900;
+
+  color: #5e5e5e;
+}
+
+.user-unsubs-btn {
+  border: none;
+  background-color: transparent;
+  font-size: 1rem;
+  font-weight: 900;
+  color: #5e5e5e;
+}
+
+.user-info-edit-btn:hover,
+.user-unsubs-btn:hover {
+  color: #ffce00;
+}
