@@ -1,6 +1,5 @@
 package donation.pet.controller;
 
-import donation.pet.domain.shelter.Shelter;
 import donation.pet.dto.LoginReqDto;
 import donation.pet.dto.shelter.ShelterResDto;
 import donation.pet.dto.shelter.ShelterSignupReqDto;
