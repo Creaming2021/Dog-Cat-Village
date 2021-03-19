@@ -5,6 +5,7 @@ import DonatedShelterList from '../donatedShelterList/donatedShelterList';
 import DonationList from '../donationList/donationList';
 import UserInfo from '../userInfo/userInfo';
 import Wallet from '../wallet/wallet';
+import Nav from '../nav/nav';
 
 
 const MyPage = () => {
@@ -15,7 +16,7 @@ const MyPage = () => {
     <div className={`${styles.mypage} ${userType === 'user' ? styles.user : styles.shelter}`}>
       <div className={styles.upperbox}>
         {/* 로고 */}
-        {/* 네브바 */}
+        <Nav name="userMyPage"/>
         {/* 이모티콘? 어디로 가는거지..? */}
       </div>
       <div className={styles.content}>

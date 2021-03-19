@@ -1,0 +1,105 @@
+.animal{
+    width: 1450px;
+    height: 800px;
+    float: left;
+    margin-top: 25px; 
+}
+
+.btn-manage{
+    width: 150px;
+    height: 35px;
+    border: 1px solid #D9D9D9;
+    background-color: transparent;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-left: 15px;
+}
+
+.btn-manage:hover{
+    background-color: #788E6E;
+    color: white;
+    cursor: pointer;
+}
+
+.search{
+    float: right;
+    margin-right: 60px;
+}
+
+.search select{
+    border-radius: 5px;
+    width: 130px;
+    height: 35px;
+    color: #949494;
+}
+
+.input{
+    margin: 0px 10px 0px 10px;
+    border-color: #DEDEDE !important;
+}
+
+.icon{
+    color: #DEDEDE;
+}
+
+.icon:hover{
+    color: #949494;
+    cursor: pointer;
+}
+
+.list{
+    clear: both;
+    margin-top: 10px;
+}
+
+.card{
+    position: relative;
+    width: 260px;
+    float: left;
+    margin: 5px 10px 0px 10px;
+}
+
+.card img{
+    width: 260px;
+    height: auto;
+    border-radius: 30px;
+    background-color: yellow;
+}
+
+.card:hover .card-hover{
+    visibility: visible;
+    cursor: pointer;
+}
+
+.card-hover{
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    color: white;
+    text-align: center;
+    
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    background-color: black;
+    opacity: 0.7;
+}
+
+.name{
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.age{
+    font-weight: 400;
+    font-size: 18px;
+    margin: 5px
+}
+
+.birthday{
+    font-weight: 300;
+    font-size: 15px;
+}
