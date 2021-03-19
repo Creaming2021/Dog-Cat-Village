@@ -1,7 +1,13 @@
 import React from 'react';
 
-const Nav = () => {
-    return (<></>);
+type NavProps = {
+    name: String,
+};
+
+const Nav = ({ name } : NavProps) => {
+    return (<>
+
+    </>);
 }
 
 export default Nav;

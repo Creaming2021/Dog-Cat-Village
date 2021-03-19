@@ -1,0 +1,160 @@
+.text-xbig{
+    font-weight: 900;
+    font-size: 70px;
+    color: #5E5E5E;
+}
+
+.text-big{
+    font-weight: 900;
+    font-size: 50px;
+    color: #5E5E5E;
+}
+
+.text-middle-bold{
+    font-weight: bold;
+    font-size: 25px;
+    color: #838383;
+}
+
+.text-middle-light{
+    font-size: 25px;
+    color: #747474;
+}
+
+.text-small-light{
+    font-size: 20px;
+    color: #747474;
+}
+
+.btn-text {
+    border: none;
+    background-color: transparent;
+    font-size: 1rem;
+    color: #858585;
+}
+
+.btn-big {
+    border: none;
+    border-radius: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: white;
+    width: 370px;
+    height: 70px
+}
+
+.input-big {
+    background-color: transparent;
+    border-width: 0 0 2px;
+    border-color: white;
+
+    width: 360px;
+    height: 30px;
+
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+
+.input-small {
+    background-color: transparent;
+    border-width: 0 0 2px;
+    border-color: white;
+
+    width: 150px;
+    height: 30px;
+
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+
+.input-xsmall {
+    background-color: transparent;
+    border-width: 0 0 2px;
+    border-color: white;
+
+    width: 90px;
+    height: 30px;
+
+    margin-bottom: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    padding-left: 10px;
+}
+
+
+.border-yellow {
+    border-color: #FFCE00;
+}
+
+.border-blue {
+    border-color: #16A8EB;
+}
+
+.bg-yellow {
+    color: white;
+    background-color: #FCE274;
+}
+
+.bg-yellow:hover {
+    color: white;
+    background-color: #FFCE00;
+    cursor: pointer;
+}
+
+.bg-blue {
+    color: white;
+    background-color: #B3E5FC;
+}
+
+.bg-blue:hover {
+    color: white;
+    background-color: #16A8EB;
+    cursor: pointer;
+}
+
+.bg-gradient-yellow-blue{
+    background: linear-gradient(0.25turn, #FEF6C7, #E7FFFF);
+}
+
+.bg-gradient-yellow-green{
+    background: linear-gradient(#FEF6C7, #F3FBE3);
+}
+
+.bg-gradient-green-blue{
+    background: linear-gradient(#F3FBE3, #E7FFFF);
+}
+
+.box-white{
+    position: relative; 
+    width: 660px;
+    height: 770px;
+    background-color: white;
+    border-radius: 60px 60px 0px 0px;
+    text-align: center;
+}
+
+.text-yellow{
+    margin: 10px 0px;
+}
+
+.text-yellow:hover{
+    color: #FFCE00;
+    cursor: pointer;
+}
+
+.text-blue{
+    margin: 10px 0px;
+}
+
+.text-blue:hover{
+    color: #16A8EB;
+    cursor: pointer;
+}
+
+.text-left{
+    float: left;
+}
+
+.text-right{
+    float: right;
+}
