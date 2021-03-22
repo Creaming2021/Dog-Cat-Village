@@ -36,7 +36,7 @@ public class UserService {
             throw new BaseException(ErrorCode.WRONG_PASSWORD);
         }
         UserResDto resDto = UserResDto.builder()
-                .email(user.getEmail())
+                .emailgit (user.getEmail())
                 .nickname(user.getNickname())
                 .phone(user.getPhone()).build();
         return resDto;
