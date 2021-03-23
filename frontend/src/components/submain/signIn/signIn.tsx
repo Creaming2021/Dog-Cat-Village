@@ -51,11 +51,11 @@ const SignIn = ({
   };
 
   return (
-    <div className={`${styles.logIn} ${type === "user" ? styles.dog : styles.cat}`}>
+    <div className={`${styles.signIn} ${type === "user" ? styles.dog : styles.cat}`}>
       <div className={`${styles.box} ${styles.left}`}>
         {type === "user" 
         ? (<>
-            <div className={`${commons["text-xbig"]} ${styles["main-text"]}`}>
+            <div className={`${commons["text-xlarge"]} ${styles["main-text"]}`}>
               당신의 작은 손길,<br />소중한 생명을 살립니다.
             </div>
             <div
@@ -67,7 +67,7 @@ const SignIn = ({
             </div>
           </>) 
         : (<>
-            <div className={`${commons["text-xbig"]} ${styles["main-text"]}`}>
+            <div className={`${commons["text-xlarge"]} ${styles["main-text"]}`}>
               보호소의 동물을<br/>도와 드립니다.
             </div>
             <div className={`${commons["text-small-light"]} ${styles["sub-text"]}`}>
@@ -95,7 +95,7 @@ const SignIn = ({
           회원가입 하러 가기</button>
         <form onSubmit={onSubmitLogIn}>
           <input
-            className={`${commons["input-big"]} 
+            className={`${commons["input-large"]} 
                         ${styles.input}
                         ${type === "user"
                         ? commons["border-yellow"]
@@ -106,7 +106,7 @@ const SignIn = ({
             onChange={onChangeSignIn}
             placeholder="E-mail"/><br/>
           <input
-            className={`${commons["input-big"]} ${styles.input}
+            className={`${commons["input-large"]} ${styles.input}
                                 ${
                                   type === "user"
                                     ? commons["border-yellow"]
@@ -135,7 +135,7 @@ const SignIn = ({
             자동 로그인</button> <br />
           <input
             type="submit"
-            className={`${commons["btn-big"]} 
+            className={`${commons["btn-large"]} 
                         ${type === "user"
                         ? commons["bg-yellow"]
                         : commons["bg-blue"]}`}

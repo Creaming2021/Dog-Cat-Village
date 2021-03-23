@@ -8,7 +8,7 @@
 		linear-gradient(#FEF6C7, #F3FBE3);
 }
 
-.logIn {
+.signIn {
 	width: 100%;
 	height: 870px;
 	margin: 0px auto;
@@ -22,17 +22,19 @@
 
 .left {
 	position: relative;
-	top: 60%;
-	left: 25%;
-	transform: translate(-50%, -50%);
+	top: 370px;
+	left: 100px;
+	float: left;
+	/* transform: translate(-50%, -50%); */
 }
 
 .right {
 	position: relative;
-	top: 45%;
-	left: 55%;
+	top: 400px;
+	right: 100px;
 	text-align: center;
-	transform: translate(-50%, -50%);
+	float: right;
+	/* transform: translate(-50%, -50%); */
 }
 
 .main-text {

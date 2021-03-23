@@ -18,7 +18,7 @@ const ImageButton = ({ event, text, icon, color }: ImageButtonProps) => {
       <div className={`${styles.circle} ${commons[`bg-${color}`]}`}>
         <FontAwesomeIcon className={styles.icon} icon={icon} />
       </div>
-      <div className={commons["text-middle-bold"]}>{text}</div>
+      <div className={commons["text-medium-bold"]}>{text}</div>
     </div>
   );
 };
@@ -39,7 +39,7 @@ const Main = ({ goToLogIn }: MainProps) => {
   return (
     <div className={`${styles.main} ${commons["bg-gradient-yellow-blue"]}`}>
       <div className={styles.box}>
-        <div className={commons["text-big"]}>
+        <div className={commons["text-large"]}>
           멍냥이 빌리지에
           <br />
           오신 걸 환영합니다.
@@ -56,7 +56,7 @@ const Main = ({ goToLogIn }: MainProps) => {
           icon={faHotel}
           color="blue"
         />
-        <div className={commons["text-middle-light"]}>
+        <div className={commons["text-medium-light"]}>
           입장하시려는 계정을 선택해 주세요
         </div>
       </div>
