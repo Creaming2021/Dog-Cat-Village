@@ -43,14 +43,27 @@ const SignIn = ({ type, goToMain, goToJoin, goToFindPassword, signInInput, onCha
     return (
     <div className={`${styles.logIn} ${type === 'user'? styles.dog : styles.cat}`}>
         <div className={`${styles.box} ${styles.left}`}>
-            <div className={`${commons['text-xbig']} ${styles['main-text']}`}>
-                동물과 관련된<br/>
-                공익 느낌의 멘트
-            </div>
-            <div className={`${commons['text-small-light']} ${styles['sub-text']}`}>
-                오신걸 환영한다는 말과 간단한 서비스 소개<br/>
-                오신걸 환영한다는 말과<br/> 간단한 서비스 소개 오신걸 환영한다
-            </div>
+            ${type === 'user' 
+            ?<>
+                <div className={`${commons['text-xbig']} ${styles['main-text']}`}>
+                    당신의 작은 손길,<br/>
+                    소중한 생명을 살립니다.
+                </div>
+                <div className={`${commons['text-small-light']} ${styles['sub-text']}`}>
+                    누구나 언제나 어디서나<br/>
+                    고양이가 보고 싶을 때, 강아지가 보고 싶을 때<br/>
+                    들어오세요!
+                </div></>
+            :<>
+                <div className={`${commons['text-xbig']} ${styles['main-text']}`}>
+                    보호소의 동물을<br/>
+                    도와 드립니다.
+                </div>
+                <div className={`${commons['text-small-light']} ${styles['sub-text']}`}>
+                    누구나 언제나 어디서나<br/>
+                    간편하게 시작하세요!
+                </div></>
+            }
         </div>
         <div className={`${styles.box} ${styles.right}`}>
             <button 

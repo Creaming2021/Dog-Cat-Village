@@ -41,10 +41,8 @@ const Main = ({ goToLogIn } : MainProps ) => {
         <div className={`${styles.main} ${commons['bg-gradient-yellow-blue']}`}>
             <div className={styles.box}>
                 <div className={commons['text-big']}>
-                    오신걸 환영한다는 말과
-                </div>
-                <div className={commons['text-big']}>
-                    간단한 서비스 소개
+                    명냥이 빌리지에<br/>
+                    오신 걸 환영합니다.
                 </div>
                 <ImageButton 
                     event={goToLogInUser}
@@ -56,7 +54,7 @@ const Main = ({ goToLogIn } : MainProps ) => {
                     text="보호소로 시작하기" 
                     icon={faHotel} 
                     color="blue"/>
-                <div className={commons['text-middle-light']}>오신걸 환영한다는 말과 간단한 서비스 소개</div>
+                <div className={commons['text-middle-light']}>입장하시려는 계정을 선택해 주세요</div>
             </div>
         </div>
     );
