@@ -6,23 +6,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 type ButtonProps = {
   value: string,
   onClick: () => void
+  buttonColor: string, 
 }
 
-export const ButtonLarge = ({ value, onClick }: ButtonProps) => {
+export const ButtonLarge = ({ value, onClick, buttonColor }: ButtonProps) => {
   return <button
-    className={styles['btn-large']}
+    className={`${styles['btn-large']} ${styles[`${buttonColor}`]}`}
     onClick={onClick}>{value}</button>;
 }
 
-export const ButtonMedium = ({ value, onClick }: ButtonProps) => {
+export const ButtonMedium = ({ value, onClick, buttonColor }: ButtonProps) => {
   return <button
-    className={styles['btn-medium']}
+    className={`${styles['btn-medium']} ${styles[`${buttonColor}`]}`}
     onClick={onClick}>{value}</button>;
 }
 
-export const ButtonSmall = ({ value, onClick }: ButtonProps) => {
+export const ButtonSmall = ({ value, onClick, buttonColor }: ButtonProps) => {
   return <button
-    className={styles['btn-small']}
+    className={`${styles['btn-small']} ${styles[`${buttonColor}`]}`}
     onClick={onClick}>{value}</button>;
 }
 
@@ -55,7 +56,6 @@ export const ImageXsmall = ({ src, alt }: ImageProps) => {
     src={src} alt={alt} />;
 }
 
-
 interface optionType {
   value: string,
   option: string,
@@ -76,10 +76,10 @@ type SearchProps = {
   onChange: (e: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>)
     => void,
   placeholder: string,
-  size: string,
+  inputSize: string,
 }
 
-export const Search = ({ selectList, selectValue, inputName, inputValue, onSearch, onChange, placeholder, size }: SearchProps) => {
+export const Search = ({ selectList, selectValue, inputName, inputValue, onSearch, onChange, placeholder, inputSize }: SearchProps) => {
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.key === "Enter") {
       onSearch();
@@ -102,7 +102,7 @@ export const Search = ({ selectList, selectValue, inputName, inputValue, onSearc
         </select>
       )}
       <input 
-        className={styles[`${size}`]}
+        className={styles[`${inputSize}`]}
         placeholder={placeholder}
         name={inputName}
         value={inputValue}
