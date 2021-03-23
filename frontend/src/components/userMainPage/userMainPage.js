@@ -1,16 +1,16 @@
 import React from 'react';
-import styles from './mainPage.module.css';
+import styles from './userMainPage.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVideo, faCoins,  faDog } from '@fortawesome/free-solid-svg-icons';
+import { faIdBadge, faVideo, faCoins,  faDog } from '@fortawesome/free-solid-svg-icons';
 
-const MainPage = () => {
+
+const UserMainPage = () => {
   return (
     <>
       <div className={styles['upper-part']}>
         {/* 로고 */}
-        {/* 네브바 */}
-        {/* 마이페이지 아이콘 */}
-      </div>
+        <FontAwesomeIcon icon={faIdBadge} className={styles['idBadge-icon']} />
+      </div> 
       <div className={styles['main-part']}>
         <h1 className={styles['main-text1']}>오늘 기부된 총 금액</h1>
         <div className={styles['number-box1']}>
@@ -42,4 +42,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default UserMainPage;
