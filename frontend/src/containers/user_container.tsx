@@ -124,8 +124,11 @@ const UserContainer = () => {
   };
 
   //닉네임 중복 확인 요청
-  const checkNickname = () => {
-    dispatch(UserAction.checkNickname(signUpInput.nickname));
+  const checkNickname = ():boolean => {
+    dispatch(UserAction.checkNickname(signUpInput.nickname))
+    .catch(() => false);
+
+    return true;
   };
 
   return (

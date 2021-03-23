@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./signIn.module.css";
 import commons from "../../common/common.module.css";
 import { SignInInputType } from "../../../interface/user";
+import { ButtonLarge } from "../../common/common";
 
 type SignInProps = {
   type: string;
@@ -24,27 +25,42 @@ const SignIn = ({
 }: SignInProps) => {
   // 로그인폼 구성하는 속성들 비구조화 할당
   const { email, password } = signInInput;
+  const [ inputState, setInputState ] = useState({email: false, password: false});
 
-  // const onEnter = (e: any) => {
-  //     if(e.keyCode === 13){
-  //         // onSubmitLogIn(e);
-  //     }
-  // }
+  useEffect(() => {
+    let ret = validateEmail();
+    setInputState({...inputState, email:ret})
+  }, [email]);
+
+  useEffect(() => {
+    let ret = validatePW();
+    setInputState({...inputState, password:ret})
+  }, [password]);
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.nativeEvent.key === "Enter") {
+      onSubmitSignIn();
+    }
+  }
 
   // 로그인 할 조건이 맞는지 확인하는 함수
-  const onSubmitLogIn = (
-    e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLInputElement>
-  ) => {
-    e.preventDefault();
-    if (validatePW(password)) {
+  const onSubmitSignIn = (): void => {
+    if(inputState.email && inputState.password){
       signIn();
     }
   };
 
+  // 이메일 형식 맞는지 확인하는 함수
+  const validateEmail = () => {
+    if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)){
+      return true;
+    }
+    return false;
+  }
+
   // 비밀번호 입력했는지 확인하는 함수
-  const validatePW = (password: string) => {
+  const validatePW = () => {
     if (password === "") {
-      alert("비밀번호를 입력하세요.");
       return false;
     }
     return true;
@@ -93,18 +109,21 @@ const SignIn = ({
                           : commons["text-blue"]}`}
           onClick={() => goToJoin(type)}>
           회원가입 하러 가기</button>
-        <form onSubmit={onSubmitLogIn}>
+        <div>
           <input
             className={`${commons["input-large"]} 
                         ${styles.input}
                         ${type === "user"
                         ? commons["border-yellow"]
                         : commons["border-blue"]}`}
-            type="email"
+            type="text"
             name="email"
             value={email}
             onChange={onChangeSignIn}
+            onKeyDown={onKeyDown}
             placeholder="E-mail"/><br/>
+          {inputState.email 
+          || <div className={commons['text-xsmall-light']}>이메일 형식을 맞춰주세요.</div>}
           <input
             className={`${commons["input-large"]} ${styles.input}
                                 ${
@@ -116,7 +135,10 @@ const SignIn = ({
             name="password"
             value={password}
             onChange={onChangeSignIn}
+            onKeyDown={onKeyDown}
             placeholder="PW"/><br />
+          {(inputState.email && !inputState.password)
+            && <div className={commons['text-xsmall-light']}>비밀번호를 입력하세요.</div>}
           <button
             className={`${commons["btn-text"]} ${commons["text-left"]}
                                  ${
@@ -130,18 +152,14 @@ const SignIn = ({
             className={`${commons["btn-text"]} 
                         ${commons["text-right"]}
                         ${type === "user"
-                        ? commons["text-yellow"]
-                        : commons["text-blue"]}`}>
+                          ? commons["text-yellow"]
+                          : commons["text-blue"]}`}>
             자동 로그인</button> <br />
-          <input
-            type="submit"
-            className={`${commons["btn-large"]} 
-                        ${type === "user"
-                        ? commons["bg-yellow"]
-                        : commons["bg-blue"]}`}
-            onClick={onSubmitLogIn}
-            value="LOGIN"/>
-        </form>
+          <ButtonLarge
+            value="LOGIN"
+            onClick={onSubmitSignIn}
+            buttonColor={type === "user" ? "bg-yellow" : "bg-blue"}/>
+        </div>
       </div>
     </div>
   );
