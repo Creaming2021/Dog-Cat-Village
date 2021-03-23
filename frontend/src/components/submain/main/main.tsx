@@ -40,7 +40,7 @@ const Main = ({ goToLogIn }: MainProps) => {
     <div className={`${styles.main} ${commons["bg-gradient-yellow-blue"]}`}>
       <div className={styles.box}>
         <div className={commons["text-big"]}>
-          명냥이 빌리지에
+          멍냥이 빌리지에
           <br />
           오신 걸 환영합니다.
         </div>

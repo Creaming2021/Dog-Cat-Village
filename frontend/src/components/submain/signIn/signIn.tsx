@@ -51,82 +51,60 @@ const SignIn = ({
   };
 
   return (
-    <div
-      className={`${styles.logIn} ${type === "user" ? styles.dog : styles.cat}`}
-    >
+    <div className={`${styles.logIn} ${type === "user" ? styles.dog : styles.cat}`}>
       <div className={`${styles.box} ${styles.left}`}>
-        $
-        {type === "user" ? (
-          <>
+        {type === "user" 
+        ? (<>
             <div className={`${commons["text-xbig"]} ${styles["main-text"]}`}>
-              당신의 작은 손길,
-              <br />
-              소중한 생명을 살립니다.
+              당신의 작은 손길,<br />소중한 생명을 살립니다.
             </div>
             <div
               className={`${commons["text-small-light"]} ${styles["sub-text"]}`}
             >
-              누구나 언제나 어디서나
-              <br />
+              누구나 언제나 어디서나<br />
               고양이가 보고 싶을 때, 강아지가 보고 싶을 때<br />
               들어오세요!
             </div>
-          </>
-        ) : (
-          <>
+          </>) 
+        : (<>
             <div className={`${commons["text-xbig"]} ${styles["main-text"]}`}>
-              보호소의 동물을
-              <br />
-              도와 드립니다.
+              보호소의 동물을<br/>도와 드립니다.
             </div>
-            <div
-              className={`${commons["text-small-light"]} ${styles["sub-text"]}`}
-            >
-              누구나 언제나 어디서나
-              <br />
-              간편하게 시작하세요!
+            <div className={`${commons["text-small-light"]} ${styles["sub-text"]}`}>
+              누구나 언제나 어디서나<br />간편하게 시작하세요!
             </div>
           </>
         )}
       </div>
       <div className={`${styles.box} ${styles.right}`}>
         <button
-          className={`${commons["btn-text"]} ${commons["text-left"]}
-                            ${
-                              type === "user"
-                                ? commons["text-yellow"]
-                                : commons["text-blue"]
-                            }`}
-          onClick={goToMain}
-        >
-          이전으로
-        </button>
+          className={`${commons["btn-text"]} 
+                      ${commons["text-left"]}
+                      ${type === "user"
+                        ? commons["text-yellow"]
+                        : commons["text-blue"]}`}
+          onClick={goToMain}>
+          이전으로</button>
         <button
-          className={`${commons["btn-text"]}  ${commons["text-right"]}
-                            ${
-                              type === "user"
-                                ? commons["text-yellow"]
-                                : commons["text-blue"]
-                            }`}
-          onClick={() => goToJoin(type)}
-        >
-          회원가입 하러 가기
-        </button>
+          className={`${commons["btn-text"]}  
+                      ${commons["text-right"]}
+                      ${type === "user"
+                          ? commons["text-yellow"]
+                          : commons["text-blue"]}`}
+          onClick={() => goToJoin(type)}>
+          회원가입 하러 가기</button>
         <form onSubmit={onSubmitLogIn}>
           <input
-            className={`${commons["input-big"]} ${styles.input}
-                                ${
-                                  type === "user"
-                                    ? commons["border-yellow"]
-                                    : commons["border-blue"]
-                                }`}
+            className={`${commons["input-big"]} 
+                        ${styles.input}
+                        ${type === "user"
+                        ? commons["border-yellow"]
+                        : commons["border-blue"]}`}
             type="email"
             name="email"
             value={email}
             onChange={onChangeSignIn}
-            placeholder="E-mail"
-          />
-          <br />
+            placeholder="E-mail"/><br/>
           <input
             className={`${commons["input-big"]} ${styles.input}
                                 ${
@@ -138,9 +116,7 @@ const SignIn = ({
             name="password"
             value={password}
             onChange={onChangeSignIn}
-            placeholder="PW"
-          />
-          <br />
+            placeholder="PW"/><br />
           <button
             className={`${commons["btn-text"]} ${commons["text-left"]}
                                  ${
@@ -148,32 +124,23 @@ const SignIn = ({
                                      ? commons["text-yellow"]
                                      : commons["text-blue"]
                                  }`}
-            onClick={() => goToFindPassword(type)}
-          >
-            비밀번호 찾기
-          </button>
+            onClick={() => goToFindPassword(type)}>
+            비밀번호 찾기</button>
           <button
-            className={`${commons["btn-text"]} ${commons["text-right"]}
-                                ${
-                                  type === "user"
-                                    ? commons["text-yellow"]
-                                    : commons["text-blue"]
-                                }`}
-          >
-            자동 로그인
-          </button>
-          <br />
+            className={`${commons["btn-text"]} 
+                        ${commons["text-right"]}
+                        ${type === "user"
+                        ? commons["text-yellow"]
+                        : commons["text-blue"]}`}>
+            자동 로그인</button> <br />
           <input
             type="submit"
             className={`${commons["btn-big"]} 
-                                ${
-                                  type === "user"
-                                    ? commons["bg-yellow"]
-                                    : commons["bg-blue"]
-                                }`}
+                        ${type === "user"
+                        ? commons["bg-yellow"]
+                        : commons["bg-blue"]}`}
             onClick={onSubmitLogIn}
-            value="LOGIN"
-          />
+            value="LOGIN"/>
         </form>
       </div>
     </div>
