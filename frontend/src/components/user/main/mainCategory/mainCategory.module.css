@@ -9,17 +9,12 @@
     display: block;
     text-align: center;
     width: 100%;
-    height: 370px;
-    margin-bottom: 20px;
+    height: fit-content;
+    margin-bottom: 30px;
 }
 
-.profile {
-    display: block;
-    background-color: yellowgreen;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    margin: 30px auto;
+img {
+    margin: 0px auto 20px auto;
 }
 
 .title{
@@ -32,7 +27,7 @@
     font-size: 18px;
     font-weight: bold;
     color: #5E5E5E;
-    margin-bottom: 30px;
+    margin-bottom: 70px;
 }
 
 .info{
@@ -42,8 +37,12 @@
 
 .bottom {
     width: 100%;
-    height: 420px;
+    height: fit-content;
     text-align: center;
+}
+
+.bottom button {
+    margin: 5px;
 }
 
 .introduction-box {
@@ -55,6 +54,7 @@
     margin: 0 auto;
     margin-top: 5px;
     background-color: #F3FBE4;
+    padding: 40px;
 }
 
 .introduction {
@@ -72,6 +72,6 @@
 
 .btn-edit{
     position: absolute;
-    margin: 10px;
+    top: 10px;
     right: 10px;
 }

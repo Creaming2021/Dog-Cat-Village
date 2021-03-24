@@ -21,8 +21,6 @@ type MainCategoryProps = {
 const MainCategory = ({ onChangeCategory, userInfo}: MainCategoryProps) => {
 
     const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        console.log(e.currentTarget.value);
-
         onChangeCategory(e.currentTarget.value);
     }
 
