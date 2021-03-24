@@ -52,7 +52,7 @@ const SignIn = ({
 
   // 이메일 형식 맞는지 확인하는 함수
   const validateEmail = () => {
-    if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)){
+    if (/^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/.test(email)){
       return true;
     }
     return false;
