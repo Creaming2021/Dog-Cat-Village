@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./findPassword.module.css";
 import commons from "../../common/common.module.css";
+import { ButtonLarge } from "../../common/common";
 
 type FindPasswordProps = {
   type: string;
@@ -8,7 +9,7 @@ type FindPasswordProps = {
   goToLogIn: (type: string) => void;
   email: string;
   onChangeFindPassword: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  findPW?: () => void;
+  findPW: () => void;
 };
 
 const FindPassword = ({
@@ -19,85 +20,80 @@ const FindPassword = ({
   onChangeFindPassword,
   findPW,
 }: FindPasswordProps) => {
-  const onEnter = (e: any) => {
-    if (e.keyCode === 13) {
-      //onSubmitFindPW();
+  const [inputState, setInputState] = useState(false);
+
+  useEffect(() => {
+    setInputState(validateEmail());
+  }, [email]);
+  
+  // 엔터키 입력 처리 함수
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.nativeEvent.key === "Enter") {
+      onSubmitFindPassword();
     }
+  }
+
+  const onSubmitFindPassword = () => {
+    if(inputState) findPW();
   };
 
-  const onSubmitFindPassword = (
-    e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLInputElement>
-  ) => {
-    e.preventDefault();
-    console.log("비밀번호 찾기 요청");
-    //findPW();
-  };
+  // 이메일 형식 맞는지 확인하는 함수
+  const validateEmail = (): boolean => {
+    if (/^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/.test(email)){
+      return true;
+    }
+    return false;
+  }
+
 
   return (
     <div
       className={`${styles["find-password"]} 
-                    ${
-                      type === "user"
-                        ? commons["bg-gradient-yellow-green"]
-                        : commons["bg-gradient-green-blue"]
-                    }`}
-    >
+                  ${type === "user"
+                    ? commons["bg-gradient-yellow-green"]
+                    : commons["bg-gradient-green-blue"]}`}>
       <div className={`${commons["box-white"]} ${styles.box}`}>
         <button
-          className={`${commons["btn-text"]} ${commons["text-left"]}
-                            ${
-                              type === "user"
-                                ? commons["text-yellow"]
-                                : commons["text-blue"]
-                            }`}
-          onClick={() => goToLogIn(type)}
-        >
-          로그인 하러 가기
-        </button>
+          className={`${styles['btn-text']}
+                      ${commons["btn-text"]} 
+                      ${commons["text-left"]}
+                      ${type === "user"
+                        ? commons["text-yellow"]
+                        : commons["text-blue"]}`}
+          onClick={() => goToLogIn(type)}>
+          로그인 하러 가기</button>
         <button
-          className={`${commons["btn-text"]} ${commons["text-right"]}
-                            ${
-                              type === "user"
-                                ? commons["text-yellow"]
-                                : commons["text-blue"]
-                            }`}
-          onClick={() => goToJoin(type)}
-        >
-          회원가입 하러 가기
-        </button>
-        <div className={`${commons["text-big"]} ${styles["text-main"]}`}>
-          이메일을
-          <br />
-          확인하세요
+          className={`${styles['btn-text']}
+                      ${commons["btn-text"]} 
+                      ${commons["text-right"]}
+                      ${type === "user"
+                        ? commons["text-yellow"]
+                        : commons["text-blue"]}`}
+          onClick={() => goToJoin(type)}>
+          회원가입 하러 가기</button>
+        <div className={`${commons["text-large"]} ${styles["text-main"]}`}>
+          이메일을<br />확인하세요
         </div>
-        <form onSubmit={onSubmitFindPassword}>
+        <div className={`${styles['input-container']}`}>
           <input
-            className={`${commons["input-big"]} ${styles.input}
-                            ${
-                              type === "user"
-                                ? commons["border-yellow"]
-                                : commons["border-blue"]
-                            }`}
+            className={`${commons["input-large"]} 
+                        ${styles.input}
+                        ${type === "user"
+                          ? commons["border-yellow"]
+                          : commons["border-blue"]}`}
             type="email"
             name="email"
             value={email}
-            onKeyUp={onEnter}
+            onKeyDown={onKeyDown}
             onChange={onChangeFindPassword}
-            placeholder="이메일"
-          />
-          <br />
-          <input
-            type="submit"
-            className={`${commons["btn-big"]}  ${styles.btn}
-                            ${
-                              type === "user"
-                                ? commons["bg-yellow"]
-                                : commons["bg-blue"]
-                            }`}
-            onClick={onSubmitFindPassword}
+            placeholder="이메일"/>
+          {inputState || (
+            <p className={styles['text-xsmall-light']}>이메일 주소를 확인하세요.</p>)}
+        </div>
+        <ButtonLarge
             value="FIND PW"
-          />
-        </form>
+            onClick={onSubmitFindPassword}
+            buttonColor={type === "user" ? "bg-yellow" : "bg-blue"}/>
       </div>
     </div>
   );
