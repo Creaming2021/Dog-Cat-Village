@@ -4,27 +4,31 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type ButtonProps = {
-  value: string,
-  onClick: () => void
+  content: string,
+  value?: string,
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
   buttonColor: string, 
 }
 
-export const ButtonLarge = ({ value, onClick, buttonColor }: ButtonProps) => {
+export const ButtonLarge = ({ content, value, onClick, buttonColor }: ButtonProps) => {
   return <button
     className={`${styles['btn-large']} ${styles[`${buttonColor}`]}`}
-    onClick={onClick}>{value}</button>;
+    value={value}
+    onClick={onClick}>{content}</button>;
 }
 
-export const ButtonMedium = ({ value, onClick, buttonColor }: ButtonProps) => {
+export const ButtonMedium = ({ content, value, onClick, buttonColor }: ButtonProps) => {
   return <button
     className={`${styles['btn-medium']} ${styles[`${buttonColor}`]}`}
-    onClick={onClick}>{value}</button>;
+    value={value}
+    onClick={onClick}>{content}</button>;
 }
 
-export const ButtonSmall = ({ value, onClick, buttonColor }: ButtonProps) => {
+export const ButtonSmall = ({ content, value, onClick, buttonColor }: ButtonProps) => {
   return <button
     className={`${styles['btn-small']} ${styles[`${buttonColor}`]}`}
-    onClick={onClick}>{value}</button>;
+    value={value}
+    onClick={onClick}>{content}</button>;
 }
 
 type ImageProps = {
