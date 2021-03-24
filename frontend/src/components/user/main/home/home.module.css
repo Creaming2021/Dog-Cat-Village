@@ -1,10 +1,10 @@
 .streaming{
     width: 970px;
-    height: 800px;
+    height: 820px;
     background-color: #F3FBE4;
     border-radius: 10px;
     text-align: center;
-    margin: 25px 35px 0px 0px;
+    margin: 20px 25px 0px 0px;
     float: left;
 }
 
@@ -13,7 +13,6 @@
     height: 800px;
     border-radius: 10px;
     text-align: center;
-    margin-top: 25px;
     float: left;
 }
 
@@ -37,10 +36,14 @@
 
 .icon-broadcast{
     display: inline-block;
-    color: #AD0000;
+    color: #D1D1D1;
     font-size: 40px;
     margin: auto;
     margin-right: 10px;
+}
+
+.on-air{
+    color: #AD0000;
 }
 
 .video-box{
@@ -80,7 +83,8 @@
 
 .donation-info{
     width: 100%;
-    height: 325px;
+    height: fit-content;
+    margin-bottom: 30px;
 }
 
 .donation-box{
@@ -93,7 +97,7 @@
     font-size: 20px;
     font-weight: bold;
     color: #A0A0A0;
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 .donation-info span{
@@ -110,17 +114,16 @@
 
 .list{
     background-color: #F3FBE4;
+    height: 567px;
     border-radius: 10px;
     text-align: left;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-.image{
-    display: block;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background-color: #788E6E;
-    margin: 8px auto;
+.list::-webkit-scrollbar {
+    display: none;
 }
 
 .card-text{
@@ -130,15 +133,15 @@
     color: #5E5E5E;
 }
 
-
 .card{
     display: inline-block;
     position: relative;
     width: 125px;
-    height: 125px;
+    height: 165px;
     border-radius: 10px;
     background-color: white;
-    margin: 12px 0px 12px 13px;
+    margin: 12px 0px 0px 13px;
+    padding: 12px 0px 12px 0px;
     text-align: center;
 }
 
@@ -149,8 +152,8 @@
 .card-hover{
     visibility: hidden;
     position: absolute;
-    top: 45%;
-    left: 45%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
 
     width: 100%;
@@ -158,17 +161,18 @@
     border-radius: 10px;
     background-color: black;
     opacity: 0.6;
-    margin: 6px;
 }
 
 .card-hover .card-text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     height: 100%;
+    
     color: white;
     font-size: 18px;
     font-weight: 900;
-    line-height: 125px;
-
-    margin: 0 auto;
 }
 
 .card span{

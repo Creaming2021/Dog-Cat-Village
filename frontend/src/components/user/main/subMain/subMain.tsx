@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import Nav from '../../../nav/nav';
 import Animal from '../animal/animal';
-import Board from '../board/board';
 import Chatting from '../chatting/chatting';
 import Donation from '../donation/donation';
 import Home from '../home/home';
 import MainCategory from '../mainCategory/mainCategory';
-import Notice from '../notice/notice';
 import styles from './subMain.module.css';
 
 const SubMain = () => {    
-    const [category, setCategory] = useState<string>('animal');
+    const [category, setCategory] = useState<string>('home');
 
     const onChangeCategory = (category: string): void => {
         setCategory(category);
@@ -25,6 +23,15 @@ const SubMain = () => {
         introduction: "안녕하세요 동아동입니다~ 많은 관심과 후원 감사합니다! 하는 등의 소개글"
     }
 
+    const streaming = {
+        onAir: true,
+        title: "3월 24일 방송입니다.",
+        video: '',
+        content: "날이 참 좋네요~ 여러분 많이 보러오세요!",
+        viewers: 1234,
+        totalCoin: 10354 
+    }
+
     return (
     <div className={styles['sub-main']}>
         <Nav name="centerMainPage"/>
@@ -32,7 +39,9 @@ const SubMain = () => {
             userInfo={userInfo}
             onChangeCategory={onChangeCategory}/>
         {category === 'home' &&
-            <Home type='user'/>}
+            <Home 
+                type='shelter'
+                streaming={streaming}/>}
         {category === 'animal' &&
             <Animal type='center'/>}
         {category === 'chatting' &&

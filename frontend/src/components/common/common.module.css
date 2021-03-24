@@ -107,6 +107,16 @@
   color: white;
 }
 
+.bg-white-green {
+  background-color: white;
+  color: #454545;
+}
+
+.bg-white-green:hover {
+  background-color: #788e6e;
+  color: white;
+}
+
 .bg-yellow {
   color: white;
   background-color: #fce274;
@@ -153,8 +163,8 @@
 }
 
 .input-content {
-  width: 820px;
-  height: 540px;
+  width: 860px;
+  height: 600px;
   border: none;
   border-radius: 10px;
   font-size: 17px;
