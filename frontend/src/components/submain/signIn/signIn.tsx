@@ -156,7 +156,7 @@ const SignIn = ({
                           : commons["text-blue"]}`}>
             자동 로그인</button> <br />
           <ButtonLarge
-            value="LOGIN"
+            content="LOGIN"
             onClick={onSubmitSignIn}
             buttonColor={type === "user" ? "bg-yellow" : "bg-blue"}/>
         </div>

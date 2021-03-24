@@ -164,7 +164,7 @@ const SignUpForm = ({
     {inputState.phoneNumber || (
       <p className={styles['text-xsmall-light']}>번호를 확인하세요.</p>)}
     <ButtonLarge
-      value="SIGN IN"
+      content="SIGN IN"
       onClick={onSubmitSignUp}
       buttonColor={type === "user" ? "bg-yellow" : "bg-blue"}/>
   </div> 

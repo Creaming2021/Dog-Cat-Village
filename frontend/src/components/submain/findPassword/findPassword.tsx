@@ -34,7 +34,10 @@ const FindPassword = ({
   }
 
   const onSubmitFindPassword = () => {
-    if(inputState) findPW();
+    if(inputState) {
+      alert("요청");
+      //findPW();
+    }
   };
 
   // 이메일 형식 맞는지 확인하는 함수
@@ -91,7 +94,7 @@ const FindPassword = ({
             <p className={styles['text-xsmall-light']}>이메일 주소를 확인하세요.</p>)}
         </div>
         <ButtonLarge
-            value="FIND PW"
+            content="FIND PW"
             onClick={onSubmitFindPassword}
             buttonColor={type === "user" ? "bg-yellow" : "bg-blue"}/>
       </div>
