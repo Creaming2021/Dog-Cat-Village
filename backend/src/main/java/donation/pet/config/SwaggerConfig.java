@@ -28,8 +28,8 @@ public class SwaggerConfig {
 
     private ApiInfo metadata() {
         return new ApiInfoBuilder()
-                .title("멍냥 커넥트")
-                .description("유기동물보호소 후원 서비스")
+                .title("멍냥이 빌리지")
+                .description("유기동물보호소 후원 입양 서비스")
                 .version("1.0")
                 .build();
     }
