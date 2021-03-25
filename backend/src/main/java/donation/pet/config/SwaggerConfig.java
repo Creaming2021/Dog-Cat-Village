@@ -17,7 +17,7 @@ public class SwaggerConfig {
     @Bean
     public Docket apiV1() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .host("j4b106.p.ssafy.io")
+//                .host("j4b106.p.ssafy.io")
                 .useDefaultResponseMessages(false)
                 .select()
                 .apis(RequestHandlerSelectors.any())
@@ -28,7 +28,7 @@ public class SwaggerConfig {
 
     private ApiInfo metadata() {
         return new ApiInfoBuilder()
-                .title("멍냥이 빌리지")
+                .title("멍냥빌리지")
                 .description("유기동물보호소 후원 입양 서비스")
                 .version("1.0")
                 .build();

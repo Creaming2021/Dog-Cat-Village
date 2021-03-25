@@ -2,7 +2,7 @@ package donation.pet.domain.pet;
 
 import donation.pet.domain.adopt.Adopt;
 import donation.pet.domain.etc.BaseTimeEntity;
-import donation.pet.domain.center.Center;
+import donation.pet.domain.member.shelter.Shelter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,6 +22,7 @@ public class Pet extends BaseTimeEntity {
     @Column(name = "pet_id")
     private Long id;
 
+    private String name;
     private String breed;
     private Integer age;
     private Float weight;
@@ -44,10 +45,25 @@ public class Pet extends BaseTimeEntity {
     private AdoptStatus adoptStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "center_id")
-    private Center center;
+    @JoinColumn(name = "member_id")
+    private Shelter shelter;
 
     @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Adopt> adopts = new ArrayList<>();
 
+    ///////////////////////////////////
+
+    public void changeStatus(AdoptStatus adoptStatus) {
+        this.adoptStatus = adoptStatus;
+    }
+
+    public static Pet createPet(String name, Shelter shelter) {
+        Pet pet = new Pet();
+        pet.name = name;
+        pet.shelter = shelter;
+        pet.adoptStatus = AdoptStatus.UNADOPTED;
+        shelter.getPets().add(pet);
+
+        return pet;
+    }
 }

@@ -1,4 +1,4 @@
-package donation.pet.dto.user;
+package donation.pet.dto.member;
 
 import lombok.*;
 
@@ -6,8 +6,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class UserResDto {
+public class MemberResponseDto {
     private String email;
-    private String nickname;
+    private String name;
     private String phone;
 }

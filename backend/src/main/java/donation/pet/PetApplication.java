@@ -21,6 +21,4 @@ public class PetApplication {
 	void started() {
 		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
 	}
-
-
 }

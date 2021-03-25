@@ -1,4 +1,4 @@
-package donation.pet.dto;
+package donation.pet.dto.member;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class LoginReqDto {
+public class LoginRequestDto {
     private String email;
     private String password;
 }
