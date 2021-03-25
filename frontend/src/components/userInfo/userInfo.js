@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ImageLarge } from '../common/common';
 import styles from './userInfo.module.css';
 import UserInfoEdit from './userInfoEdit';
 
@@ -10,6 +11,11 @@ const UserInfo = () => {
     setEditState(true);
   };
 
+  const deleteAccount = () => {
+    const result = window.confirm('탈퇴하시겠습니까?');
+    console.log(result);
+  }
+
   return (
     <>
       {
@@ -17,7 +23,7 @@ const UserInfo = () => {
         ? <UserInfoEdit setEditState={setEditState} />
         : <div className={styles['user-info']}>
             <div className={styles['user-img-box']}>
-              <img src="../../images/jiyoung.png" alt="fakeimgdata" className={styles['user-img']}/>
+              <ImageLarge src={"../../images/jiyoung.png"} alt={"fakeimgdata"} />
               <div className={styles['user-description']}>
                 <h2>지용</h2>
                 <h4>( jiyoung@gmail.com )</h4>
@@ -27,7 +33,7 @@ const UserInfo = () => {
             <div className={styles['btn-container']}>
               <button className={styles['user-info-edit-btn']} onClick={changeEditState}>수정</button> 
               <div className={styles['btn-divide-line']}>ㅣ</div>
-              <button className={styles['user-unsubs-btn']}>탈퇴</button>
+              <button className={styles['user-unsubs-btn']} onClick={deleteAccount} >탈퇴</button>
             </div>
           </div>
       }
