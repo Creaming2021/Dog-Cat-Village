@@ -20,7 +20,7 @@ export interface AnimalListType extends AnimalBasicType {
 }
 
 export interface AnimalDetailType extends AnimalListType, AnimalExtraType {
-	centerId: number;
+	shelterId: number;
 }
 
 export interface AnimalInputType extends AnimalBasicType, AnimalExtraType {

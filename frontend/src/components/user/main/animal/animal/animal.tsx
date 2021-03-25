@@ -3,7 +3,7 @@ import styles from "./animal.module.css";
 import { Search, ButtonSmall, ModalMedium } from "../../../../common/common";
 import AnimalList from "../../../../list/animal/animalList/animalList";
 import { AnimalListType, AnimalInputType } from '../../../../../interface/animal';
-import  EditAnimalForm  from "../editAnimalForm/editAnimalForm";
+import  EditAnimalForm  from "../../../../list/animal/editAnimalForm/editAnimalForm";
 
 type AnimalProps = {
   type: string;

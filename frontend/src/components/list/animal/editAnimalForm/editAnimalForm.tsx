@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { ButtonSmall, Select, selectType, optionType } from '../../../../common/common';
+import { ButtonSmall, Select, selectType, optionType } from '../../../common/common';
 import styles from './editAnimalForm.module.css';
-import commons from '../../../../common/common.module.css';
-import { AnimalEditType, AnimalInputType } from '../../../../../interface/animal';
+import commons from '../../../common/common.module.css';
+import { AnimalInputType } from '../../../../interface/animal';
 
 type EditAnimalFormProps = {
 	type: string,
@@ -52,14 +52,19 @@ const EditAnimalForm = ({ type, animal, onRegister, onModify, onCancle }: EditAn
 			year.push({ value: i.toString(), option: i.toString()+'년' });
 		}
 
-		for(let i: number = 1; i <= 12; i++){
+		for(let i: number = 1; i <= 9; i++){
+			month.push({ value: "0"+i.toString(), option: i.toString()+'월' });
+			date.push({ value: "0"+i.toString(), option: i.toString()+'일' });
+		}
+
+		for(let i: number = 10; i <= 12; i++){
 			month.push({ value: i.toString(), option: i.toString()+'월' });
 		}
 
-		for(let i: number = 1; i <= 31; i++){
+		for(let i: number = 10; i <= 31; i++){
 			date.push({ value: i.toString(), option: i.toString()+'일' });
 		}
-		
+
 		setBirthday(birthday.concat({name: 'year', options: year})
 												.concat({name: 'month', options: month})
 												.concat({name: 'date', options: date}));
@@ -217,11 +222,11 @@ const EditAnimalForm = ({ type, animal, onRegister, onModify, onCancle }: EditAn
 					}
 					{type === 'modify' && onModify && <>
 						<ButtonSmall 
-							content="수정" 
+							content="수정 완료" 
 							onClick={onModify} 
 							buttonColor="bg-blue"/>
 						<ButtonSmall 
-							content="취소" 
+							content="수정 취소" 
 							onClick={onCancle} 
 							buttonColor="bg-yellow"/></>
 					}

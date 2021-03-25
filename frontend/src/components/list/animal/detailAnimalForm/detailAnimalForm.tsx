@@ -4,15 +4,18 @@ import { AnimalDetailType } from '../../../../interface/animal';
 import { ButtonSmall } from '../../../common/common';
 
 type DetailAnimalFormProps = {
+	userInfo: {shelterId: number},
 	animal: AnimalDetailType,
 	onClose: () => void,
 	onSubmit: () => void,
+	onGoToModify: () => void,
+	onDelete: () => void,
 }
 
-const DetailAnimalForm = ({ animal, onClose, onSubmit }: DetailAnimalFormProps) => {
+const DetailAnimalForm = ({ userInfo, animal, onClose, onSubmit, onGoToModify, onDelete }: DetailAnimalFormProps) => {
 
 	const { id, age, imageUrl, name, breed, weight, 
-		birthday, breedType, personality, condition, sex, neuter} = animal;
+		birthday, breedType, personality, condition, sex, neuter, shelterId } = animal;
 
 	return (
 	<table className={styles['detail-animal-form-container']}>
@@ -66,14 +69,28 @@ const DetailAnimalForm = ({ animal, onClose, onSubmit }: DetailAnimalFormProps) 
 							</tr>
 							<tr>
 								<td colSpan={2}>
-									<ButtonSmall 
-										content="입양 신청" 
-										onClick={onSubmit} 
-										buttonColor="bg-blue"/>
-									<ButtonSmall 
-										content="임시 닫기 버튼" 
-										onClick={onClose} 
-										buttonColor="bg-yellow"/>
+									{ shelterId === userInfo.shelterId
+										?	<><ButtonSmall 
+												content="수정" 
+												onClick={onGoToModify} 
+												buttonColor="bg-blue"/>
+											<ButtonSmall 
+												content="삭제" 
+												onClick={onDelete} 
+												buttonColor="bg-blue"/>
+											<ButtonSmall 
+												content="임시 닫기 버튼" 
+												onClick={onClose} 
+												buttonColor="bg-yellow"/></>
+										: <><ButtonSmall 
+												content="입양 신청" 
+												onClick={onSubmit} 
+												buttonColor="bg-blue"/>
+											<ButtonSmall 
+												content="임시 닫기 버튼" 
+												onClick={onClose} 
+												buttonColor="bg-yellow"/></>
+									}
 								</td>
 							</tr>
 						</tbody>

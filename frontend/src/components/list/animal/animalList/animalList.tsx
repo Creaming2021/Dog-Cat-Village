@@ -3,8 +3,9 @@ import styles from "./animalList.module.css";
 import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ModalMedium } from "../../../common/common";
-import { AnimalDetailType, AnimalListType } from "../../../../interface/animal";
+import { AnimalDetailType, AnimalListType, AnimalInputType } from "../../../../interface/animal";
 import DetailAnimalForm from "../detailAnimalForm/detailAnimalForm";
+import EditAnimalForm from "../editAnimalForm/editAnimalForm";
 
 export type AnimalCardProps = {
   id: number;
@@ -52,12 +53,18 @@ type AnimalListProps = {
 
 const AnimalList = ({ animalList }: AnimalListProps) => {
   const [selectedAnimal, setSelectedAnimal] = useState('');
-  const [detailAnimal, setDetailAnimal] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [mode, setMode] = useState('');
+  const [inputAnimal, setInputAnimal] = useState<AnimalInputType>();
+
+  const userInfo = {
+    shelterId: 1,
+  }
   
 	const animal: AnimalDetailType = {
 		id: 1,
 		age: "2살",
-		birthday: "2021.03.01",
+		birthday: "20210301",
 		imageUrl: "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
 		name: "이름", 
 		breed: "품종",
@@ -67,22 +74,56 @@ const AnimalList = ({ animalList }: AnimalListProps) => {
 		condition: "건강상태",
 		sex: 'MALE', 
 		neuter: 'NO',
-    centerId: 1
+    shelterId: 1
 	}
 
   const onClick = (e: any) => {
     setSelectedAnimal(e.target.id);
-    setDetailAnimal(true);
-    console.log(e);
+    onGoToDetail();
+  }
+
+  const onGoToDetail = () => {
+    setModal(true);
+    setMode('DETAIL');
   }
 
   const onAdapting = () => {
     alert("입양 신청 폼 이동");
-    setDetailAnimal(false);
+    setMode('ADOPT');
   }
   
   const onClose = () => {
-    setDetailAnimal(false);
+    setModal(false);
+  }
+
+  const onGoToModify = () => {
+    setInputAnimal({
+      id: animal.id,
+      name: animal.name,
+      imageUrl: animal.imageUrl,
+      sex: animal.sex,
+      breedType: animal.breedType,
+      weight: animal.weight,
+      breed: animal.breed,
+      personality: animal.personality,
+      neuter: animal.neuter,
+      condition: animal.condition,	
+      year: animal.birthday.substr(0,4),
+      month: animal.birthday.substr(4,2),
+      date: animal.birthday.substr(6,2),
+    });
+    setMode('MODIFY');
+  }
+  
+  const onModify = () => {
+    alert("수정 요청");
+    setMode('DETAIL');
+  }
+
+  const onDelete = () => {
+    if(window.confirm('정말 삭제 하시겠습니까?')){
+      setModal(false);
+    }
   }
 
   return (<>
@@ -101,14 +142,30 @@ const AnimalList = ({ animalList }: AnimalListProps) => {
       ))}
     </div>
 
-    {detailAnimal &&
+    {modal &&
+      (mode === 'DETAIL' &&
         <ModalMedium>
           <DetailAnimalForm
+            userInfo={userInfo}
             animal={animal}
             onSubmit={onAdapting}
-            onClose={onClose}/>
-        </ModalMedium>
-      }
+            onClose={onClose}
+            onGoToModify={onGoToModify}
+            onDelete={onDelete}/>
+        </ModalMedium>) ||
+      (mode === 'MODIFY' &&
+        <ModalMedium>
+          <EditAnimalForm
+            type="modify"
+            animal={inputAnimal}
+            onModify={onModify}
+            onCancle={onGoToDetail}/>
+        </ModalMedium>) ||
+      (mode === 'ADOPT' &&
+        <ModalMedium>
+          입양
+        </ModalMedium>)
+    }
   
   </>);
 };
