@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styles from "./animal.module.css";
 import { Search, ButtonSmall, ModalMedium } from "../../../../common/common";
 import AnimalList from "../../../../list/animal/animalList/animalList";
-import { AnimalListType } from '../../../../../interface/animal';
-import  RegisterAnimalForm  from "../registerAnimalForm/registerAnimalForm";
+import { AnimalListType, AnimalEditType } from '../../../../../interface/animal';
+import  EditAnimalForm  from "../editAnimalForm/editAnimalForm";
 
 type AnimalProps = {
   type: string;
@@ -94,12 +94,29 @@ const Animal = ({ type }: AnimalProps) => {
     },
   ];
 
+  const animal: AnimalEditType = {
+		birthday: "2021.03.01",
+		imageUrl: "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
+		name: "이름", 
+		breed: "품종",
+		weight: '45', 
+		breedType: "CAT",
+		personality: "성격",
+		condition: "건강상태",
+		sex: 'MALE', 
+		neuter: 'NO',
+    year: '2021',
+    month: '3',
+    day: '2',
+	}
+
   const [searchInput, setSearchInput] = useState({
     keyword: "",
     type: "all",
   });
 
   const [registerAnimal, setRegisterAnimal] = useState(false);
+  const [modifyAnimal, setModifyAnimal] = useState(false);
 
   const onOpenRegister = () => {
     setRegisterAnimal(true);
@@ -107,6 +124,14 @@ const Animal = ({ type }: AnimalProps) => {
 
   const onCloseRegister = () => {
     setRegisterAnimal(false);
+  }
+
+  const onOpenModify = () => {
+    setModifyAnimal(true);
+  }
+
+  const onCloseModify = () => {
+    setModifyAnimal(false);
   }
 
   const selectList = [
@@ -128,6 +153,11 @@ const Animal = ({ type }: AnimalProps) => {
   const onSubmitRegister = (): void => {
     alert("동물 등록 요청");
     onCloseRegister();
+  }
+
+  const onSubmitModify = (): void => {
+    alert("동물 수정 요청");
+    onCloseModify();
   }
 
   const onChange = ( e: React.ChangeEvent<HTMLSelectElement>
@@ -164,9 +194,19 @@ const Animal = ({ type }: AnimalProps) => {
 
       {registerAnimal && 
         <ModalMedium>
-          <RegisterAnimalForm
-            onSubmit={onSubmitRegister}
+          <EditAnimalForm
+            type="register"
+            onRegister={onSubmitRegister}
             onCancle={onCloseRegister}/>
+        </ModalMedium>
+      }
+      {modifyAnimal &&
+        <ModalMedium>
+          <EditAnimalForm
+            type="modify"
+            animal={animal}
+            onModify={onSubmitModify}
+            onCancle={onCloseModify}/>
         </ModalMedium>
       }
     </div>

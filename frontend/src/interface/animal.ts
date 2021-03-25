@@ -1,4 +1,4 @@
-export interface AnimalRegisterType {
+export interface AnimalEditType {
 	birthday?: string,
 	imageUrl: string,
 	name: string, 

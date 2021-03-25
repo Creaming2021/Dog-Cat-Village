@@ -1,31 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { ButtonSmall, Select, selectType, optionType } from '../../../../common/common';
-import styles from './registerAnimalForm.module.css';
+import styles from './editAnimalForm.module.css';
 import commons from '../../../../common/common.module.css';
-import { AnimalRegisterType } from '../../../../../interface/animal';
+import { AnimalDetailType, AnimalEditType } from '../../../../../interface/animal';
 
-type RegisterAnimalFormProps = {
+type EditAnimalFormProps = {
+	type: string,
+	animal?: AnimalEditType,
 	onCancle: () => void,
-	onSubmit: () => void,
+	onRegister?: () => void,
+	onModify?: () => void,
 }
 
-const RegisterAnimalForm = ({ onSubmit, onCancle }: RegisterAnimalFormProps) => {
-	const initialRegisterState : AnimalRegisterType = {
-		imageUrl: '',
-		name: '', 
-		breed: '',
-		weight: '', 
-		year: "생년",
-		month: "월",
-		day: "일",
-		breedType: 'dog',
-		personality: '',
-		condition: '',
-		sex: '', 
-		neuter: ''
+const EditAnimalForm = ({ type, animal, onRegister, onModify, onCancle }: EditAnimalFormProps) => {
+	const initialState: AnimalEditType = {
+		imageUrl: animal ? animal.imageUrl : '',
+		name: animal ? animal.name : '',
+		breed: animal ? animal.breed : '',
+		weight: animal ? animal.weight : '',
+		year: animal ? animal.year : '생년',
+		month: animal ? animal.month : '월',
+		day: animal ? animal.day : '일',
+		breedType: animal ? animal.breedType : 'dog',
+		personality: animal ? animal.personality : '',
+		condition: animal ? animal.condition : '',
+		sex: animal ? animal.sex : '',
+		neuter: animal ? animal.neuter : '',
 	};
 
-	const [registerInput, setRegisterInput] = useState(initialRegisterState);
+	const [input, setInput] = useState(initialState);
 	const [birthday, setBirthday] = useState<selectType[]>([]);
 
 	const typeList: selectType = {
@@ -40,6 +43,10 @@ const RegisterAnimalForm = ({ onSubmit, onCancle }: RegisterAnimalFormProps) => 
 	const day:optionType[] = [{ value: "0", option: "일" }];
 
 	useEffect(() => {
+		setDate();
+	}, []);
+
+	const setDate = () => {
 		for(let i: number = 2021; i >= 1980; i--){
 			year.push({ value: i.toString(), option: i.toString()+'년' });
 		}
@@ -55,23 +62,24 @@ const RegisterAnimalForm = ({ onSubmit, onCancle }: RegisterAnimalFormProps) => 
 		setBirthday(birthday.concat({name: 'year', options: year})
 												.concat({name: 'month', options: month})
 												.concat({name: 'day', options: day}));
-	}, []);
+	}
 
 	const onChange = (e: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 		
-    setRegisterInput({
-      ...registerInput,
+    setInput({
+      ...input,
       [name]: value,
     });
   }
 	
 	const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if(e.target.files) 
-			setRegisterInput({
-				...registerInput,
+    if(e.target.files) {
+			setInput({
+				...input,
 				imageUrl: URL.createObjectURL(e.target.files[0]),
 			});
+		}
   };
 
 	return (
@@ -80,7 +88,7 @@ const RegisterAnimalForm = ({ onSubmit, onCancle }: RegisterAnimalFormProps) => 
 			<tr>
 				<td rowSpan={9}>
 					<img 
-						src={registerInput.imageUrl} 
+						src={input.imageUrl} 
 						alt="파일을 업로드하세요"
 						className={styles.image}/>
 				</td>
@@ -99,7 +107,7 @@ const RegisterAnimalForm = ({ onSubmit, onCancle }: RegisterAnimalFormProps) => 
 				<td>
 					<input 
 						name="name" 
-						value={registerInput.name}
+						value={input.name}
 						onChange={onChange} 
 						placeholder="이름"/>
 					<label><input 
@@ -119,11 +127,11 @@ const RegisterAnimalForm = ({ onSubmit, onCancle }: RegisterAnimalFormProps) => 
 					<Select
 						select= {typeList}
 						index={0}
-						selectValue={[registerInput.breedType]}
+						selectValue={[input.breedType]}
 						onChange={onChange}/>
 					<input 
 						name="breed" 
-						value={registerInput.breed} 
+						value={input.breed} 
 						onChange={onChange} 
 						placeholder="품종"/>
 				</td>
@@ -133,17 +141,17 @@ const RegisterAnimalForm = ({ onSubmit, onCancle }: RegisterAnimalFormProps) => 
 					<Select
 						select={birthday[0]}
 						index={0}
-						selectValue={[registerInput.year]}
+						selectValue={[input.year]}
 						onChange={onChange}/>
 					<Select
 						select={birthday[1]}
 						index={0}
-						selectValue={[registerInput.month]}
+						selectValue={[input.month]}
 						onChange={onChange}/>
 					<Select
 						select={birthday[2]}
 						index={0}
-						selectValue={[registerInput.day]}
+						selectValue={[input.day]}
 						onChange={onChange}/>
 				</td>
 			</tr>
@@ -151,7 +159,7 @@ const RegisterAnimalForm = ({ onSubmit, onCancle }: RegisterAnimalFormProps) => 
 				<td>
 					<input 
 						name="weight" 
-						value={registerInput.weight} 
+						value={input.weight} 
 						onChange={onChange} 
 						placeholder="몸무게"/>kg
 				</td>
@@ -160,7 +168,7 @@ const RegisterAnimalForm = ({ onSubmit, onCancle }: RegisterAnimalFormProps) => 
 				<td>
 					<input 
 						name="personality" 
-						value={registerInput.personality} 
+						value={input.personality} 
 						onChange={onChange} 
 						placeholder="성격"/>
 				</td>
@@ -189,25 +197,37 @@ const RegisterAnimalForm = ({ onSubmit, onCancle }: RegisterAnimalFormProps) => 
 				<td>
 					<input 
 						name="condition" 
-						value={registerInput.condition} 
+						value={input.condition} 
 						onChange={onChange}
 						placeholder="건강상태"/>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<ButtonSmall 
-						content="등록" 
-						onClick={onSubmit} 
-						buttonColor="bg-blue"/>
-					<ButtonSmall 
-						content="취소" 
-						onClick={onCancle} 
-						buttonColor="bg-yellow"/>
+					{type === 'register' && onRegister && <>
+						<ButtonSmall 
+							content="등록" 
+							onClick={onRegister} 
+							buttonColor="bg-blue"/>
+						<ButtonSmall 
+							content="취소" 
+							onClick={onCancle} 
+							buttonColor="bg-yellow"/></>
+					}
+					{type === 'modify' && onModify && <>
+						<ButtonSmall 
+							content="수정" 
+							onClick={onModify} 
+							buttonColor="bg-blue"/>
+						<ButtonSmall 
+							content="취소" 
+							onClick={onCancle} 
+							buttonColor="bg-yellow"/></>
+					}
 				</td>
 			</tr>
 		</tbody>
 	</table>);
 }
 
-export default RegisterAnimalForm;
+export default EditAnimalForm;
