@@ -12,8 +12,9 @@ spring:
     password: j4B106_dogcat
 
   jpa:
+    generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     show-sql: true
 
 

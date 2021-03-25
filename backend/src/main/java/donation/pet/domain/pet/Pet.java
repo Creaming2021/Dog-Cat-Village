@@ -3,16 +3,18 @@ package donation.pet.domain.pet;
 import donation.pet.domain.adopt.Adopt;
 import donation.pet.domain.etc.BaseTimeEntity;
 import donation.pet.domain.center.Center;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Builder
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(of = "id", callSuper = false)
 public class Pet extends BaseTimeEntity {
 
     @Id
@@ -21,15 +23,15 @@ public class Pet extends BaseTimeEntity {
     private Long id;
 
     private String breed;
-
-    private int age;
-
-    private float weight;
+    private Integer age;
+    private Float weight;
 
     @Lob
+    @Column(name = "pet_personality")
     private String personality;
 
     @Lob
+    @Column(name = "pet_condition")
     private String condition;
 
     @Enumerated(EnumType.STRING)
@@ -41,12 +43,11 @@ public class Pet extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private AdoptStatus adoptStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "center_id")
     private Center center;
 
-
-    @OneToMany
-    @JoinColumn(name = "pet")
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Adopt> adopts = new ArrayList<>();
 
 }
