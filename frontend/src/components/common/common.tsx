@@ -83,7 +83,8 @@ type SearchProps = {
   inputSize: string,
 }
 
-export const Search = ({ selectList, selectValue, inputName, inputValue, onSearch, onChange, placeholder, inputSize }: SearchProps) => {
+export const Search = ({ selectList, selectValue, inputName, inputValue, 
+                        onSearch, onChange, placeholder, inputSize }: SearchProps) => {
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.key === "Enter") {
       onSearch();
@@ -117,4 +118,35 @@ export const Search = ({ selectList, selectValue, inputName, inputValue, onSearc
         icon={faSearch}
         onClick={onSearch} />
     </div>);
+}
+
+type ModalProps = {
+  children: any,
+}
+
+export const ModalLarge = ({ children }: ModalProps) => {
+  return (
+  <div className={styles['modal-container']}>
+    <div className={styles['modal-large']}>
+        {children}
+    </div>
+  </div>);
+}
+
+export const ModalMedium = ({ children }: ModalProps) => {
+  return (
+  <div className={styles['modal-container']}>
+    <div className={styles['modal-medium']}>
+        {children}
+    </div>
+  </div>);
+}
+
+export const ModalSmall = ({ children }: ModalProps) => {
+  return (
+  <div className={styles['modal-container']}>
+    <div className={styles['modal-small']}>
+        {children}
+    </div>
+  </div>);
 }
