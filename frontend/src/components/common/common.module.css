@@ -234,6 +234,8 @@
   border-radius: 50%;
   width: 280px;
   height: 280px;
+
+  background-color: #747474;
 }
 
 .img-medium {
@@ -241,6 +243,7 @@
   border-radius: 50%;
   width: 200px;
   height: 200px;
+  background-color: #747474
 }
 
 .img-small {
@@ -248,6 +251,7 @@
   border-radius: 50%;
   width: 95px;
   height: 95px;
+  background-color: #747474
 }
 
 .img-xsmall {
@@ -255,6 +259,7 @@
   border-radius: 50%;
   width: 50px;
   height: 50px;
+  background-color: #747474
 }
 
 /* Search Container*/
@@ -262,7 +267,7 @@
   display: inline-block;
 }
 
-.search-container select {
+.search-option {
   border-radius: 5px;
   width: 130px;
   height: 35px;
