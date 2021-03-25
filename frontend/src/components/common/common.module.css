@@ -305,27 +305,27 @@
 
 .modal-large {
   background: white;
-  padding: 24px 24px;
   border-radius: 30px;
   width: 1400px;
   height: 780px;
   text-align: center;
+  overflow: hidden;
 }
 
 .modal-medium {
   background: white;
-  padding: 24px 24px;
   border-radius: 30px;
   width: 1000px;
   height: 580px;
   text-align: center;
+  overflow: hidden;
 }
 
 .modal-small {
   background: white;
-  padding: 24px 24px;
   border-radius: 30px;
   width: 640px;
   height: 300px;
   text-align: center;
+  overflow: hidden;
 }
