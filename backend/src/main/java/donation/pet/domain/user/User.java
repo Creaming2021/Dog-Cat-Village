@@ -2,6 +2,7 @@ package donation.pet.domain.user;
 
 import com.sun.istack.NotNull;
 import donation.pet.domain.adopt.Adopt;
+import donation.pet.domain.etc.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id", callSuper = false)
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -33,4 +34,5 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Adopt> adopts = new ArrayList<>();
+
 }

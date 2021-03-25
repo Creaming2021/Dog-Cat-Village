@@ -2,6 +2,7 @@ package donation.pet.domain.center;
 
 import com.sun.istack.NotNull;
 import donation.pet.domain.adopt.Adopt;
+import donation.pet.domain.etc.BaseTimeEntity;
 import donation.pet.domain.exchange.Exchange;
 import donation.pet.domain.pet.Pet;
 import lombok.*;
@@ -16,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id", callSuper = false)
-public class Center {
+public class Center extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "center_id")

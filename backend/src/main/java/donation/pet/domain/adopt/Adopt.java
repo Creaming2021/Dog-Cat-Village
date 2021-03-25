@@ -42,4 +42,25 @@ public class Adopt extends BaseTimeEntity {
     private Pet pet;
 
     // 입양 신청 form 추가 예정
+
+    //////////////////////////////////////////
+
+    // 승인 상태 변경
+    public void changeAccept(AcceptStatus acceptStatus) {
+        this.acceptStatus = acceptStatus;
+    }
+
+    // 유저의 입양신청서 작성 ( 생성 메소드 )
+    public static Adopt createAdoptForUser(User user, Pet pet) {
+        Adopt adopt = new Adopt();
+        adopt.user = user;
+        adopt.pet = pet;
+        adopt.acceptStatus = AcceptStatus.PENDING;
+        user.getAdopts().add(adopt);
+        pet.getAdopts().add(adopt);
+
+        return adopt;
+    }
+
+
 }
