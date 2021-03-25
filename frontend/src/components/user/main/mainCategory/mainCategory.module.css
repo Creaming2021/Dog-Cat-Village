@@ -1,8 +1,7 @@
 .main-category {
-    /* display: inline-block; */
-    width: 450px;
-    height: 840px;
+    width: 500px;
     float: left;
+    margin-bottom: 10px;
 }
 
 .top {
@@ -13,11 +12,8 @@
     margin-bottom: 30px;
 }
 
-img {
-    margin: 0px auto 20px auto;
-}
-
 .title{
+    margin-top: 30px;
     font-size: 25px;
     font-weight: bold;
     color: #5E5E5E;

@@ -1,8 +1,6 @@
-.animal{
-    width: 1450px;
+.animal-container{
+    display: block; 
     height: 800px;
-    float: left;
-    margin-top: 25px; 
 }
 
 .btn-manage{
@@ -21,18 +19,6 @@
     cursor: pointer;
 }
 
-.search{
-    float: right;
-    margin-right: 60px;
-}
-
-.search select{
-    border-radius: 5px;
-    width: 130px;
-    height: 35px;
-    color: #949494;
-}
-
 .input{
     margin: 0px 10px 0px 10px;
     border-color: #DEDEDE !important;
@@ -48,13 +34,22 @@
 }
 
 .list{
-    clear: both;
-    margin-top: 10px;
+    display: block;
+    height: 800px;
+
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.list::-webkit-scrollbar {
+    display: none;
 }
 
 .card{
     position: relative;
-    width: 260px;
+    width: fit-content;
+    height: fit-content;
     float: left;
     margin: 5px 10px 0px 10px;
 }
