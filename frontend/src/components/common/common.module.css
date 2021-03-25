@@ -229,28 +229,28 @@
 }
 
 /* Image */
-.img-large{
+.img-large {
   display: inline-block;
   border-radius: 50%;
   width: 280px;
   height: 280px;
 }
 
-.img-medium{
+.img-medium {
   display: inline-block;
   border-radius: 50%;
   width: 200px;
   height: 200px;
 }
 
-.img-small{
+.img-small {
   display: inline-block;
   border-radius: 50%;
   width: 95px;
   height: 95px;
 }
 
-.img-xsmall{
+.img-xsmall {
   display: inline-block;
   border-radius: 50%;
   width: 50px;
@@ -258,11 +258,11 @@
 }
 
 /* Search Container*/
-.search-container{
+.search-container {
   display: inline-block;
 }
 
-.search-container select{
+.search-container select {
   border-radius: 5px;
   width: 130px;
   height: 35px;
@@ -271,7 +271,7 @@
   padding-left: 10px;
 }
 
-.search-input{
+.search-input {
   width: 250px;
   height: 35px;
   margin-bottom: 10px;
@@ -280,52 +280,52 @@
   margin: 0px 10px 0px 0px;
 }
 
-.search-icon{
+.search-icon {
   color: #DEDEDE;
   font-size: 1.25rem;
 }
 
-.search-icon:hover{
+.search-icon:hover {
   color: #949494;
   cursor: pointer;
 }
 
 /* 모달 */
-.modal-container{
-	position : fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0,0,0,0.5);
-	display: flex;
-	align-items: center;
-	justify-content: center;
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.modal-large{
-	background: white;
-	padding: 24px 24px;
-	border-radius: 30px;
-	width: 1400px;
+.modal-large {
+  background: white;
+  padding: 24px 24px;
+  border-radius: 30px;
+  width: 1400px;
   height: 780px;
   text-align: center;
 }
 
-.modal-medium{
-	background: white;
-	padding: 24px 24px;
-	border-radius: 30px;
-	width: 1000px;
+.modal-medium {
+  background: white;
+  padding: 24px 24px;
+  border-radius: 30px;
+  width: 1000px;
   height: 580px;
   text-align: center;
 }
 
-.modal-small{
-	background: white;
-	padding: 24px 24px;
-	border-radius: 30px;
-	width: 640px;
+.modal-small {
+  background: white;
+  padding: 24px 24px;
+  border-radius: 30px;
+  width: 640px;
   height: 300px;
   text-align: center;
 }
