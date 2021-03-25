@@ -9,7 +9,7 @@ function App() {
   return (
     <div className={styles.app}>
       <Route path="/" component={UserContainer} exact/>
-      <Route path="/user" component={MyPage} exact/>
+      <Route path="/mypage" component={MyPage} exact/>
       <Route path="/shelter" component={SubMain} exact/>
       {/* <Route path="/user" component={User}/>
       <Route path="/center" component={Center}/> */}
