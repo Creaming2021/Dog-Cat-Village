@@ -120,9 +120,10 @@ const DonationList = () => {
               })
             }
           </div>
-          <hr/>
-          <button className={styles['more-btn']} onClick={controlMoreBtn}>+ 더보기</button>
-          
+          <hr className={styles['list-line-last']}/>
+          <div className={styles['more-btn-container']}>
+            <button className={styles['more-btn']} onClick={controlMoreBtn}>+ 더보기</button>
+          </div>
         </div>
       </div>
     </>

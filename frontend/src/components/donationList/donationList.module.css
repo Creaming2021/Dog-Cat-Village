@@ -55,6 +55,7 @@ button {
 }
 
 .main-container {
+  position: relative;
   width: 600px;
   height: 740px;
   background-color: #f3f3f3;
@@ -104,15 +105,28 @@ button {
   color: #838383;
 }
 
+.more-btn-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  bottom: 0px;
+}
+
 .more-btn {
   border: none;
-  background-color: transparent;
-  width: 100%;
-  padding: 0;
+  background-color: #f3f3f3;
+  width: 90px;
+  height: 20px;
+  padding-right: 10px;
   margin-bottom: 10px;
   font-size: 15px;
 }
 
 .more-btn:hover {
   color: #ffce00;
+}
+
+.list-line-last {
+  margin-top: 16px;
 }
