@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./animal.module.css";
 import { Search, ButtonSmall, ModalMedium } from "../../../../common/common";
 import AnimalList, { AnimalCardProps } from "../../../../list/animalList/animalList";
-import { RegisterAnimalForm } from "../animalModal/animalModal";
+import  RegisterAnimalForm  from "../modal/registerAnimal";
 
 type AnimalProps = {
   type: string;
@@ -124,6 +124,11 @@ const Animal = ({ type }: AnimalProps) => {
     alert("검색 요청");
   };
 
+  const onSubmitRegister = (): void => {
+    alert("동물 등록 요청");
+    onCloseRegister();
+  }
+
   const onChange = ( e: React.ChangeEvent<HTMLSelectElement>
       							| React.ChangeEvent<HTMLInputElement>): void => {
 		const { name, value } = e.target;
@@ -159,7 +164,8 @@ const Animal = ({ type }: AnimalProps) => {
       {registerAnimal && 
         <ModalMedium>
           <RegisterAnimalForm
-            onClose={onCloseRegister}/>
+            onSubmit={onSubmitRegister}
+            onCancle={onCloseRegister}/>
         </ModalMedium>
       }
     </div>
