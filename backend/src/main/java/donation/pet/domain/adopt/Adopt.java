@@ -5,7 +5,9 @@ import donation.pet.domain.etc.AcceptStatus;
 import donation.pet.domain.etc.BaseTimeEntity;
 import donation.pet.domain.pet.Pet;
 import donation.pet.domain.user.User;
+import donation.pet.dto.adopt.AdoptDto;
 import lombok.*;
+import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -48,19 +50,37 @@ public class Adopt extends BaseTimeEntity {
     // 승인 상태 변경
     public void changeAccept(AcceptStatus acceptStatus) {
         this.acceptStatus = acceptStatus;
+        if (acceptStatus == AcceptStatus.PENDING) {
+            return;
+        }
+        statusDate = LocalDateTime.now();
     }
 
     // 유저의 입양신청서 작성 ( 생성 메소드 )
-    public static Adopt createAdoptForUser(User user, Pet pet) {
+    public static Adopt createAdopt(User user, Pet pet, Center center) {
         Adopt adopt = new Adopt();
         adopt.user = user;
         adopt.pet = pet;
+        adopt.center = center;
         adopt.acceptStatus = AcceptStatus.PENDING;
         user.getAdopts().add(adopt);
         pet.getAdopts().add(adopt);
+        center.getAdopts().add(adopt);
 
         return adopt;
     }
 
+    public void removeAdopt() {
+        this.user.getAdopts().remove(this);
+        this.user = null;
+        this.center.getAdopts().remove(this);
+        this.center = null;
+        this.pet.getAdopts().remove(this);
+        this.pet = null;
+    }
 
+    public AdoptDto changeToDto() {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(this, AdoptDto.class);
+    }
 }

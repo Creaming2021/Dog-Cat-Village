@@ -56,7 +56,7 @@ class AdoptTest {
         Center center = centerRepository.findById(1L).get();
 
         // when
-        Adopt adoptForUser = Adopt.createAdoptForUser(user, pet);
+        Adopt adoptForUser = Adopt.createAdopt(user, pet, center);
 
         // then
         assertThat(adoptForUser.getUser()).isEqualTo(user);

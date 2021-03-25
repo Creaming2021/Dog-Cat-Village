@@ -1,13 +1,20 @@
 package donation.pet.domain.pet;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import donation.pet.domain.adopt.Adopt;
 import donation.pet.domain.etc.BaseTimeEntity;
 import donation.pet.domain.center.Center;
+import donation.pet.dto.pet.PetDto;
 import lombok.*;
 import org.aspectj.weaver.patterns.PerThisOrTargetPointcutVisitor;
+import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +35,12 @@ public class Pet extends BaseTimeEntity {
     private String name;
 
     private String breed;
-    private Integer age;
+
+    private String imageUrl;
+
+    private LocalDateTime birthday;
+    // 어떻게 들어갈지는 모르겠다 ...
+
     private Float weight;
 
     @Lob
@@ -40,6 +52,9 @@ public class Pet extends BaseTimeEntity {
     private String condition;
 
     @Enumerated(EnumType.STRING)
+    private BreedType breedType;
+
+    @Enumerated(EnumType.STRING)
     private Sex sex;
 
     @Enumerated(EnumType.STRING)
@@ -48,6 +63,7 @@ public class Pet extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private AdoptStatus adoptStatus;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "center_id")
     private Center center;
@@ -71,4 +87,35 @@ public class Pet extends BaseTimeEntity {
 
         return pet;
     }
+
+    public Pet initPet(Center center) {
+        this.center = center;
+        this.adoptStatus = AdoptStatus.UNADOPTED;
+        center.getPets().add(this);
+
+        return this;
+    }
+
+    public PetDto changeToDto() {
+        ModelMapper modelMapper = new ModelMapper();
+        PetDto dto = modelMapper.map(this, PetDto.class);
+        dto.setAge(calculateAge());
+        return dto;
+    }
+
+    public String calculateAge() {
+        LocalDateTime from = getBirthday();
+        LocalDateTime to = LocalDateTime.now();
+
+        long years = ChronoUnit.YEARS.between(from, to);
+        if (years < 1L) {
+            long months = ChronoUnit.MONTHS.between(from, to);
+            if (months < 1L) {
+                return ChronoUnit.DAYS.between(from, to) + "일";
+            }
+            return months + "개월";
+        }
+        return years + "살";
+    }
+
 }
