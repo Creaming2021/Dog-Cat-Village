@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Nav from "../../../nav/nav";
-import Animal from "../animal/animal";
+import Animal from "../animal/animal/animal";
 import Chatting from "../chatting/chatting";
 import Donation from "../donation/donation";
 import Home from "../home/home";

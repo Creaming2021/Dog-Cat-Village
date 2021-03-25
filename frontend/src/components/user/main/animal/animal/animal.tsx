@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styles from "./animal.module.css";
-import { Search, ButtonSmall, ModalMedium } from "../../../common/common";
-import AnimalList, { AnimalCardProps } from "../../../list/animalList/animalList";
+import { Search, ButtonSmall, ModalMedium } from "../../../../common/common";
+import AnimalList, { AnimalCardProps } from "../../../../list/animalList/animalList";
+import { RegisterAnimalForm } from "../animalModal/animalModal";
 
 type AnimalProps = {
   type: string;
@@ -157,10 +158,8 @@ const Animal = ({ type }: AnimalProps) => {
 
       {registerAnimal && 
         <ModalMedium>
-					<ButtonSmall content="닫기" onClick={onCloseRegister} buttonColor=""/>
-          {/* <RegisterAnimalForm
-          
-            /> */}
+          <RegisterAnimalForm
+            onClose={onCloseRegister}/>
         </ModalMedium>
       }
     </div>
