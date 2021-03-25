@@ -2,25 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { ButtonSmall, Select, selectType, optionType } from '../../../../common/common';
 import styles from './editAnimalForm.module.css';
 import commons from '../../../../common/common.module.css';
-import { AnimalDetailType, AnimalEditType } from '../../../../../interface/animal';
+import { AnimalEditType, AnimalInputType } from '../../../../../interface/animal';
 
 type EditAnimalFormProps = {
 	type: string,
-	animal?: AnimalEditType,
+	animal?: AnimalInputType,
 	onCancle: () => void,
 	onRegister?: () => void,
 	onModify?: () => void,
 }
 
 const EditAnimalForm = ({ type, animal, onRegister, onModify, onCancle }: EditAnimalFormProps) => {
-	const initialState: AnimalEditType = {
+	const initialState: AnimalInputType = {
+		id: animal? animal.id : -1,
 		imageUrl: animal ? animal.imageUrl : '',
 		name: animal ? animal.name : '',
 		breed: animal ? animal.breed : '',
 		weight: animal ? animal.weight : '',
 		year: animal ? animal.year : '생년',
 		month: animal ? animal.month : '월',
-		day: animal ? animal.day : '일',
+		date: animal ? animal.date : '일',
 		breedType: animal ? animal.breedType : 'dog',
 		personality: animal ? animal.personality : '',
 		condition: animal ? animal.condition : '',
@@ -40,7 +41,7 @@ const EditAnimalForm = ({ type, animal, onRegister, onModify, onCancle }: EditAn
 
 	const year: optionType[] = [{ value: "0", option: "생년" }];
 	const month: optionType[] = [{ value: "0", option: "월" }];
-	const day:optionType[] = [{ value: "0", option: "일" }];
+	const date:optionType[] = [{ value: "0", option: "일" }];
 
 	useEffect(() => {
 		setDate();
@@ -56,12 +57,12 @@ const EditAnimalForm = ({ type, animal, onRegister, onModify, onCancle }: EditAn
 		}
 
 		for(let i: number = 1; i <= 31; i++){
-			day.push({ value: i.toString(), option: i.toString()+'일' });
+			date.push({ value: i.toString(), option: i.toString()+'일' });
 		}
 		
 		setBirthday(birthday.concat({name: 'year', options: year})
 												.concat({name: 'month', options: month})
-												.concat({name: 'day', options: day}));
+												.concat({name: 'date', options: date}));
 	}
 
 	const onChange = (e: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
@@ -151,7 +152,7 @@ const EditAnimalForm = ({ type, animal, onRegister, onModify, onCancle }: EditAn
 					<Select
 						select={birthday[2]}
 						index={0}
-						selectValue={[input.day]}
+						selectValue={[input.date]}
 						onChange={onChange}/>
 				</td>
 			</tr>

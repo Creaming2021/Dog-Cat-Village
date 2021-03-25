@@ -11,7 +11,7 @@ export type AnimalCardProps = {
   imageUrl: string;
   name: string;
   birthday: string;
-  age: number;
+  age: string;
   sex: string;
   onClick: (e:any) => void;
 };
@@ -67,9 +67,7 @@ const AnimalList = ({ animalList }: AnimalListProps) => {
 		condition: "건강상태",
 		sex: 'MALE', 
 		neuter: 'NO',
-    centerId: 1,
-    centerName: "",
-    adoptStatus: "ADOPTED",
+    centerId: 1
 	}
 
   const onClick = (e: any) => {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./animal.module.css";
 import { Search, ButtonSmall, ModalMedium } from "../../../../common/common";
 import AnimalList from "../../../../list/animal/animalList/animalList";
-import { AnimalListType, AnimalEditType } from '../../../../../interface/animal';
+import { AnimalListType, AnimalInputType } from '../../../../../interface/animal';
 import  EditAnimalForm  from "../editAnimalForm/editAnimalForm";
 
 type AnimalProps = {
@@ -17,8 +17,9 @@ const Animal = ({ type }: AnimalProps) => {
         "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
       name: "뽀삐",
       birthday: "2021.02.01",
-      age: 1,
+      age: "1살",
       sex: "여",
+      breedType: "CAT",
     },
     {
       id: 2,
@@ -26,8 +27,9 @@ const Animal = ({ type }: AnimalProps) => {
         "https://blog.hmgjournal.com/images/contents/article/201603211108-Reissue-pet-family-01.jpg",
       name: "뽀빠이",
       birthday: "2021.02.01",
-      age: 1,
+      age: "3개월",
       sex: "남",
+      breedType: "DOG",
     },
     {
       id: 3,
@@ -35,8 +37,9 @@ const Animal = ({ type }: AnimalProps) => {
         "http://img.insight.co.kr/static/2018/09/12/700/z7n04ul8ig3y27w6l6ok.jpg",
       name: "뽀삐",
       birthday: "2021.02.01",
-      age: 1,
+      age: "3개월",
       sex: "여",
+      breedType: "ETC",
     },
     {
       id: 4,
@@ -44,8 +47,9 @@ const Animal = ({ type }: AnimalProps) => {
         "http://c.files.bbci.co.uk/AD6E/production/_104889344_kitten.jpg",
       name: "뽀삐",
       birthday: "2021.02.01",
-      age: 1,
+      age: "3개월",
       sex: "여",
+      breedType: "DOG",
     },
     {
       id: 5,
@@ -53,8 +57,9 @@ const Animal = ({ type }: AnimalProps) => {
         "https://images.mypetlife.co.kr/content/uploads/2019/09/04222847/dog-panting-1024x683.jpg",
       name: "뽀삐",
       birthday: "2021.02.01",
-      age: 1,
+      age: "3개월",
       sex: "여",
+      breedType: "DOG",
     },
     {
       id: 6,
@@ -62,8 +67,9 @@ const Animal = ({ type }: AnimalProps) => {
         "https://images.mypetlife.co.kr/content/uploads/2019/09/04222847/dog-panting-1024x683.jpg",
       name: "뽀삐",
       birthday: "2021.02.01",
-      age: 1,
+      age: "3개월",
       sex: "여",
+      breedType: "DOG",
     },
     {
       id: 7,
@@ -71,8 +77,9 @@ const Animal = ({ type }: AnimalProps) => {
         "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
       name: "뽀삐",
       birthday: "2021.02.01",
-      age: 1,
+      age: "3개월",
       sex: "여",
+      breedType: "DOG",
     },
     {
       id: 8,
@@ -80,8 +87,9 @@ const Animal = ({ type }: AnimalProps) => {
         "https://blog.hmgjournal.com/images/contents/article/201603211108-Reissue-pet-family-01.jpg",
       name: "뽀빠이",
       birthday: "2021.02.01",
-      age: 1,
+      age: "3개월",
       sex: "남",
+      breedType: "DOG",
     },
     {
       id: 9,
@@ -89,13 +97,14 @@ const Animal = ({ type }: AnimalProps) => {
         "http://img.insight.co.kr/static/2018/09/12/700/z7n04ul8ig3y27w6l6ok.jpg",
       name: "뽀삐",
       birthday: "2021.02.01",
-      age: 1,
+      age: "3개월",
       sex: "여",
+      breedType: "DOG",
     },
   ];
 
-  const animal: AnimalEditType = {
-		birthday: "2021.03.01",
+  const animal: AnimalInputType = {
+    id: 1,
 		imageUrl: "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
 		name: "이름", 
 		breed: "품종",
@@ -107,7 +116,7 @@ const Animal = ({ type }: AnimalProps) => {
 		neuter: 'NO',
     year: '2021',
     month: '3',
-    day: '2',
+    date: '2',
 	}
 
   const [searchInput, setSearchInput] = useState({

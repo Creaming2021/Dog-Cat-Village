@@ -1,42 +1,34 @@
-export interface AnimalEditType {
-	birthday?: string,
-	imageUrl: string,
-	name: string, 
-	breed: string,
-	weight: string, 
-	year: string,
-	month: string,
-	day: string,
-	breedType: string,
-	personality: string,
-	condition: string,
-	sex: string, 
-	neuter: string,
+export interface AnimalBasicType {
+	id: number;
+	name: string;
+	imageUrl: string;
+	sex: string;
+	breedType: string;
 }
 
-export interface AnimalDetailType {
-	id: number,
-	age: string,
-	birthday: string,
-	imageUrl: string,
-	name: string, 
-	breed: string,
-	weight: string, 
-	breedType: string,
-	personality: string,
-	condition: string,
-	sex: string, 
-	neuter: string,
-	centerId: number,
-	centerName: string,
-	adoptStatus: string,
+export interface AnimalExtraType {
+	weight: string; 
+	breed: string;
+	personality: string;
+	neuter: string; 
+	condition: string;
 }
 
-export interface AnimalListType {
-  id: number;
-  name: string;
-  imageUrl: string;
-  birthday: string;
-  age: number;
-  sex: string;
+export interface AnimalListType extends AnimalBasicType {
+	birthday: string;
+	age: string;
+}
+
+export interface AnimalDetailType extends AnimalListType, AnimalExtraType {
+	centerId: number;
+}
+
+export interface AnimalInputType extends AnimalBasicType, AnimalExtraType {
+	year: string;
+	month: string;
+	date: string;
+}
+
+export interface AnimalEditType extends AnimalBasicType, AnimalExtraType {
+	birthday: string;
 }
