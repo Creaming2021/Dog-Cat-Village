@@ -29,4 +29,21 @@ public class Exchange extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "center_id")
     private Center center;
+
+    /////////////////////////////////////
+
+    public static Exchange createExchage(Center center, String receiptImage, String transactionAddress) {
+        Exchange exchange = new Exchange();
+        exchange.center = center;
+        exchange.receiptImage = receiptImage;
+        exchange.transactionAddress = transactionAddress;
+        exchange.acceptStatus = AcceptStatus.PENDING;
+        center.getExchanges().add(exchange);
+
+        return exchange;
+    }
+
+    public void changeAcceptStatus(AcceptStatus acceptStatus) {
+        this.acceptStatus = acceptStatus;
+    }
 }
