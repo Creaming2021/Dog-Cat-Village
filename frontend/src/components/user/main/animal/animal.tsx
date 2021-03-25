@@ -1,67 +1,7 @@
 import React, { useState } from "react";
 import styles from "./animal.module.css";
-import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Search } from "../../common/common";
-
-type ListProps = {
-  animalList: AnimalCardProps[];
-};
-
-const List = ({ animalList }: ListProps) => {
-  return (
-    <div className={styles.list}>
-      {animalList.map((animal: AnimalCardProps) => (
-        <AnimalCard
-          key={animal.id}
-          id={animal.id}
-          imageUrl={animal.imageUrl}
-          name={animal.name}
-          birthday={animal.birthday}
-          age={animal.age}
-          sex={animal.sex}
-        />
-      ))}
-    </div>
-  );
-};
-
-type AnimalCardProps = {
-  id: number;
-  imageUrl: string;
-  name: string;
-  birthday: string;
-  age: number;
-  sex: string;
-};
-
-const AnimalCard = ({
-  imageUrl,
-  name,
-  birthday,
-  age,
-  sex,
-}: AnimalCardProps) => {
-  return (
-    <div className={styles.card}>
-      <img src={imageUrl} />
-      <div className={styles["card-hover"]}>
-        <div className={styles.info}>
-          <div className={styles.name}>{name}</div>
-          <div className={styles.age}>
-            {age} 살 /
-            {sex === "여" ? (
-              <FontAwesomeIcon icon={faVenus} />
-            ) : (
-              <FontAwesomeIcon icon={faMars} />
-            )}
-          </div>
-          <div className={styles.birthday}>{birthday}</div>
-        </div>
-      </div>
-    </div>
-  );
-};
+import { Search, ButtonSmall, ModalMedium } from "../../../common/common";
+import AnimalList, { AnimalCardProps } from "../../../list/animalList/animalList";
 
 type AnimalProps = {
   type: string;
@@ -157,8 +97,14 @@ const Animal = ({ type }: AnimalProps) => {
     type: "all",
   });
 
-  const onOpenManage = () => {
-    alert("동물 등록");
+  const [registerAnimal, setRegisterAnimal] = useState(false);
+
+  const onOpenRegister = () => {
+    setRegisterAnimal(true);
+  }
+
+  const onCloseRegister = () => {
+    setRegisterAnimal(false);
   }
 
   const selectList = [
@@ -188,7 +134,7 @@ const Animal = ({ type }: AnimalProps) => {
 
   return (
     <div className={styles["animal-container"]}>
-      <Search
+			<Search
         selectList={selectList}
         selectValue={[searchInput.type]}
         inputName="keyword"
@@ -197,13 +143,26 @@ const Animal = ({ type }: AnimalProps) => {
         onChange={onChange}
         placeholder="동물 이름"
         inputSize="input-medium"/>
-
-      {type === "center" && (
-        <button
-          className={`${styles["btn-manage"]}`}
-          onClick={onOpenManage}>동물 등록 </button>
+				
+			{type === "center" && (
+        <ButtonSmall 
+					content="동물 등록" 
+					onClick={onOpenRegister} 
+					buttonColor="bg-green"/>
       )}
-      <List animalList={animalList} />
+
+			<div className={styles['animal-list']}>
+    		<AnimalList animalList={animalList}/>
+			</div>
+
+      {registerAnimal && 
+        <ModalMedium>
+					<ButtonSmall content="닫기" onClick={onCloseRegister} buttonColor=""/>
+          {/* <RegisterAnimalForm
+          
+            /> */}
+        </ModalMedium>
+      }
     </div>
   );
 };
