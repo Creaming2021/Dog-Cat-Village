@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import styles from "./animal.module.css";
 import { Search, ButtonSmall, ModalMedium } from "../../../../common/common";
-import AnimalList, { AnimalCardProps } from "../../../../list/animalList/animalList";
-import  RegisterAnimalForm  from "../modal/registerAnimal";
+import AnimalList from "../../../../list/animal/animalList/animalList";
+import { AnimalListType } from '../../../../../interface/animal';
+import  RegisterAnimalForm  from "../registerAnimalForm/registerAnimalForm";
 
 type AnimalProps = {
   type: string;
 };
 
 const Animal = ({ type }: AnimalProps) => {
-  const animalList: AnimalCardProps[] = [
+  const animalList: AnimalListType[] = [
     {
       id: 1,
       imageUrl:
