@@ -4,7 +4,7 @@ import styles from './userInfo.module.css';
 import UserInfoEdit from './userInfoEdit';
 
 
-const UserInfo = () => {
+const UserInfo = ({userTypeBoolean}) => {
   const [editState, setEditState] = useState(false);
 
   const changeEditState = () => {
@@ -20,7 +20,7 @@ const UserInfo = () => {
     <>
       {
         editState 
-        ? <UserInfoEdit setEditState={setEditState} />
+        ? <UserInfoEdit setEditState={setEditState} userTypeBoolean={userTypeBoolean}/>
         : <div className={styles['user-info']}>
             <div className={styles['user-img-box']}>
               <ImageLarge src={"../../images/jiyoung.png"} alt={"fakeimgdata"} />
@@ -31,9 +31,9 @@ const UserInfo = () => {
               </div>
             </div>
             <div className={styles['btn-container']}>
-              <button className={styles['user-info-edit-btn']} onClick={changeEditState}>수정</button> 
+              <button className={`${styles['user-info-edit-btn']} ${!userTypeBoolean && styles['blue-btn']}`} onClick={changeEditState}>수정</button> 
               <div className={styles['btn-divide-line']}>ㅣ</div>
-              <button className={styles['user-unsubs-btn']} onClick={deleteAccount} >탈퇴</button>
+              <button className={`${styles['user-unsubs-btn']} ${!userTypeBoolean && styles['blue-btn']}`} onClick={deleteAccount} >탈퇴</button>
             </div>
           </div>
       }
