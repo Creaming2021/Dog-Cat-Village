@@ -52,6 +52,10 @@ button {
   font-size: 15px;
 }
 
+.blue-line {
+  border-bottom-color: #16a8eb;
+}
+
 .error-line {
   border-bottom-color: red;
 }
@@ -162,4 +166,8 @@ button {
 
 .edit-confirm-btn:hover {
   color: #ffce00;
+}
+
+.blue-btn:hover {
+  color: #16a8eb;
 }
