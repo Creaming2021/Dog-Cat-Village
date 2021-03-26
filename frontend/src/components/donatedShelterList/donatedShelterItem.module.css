@@ -5,8 +5,8 @@
 
 .items-container {
   position: relative;
-  width: 650px;
-  height: 200px;
+  width: 600px;
+  height: 185px;
 }
 
 .item-description {
@@ -30,12 +30,12 @@
 }
 
 .item-sheltername {
-  font-size: 20px;
+  font-size: 16px;
   margin: 0 0 10px;
 }
 
 .item-date {
-  font-size: 10px;
+  font-size: 8px;
   margin: 0 0 15px;
 }
 
@@ -47,11 +47,11 @@
 }
 
 .coin-icon {
-  font-size: 30px;
-  margin-right: 10px;
+  font-size: 20px;
+  margin-right: 5px;
 }
 
 .item-amount {
-  font-size: 35px;
+  font-size: 25px;
   margin: 0;
 }
