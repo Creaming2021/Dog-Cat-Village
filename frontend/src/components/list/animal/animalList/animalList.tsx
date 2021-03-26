@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./animalList.module.css";
 import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,6 +26,11 @@ const AnimalCard = ({
   sex,
   onClick,
 }: AnimalCardProps) => {
+  useEffect(()=> {
+    
+  }, []);
+
+
   return (
     <div id={id.toString()} onClick={onClick} className={styles['animal-card-container']}>
       <img src={imageUrl} />

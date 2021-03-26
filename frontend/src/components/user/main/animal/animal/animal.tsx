@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./animal.module.css";
 import { Search, ButtonSmall, ModalMedium } from "../../../../common/common";
 import AnimalList from "../../../../list/animal/animalList/animalList";
@@ -75,7 +75,7 @@ const Animal = ({ type }: AnimalProps) => {
       id: 7,
       imageUrl:
         "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
-      name: "뽀삐",
+      name: "김",
       birthday: "2021.02.01",
       age: "3개월",
       sex: "여",
@@ -95,7 +95,7 @@ const Animal = ({ type }: AnimalProps) => {
       id: 9,
       imageUrl:
         "http://img.insight.co.kr/static/2018/09/12/700/z7n04ul8ig3y27w6l6ok.jpg",
-      name: "뽀삐",
+      name: "김밥",
       birthday: "2021.02.01",
       age: "3개월",
       sex: "여",
@@ -119,9 +119,11 @@ const Animal = ({ type }: AnimalProps) => {
     date: '2',
 	}
 
+  const [resultAnimalList, setResultAnimalList] = useState<AnimalListType[]>(animalList);
+
   const [searchInput, setSearchInput] = useState({
     keyword: "",
-    type: "all",
+    type: "",
   });
 
   const [registerAnimal, setRegisterAnimal] = useState(false);
@@ -147,17 +149,25 @@ const Animal = ({ type }: AnimalProps) => {
     {
       name: "type",
       options: [
-        { value: "all", option: "모두" },
-        { value: "dog", option: "개" },
-        { value: "cat", option: "고양이" },
-        { value: "etc", option: "기타" },
+        { value: "", option: "모두" },
+        { value: "DOG", option: "개" },
+        { value: "CAT", option: "고양이" },
+        { value: "ETC", option: "기타" },
       ],
     },
   ];
 
   const onSearch = (): void => {
-    alert("검색 요청");
+    setResultAnimalList(
+      animalList.filter(animal => 
+        animal.breedType.includes(searchInput.type) 
+        && animal.name.includes(searchInput.keyword))
+    );
   };
+
+  useEffect(()=> {
+    console.log(searchInput, resultAnimalList);
+  }, [resultAnimalList]);
 
   const onSubmitRegister = (): void => {
     alert("동물 등록 요청");
@@ -198,7 +208,7 @@ const Animal = ({ type }: AnimalProps) => {
       )}
 
 			<div className={styles['animal-list']}>
-    		<AnimalList animalList={animalList}/>
+    		<AnimalList animalList={resultAnimalList}/>
 			</div>
 
       {registerAnimal && 

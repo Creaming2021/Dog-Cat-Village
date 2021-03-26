@@ -1,17 +1,18 @@
 .animal-list-container{
-    background-color: brown;
     display: block;
 }
 
 .animal-card-container{
+    display: inline-block;
     position: relative;
     width: fit-content;
     height: fit-content;
-    float: left;
+    /* float: left; */
     margin: 5px 10px 0px 10px;
 }
 
 .animal-card-container img{
+    display: block;
     width: 260px;
     height: auto;
     border-radius: 30px;

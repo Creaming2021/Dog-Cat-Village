@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './detailAnimalForm.module.css';
 import { AnimalDetailType } from '../../../../interface/animal';
 import { ButtonSmall } from '../../../common/common';
+import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type DetailAnimalFormProps = {
 	userInfo: {shelterId: number},
@@ -18,7 +20,8 @@ const DetailAnimalForm = ({ userInfo, animal, onClose, onSubmit, onGoToModify, o
 		birthday, breedType, personality, condition, sex, neuter, shelterId } = animal;
 
 	return (
-	<table className={styles['detail-animal-form-container']}>
+	<div className={styles['detail-animal-form-container']}>
+	<table>
 		<tbody>
 			<tr>
 				<td>
@@ -77,19 +80,11 @@ const DetailAnimalForm = ({ userInfo, animal, onClose, onSubmit, onGoToModify, o
 											<ButtonSmall 
 												content="삭제" 
 												onClick={onDelete} 
-												buttonColor="bg-blue"/>
-											<ButtonSmall 
-												content="임시 닫기 버튼" 
-												onClick={onClose} 
-												buttonColor="bg-yellow"/></>
-										: <><ButtonSmall 
+												buttonColor="bg-blue"/></>
+										: <ButtonSmall 
 												content="입양 신청" 
 												onClick={onSubmit} 
 												buttonColor="bg-blue"/>
-											<ButtonSmall 
-												content="임시 닫기 버튼" 
-												onClick={onClose} 
-												buttonColor="bg-yellow"/></>
 									}
 								</td>
 							</tr>
@@ -99,6 +94,11 @@ const DetailAnimalForm = ({ userInfo, animal, onClose, onSubmit, onGoToModify, o
 			</tr>
 		</tbody>
 	</table>
+	<FontAwesomeIcon 
+		className={styles['icon-close']}
+		icon={faTimesCircle} 
+		onClick={onClose} />
+	</div>
 	);
 }
 
