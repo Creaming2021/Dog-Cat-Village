@@ -3,6 +3,7 @@ import styles from './donationList.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import DonationListItem from './donationListItem';
+import { Search } from '../common/common';
 
 
 const date = new Date().toDateString();
@@ -84,6 +85,7 @@ const DonationDataList = [
 
 const DonationList = () => {
   const [moreBtnState, setMoreBtnState] = useState(false);
+  const [values, setValues] = useState({ first: 'all', input: '' });
 
   const controlMoreBtn = () => {
     setMoreBtnState(!moreBtnState);
@@ -94,13 +96,29 @@ const DonationList = () => {
     <>
       <div className={styles['donation-container']}>
         <div className={styles['search-container']}>
-          <select name="options" className={styles.options}>
+          <Search 
+            selectList={[{name: 'first', options: [
+              { value: "all", option: "모두" },
+              { value: "charge", option: "충전" },
+              { value: "donate", option: "기부" }
+            ]}]}
+            selectValue={values.first} 
+            inputValue={values.input}
+            inputName={'shelterInput'} 
+            onSearch={()=>{
+            }}
+            onChange={(e) => {
+            }}
+            placeholder={'보호소 명'}
+            inputSize={'input-large'}
+          />
+          {/* <select name="options" className={styles.options}>
             <option value="all">모두</option>
             <option value="charge">충전</option>
             <option value="donate">기부</option>
           </select>
           <input type="search" placeholder="보호소 명" className={styles['search-box']} />
-          <FontAwesomeIcon icon={faSearch} className={styles['search-icon']} />
+          <FontAwesomeIcon icon={faSearch} className={styles['search-icon']} /> */}
         </div>
         <div className={styles['main-container']}>
           <div className={styles['date-filter']}>
