@@ -4,6 +4,8 @@ import donation.pet.domain.member.MemberRepository;
 import donation.pet.domain.member.consumer.Consumer;
 import donation.pet.dto.consumer.ConsumerSignupRequestDto;
 import donation.pet.dto.consumer.ConsumerSignupResponseDto;
+import donation.pet.exception.BaseException;
+import donation.pet.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,5 +46,9 @@ public class ConsumerService {
             consumer.updatePassword(passwordEncoder.encode(consumer.getPassword()));
             memberRepository.save(consumer);
         }
+    }
+
+    public void test() {
+        throw new RuntimeException();
     }
 }
