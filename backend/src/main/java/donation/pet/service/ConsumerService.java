@@ -1,54 +1,49 @@
 package donation.pet.service;
 
 import donation.pet.domain.member.MemberRepository;
+import donation.pet.domain.member.MemberRole;
 import donation.pet.domain.member.consumer.Consumer;
+import donation.pet.domain.member.consumer.ConsumerRepository;
 import donation.pet.dto.consumer.ConsumerSignupRequestDto;
-import donation.pet.dto.consumer.ConsumerSignupResponseDto;
+import donation.pet.dto.member.DuplRequestDto;
 import donation.pet.exception.BaseException;
 import donation.pet.exception.ErrorCode;
+import donation.pet.util.MailUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Set;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ConsumerService {
 
+    public final ConsumerRepository consumerRepository;
     public final MemberRepository memberRepository;
     public final ModelMapper modelMapper;
     public final PasswordEncoder passwordEncoder;
+    public final MailUtil mailUtil;
 
-    public ConsumerSignupResponseDto signup(ConsumerSignupRequestDto consumerSignupRequestDto) {
-
-        if (memberRepository.findByEmail(consumerSignupRequestDto.getEmail()).isPresent()) {
-            // 이메일 중복
+    public void signup(ConsumerSignupRequestDto dto) {
+        if (memberRepository.findByEmail(dto.getEmail()).isPresent()) {
+            throw new BaseException(ErrorCode.EMAIL_DUPLICATION);
         }
 
-//        String encodePassword = passwordEncoder.encode(member.getPassword());
-//        member.signup(encodePassword, memberSignupRequestDto.getRole());
-//        memberRepository.save(member);
+        String encodePassword = passwordEncoder.encode(dto.getPassword());
+        String key = mailUtil.sendMail(dto.getEmail());
 
-        // TODO 메일 인증 NullPointException
-        // 메일 보내기
-//        String key = mailUtil.sendMail(user.getEmail());
-//        member.updateAccept(key);
-//        member.updateAccept("true");
-        return null;
-//        return new MemberSignupResponseDto(member.getId());
+        Consumer consumer = dto.toEntity(encodePassword, Set.of(MemberRole.USER), key);
+        consumerRepository.save(consumer);
     }
 
-    public void signup(Consumer consumer) {
-        if (memberRepository.findByEmail(consumer.getEmail()).isEmpty()) {
-            consumer.updatePassword(passwordEncoder.encode(consumer.getPassword()));
-            memberRepository.save(consumer);
+    public void checkDuplicatedNickname(DuplRequestDto dto) {
+        if (memberRepository.findByName(dto.getName()).isPresent()) {
+            throw new BaseException(ErrorCode.NAME_DUPLICATION);
         }
-    }
-
-    public void test() {
-        throw new RuntimeException();
     }
 }

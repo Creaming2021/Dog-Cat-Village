@@ -1,10 +1,7 @@
 package donation.pet.controller;
 
 import donation.pet.dto.consumer.ConsumerSignupRequestDto;
-import donation.pet.dto.consumer.ConsumerSignupResponseDto;
 import donation.pet.dto.member.DuplRequestDto;
-import donation.pet.exception.BaseException;
-import donation.pet.exception.ErrorCode;
 import donation.pet.service.ConsumerService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -24,23 +21,17 @@ public class ConsumerController {
 
     @ApiOperation("사용자 회원 가입")
     @PostMapping("/signup")
-    public ResponseEntity<ConsumerSignupResponseDto> signup(@RequestBody ConsumerSignupRequestDto dto) {
+    public ResponseEntity<Void> signup(@RequestBody ConsumerSignupRequestDto dto) {
         log.info("(Post) signup - {}, {}, {}", dto.getEmail(), dto.getName(), dto.getPhoneNumber());
-        ConsumerSignupResponseDto consumerSignupResponseDto = consumerService.signup(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(consumerSignupResponseDto);
+        consumerService.signup(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @ApiOperation("닉네임 중복 확인")
     @PostMapping("/check")
     public ResponseEntity<Void> checkNickName(@RequestBody DuplRequestDto dto) {
         log.info("(Post) checkNickname - {}", dto.getName());
-//        throw new BaseException(ErrorCode.FAIL_EMAIL_SEND);
-        consumerService.test();
+        consumerService.checkDuplicatedNickname(dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-//
-//    @PostMapping("/test")
-//    public ResponseEntity test() {
-//        return ResponseEntity.status(HttpStatus.OK).body("1");
-//    }
 }

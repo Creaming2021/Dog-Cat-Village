@@ -3,7 +3,6 @@ package donation.pet.domain.member.consumer;
 import donation.pet.domain.adopt.Adopt;
 import donation.pet.domain.member.Member;
 import donation.pet.domain.member.MemberRole;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

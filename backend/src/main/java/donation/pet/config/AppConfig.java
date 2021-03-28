@@ -4,6 +4,7 @@ import donation.pet.common.AppProperties;
 import donation.pet.domain.member.MemberRole;
 import donation.pet.domain.member.consumer.Consumer;
 import donation.pet.service.ConsumerService;
+import donation.pet.service.InitService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -33,23 +34,36 @@ public class AppConfig {
         return new ApplicationRunner() {
 
             @Autowired
-            ConsumerService consumerService;
+            InitService initService;
 
             @Autowired
             AppProperties appProperties;
 
             @Override
-            public void run(ApplicationArguments args) throws Exception {
+            public void run(ApplicationArguments args) {
+                // 운영자 생성
                 Consumer admin = Consumer.builder()
                         .email(appProperties.getAdminEmail())
                         .password(appProperties.getAdminPassword())
                         .name("운영자")
-                        .phoneNumber("000000000")
+                        .phoneNumber("01000000000")
                         .accept("true")
                         .roles(Set.of(MemberRole.ADMIN, MemberRole.USER, MemberRole.SHELTER))
                         .build();
 
-                consumerService.signup(admin);
+                initService.signup(admin);
+
+                // 일반 유저 생성
+                Consumer consumer = Consumer.builder()
+                        .email("ssafy@ssafy.com")
+                        .password(appProperties.getAdminPassword())
+                        .name("김싸피")
+                        .phoneNumber("01012341234")
+                        .accept("true")
+                        .roles(Set.of(MemberRole.USER))
+                        .build();
+
+                initService.signup(consumer);
             }
         };
     }
