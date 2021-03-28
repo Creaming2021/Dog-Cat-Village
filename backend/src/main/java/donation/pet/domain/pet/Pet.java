@@ -1,5 +1,6 @@
 package donation.pet.domain.pet;
 
+import com.sun.istack.NotNull;
 import donation.pet.domain.adopt.Adopt;
 import donation.pet.domain.etc.BaseTimeEntity;
 import donation.pet.domain.member.shelter.Shelter;
@@ -22,7 +23,9 @@ public class Pet extends BaseTimeEntity {
     @Column(name = "pet_id")
     private Long id;
 
+    @NotNull
     private String name;
+
     private String breed;
     private Integer age;
     private Float weight;
@@ -56,7 +59,6 @@ public class Pet extends BaseTimeEntity {
     public void changeStatus(AdoptStatus adoptStatus) {
         this.adoptStatus = adoptStatus;
     }
-
     public static Pet createPet(String name, Shelter shelter) {
         Pet pet = new Pet();
         pet.name = name;

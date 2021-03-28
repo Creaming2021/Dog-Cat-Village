@@ -57,6 +57,7 @@ public class Adopt extends BaseTimeEntity {
         adopt.pet = pet;
         adopt.acceptStatus = AcceptStatus.PENDING;
         consumer.getAdopts().add(adopt);
+
         pet.getAdopts().add(adopt);
 
         return adopt;
