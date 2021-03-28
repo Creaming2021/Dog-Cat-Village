@@ -2,10 +2,9 @@ package donation.pet.domain.pet;
 
 import com.sun.istack.NotNull;
 import donation.pet.domain.adopt.Adopt;
-import donation.pet.domain.etc.BaseTimeEntity;
 import donation.pet.domain.center.Center;
+import donation.pet.domain.etc.BaseTimeEntity;
 import lombok.*;
-import org.aspectj.weaver.patterns.PerThisOrTargetPointcutVisitor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ public class Pet extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pet_id")
     private Long id;
+
 
     @NotNull
     private String name;
