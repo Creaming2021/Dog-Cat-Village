@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from './adoptForm.module.css'
-import { AdoptRegisterType } from "../../../../interface/adopt";
-import { ButtonSmall } from "../../../common/common";
+import { AdoptRegisterType } from "../../../interface/adopt";
+import { ButtonSmall } from "../../common/common";
 
 type AdoptFormProps = {
 	onSubmit: (adoptInputForm: AdoptRegisterType) => void,
