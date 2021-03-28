@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from './adoptForm.module.css'
+import styles from './adoptRegister.module.css'
 import { AdoptRegisterType } from "../../../interface/adopt";
 import { ButtonSmall } from "../../common/common";
 
