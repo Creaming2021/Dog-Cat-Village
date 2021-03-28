@@ -3,6 +3,9 @@ import styles from './animal.module.css';
 import commons from '../../../common/common.module.css';
 import { faMars, faVenus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ModalMedium } from '../../../common/common';
+import AdoptForm from '../../../list/adopt/adoptForm/adoptForm';
+import { AdoptRegisterType } from '../../../../interface/adopt';
 
 type SearchProps = {
 }
@@ -147,13 +150,36 @@ const Animal = ({ type }: AnimalProps) => {
         },
     ]
 
+    const [modal, setModal] = useState(false);
+
+    const onClick = () => {
+        setModal(true);
+    }
+
+    const onClose = () => {
+        setModal(false);
+    }
+
+    const onSubmit = (adoptInputForm: AdoptRegisterType) => {
+        console.log(adoptInputForm);
+        alert("입양신청 등록 요청");
+    }
+
     return (
     <div className={styles.animal}>
         { type === 'center' &&
-            <button className={`${styles['btn-manage']}`}>
+            <button className={`${styles['btn-manage']}`}
+                onClick={onClick}>
                 동물 관리 하기</button>}
         <Search />
         <List animalList={animalList}/>
+        {modal && 
+            <ModalMedium>
+                <AdoptForm
+                    onSubmit={onSubmit}
+                    onClose={onClose}
+                />
+            </ModalMedium>}
     </div>);
 }
 
