@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import AdoptDetail from '../components/adopt/adoptDetail/adoptDetail';
 import AdoptList from '../components/adopt/adoptList/adoptList';
 import { Search } from '../components/common/common';
 import Animal from '../components/user/main/animal/animal';
-import { AdoptListType } from '../interface/adopt';
+import { AdoptDetailType, AdoptListType } from '../interface/adopt';
 
 const AdoptContainer = () => {
 	const adoptList : AdoptListType[] = [
@@ -38,6 +39,7 @@ const AdoptContainer = () => {
 
 	const [searchInput, setSearchInput] = useState({ adopt: '', type: 'member', input: ''});
 	const [resultAdoptList, setResultAdoptList] = useState<AdoptListType[]>(adoptList);
+	const [selectedAdopt, setSelectedAdopt] = useState<AdoptDetailType | null>(null);
 	
 	const onChange = (e: React.ChangeEvent<HTMLSelectElement> 
 										| React.ChangeEvent<HTMLInputElement>) => {
@@ -67,6 +69,39 @@ const AdoptContainer = () => {
 		}
 	}
 
+	const goToBack = () => {
+		setSelectedAdopt(null);
+	}
+
+	const onClick = ( adoptId: number ) => {
+		setSelectedAdopt({
+			adoptId: adoptId,
+			petId: 1,
+			petName: "동물 이름",
+			user: {
+							id: 1,
+							imageUrl: "http://ojsfile.ohmynews.com/STD_IMG_FILE/2007/1128/IE000838568_STD.jpg",
+							name: "멤버 닉네임",
+							email: "ssafy@ssafy.com",
+							phoneNumber: "01020457251",
+			},
+			userName: "멤버실제이름",
+			userSex: 'FEMALE',
+			userAge: "25",
+			userLiveIn: "서울",
+			description: "입양 사유",
+			day: "주말 선호",
+			time: "오후 시간 선호",
+			acceptStatus: 'PENDING',
+			createdAt: "20210321",
+		});
+	}
+
+	const onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+		const { value } = e.currentTarget;
+		console.log(value);
+	}
+
 	const selectList = [
 		{
       name: "adopt", options: [
@@ -85,17 +120,28 @@ const AdoptContainer = () => {
 	];
 
 	return (<>
-		<Search
-			selectList={selectList}
-			selectValue={[searchInput.adopt, searchInput.type]}
-			inputName="input"
-			inputValue={searchInput.input}
-			onSearch={onSearch}
-			onChange={onChange}
-			placeholder="검색어"
-			inputSize="input-medium"/>
-	
-		<AdoptList adoptList={resultAdoptList} type="shelter"/>
+		{ selectedAdopt
+			? <AdoptDetail 
+					selectedAdopt={selectedAdopt} 
+					type="shelter" 
+					goToBack={goToBack}
+					onSubmit={onSubmit}/>
+			: <>
+				<Search
+					selectList={selectList}
+					selectValue={[searchInput.adopt, searchInput.type]}
+					inputName="input"
+					inputValue={searchInput.input}
+					onSearch={onSearch}
+					onChange={onChange}
+					placeholder="검색어"
+					inputSize="input-medium"/>
+				<AdoptList 
+					adoptList={resultAdoptList} 
+					type="shelter" 
+					onClick={onClick}/>
+				</>
+		}
 	</>);
 }
 

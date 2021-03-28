@@ -5,13 +5,14 @@ import { AdoptListType } from '../../../interface/adopt';
 type AdoptListFormProps = {
 	adopt: AdoptListType,
 	type: string,
+	onClick: (adoptId: number) => void,
 }
 
-const AdoptListForm = ({ adopt, type }: AdoptListFormProps) => {
+const AdoptListForm = ({ adopt, type, onClick }: AdoptListFormProps) => {
 	const { adoptId, petName, userName, createdAt, acceptStatus } = adopt;
 	
 	return (
-	<tr>
+	<tr onClick={() => onClick(adoptId)}>
 		<td>{adoptId}</td>
 		<td>{acceptStatus}/{petName}</td>
 		{type === 'shelter' && <td>{userName}</td>}
@@ -23,9 +24,10 @@ const AdoptListForm = ({ adopt, type }: AdoptListFormProps) => {
 type AdoptListProps = {
 	adoptList: AdoptListType[],
 	type: string,
+	onClick: (adoptId: number) => void,
 }
 
-const AdoptList = ({ adoptList, type }: AdoptListProps) => {
+const AdoptList = ({ adoptList, type, onClick }: AdoptListProps) => {
 
 
 	return (<>
@@ -43,7 +45,8 @@ const AdoptList = ({ adoptList, type }: AdoptListProps) => {
 				<AdoptListForm 
 					key={adopt.adoptId}
 					adopt={adopt} 
-					type={type}/>
+					type={type}
+					onClick={onClick}/>
 			)}
 		</tbody>
 	</table>

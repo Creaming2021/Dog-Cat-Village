@@ -69,6 +69,13 @@
   color: #858585;
 }
 
+.btn-text:hover {
+  border: none;
+  background-color: transparent;
+  font-size: 1rem;
+  color: #2c2c2c;
+}
+
 .btn-large {
   border: none;
   border-radius: 10px;
