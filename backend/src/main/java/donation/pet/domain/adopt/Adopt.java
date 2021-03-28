@@ -51,7 +51,7 @@ public class Adopt extends BaseTimeEntity {
     }
 
     // 유저의 입양신청서 작성 ( 생성 메소드 )
-    public static Adopt createAdoptForUser(Consumer consumer, Pet pet) {
+    public static Adopt createAdoptForMember(Consumer consumer, Pet pet) {
         Adopt adopt = new Adopt();
         adopt.consumer = consumer;
         adopt.pet = pet;
