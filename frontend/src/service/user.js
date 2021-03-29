@@ -10,32 +10,34 @@ import { security, basic, auth,
 
 // 로그인 정보 확인
 export const signIn = ({ username, password }) => {
-  return auth.post(`users/login`, { username, password });
+  return auth.post(`consumers/login`, { username, password });
 };
 
 // 회원 가입 하기
-export const signUp = ({ emailId, emailSite, nickname, password, 
-          phoneNumber1, phoneNumber2, phoneNumber3 }) => {
-  return basic.post(`users/signup`, 
+export const signUp = ({ emailId, emailSite, name, password, 
+          phoneNumber1, phoneNumber2, phoneNumber3, role }) => {
+  return basic.post(`consumers/signup`, 
                     { email: `${emailId}@${emailSite}`, 
                       phone: `${phoneNumber1}${phoneNumber2}${phoneNumber3}`,
-                      nickname, 
-                      password });
+                      name, 
+                      password,
+                      //role 
+                    });
 };
 
 // 회원 정보 조회
 export const getAccount = (email) => {
-  return security.get(`users/${email}`)
-                .then(handleResponse())
-                .catch(handleSecurityError());
+  return security.get(`consumers/${email}`)
+                // .then(handleResponse())
+                // .catch(handleSecurityError());
 };
 
 // 회원 정보 수정
-export const modifyAccount = ({ email, nickname, imageUrl, 
+export const modifyAccount = ({ email, name, imageUrl, 
           prevPassword, newPassword, introduction }) => {
   const formData = new FormData();
   formData.append('email', email);
-  formData.append('nickname', nickname);
+  formData.append('name', name);
   formData.append('prevPassword', prevPassword);
   formData.append('newPassword', newPassword);
   formData.append('introduction', introduction);
@@ -47,24 +49,24 @@ export const modifyAccount = ({ email, nickname, imageUrl,
     formData.append('imageUrl', imageUrl);
   }
 
-  return security.put('users',{ formData })
-                .then(handleResponse())
-                .catch(handleSecurityError());
+  return security.put('consumers',{ formData })
+                // .then(handleResponse())
+                // .catch(handleSecurityError());
 };
 
 // 회원 탈퇴 하기
 export const deleteAccount = (email) => {
-  return security.delete(`users/${email}`)
-                .then(handleResponse())
-                .catch(handleSecurityError());;
+  return security.delete(`consumers/${email}`)
+                // .then(handleResponse())
+                // .catch(handleSecurityError());;
 };
 
 // 비밀번호 찾기
 export const findPW = (email) => {
-  return basic.post(`users/do/${email}`);
+  return basic.post(`consumers/do/${email}`);
 };
 
 // 닉네임 중복확인
-export const checkNickname = (nickname) => {
-  return security.post(`users/check`, { nickname });
+export const checkName = (name) => {
+  return security.post(`consumers/check`, { name });
 };

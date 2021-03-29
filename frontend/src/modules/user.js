@@ -10,7 +10,7 @@ const SIGN_UP = 'user/SIGN_UP';
 const MODIFY_ACCOUNT = 'user/MODIFY_ACCOUNT';
 const DELETE_ACCOUNT = 'user/DELETE_ACCOUNT';
 const FIND_PW = 'user/FIND_PW';
-const CHECK_NICKNAME = 'user/CHECK_NICKNAME';
+const CHECK_NAME = 'user/CHECK_NAME';
 
 // 액션 객체 생성함수
 export const signIn = createAction(
@@ -46,9 +46,9 @@ export const deleteAccount = createAction(
   UserAPI.deleteAccount
 );
 
-export const checkNickname = createAction(
-  CHECK_NICKNAME,
-  UserAPI.checkNickname
+export const checkName = createAction(
+  CHECK_NAME,
+  UserAPI.checkName
 )
 
 // 초기 상태
@@ -157,7 +157,7 @@ export default applyPenders(userReducer, [
     },
   },
   {
-    type: CHECK_NICKNAME,
+    type: CHECK_NAME,
     onSuccess: (state, action) => {
       const response = action.payload;
       

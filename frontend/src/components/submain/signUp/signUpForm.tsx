@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./signUp.module.css";
 import commons from "../../common/common.module.css";
-import { SignUpInputType } from "../../../interface/user";
+import { SignUpInputType } from "../../../interface/consumer";
 import { ButtonLarge } from "../../common/common";
 
 type SignUpFormProps = {
@@ -34,13 +34,13 @@ const SignUpForm = ({
   const {
     emailId,
     emailSite,
-    nickname,
+    name,
     password,
     passwordConfirm,
     phoneNumber1,
     phoneNumber2,
     phoneNumber3,
-    name,
+    role,
   } = signUpInput;
 
   return (
@@ -48,7 +48,7 @@ const SignUpForm = ({
     <input
       className={`${commons["input-small"]} 
                   ${styles.input}
-                  ${type === "user"
+                  ${type === "consumer"
                     ? commons["border-yellow"]
                     : commons["border-blue"]}`}
       type="text"
@@ -61,7 +61,7 @@ const SignUpForm = ({
     <input
       className={`${commons["input-small"]} 
                   ${styles.input}
-                  ${type === "user"
+                  ${type === "consumer"
                     ? commons["border-yellow"]
                     : commons["border-blue"]}`}
       type="text"
@@ -76,7 +76,7 @@ const SignUpForm = ({
     <input
       className={`${commons["input-large"]} 
                   ${styles.input}
-                  ${type === "user"
+                  ${type === "consumer"
                     ? commons["border-yellow"]
                     : commons["border-blue"]}`}
       type="password"
@@ -91,7 +91,7 @@ const SignUpForm = ({
     <input
       className={`${commons["input-large"]} 
                   ${styles.input}
-                  ${type === "user"
+                  ${type === "consumer"
                     ? commons["border-yellow"]
                     : commons["border-blue"]}`}
       type="password"
@@ -104,18 +104,18 @@ const SignUpForm = ({
     <input
       className={`${styles["input-nickname"]} 
                   ${styles.input}
-                  ${type === "user"
+                  ${type === "consumer"
                     ? commons["border-yellow"]
                     : commons["border-blue"]}`}
       type="text"
-      name={type === 'user'? "nickname" : "name"}
-      value={type === 'user'? nickname : name}
+      name="name"
+      value={name}
       onChange={onChangeSignUp}
       onKeyDown={onKeyDown}
-      placeholder={type === 'user'? "NICKNAME" : "단체명"}/>
+      placeholder={type === 'consumer'? "NICKNAME" : "단체명"}/>
     <button
       className={`${styles['btn-check']} 
-                ${type === "user"
+                ${type === "consumer"
                   ? commons["bg-white-yellow"]
                   : commons["bg-white-blue"]}`}
       name="duplication"
@@ -125,7 +125,7 @@ const SignUpForm = ({
     <input
       className={`${commons["input-xsmall"]} 
                   ${styles.input}
-                  ${type === "user"
+                  ${type === "consumer"
                     ? commons["border-yellow"]
                     : commons["border-blue"]}`}
       type="text"
@@ -138,7 +138,7 @@ const SignUpForm = ({
     <input
       className={`${commons["input-xsmall"]} 
                   ${styles.input}
-                  ${type === "user"
+                  ${type === "consumer"
                     ? commons["border-yellow"]
                     : commons["border-blue"]}`}
       type="text"
@@ -152,7 +152,7 @@ const SignUpForm = ({
     <input
       className={`${commons["input-xsmall"]} 
                   ${styles.input}
-                  ${type === "user"
+                  ${type === "consumer"
                     ? commons["border-yellow"]
                     : commons["border-blue"]}`}
       type="text"
@@ -166,7 +166,7 @@ const SignUpForm = ({
     <ButtonLarge
       content="SIGN IN"
       onClick={onSubmitSignUp}
-      buttonColor={type === "user" ? "bg-yellow" : "bg-blue"}/>
+      buttonColor={type === "consumer" ? "bg-yellow" : "bg-blue"}/>
   </div> 
   );
 }

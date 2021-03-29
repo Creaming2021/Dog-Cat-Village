@@ -1,13 +1,13 @@
 export interface SignUpInputType {
   emailId: string;
   emailSite: string;
-  nickname?: string;
-  name?: string;
+  name: string;
   password: string;
   passwordConfirm: string;
   phoneNumber1: string;
   phoneNumber2: string;
   phoneNumber3: string;
+  role: string;
 }
 
 export interface SignInInputType {
@@ -17,7 +17,7 @@ export interface SignInInputType {
 
 export interface ModfiyInputType {
   email: string;
-  nickname: string;
+  name: string;
   imageUrl: string;
   prevPassword: string;
   newPassword: string;
@@ -30,7 +30,7 @@ export interface SignUpResponseType {
 
 export interface LogInResponseType {
   email: string;
-  nickname: string;
+  name: string;
   phone: string;
   role: string;
 }

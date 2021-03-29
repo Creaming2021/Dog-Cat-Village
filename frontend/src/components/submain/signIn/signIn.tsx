@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./signIn.module.css";
 import commons from "../../common/common.module.css";
-import { SignInInputType } from "../../../interface/user";
+import { SignInInputType } from "../../../interface/consumer";
 import { ButtonLarge } from "../../common/common";
 
 type SignInProps = {
@@ -67,9 +67,9 @@ const SignIn = ({
   };
 
   return (
-    <div className={`${styles.signIn} ${type === "user" ? styles.dog : styles.cat}`}>
+    <div className={`${styles.signIn} ${type === "consumer" ? styles.dog : styles.cat}`}>
       <div className={`${styles.box} ${styles.left}`}>
-        {type === "user" 
+        {type === "consumer" 
         ? (<>
             <div className={`${commons["text-xlarge"]} ${styles["main-text"]}`}>
               당신의 작은 손길,<br />소중한 생명을 살립니다.
@@ -96,7 +96,7 @@ const SignIn = ({
         <button
           className={`${commons["btn-text"]} 
                       ${commons["text-left"]}
-                      ${type === "user"
+                      ${type === "consumer"
                         ? commons["text-yellow"]
                         : commons["text-blue"]}`}
           onClick={goToMain}>
@@ -104,7 +104,7 @@ const SignIn = ({
         <button
           className={`${commons["btn-text"]}  
                       ${commons["text-right"]}
-                      ${type === "user"
+                      ${type === "consumer"
                           ? commons["text-yellow"]
                           : commons["text-blue"]}`}
           onClick={() => goToJoin(type)}>
@@ -113,7 +113,7 @@ const SignIn = ({
           <input
             className={`${commons["input-large"]} 
                         ${styles.input}
-                        ${type === "user"
+                        ${type === "consumer"
                         ? commons["border-yellow"]
                         : commons["border-blue"]}`}
             type="text"
@@ -127,7 +127,7 @@ const SignIn = ({
           <input
             className={`${commons["input-large"]} ${styles.input}
                                 ${
-                                  type === "user"
+                                  type === "consumer"
                                     ? commons["border-yellow"]
                                     : commons["border-blue"]
                                 }`}
@@ -142,7 +142,7 @@ const SignIn = ({
           <button
             className={`${commons["btn-text"]} ${commons["text-left"]}
                                  ${
-                                   type === "user"
+                                   type === "consumer"
                                      ? commons["text-yellow"]
                                      : commons["text-blue"]
                                  }`}
@@ -151,14 +151,14 @@ const SignIn = ({
           <button
             className={`${commons["btn-text"]} 
                         ${commons["text-right"]}
-                        ${type === "user"
+                        ${type === "consumer"
                           ? commons["text-yellow"]
                           : commons["text-blue"]}`}>
             자동 로그인</button> <br />
           <ButtonLarge
             content="LOGIN"
             onClick={onSubmitSignIn}
-            buttonColor={type === "user" ? "bg-yellow" : "bg-blue"}/>
+            buttonColor={type === "consumer" ? "bg-yellow" : "bg-blue"}/>
         </div>
       </div>
     </div>

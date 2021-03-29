@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import rootReducer from "../modules/index";
 import { useSelector, useDispatch } from "react-redux";
 import * as UserAction from "../modules/user";
-import { SignInInputType, SignUpInputType } from "../interface/user";
+import { SignInInputType, SignUpInputType } from "../interface/consumer";
 import Nav from "../components/nav/nav";
 import Main from "../components/submain/main/main";
 import FindPassword from "../components/submain/findPassword/findPassword";
@@ -10,6 +10,7 @@ import SignIn from "../components/submain/signIn/signIn";
 import SignUp from "../components/submain/signUp/signUp";
 import { useHistory } from "react-router-dom";
 import { handleAuthResponse, handleError, handleResponse } from "../service/client";
+import { AxiosError } from "axios";
 
 const UserContainer = () => {
   const history = useHistory();
@@ -48,6 +49,10 @@ const UserContainer = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    setSignUpInput({...signUpInput, role: type});
+  }, [type]);
+
   // 로그인
   const initialSignInInput: SignInInputType = {
     username: "",
@@ -57,12 +62,13 @@ const UserContainer = () => {
   const initialSignUpInputType: SignUpInputType = {
     emailId: "",
     emailSite: "",
-    nickname: "",
+    name: "",
     password: "",
     passwordConfirm: "",
     phoneNumber1: "",
     phoneNumber2: "",
     phoneNumber3: "",
+    role: '',
   };
 
   const initialFindPasswordInput: string = "";
@@ -98,13 +104,13 @@ const UserContainer = () => {
     setSignUpInput({
       ...signUpInput,
       [name]: value,
+      role: type,
     });
   };
 
   // 이메일 정보 데이터 수정
   const onChangeFindPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-
     setEmail(value);
   };
 
@@ -113,29 +119,29 @@ const UserContainer = () => {
   const signIn = () => {
     dispatch(UserAction.signIn(signInInput))
     .then(handleAuthResponse)
-    .catch(handleError);
+    .catch((e: AxiosError) => handleError(e));
   };
 
   // 회원가입 요청
   const signUp = () => {
     dispatch(UserAction.signUp(signUpInput))
     .then(handleResponse)
-    .catch(handleError);
+    .catch((e: AxiosError) => handleError(e));
   };
 
   // 비밀번호찾기 요청
   const findPW = () => {
     dispatch(UserAction.findPW(email))
     .then(handleResponse)
-    .catch(handleError);
+    .catch((e: AxiosError) => handleError(e));
   };
 
   //닉네임 중복 확인 요청
-  const checkNickname = ():boolean => {
-    dispatch(UserAction.checkNickname(signUpInput.nickname))
+  const checkName = ():boolean => {
+    dispatch(UserAction.checkName(signUpInput.name))
     .then(handleResponse)
-    .catch(() => { 
-      handleError(); 
+    .catch((e: AxiosError) => { 
+      handleError(e); 
       return false; 
     });
     return true;
@@ -163,7 +169,7 @@ const UserContainer = () => {
           signUpInput={signUpInput}
           onChangeSignUp={onChangeSignUp}
           signUp={signUp}
-          checkNickname={checkNickname}
+          checkName={checkName}
         />
       )}
       {view === "findPassword" && (
