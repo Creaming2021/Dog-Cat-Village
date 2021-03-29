@@ -49,6 +49,7 @@ public class Shelter extends Member {
         for (int i = 0; i < 12; i++) {
             monthlyAdoption.add(0);
         }
+        getAdopts().stream().filter(Adopt::isAdopted);
         return null;
     }
 }
