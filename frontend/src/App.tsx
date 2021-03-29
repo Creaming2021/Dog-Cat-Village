@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import styles from './App.module.css';
 import SubMain from './components/user/main/subMain/subMain';
-import UserContainer from './containers/user_container';
+import UserContainer from './containers/userContainer';
 import MyPage from './components/myPage/myPage';
 import StreamingListPage from './components/streamingListPage/streamingListPage';
 import UserMainPage from './components/userMainPage/userMainPage';

@@ -49,7 +49,7 @@ const UserContainer = () => {
 
   // 로그인
   const initialSignInInput: SignInInputType = {
-    email: "",
+    username: "",
     password: "",
   };
 

@@ -1,7 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 import * as UserAPI from '../service/user';
 import { applyPenders } from 'redux-pender';
-import { updateObject } from '../service/common';
 
 // user 관련 요청 액션 타입
 const LOG_IN = 'user/LOG_IN';
@@ -68,13 +67,13 @@ const userReducer = handleActions(
   {
     [LOG_OUT]: (state, action) => {
       localStorage.removeItem('token');
-      return updateObject(state, { ...initialState });
+      return { ...initialState };
     },
     [GET_ACCOUNT]: (state, action) => {
-      return updateObject(state, {
+      return {
         ...initialState,
         userInfo: { ...action.payload },
-      });
+      };
     },
   },
   initialState
@@ -87,28 +86,28 @@ export default applyPenders(userReducer, [
     onSuccess: (state, action) => {
       const response = action.payload;
 
-      return updateObject(state, {
+      return {
         ...state,
         userInfo: {
           ...response.data,
           logIn: true,
         },
-      });
+      };
     },
     onFailure: (state, action) => {
       alert(action.payload.response.data.message);
-      return updateObject(state, initialState);
+      return {...initialState};
     },
   },
   {
     type: SIGN_UP,
     onSuccess: (state, action) => {
       alert('인증 메일을 발송하였습니다.');
-      return updateObject(state, state);
+      return {...state};
     },
     onFailure: (state, action) => {
       alert(action.payload.response.data.message);
-      return updateObject(state, initialState);
+      return {...initialState};
     },
   },
   {
@@ -121,30 +120,30 @@ export default applyPenders(userReducer, [
       //   'token'
       // );
 
-      return updateObject(state, {
+      return {
         ...state,
         userInfo: {
           ...state.userInfo,
           ...response.data.data.userInfo,
         },
-      });
+      };
     },
     onFailure: (state, action) => {
       alert(action.payload.response.data.message);
-      return updateObject(state, state);
+      return state;
     },
   },
   {
     type: DELETE_ACCOUNT,
     onSuccess: (state, action) => {
       localStorage.removeItem('token');
-      return updateObject(state, {
+      return {
         ...initialState,
-      });
+      };
     },
     onFailure: (state, action) => {
       alert(action.payload.response.data.message);
-      return updateObject(state, state);
+      return state;
     },
   },
   {
@@ -153,11 +152,11 @@ export default applyPenders(userReducer, [
       const response = action.payload;
       
       alert('임시 비밀번호가 발급되었습니다.');
-      return updateObject(state, state);
+      return state;
     },
     onFailure: (state, action) => {
       alert(action.payload.response.data.message);
-      return updateObject(state, state);
+      return state;
     },
   },
   {
@@ -166,11 +165,11 @@ export default applyPenders(userReducer, [
       const response = action.payload;
       
       alert("사용 가능한 닉네임 입니다.");
-      return updateObject(state, state);
+      return state;
     },
     onFailure: (state, action) => {
       alert(action.payload.response.data.message);
-      return updateObject(state, initialState);
+      return { ...initialState};
     },
   },
 ]);

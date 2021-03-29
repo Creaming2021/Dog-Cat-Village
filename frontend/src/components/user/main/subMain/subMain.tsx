@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AdoptContainer from "../../../../containers/adopt_container";
+import AdoptContainer from "../../../../containers/adoptContainer";
 import Nav from "../../../nav/nav";
 import Animal from "../animal/animal";
 import Chatting from "../chatting/chatting";
