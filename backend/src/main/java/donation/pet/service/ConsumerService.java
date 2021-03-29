@@ -4,6 +4,7 @@ import donation.pet.domain.member.MemberRepository;
 import donation.pet.domain.member.MemberRole;
 import donation.pet.domain.member.consumer.Consumer;
 import donation.pet.domain.member.consumer.ConsumerRepository;
+import donation.pet.dto.consumer.ConsumerResponseDto;
 import donation.pet.dto.consumer.ConsumerSignupRequestDto;
 import donation.pet.dto.member.DuplRequestDto;
 import donation.pet.exception.BaseException;
@@ -45,5 +46,12 @@ public class ConsumerService {
         if (memberRepository.findByName(dto.getName()).isPresent()) {
             throw new BaseException(ErrorCode.NAME_DUPLICATION);
         }
+    }
+
+    public ConsumerResponseDto getConsumer(Long consumerId) {
+        Consumer consumer = consumerRepository.findById(consumerId)
+                .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_ID_NOT_EXIST));
+
+        return null;
     }
 }

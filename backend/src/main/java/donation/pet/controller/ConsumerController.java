@@ -1,5 +1,6 @@
 package donation.pet.controller;
 
+import donation.pet.dto.consumer.ConsumerResponseDto;
 import donation.pet.dto.consumer.ConsumerSignupRequestDto;
 import donation.pet.dto.member.DuplRequestDto;
 import donation.pet.service.ConsumerService;
@@ -33,5 +34,12 @@ public class ConsumerController {
         log.info("(Post) checkNickname - {}", dto.getName());
         consumerService.checkDuplicatedNickname(dto);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @ApiOperation("해당 유저 정보 응답")
+    @GetMapping("/{consumerId}")
+    public ResponseEntity<ConsumerResponseDto> getConsumer(@PathVariable("consumerId") Long consumerId) {
+        ConsumerResponseDto result = consumerService.getConsumer(consumerId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }
