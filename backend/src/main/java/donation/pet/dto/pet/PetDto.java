@@ -19,7 +19,7 @@ public class PetDto {
     private Long id;
     private String name;
     private String breed;
-    private String imageUrl;
+    private String profileImage;
     private LocalDateTime birthday;
     private String age;
     private Float weight;

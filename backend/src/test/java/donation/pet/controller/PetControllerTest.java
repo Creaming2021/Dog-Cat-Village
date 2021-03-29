@@ -3,7 +3,6 @@ package donation.pet.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import donation.pet.domain.etc.Sex;
 import donation.pet.domain.pet.*;
-import donation.pet.dto.pet.PetUpdateRequestDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

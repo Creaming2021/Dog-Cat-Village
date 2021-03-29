@@ -1,9 +1,14 @@
 package donation.pet.service;
 
-import donation.pet.domain.adopt.Adopt;
+import donation.pet.domain.etc.AcceptStatus;
+import donation.pet.domain.member.shelter.Shelter;
+import donation.pet.domain.member.shelter.ShelterRepository;
+import donation.pet.domain.pet.AdoptStatus;
 import donation.pet.domain.pet.Pet;
 import donation.pet.domain.pet.PetRepository;
 import donation.pet.dto.pet.*;
+import donation.pet.exception.BaseException;
+import donation.pet.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -20,55 +25,46 @@ import java.util.stream.Collectors;
 public class PetService {
 
     private final PetRepository petRepository;
-//    private final CenterRepository centerRepository;
+    private final ShelterRepository shelterRepository;
     private final ModelMapper modelMapper;
 
     public PetResponseListDto getPetAll() {
-
-        List<PetResponseDto> petResponseDtos = petRepository.findAll().stream()
-                .map(Pet::changeToDto)
-                .map(petDto -> modelMapper.map(petDto, PetResponseDto.class))
+        List<PetSimpleDto> simpleDtos = petRepository.findSimplePets().stream()
+                .map(pet -> modelMapper.map(pet, PetSimpleDto.class))
                 .collect(Collectors.toList());
-
-        return new PetResponseListDto(petResponseDtos);
+        return new PetResponseListDto(simpleDtos);
     }
 
     @Transactional
-    public PetResponseDto insertPet(PetPostRequestDto dto) {
-//        Center center = centerRepository.findById(dto.getCenterId()).orElseThrow();
-//        PetDto petDto = modelMapper.map(dto, PetDto.class);
-//        Pet pet = Pet.createPet2(petDto, center);
-//        petRepository.save(pet);
-//
-//        return modelMapper.map(pet.changeToDto(), PetResponseDto.class);
-        return null;
+    public void insertPet(PetRequestDto dto) {
+        Shelter shelter = shelterRepository.findById(dto.getShelterId())
+                .orElseThrow(() -> new BaseException(ErrorCode.SHELTER_NOT_EXIST));
+        Pet pet = Pet.createPet(dto, shelter);
+        petRepository.save(pet);
     }
 
-    public PetResponseDto getPetById(Long petId) {
-        PetDto petDto = petRepository.findById(petId).orElseThrow().changeToDto();
-        return modelMapper.map(petDto, PetResponseDto.class);
+    public PetDto getPetById(Long petId) {
+        return petRepository.findById(petId)
+                .orElseThrow(() -> new BaseException(ErrorCode.PET_NOT_EXIST))
+                .changeToDto();
     }
 
-    /*
-    1. PetUpdateRequestDto 를 받아옴
-    2. => petDto 로 변경 ( center 직접 넣어주기 )
-    3. => pet 으로 변경
-     */
     @Transactional
-    public PetDto updatePetById(Long petId, PetUpdateRequestDto dto) {
-//        Center center = centerRepository.findById(dto.getCenterId()).orElseThrow();
-//        PetDto petDto = modelMapper.map(dto, PetDto.class);
-//        petDto.setCenter(center);
-//        Pet pet = modelMapper.map(petDto, Pet.class);
-//        petRepository.save(pet);
-//        return petDto;
-        return null;
+    public PetDto updatePetById(Long petId, PetRequestDto dto) {
+        if (!petId.equals(dto.getPetId())) {
+            throw new BaseException(ErrorCode.PET_NOT_MATCH);
+        }
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow(() -> new BaseException(ErrorCode.PET_NOT_EXIST));
+        pet.changeForm(dto);
+        return pet.changeToDto();
     }
 
     @Transactional
     public void deletePetById(Long petId) {
-//        Pet pet = petRepository.findById(petId).orElseThrow();
-//        pet.getAdopts().forEach(Adopt::removeAdopt);
-//        petRepository.delete(pet);
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow(() -> new BaseException(ErrorCode.PET_NOT_EXIST));
+        pet.changeStatus(AdoptStatus.DELETE);
+        pet.getAdopts().forEach(adopt -> adopt.setAcceptStatus(AcceptStatus.REFUSED));
     }
 }

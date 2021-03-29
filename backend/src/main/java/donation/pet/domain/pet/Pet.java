@@ -6,6 +6,7 @@ import donation.pet.domain.adopt.Adopt;
 import donation.pet.domain.etc.BaseTimeEntity;
 import donation.pet.domain.etc.Sex;
 import donation.pet.dto.pet.PetDto;
+import donation.pet.dto.pet.PetRequestDto;
 import lombok.*;
 import org.modelmapper.ModelMapper;
 import donation.pet.domain.member.shelter.Shelter;
@@ -36,7 +37,7 @@ public class Pet extends BaseTimeEntity {
 
     private String breed;
 
-    private String imageUrl;
+    private String profileImage;
 
     private LocalDateTime birthday;
     // 어떻게 들어갈지는 모르겠다 ...
@@ -73,23 +74,37 @@ public class Pet extends BaseTimeEntity {
 
     ///////////////////////////////////
 
-    public void changeStatus(AdoptStatus adoptStatus) {
-        this.adoptStatus = adoptStatus;
-    }
-    public static Pet createPet(String name, Shelter shelter) {
+    public static Pet createPet(PetRequestDto dto, Shelter shelter) {
         Pet pet = new Pet();
-        pet.name = name;
         pet.shelter = shelter;
         pet.adoptStatus = AdoptStatus.UNADOPTED;
         shelter.getPets().add(pet);
-
+        pet.changeForm(dto);
         return pet;
+    }
+
+    public void changeForm(PetRequestDto dto) {
+        name = dto.getName();
+        profileImage = dto.getProfileImage();
+        sex = dto.getSex();
+        weight = dto.getWeight();
+        breedType = dto.getBreedType();
+        breed = dto.getBreed();
+        birthday = dto.getBirthday();
+        personality = dto.getPersonality();
+        neuter = dto.getNeuter();
+        condition = dto.getCondition();
+    }
+
+
+    public void changeStatus(AdoptStatus adoptStatus) {
+        this.adoptStatus = adoptStatus;
     }
 
     public PetDto changeToDto() {
         ModelMapper modelMapper = new ModelMapper();
         PetDto dto = modelMapper.map(this, PetDto.class);
-//        dto.setAge(calculateAge());
+        dto.setAge(calculateAge());
         return dto;
     }
 

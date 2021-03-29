@@ -2,16 +2,15 @@ package donation.pet.service;
 
 import donation.pet.domain.adopt.Adopt;
 import donation.pet.domain.adopt.AdoptRepository;
-import donation.pet.domain.member.consumer.Consumer;
 import donation.pet.domain.member.consumer.ConsumerRepository;
 import donation.pet.domain.member.shelter.Shelter;
 import donation.pet.domain.member.shelter.ShelterRepository;
 import donation.pet.domain.pet.Pet;
 import donation.pet.domain.pet.PetRepository;
 import donation.pet.dto.adopt.*;
-import donation.pet.dto.consumer.ConsumerResponseDto;
-import donation.pet.dto.pet.PetResponseDto;
+import donation.pet.dto.pet.PetDto;
 import donation.pet.dto.pet.PetResponseListDto;
+import donation.pet.dto.pet.PetSimpleDto;
 import donation.pet.dto.shelter.ShelterListResponseDto;
 import donation.pet.dto.shelter.ShelterResponseDto;
 import donation.pet.dto.shelter.ShelterUpdateRequestDto;
@@ -113,12 +112,9 @@ public class ShelterService {
     public PetResponseListDto getPetsByShelterId(Long shelterId){
         Shelter shelter = shelterRepository.findById(shelterId)
                 .orElseThrow(() -> new BaseException(ErrorCode.SHELTER_NOT_EXIST));
-
-        List<PetResponseDto> petResponseDtos = shelter.getPets().stream()
-                .map(Pet::changeToDto)
-                .map(petDto -> modelMapper.map(petDto, PetResponseDto.class))
+        List<PetSimpleDto> petResponseDtos = shelter.getPets().stream()
+                .map(pet -> modelMapper.map(pet, PetSimpleDto.class))
                 .collect(Collectors.toList());
-
         return new PetResponseListDto(petResponseDtos);
     }
 

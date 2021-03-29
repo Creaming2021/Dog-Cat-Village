@@ -1,6 +1,5 @@
 package donation.pet.dto.pet;
 
-import donation.pet.domain.pet.AdoptStatus;
 import donation.pet.domain.pet.BreedType;
 import donation.pet.domain.pet.Neuter;
 import donation.pet.domain.etc.Sex;
@@ -15,20 +14,19 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PetUpdateRequestDto {
+public class PetRequestDto {
 
+    private Long shelterId;
+    private Long petId;
 
-    private Long id;
     private String name;
-    private String breed;
-    private String imageUrl;
-    private LocalDateTime birthday;
-    private String age;
+    private String profileImage;
+    private Sex sex;
     private Float weight;
     private BreedType breedType;
+    private String breed;
+    private LocalDateTime birthday;
     private String personality;
-    private String condition;
-    private Sex sex;
     private Neuter neuter;
-    private AdoptStatus adoptStatus;
+    private String condition;
 }

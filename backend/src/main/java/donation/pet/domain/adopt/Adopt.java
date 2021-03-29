@@ -64,7 +64,7 @@ public class Adopt extends BaseTimeEntity {
 
     // 승인 상태 변경 ( 승인 상태 변경시 statusDate 수정)
     public void changeAccept(AcceptStatus acceptStatus) {
-        if (this.acceptStatus == acceptStatus) {
+        if (this.acceptStatus == acceptStatus || this.acceptStatus == AcceptStatus.ACCEPTED) {
             return;
         }
         this.acceptStatus = acceptStatus;
@@ -89,7 +89,7 @@ public class Adopt extends BaseTimeEntity {
             adopt.shelter = shelter;
             shelter.getAdopts().add(adopt);
         }
-        adopt.acceptStatus = AcceptStatus.PENDING;
+        adopt.acceptStatus = AcceptStatus.DEFAULT;
         return adopt;
     }
 
