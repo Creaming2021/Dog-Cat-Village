@@ -16,6 +16,6 @@ public class ShelterResponseDto {
     private String profileImage;
     private String introduce;
 
-    private List<Integer> monthlyAdoption;
+    private int[] monthlyAdoption;
 
 }

@@ -1,4 +1,4 @@
-package donation.pet.domain.pet;
+package donation.pet.domain.etc;
 
 public enum Sex {
     MALE, FEMALE

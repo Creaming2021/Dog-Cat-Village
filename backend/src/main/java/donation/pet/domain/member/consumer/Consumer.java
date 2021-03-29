@@ -28,8 +28,8 @@ public class Consumer extends Member {
     }
 
     public void updateConsumer(String name, String password, String phoneNumber) {
-        this.name = name;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
+        this.setName(name);
+        this.setPassword(password);
+        this.setPhoneNumber(phoneNumber);
     }
 }

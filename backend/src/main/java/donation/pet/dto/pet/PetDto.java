@@ -3,7 +3,7 @@ package donation.pet.dto.pet;
 import donation.pet.domain.pet.AdoptStatus;
 import donation.pet.domain.pet.BreedType;
 import donation.pet.domain.pet.Neuter;
-import donation.pet.domain.pet.Sex;
+import donation.pet.domain.etc.Sex;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,12 +15,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class PetDto {
 
-//    private Center center;
 
     private Long id;
     private String name;
     private String breed;
-    private String imageUrl;
+    private String profileImage;
     private LocalDateTime birthday;
     private String age;
     private Float weight;

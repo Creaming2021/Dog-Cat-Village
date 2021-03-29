@@ -9,6 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 public class PetResponseListDto {
 
-     private List<PetResponseDto> pets;
+     private List<PetSimpleDto> pets;
 
 }

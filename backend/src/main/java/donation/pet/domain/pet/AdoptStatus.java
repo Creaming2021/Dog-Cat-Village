@@ -1,5 +1,5 @@
 package donation.pet.domain.pet;
 
 public enum AdoptStatus {
-    ADOPTED, UNADOPTED, GOTOSKY
+    ADOPTED, UNADOPTED, DELETE
 }

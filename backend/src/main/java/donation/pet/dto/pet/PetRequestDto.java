@@ -1,9 +1,8 @@
 package donation.pet.dto.pet;
 
-import donation.pet.domain.pet.AdoptStatus;
 import donation.pet.domain.pet.BreedType;
 import donation.pet.domain.pet.Neuter;
-import donation.pet.domain.pet.Sex;
+import donation.pet.domain.etc.Sex;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,21 +14,19 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PetPostRequestDto {
+public class PetRequestDto {
 
-    private Long centerId;
+    private Long shelterId;
+    private Long petId;
 
-    private Long id;
     private String name;
-    private String breed;
-    private String imageUrl;
-    private LocalDateTime birthday;
-    private Integer age;
+    private String profileImage;
+    private Sex sex;
     private Float weight;
     private BreedType breedType;
+    private String breed;
+    private LocalDateTime birthday;
     private String personality;
-    private String condition;
-    private Sex sex;
     private Neuter neuter;
-
+    private String condition;
 }
