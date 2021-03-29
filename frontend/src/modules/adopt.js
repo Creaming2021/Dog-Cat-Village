@@ -10,6 +10,7 @@ const CHANGE_ADOPT_STATUS = "shelter/CHANGE_ADOPT_STATUS";
 const REGISTER_ADOPT = "consumer/REGISTER_ADOPT";
 const GET_CONSUMER_ADOPT_LIST = "consumer/GET_CONSUMER_ADOPT_LIST";
 const GET_CONSUMER_ADOPT_DETAIL = "consumer/GET_CONSUMER_ADOPT_DETAIL";
+const SET_INITIAL_ADOPT_DETAIL = "adopt/SET_INITIAL_ADOPT_DETAIL";
 
 // 액션 객체 생성함수
 export const getShelterAniamlList = createAction(
@@ -47,35 +48,48 @@ export const getConsumerAdoptDetail = createAction(
   AdoptAPI.getConsumerAdoptDetail
 );
 
+export const setInitialAdoptDetail = createAction(
+  SET_INITIAL_ADOPT_DETAIL
+);
+
 // 초기상태
 const initialState = {
   animalList: [],
   adoptList: [],
   selectedAdopt: {
-    id,
-    petId,
-    petName,
+    id: '',
+    petId: '',
+    petName: '',
     consumer: {
-      id,
-      profileImage,
-      name,
-      email,
-      phoneNumber,
+      id: '',
+      profileImage: '',
+      name: '',
+      email: '',
+      phoneNumber: '',
     },
-    name,
-    sex,
-    age,
-    address,
-    description,
-    day,
-    time,
-    acceptStatus,
-    createdDate,
+    name: '',
+    sex: '',
+    age: '',
+    address: '',
+    description: '',
+    day: '',
+    time: '',
+    acceptStatus: '',
+    createdDate: '',
   },
 };
 
 // reducer 함수
-const adoptReducer = handleActions({}, initialState);
+const adoptReducer = handleActions(
+  {
+    [SET_INITIAL_ADOPT_DETAIL]: (state, action) => {
+      return {
+        ...state,
+        selectedAdopt: { ...initialState.selectedAdopt }
+      };
+    },
+  },
+  initialState);
 
 // reducer 함수로 요청된 액션들을 처리하기 위한 함수
 export default applyPenders(adoptReducer, [

@@ -4,11 +4,11 @@ import { AdoptListType } from "../../../interface/adopt";
 
 type AdoptListFormProps = {
   adopt: AdoptListType;
-  type: string;
+  role: string;
   onClick: (adoptId: number) => void;
 };
 
-const AdoptListForm = ({ adopt, type, onClick }: AdoptListFormProps) => {
+const AdoptListForm = ({ adopt, role, onClick }: AdoptListFormProps) => {
   const { id, petName, name, createdDate, acceptStatus } = adopt;
 
   return (
@@ -17,7 +17,7 @@ const AdoptListForm = ({ adopt, type, onClick }: AdoptListFormProps) => {
       <td>
         {acceptStatus}/{petName}
       </td>
-      {type === "shelter" && <td>{name}</td>}
+      {role === "shelter" && <td>{name}</td>}
       <td>{createdDate}</td>
     </tr>
   );
@@ -25,11 +25,11 @@ const AdoptListForm = ({ adopt, type, onClick }: AdoptListFormProps) => {
 
 type AdoptListProps = {
   adoptList: AdoptListType[];
-  type: string;
+  role: string;
   onClick: (adoptId: number) => void;
 };
 
-const AdoptList = ({ adoptList, type, onClick }: AdoptListProps) => {
+const AdoptList = ({ adoptList, role, onClick }: AdoptListProps) => {
   return (
     <>
       <table className={styles["adopt-list-container"]}>
@@ -37,7 +37,7 @@ const AdoptList = ({ adoptList, type, onClick }: AdoptListProps) => {
           <tr>
             <th>No</th>
             <th>Animal Name</th>
-            {type === "shelter" && <th>User Name</th>}
+            {role === "shelter" && <th>User Name</th>}
             <th>Date</th>
           </tr>
         </thead>
@@ -46,7 +46,7 @@ const AdoptList = ({ adoptList, type, onClick }: AdoptListProps) => {
             <AdoptListForm
               key={adopt.id}
               adopt={adopt}
-              type={type}
+              role={role}
               onClick={onClick}
             />
           ))}

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import rootReducer from "../modules/index";
 import { useSelector, useDispatch } from "react-redux";
 import * as UserAction from "../modules/user";
 import { SignInInputType, SignUpInputType } from "../interface/user";

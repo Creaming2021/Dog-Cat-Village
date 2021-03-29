@@ -8,14 +8,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type AdoptDetailProps = {
   selectedAdopt: AdoptDetailType;
-  type: string;
+  role: string;
   goToBack: () => void;
   onSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 const AdoptDetail = ({
   selectedAdopt,
-  type,
+  role,
   goToBack,
   onSubmit,
 }: AdoptDetailProps) => {
@@ -79,11 +79,33 @@ const AdoptDetail = ({
         </tbody>
       </table>
 
-      {acceptStatus === "PENDING" && (
+      {role === "SHELTER" && acceptStatus === "PENDING" && (
         <div className={styles[`button-box`]}>
           <ButtonSmall
             content="입양 완료"
             value="ACCEPTED"
+            onClick={onSubmit}
+            buttonColor="bg-blue"
+          />
+          <ButtonSmall
+            content="입양 거절"
+            value="REFUSED"
+            onClick={onSubmit}
+            buttonColor="bg-yellow"
+          />
+        </div>
+      )}
+      {role === "SHELTER" && acceptStatus === "DEFAULT" && (
+        <div className={styles[`button-box`]}>
+          <ButtonSmall
+            content="입양 완료"
+            value="ACCEPTED"
+            onClick={onSubmit}
+            buttonColor="bg-blue"
+          />
+          <ButtonSmall
+            content="진행중"
+            value="PENDING"
             onClick={onSubmit}
             buttonColor="bg-blue"
           />

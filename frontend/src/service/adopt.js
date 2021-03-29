@@ -17,7 +17,7 @@ export const changeAdoptStatus = ({ id, adoptId, status }) => {
                     { acceptStatus: status });
 };
 
-export const registerAdopt = ( adoptRegisterForm ) => {
+export const registerAdopt = ( { id, adoptRegisterForm } ) => {
   return client.post(`consumers/${id}/adopts`, adoptRegisterForm);
 }
 

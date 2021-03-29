@@ -1,52 +1,25 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import * as AdoptAction from '../modules/adopt';
 import AdoptDetail from "../components/adopt/adoptDetail/adoptDetail";
 import AdoptList from "../components/adopt/adoptList/adoptList";
 import { Search } from "../components/common/common";
-import Animal from "../components/user/main/animal/animal";
 import { AdoptDetailType, AdoptListType } from "../interface/adopt";
 
 const AdoptContainer = () => {
-  const adoptList: AdoptListType[] = [
-    {
-      id: 1,
-      petName: "petname",
-      name: "username",
-      createdDate: "2021.03.02",
-      acceptStatus: "ACCEPTED",
-    },
-    {
-      id: 2,
-      petName: "petname",
-      name: "username",
-      createdDate: "2021.03.02",
-      acceptStatus: "PENDING",
-    },
-    {
-      id: 3,
-      petName: "petname",
-      name: "username",
-      createdDate: "2021.03.02",
-      acceptStatus: "REFUSED",
-    },
-    {
-      id: 4,
-      petName: "petname",
-      name: "username",
-      createdDate: "2021.03.02",
-      acceptStatus: "ACCEPTED",
-    },
-  ];
+  const userInfo: any = useSelector((state: any) => state.user.userInfo);
+  const adoptList: AdoptListType[] = useSelector((state: any) => state.adopt.adoptList);
+  const selectedAdopt: AdoptDetailType = useSelector((state: any) => state.adopt.selectedAdopt);
+  const dispatch = useDispatch();
 
   const [searchInput, setSearchInput] = useState({
     adopt: "",
     type: "member",
     input: "",
   });
+
   const [resultAdoptList, setResultAdoptList] = useState<AdoptListType[]>(
     adoptList
-  );
-  const [selectedAdopt, setSelectedAdopt] = useState<AdoptDetailType | null>(
-    null
   );
 
   const onChange = (
@@ -83,38 +56,27 @@ const AdoptContainer = () => {
     }
   };
 
+  // 목록으로 돌아올 때 디테일 정보 지우기
   const goToBack = () => {
-    setSelectedAdopt(null);
+    dispatch(AdoptAction.setInitialAdoptDetail())
+    .then()
+    .catch();
   };
 
+  // 입양 신청서 하나 클릭시 디테일 정보 요청
   const onClick = (adoptId: number) => {
-    setSelectedAdopt({
-      id: 1,
-      petId: 1,
-      petName: "동물 이름",
-      consumer: {
-        id: 1,
-        profileImage:
-          "http://ojsfile.ohmynews.com/STD_IMG_FILE/2007/1128/IE000838568_STD.jpg",
-        name: "멤버 닉네임",
-        email: "ssafy@ssafy.com",
-        phoneNumber: "01020457251",
-      },
-      name: "멤버실제이름",
-      sex: "FEMALE",
-      age: "25",
-      address: "서울",
-      description: "입양 사유",
-      day: "주말 선호",
-      time: "오후 시간 선호",
-      acceptStatus: "PENDING",
-      createdDate: "20210321",
-    });
+    dispatch(AdoptAction.getShelterAdoptDetail({ id: userInfo.id, adoptId}))
+    .then()
+    .catch();
   };
 
+  // 입양 신청서 상태 변경
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = e.currentTarget;
-    console.log(value);
+    dispatch(AdoptAction.changeAdoptStatus(
+      { id: userInfo.id, adoptId: selectedAdopt.id, status: value }))
+    .then()
+    .catch();
   };
 
   const selectList = [
@@ -138,10 +100,10 @@ const AdoptContainer = () => {
 
   return (
     <>
-      {selectedAdopt ? (
+      {selectedAdopt.id ? (
         <AdoptDetail
           selectedAdopt={selectedAdopt}
-          type="shelter"
+          role={userInfo.role}
           goToBack={goToBack}
           onSubmit={onSubmit}
         />
@@ -159,7 +121,7 @@ const AdoptContainer = () => {
           />
           <AdoptList
             adoptList={resultAdoptList}
-            type="shelter"
+            role={userInfo.role}
             onClick={onClick}
           />
         </>
