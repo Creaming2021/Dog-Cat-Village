@@ -7,22 +7,18 @@ import donation.pet.dto.shelter.ShelterResDto;
 import donation.pet.dto.shelter.ShelterSignupReqDto;
 import donation.pet.exception.BaseException;
 import donation.pet.exception.ErrorCode;
+import donation.pet.util.MailUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import java.net.URL;
-
-import static donation.pet.util.MailUtil.*;
 
 @RequiredArgsConstructor
 @Service
 public class ShelterService {
 
     private final ShelterRepository shelterRepository;
+    private final MailUtil mailUtil;
 
     public ShelterResDto login(LoginReqDto dto) {
         Shelter shelter = shelterRepository.findByEmail(dto.getEmail())
@@ -45,8 +41,8 @@ public class ShelterService {
         if(shelterRepository.findByEmail(dto.getEmail()).isPresent()) {
             throw new BaseException(ErrorCode.MEMBER_DUPLICATED_EMAIL);
         }
-        String acceptKey = getKey(false, 20);
-        sendMail(dto.getEmail(), acceptKey);
+        String acceptKey = mailUtil.getKey(false, 20);
+        mailUtil.sendMail(dto.getEmail(), acceptKey);
 
         Shelter shelter = Shelter.builder()
                 .email(dto.getEmail())

@@ -5,6 +5,7 @@ import SubMain from './components/user/main/subMain/subMain';
 import UserContainer from './containers/user_container';
 import MyPage from './components/myPage/myPage';
 import UserMainPage from './components/userMainPage/userMainPage';
+import shelterListPage from './components/shelterListPage/shelterListPage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/user" component={MyPage} exact/>
       <Route path="/shelter" component={SubMain} exact/>
       <Route path="/user/main" component={UserMainPage}/>
+      <Route path="/shelter/list" component={shelterListPage} exact/>
       {/* <Route path="/user" component={User}/>
       <Route path="/center" component={Center}/> */}
     </div>

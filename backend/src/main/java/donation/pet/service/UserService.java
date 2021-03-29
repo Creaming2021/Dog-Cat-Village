@@ -8,23 +8,18 @@ import donation.pet.dto.user.UserResDto;
 import donation.pet.dto.user.UserSignupReqDto;
 import donation.pet.exception.BaseException;
 import donation.pet.exception.ErrorCode;
+import donation.pet.util.MailUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import java.net.URL;
-
-import static donation.pet.util.MailUtil.*;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-    private final JavaMailSender javaMailSender;
+    private final MailUtil mailUtil;
 
     public UserResDto login(LoginReqDto dto) {
         User user = userRepository.findByEmail(dto.getEmail())
@@ -52,8 +47,8 @@ public class UserService {
         if(userRepository.findByEmail(dto.getEmail()).isPresent()){
             throw new BaseException(ErrorCode.MEMBER_DUPLICATED_EMAIL);
         }
-        String acceptKey = getKey(false, 20);
-        sendMail(dto.getEmail(), acceptKey);
+        String acceptKey = mailUtil.getKey(false, 20);
+        mailUtil.sendMail(dto.getEmail(), acceptKey);
 
         User user = User.builder()
                 .email(dto.getEmail())
