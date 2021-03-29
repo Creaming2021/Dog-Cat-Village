@@ -3,7 +3,6 @@ package donation.pet.config;
 import donation.pet.common.AppProperties;
 import donation.pet.domain.member.MemberRole;
 import donation.pet.domain.member.consumer.Consumer;
-import donation.pet.service.ConsumerService;
 import donation.pet.service.InitService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

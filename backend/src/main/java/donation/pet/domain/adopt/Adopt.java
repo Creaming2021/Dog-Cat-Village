@@ -5,7 +5,9 @@ import donation.pet.domain.etc.BaseTimeEntity;
 import donation.pet.domain.member.shelter.Shelter;
 import donation.pet.domain.member.consumer.Consumer;
 import donation.pet.domain.pet.Pet;
+import donation.pet.dto.adopt.AdoptDto;
 import lombok.*;
+import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -48,6 +50,10 @@ public class Adopt extends BaseTimeEntity {
     // 승인 상태 변경
     public void changeAccept(AcceptStatus acceptStatus) {
         this.acceptStatus = acceptStatus;
+        if (acceptStatus == AcceptStatus.PENDING) {
+            return;
+        }
+        statusDate = LocalDateTime.now();
     }
 
     // 유저의 입양신청서 작성 ( 생성 메소드 )
@@ -61,5 +67,10 @@ public class Adopt extends BaseTimeEntity {
         pet.getAdopts().add(adopt);
 
         return adopt;
+    }
+
+    public AdoptDto changeToDto() {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(this, AdoptDto.class);
     }
 }
