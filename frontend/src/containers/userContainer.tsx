@@ -9,6 +9,7 @@ import FindPassword from "../components/submain/findPassword/findPassword";
 import SignIn from "../components/submain/signIn/signIn";
 import SignUp from "../components/submain/signUp/signUp";
 import { useHistory } from "react-router-dom";
+import { handleAuthResponse, handleError, handleResponse } from "../service/client";
 
 const UserContainer = () => {
   const history = useHistory();
@@ -43,7 +44,7 @@ const UserContainer = () => {
 
   useEffect(() => {
     if (user.logIn) {
-      history.push(`/${type}`);
+      history.push(`/${type}/main`);
     }
   }, [user]);
 
@@ -110,24 +111,33 @@ const UserContainer = () => {
   /* api 요청을 보낼 함수 */
   // 로그인 요청
   const signIn = () => {
-    dispatch(UserAction.signIn(signInInput));
+    dispatch(UserAction.signIn(signInInput))
+    .then(handleAuthResponse)
+    .catch(handleError);
   };
 
   // 회원가입 요청
   const signUp = () => {
-    dispatch(UserAction.signUp(signUpInput));
+    dispatch(UserAction.signUp(signUpInput))
+    .then(handleResponse)
+    .catch(handleError);
   };
 
   // 비밀번호찾기 요청
   const findPW = () => {
-    dispatch(UserAction.findPW(email));
+    dispatch(UserAction.findPW(email))
+    .then(handleResponse)
+    .catch(handleError);
   };
 
   //닉네임 중복 확인 요청
   const checkNickname = ():boolean => {
     dispatch(UserAction.checkNickname(signUpInput.nickname))
-    .catch(() => false);
-
+    .then(handleResponse)
+    .catch(() => { 
+      handleError(); 
+      return false; 
+    });
     return true;
   };
 

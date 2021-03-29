@@ -86,6 +86,8 @@ export default applyPenders(userReducer, [
     onSuccess: (state, action) => {
       const response = action.payload;
 
+      console.log(action.payload);
+
       return {
         ...state,
         userInfo: {
@@ -95,7 +97,6 @@ export default applyPenders(userReducer, [
       };
     },
     onFailure: (state, action) => {
-      alert(action.payload.response.data.message);
       return {...initialState};
     },
   },
@@ -106,7 +107,6 @@ export default applyPenders(userReducer, [
       return {...state};
     },
     onFailure: (state, action) => {
-      alert(action.payload.response.data.message);
       return {...initialState};
     },
   },
@@ -129,7 +129,6 @@ export default applyPenders(userReducer, [
       };
     },
     onFailure: (state, action) => {
-      alert(action.payload.response.data.message);
       return state;
     },
   },
@@ -142,7 +141,6 @@ export default applyPenders(userReducer, [
       };
     },
     onFailure: (state, action) => {
-      alert(action.payload.response.data.message);
       return state;
     },
   },
@@ -155,7 +153,6 @@ export default applyPenders(userReducer, [
       return state;
     },
     onFailure: (state, action) => {
-      alert(action.payload.response.data.message);
       return state;
     },
   },
@@ -168,7 +165,6 @@ export default applyPenders(userReducer, [
       return state;
     },
     onFailure: (state, action) => {
-      alert(action.payload.response.data.message);
       return { ...initialState};
     },
   },

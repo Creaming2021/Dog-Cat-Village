@@ -5,33 +5,29 @@
     실패로 왔을 경우를 client에서 한번에 처리 작성
 */
 
-import client, { handleResponse, handleError } from './client';
+import { security, basic, auth, 
+    handleAuthResponse, handleResponse, handleError, handleSecurityError } from './client';
 
 // 로그인 정보 확인
-export const signIn = ({ email, password }) => {
-  return client.post(`users/login`, 
-                    { email, password })
-  // .then(handleResponse)
-  // .catch(handleError);
+export const signIn = ({ username, password }) => {
+  return auth.post(`users/login`, { username, password });
 };
 
 // 회원 가입 하기
 export const signUp = ({ emailId, emailSite, nickname, password, 
           phoneNumber1, phoneNumber2, phoneNumber3 }) => {
-  return client.post(`users/signup`, 
+  return basic.post(`users/signup`, 
                     { email: `${emailId}@${emailSite}`, 
                       phone: `${phoneNumber1}${phoneNumber2}${phoneNumber3}`,
                       nickname, 
-                      password })
-  // .then(handleResponse)
-  // .catch(handleError);
+                      password });
 };
 
 // 회원 정보 조회
 export const getAccount = (email) => {
-  return client.get(`users/${email}`)
-  // .then(handleResponse)
-  // .catch(handleError);
+  return security.get(`users/${email}`)
+                .then(handleResponse())
+                .catch(handleSecurityError());
 };
 
 // 회원 정보 수정
@@ -51,32 +47,24 @@ export const modifyAccount = ({ email, nickname, imageUrl,
     formData.append('imageUrl', imageUrl);
   }
 
-  return client({
-    url: `users`,
-    method: 'put',
-    data: formData,
-  })
-  // .then(handleResponse)
-  // .catch(handleError);
+  return security.put('users',{ formData })
+                .then(handleResponse())
+                .catch(handleSecurityError());
 };
 
 // 회원 탈퇴 하기
 export const deleteAccount = (email) => {
-  return client.delete(`users/${email}`)
-  // .then(handleResponse)
-  // .catch(handleError);
+  return security.delete(`users/${email}`)
+                .then(handleResponse())
+                .catch(handleSecurityError());;
 };
 
 // 비밀번호 찾기
 export const findPW = (email) => {
-  return client.post(`users/do/${email}`)
-  // .then(handleResponse)
-  // .catch(handleError);
+  return basic.post(`users/do/${email}`);
 };
 
 // 닉네임 중복확인
 export const checkNickname = (nickname) => {
-  return client.post(`users/check`, { nickname })
-  // .then(handleResponse)
-  // .catch(handleError);
+  return security.post(`users/check`, { nickname });
 };
