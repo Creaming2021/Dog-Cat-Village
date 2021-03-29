@@ -3,9 +3,8 @@ package donation.pet.domain.pet;
 import com.sun.istack.NotNull;
 import donation.pet.domain.adopt.Adopt;
 import donation.pet.domain.etc.BaseTimeEntity;
-import donation.pet.domain.center.Center;
+import donation.pet.domain.member.shelter.Shelter;
 import lombok.*;
-import org.aspectj.weaver.patterns.PerThisOrTargetPointcutVisitor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -49,25 +48,23 @@ public class Pet extends BaseTimeEntity {
     private AdoptStatus adoptStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "center_id")
-    private Center center;
+    @JoinColumn(name = "member_id")
+    private Shelter shelter;
 
     @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Adopt> adopts = new ArrayList<>();
-
 
     ///////////////////////////////////
 
     public void changeStatus(AdoptStatus adoptStatus) {
         this.adoptStatus = adoptStatus;
     }
-
-    public static Pet createPet(String name, Center center) {
+    public static Pet createPet(String name, Shelter shelter) {
         Pet pet = new Pet();
         pet.name = name;
-        pet.center = center;
+        pet.shelter = shelter;
         pet.adoptStatus = AdoptStatus.UNADOPTED;
-        center.getPets().add(pet);
+        shelter.getPets().add(pet);
 
         return pet;
     }

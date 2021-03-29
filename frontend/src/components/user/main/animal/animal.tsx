@@ -1,186 +1,245 @@
-import React, { useState } from 'react';
-import styles from './animal.module.css';
-import commons from '../../../common/common.module.css';
-import { faMars, faVenus, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ModalMedium } from '../../../common/common';
-import AdoptForm from '../../../list/adopt/adoptForm/adoptForm';
-import { AdoptRegisterType } from '../../../../interface/adopt';
-
-type SearchProps = {
-}
-
-const Search = ({}: SearchProps) => {
-    return(
-    <div className={styles.search}>
-        <select className={`${styles.input}`}>
-            <option>모두</option>
-            <option>개</option>
-            <option>고양이</option>
-            <option>그 외</option>
-        </select>
-        <input className={`${commons['input-medium']} ${styles.input}`} 
-            placeholder="동물 이름"/>
-        <FontAwesomeIcon className={styles.icon} icon={faSearch}/>
-    </div>);
-}
-
-type ListProps = {
-    animalList: AnimalCardProps[]
-}
-
-const List = ({ animalList }: ListProps) => {
-    return(<div className={styles.list}>
-        { animalList.map((animal: AnimalCardProps) => (
-            <AnimalCard
-                key={animal.id}
-                id={animal.id}
-                imageUrl={animal.imageUrl}
-                name={animal.name}
-                birthday={animal.birthday}
-                age={animal.age}
-                sex={animal.sex} />
-        ))}
-    </div>);
-}
-
-type AnimalCardProps = {
-    id: number,
-    imageUrl: string,
-    name: string,
-    birthday: string,
-    age: number,
-    sex: string,
-}
-
-const AnimalCard = ({ imageUrl, name, birthday, age, sex }: AnimalCardProps) => {
-    return(
-    <div className={styles.card}>
-        <img src={imageUrl}/>
-        <div className={styles['card-hover']}>
-            <div className={styles.info}>
-                <div className={styles.name}>{name}</div>
-                <div className={styles.age}>{age} 살 / 
-                    { sex === '여'
-                    ? <FontAwesomeIcon icon={faVenus}/> 
-                    : <FontAwesomeIcon icon={faMars}/>}</div>
-                <div className={styles.birthday}>{birthday}</div>
-            </div>
-        </div>
-    </div>);
-}
+import React, { useEffect, useState } from "react";
+import styles from "./animal.module.css";
+import { Search, ButtonSmall, ModalMedium } from "../../../common/common";
+import AnimalList from "../../../list/animal/animalList/animalList";
+import { AnimalListType, AnimalInputType } from '../../../../interface/animal';
+import  EditAnimalForm  from "../../../list/animal/editAnimalForm/editAnimalForm";
 
 type AnimalProps = {
-    type: string;
-}
+  type: string;
+};
 
 const Animal = ({ type }: AnimalProps) => {
-    const animalList: AnimalCardProps[] = [
-        {
-            id: 1,
-            imageUrl: 'https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg',
-            name: '뽀삐',
-            birthday: '2021.02.01',
-            age: 1,
-            sex: '여',
-        },
-        {
-            id: 2,
-            imageUrl: 'https://blog.hmgjournal.com/images/contents/article/201603211108-Reissue-pet-family-01.jpg',
-            name: '뽀빠이',
-            birthday: '2021.02.01',
-            age: 1,
-            sex: '남',
-        },
-        {
-            id: 3,
-            imageUrl: 'http://img.insight.co.kr/static/2018/09/12/700/z7n04ul8ig3y27w6l6ok.jpg',
-            name: '뽀삐',
-            birthday: '2021.02.01',
-            age: 1,
-            sex: '여',
-        },
-        {
-            id: 4,
-            imageUrl: 'http://c.files.bbci.co.uk/AD6E/production/_104889344_kitten.jpg',
-            name: '뽀삐',
-            birthday: '2021.02.01',
-            age: 1,
-            sex: '여',
-        },
-        {
-            id: 5,
-            imageUrl: 'https://images.mypetlife.co.kr/content/uploads/2019/09/04222847/dog-panting-1024x683.jpg',
-            name: '뽀삐',
-            birthday: '2021.02.01',
-            age: 1,
-            sex: '여',
-        },
-        {
-            id: 6,
-            imageUrl: 'https://images.mypetlife.co.kr/content/uploads/2019/09/04222847/dog-panting-1024x683.jpg',
-            name: '뽀삐',
-            birthday: '2021.02.01',
-            age: 1,
-            sex: '여',
-        },
-        {
-            id: 7,
-            imageUrl: 'https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg',
-            name: '뽀삐',
-            birthday: '2021.02.01',
-            age: 1,
-            sex: '여',
-        },
-        {
-            id: 8,
-            imageUrl: 'https://blog.hmgjournal.com/images/contents/article/201603211108-Reissue-pet-family-01.jpg',
-            name: '뽀빠이',
-            birthday: '2021.02.01',
-            age: 1,
-            sex: '남',
-        },
-        {
-            id: 9,
-            imageUrl: 'http://img.insight.co.kr/static/2018/09/12/700/z7n04ul8ig3y27w6l6ok.jpg',
-            name: '뽀삐',
-            birthday: '2021.02.01',
-            age: 1,
-            sex: '여',
-        },
-    ]
+  const animalList: AnimalListType[] = [
+    {
+      id: 1,
+      imageUrl:
+        "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
+      name: "뽀삐",
+      birthday: "2021.02.01",
+      age: "1살",
+      sex: "여",
+      breedType: "CAT",
+    },
+    {
+      id: 2,
+      imageUrl:
+        "https://blog.hmgjournal.com/images/contents/article/201603211108-Reissue-pet-family-01.jpg",
+      name: "뽀빠이",
+      birthday: "2021.02.01",
+      age: "3개월",
+      sex: "남",
+      breedType: "DOG",
+    },
+    {
+      id: 3,
+      imageUrl:
+        "http://img.insight.co.kr/static/2018/09/12/700/z7n04ul8ig3y27w6l6ok.jpg",
+      name: "뽀삐",
+      birthday: "2021.02.01",
+      age: "3개월",
+      sex: "여",
+      breedType: "ETC",
+    },
+    {
+      id: 4,
+      imageUrl:
+        "http://c.files.bbci.co.uk/AD6E/production/_104889344_kitten.jpg",
+      name: "뽀삐",
+      birthday: "2021.02.01",
+      age: "3개월",
+      sex: "여",
+      breedType: "DOG",
+    },
+    {
+      id: 5,
+      imageUrl:
+        "https://images.mypetlife.co.kr/content/uploads/2019/09/04222847/dog-panting-1024x683.jpg",
+      name: "뽀삐",
+      birthday: "2021.02.01",
+      age: "3개월",
+      sex: "여",
+      breedType: "DOG",
+    },
+    {
+      id: 6,
+      imageUrl:
+        "https://images.mypetlife.co.kr/content/uploads/2019/09/04222847/dog-panting-1024x683.jpg",
+      name: "뽀삐",
+      birthday: "2021.02.01",
+      age: "3개월",
+      sex: "여",
+      breedType: "DOG",
+    },
+    {
+      id: 7,
+      imageUrl:
+        "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
+      name: "김",
+      birthday: "2021.02.01",
+      age: "3개월",
+      sex: "여",
+      breedType: "DOG",
+    },
+    {
+      id: 8,
+      imageUrl:
+        "https://blog.hmgjournal.com/images/contents/article/201603211108-Reissue-pet-family-01.jpg",
+      name: "뽀빠이",
+      birthday: "2021.02.01",
+      age: "3개월",
+      sex: "남",
+      breedType: "DOG",
+    },
+    {
+      id: 9,
+      imageUrl:
+        "http://img.insight.co.kr/static/2018/09/12/700/z7n04ul8ig3y27w6l6ok.jpg",
+      name: "김밥",
+      birthday: "2021.02.01",
+      age: "3개월",
+      sex: "여",
+      breedType: "DOG",
+    },
+  ];
 
-    const [modal, setModal] = useState(false);
+  const animal: AnimalInputType = {
+    id: 1,
+    imageUrl:
+      "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
+    name: "이름",
+    breed: "품종",
+    weight: "45",
+    breedType: "CAT",
+    personality: "성격",
+    condition: "건강상태",
+    sex: "MALE",
+    neuter: "NO",
+    year: "2021",
+    month: "3",
+    date: "2",
+  };
 
-    const onClick = () => {
-        setModal(true);
-    }
+  const [resultAnimalList, setResultAnimalList] = useState<AnimalListType[]>(
+    animalList
+  );
 
-    const onClose = () => {
-        setModal(false);
-    }
+  const [searchInput, setSearchInput] = useState({
+    keyword: "",
+    type: "",
+  });
 
-    const onSubmit = (adoptInputForm: AdoptRegisterType) => {
-        console.log(adoptInputForm);
-        alert("입양신청 등록 요청");
-    }
+  const [registerAnimal, setRegisterAnimal] = useState(false);
+  const [modifyAnimal, setModifyAnimal] = useState(false);
 
-    return (
-    <div className={styles.animal}>
-        { type === 'center' &&
-            <button className={`${styles['btn-manage']}`}
-                onClick={onClick}>
-                동물 관리 하기</button>}
-        <Search />
-        <List animalList={animalList}/>
-        {modal && 
-            <ModalMedium>
-                <AdoptForm
-                    onSubmit={onSubmit}
-                    onClose={onClose}
-                />
-            </ModalMedium>}
-    </div>);
-}
+  const onOpenRegister = () => {
+    setRegisterAnimal(true);
+  }
+
+  const onCloseRegister = () => {
+    setRegisterAnimal(false);
+  }
+
+  const onOpenModify = () => {
+    setModifyAnimal(true);
+  }
+
+  const onCloseModify = () => {
+    setModifyAnimal(false);
+  }
+
+  const selectList = [
+    {
+      name: "type",
+      options: [
+        { value: "", option: "모두" },
+        { value: "DOG", option: "개" },
+        { value: "CAT", option: "고양이" },
+        { value: "ETC", option: "기타" },
+      ],
+    },
+  ];
+
+  const onSearch = (): void => {
+    setResultAnimalList(
+      animalList.filter(animal => 
+        animal.breedType.includes(searchInput.type) 
+        && animal.name.includes(searchInput.keyword))
+    );
+  };
+
+  useEffect(()=> {
+    console.log(searchInput, resultAnimalList);
+  }, [resultAnimalList]);
+
+  const onSubmitRegister = (): void => {
+    alert("동물 등록 요청");
+    onCloseRegister();
+  }
+
+  const onSubmitModify = (): void => {
+    alert("동물 수정 요청");
+    onCloseModify();
+  }
+
+  const onChange = (
+    e:
+      | React.ChangeEvent<HTMLSelectElement>
+      | React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const { name, value } = e.target;
+    setSearchInput({
+      ...searchInput,
+      [name]: value,
+    });
+  };
+
+  return (
+    <div className={styles["animal-container"]}>
+      <Search
+        selectList={selectList}
+        selectValue={[searchInput.type]}
+        inputName="keyword"
+        inputValue={searchInput.keyword}
+        onSearch={onSearch}
+        onChange={onChange}
+        placeholder="동물 이름"
+        inputSize="input-medium"
+      />
+
+      {type === "center" && (
+        <ButtonSmall
+          content="동물 등록"
+          onClick={onOpenRegister}
+          buttonColor="bg-green"
+        />
+      )}
+
+      <div className={styles["animal-list"]}>
+        <AnimalList animalList={resultAnimalList} />
+      </div>
+
+      {registerAnimal && (
+        <ModalMedium>
+          <EditAnimalForm
+            type="register"
+            onRegister={onSubmitRegister}
+            onCancle={onCloseRegister}
+          />
+        </ModalMedium>
+      )}
+      {modifyAnimal && (
+        <ModalMedium>
+          <EditAnimalForm
+            type="modify"
+            animal={animal}
+            onModify={onSubmitModify}
+            onCancle={onCloseModify}
+          />
+        </ModalMedium>
+      )}
+    </div>
+  );
+};
 
 export default Animal;

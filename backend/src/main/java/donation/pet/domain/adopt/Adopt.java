@@ -1,10 +1,10 @@
 package donation.pet.domain.adopt;
 
-import donation.pet.domain.center.Center;
 import donation.pet.domain.etc.AcceptStatus;
 import donation.pet.domain.etc.BaseTimeEntity;
+import donation.pet.domain.member.shelter.Shelter;
+import donation.pet.domain.member.consumer.Consumer;
 import donation.pet.domain.pet.Pet;
-import donation.pet.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,12 +30,12 @@ public class Adopt extends BaseTimeEntity {
     private LocalDateTime statusDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "consumer_id")
+    private Consumer consumer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "center_id")
-    private Center center;
+    @JoinColumn(name = "shelter_id")
+    private Shelter shelter;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pet_id")
@@ -51,16 +51,15 @@ public class Adopt extends BaseTimeEntity {
     }
 
     // 유저의 입양신청서 작성 ( 생성 메소드 )
-    public static Adopt createAdoptForUser(User user, Pet pet) {
+    public static Adopt createAdoptForMember(Consumer consumer, Pet pet) {
         Adopt adopt = new Adopt();
-        adopt.user = user;
+        adopt.consumer = consumer;
         adopt.pet = pet;
         adopt.acceptStatus = AcceptStatus.PENDING;
-        user.getAdopts().add(adopt);
+        consumer.getAdopts().add(adopt);
+
         pet.getAdopts().add(adopt);
 
         return adopt;
     }
-
-
 }

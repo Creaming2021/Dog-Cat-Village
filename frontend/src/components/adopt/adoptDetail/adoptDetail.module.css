@@ -1,27 +1,26 @@
-.adopt-detail-container{
+.adopt-detail-container {}
+
+.user-info-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-.user-info-box{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	text-align: center;
+.user-info-box img {
+  margin: 15px;
 }
 
-.user-info-box img{
-	margin: 15px;
+.adopt-info-box {
+  margin: 10px auto 30px auto;
+  width: 60%;
+  height: 400px;
 }
 
-.adopt-info-box{
-	margin: 10px auto 30px auto;
-	width: 60%;
-	height: 400px;
+.button-box {
+  text-align: center;
 }
 
-.button-box{
-	text-align: center;
-}
-
-.button-box button{
-	margin: 5px;
+.button-box button {
+  margin: 5px;
 }

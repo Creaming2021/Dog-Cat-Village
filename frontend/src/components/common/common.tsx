@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './common.module.css';
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -66,12 +66,12 @@ export const ImageXsmall = ({ src, alt }: ImageProps) => {
 
 // select
 
-interface optionType {
+export interface optionType {
   value: string,
   option: string,
 }
 
-interface selectType {
+export interface selectType {
   name: string,
   value?: string,
   options: optionType[],
@@ -86,19 +86,25 @@ type SelectProps = {
 }
 
 export const Select = ({ select, index, selectValue, onChange }: SelectProps) => {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    if(select) setReady(true);
+  },[select]);
+
   return (
-  <>
+  <>{ ready &&
       <select
         key={index}
         className={styles['search-option']}
         name={select.name}
         value={selectValue[index]}
         onChange={onChange}>
-        {select.options.map((option, index) =>
-          <option
+          {select.options.map((option, index) =>
+            <option
             key={index}
             value={option.value}>{option.option}</option>)}
-      </select>
+      </select>}
   </>
   );
 }
@@ -129,6 +135,7 @@ export const Search = ({ selectList, selectValue, inputName, inputValue,
     <div className={styles['search-container']}>
       { selectList.map((select, index) =>
         <Select 
+          key={index}
           select={select} 
           index={index}
           selectValue={selectValue} 

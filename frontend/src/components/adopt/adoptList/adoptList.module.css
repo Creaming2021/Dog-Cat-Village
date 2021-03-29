@@ -1,22 +1,22 @@
-.adopt-list-container{
-	width: 60%;
-	height: fit-content;
-	max-height: 750px;
-	
-	text-align: center;
-	margin: auto;
+.adopt-list-container {
+  width: 60%;
+  height: fit-content;
+  max-height: 750px;
 
-	border-collapse: collapse;
-	border-top: 2px solid #948E8E;
-	border-bottom: 2px solid #948E8E;
+  text-align: center;
+  margin: auto;
+
+  border-collapse: collapse;
+  border-top: 2px solid #948E8E;
+  border-bottom: 2px solid #948E8E;
 }
 
 .adopt-list-container th,
-.adopt-list-container td{
-	border-bottom: 1px solid #948E8E;
-	height: 50px;
+.adopt-list-container td {
+  border-bottom: 1px solid #948E8E;
+  height: 50px;
 }
 
-.adopt-list-container td{
-	cursor: pointer;
+.adopt-list-container td {
+  cursor: pointer;
 }
