@@ -6,6 +6,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -58,5 +59,13 @@ public class ExceptionAdvice {
                         .errorCode(ErrorCode.INTERNAL_SERVER_ERROR.getCode())
                         .errorMessage(e.getMessage())
                         .build());
+    }
+
+    // redirect
+    @ExceptionHandler({RedirectException.class})
+    public RedirectView exceptionHandler(RedirectException e) {
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl(e.getRedirectCode().getUrl());
+        return redirectView;
     }
 }

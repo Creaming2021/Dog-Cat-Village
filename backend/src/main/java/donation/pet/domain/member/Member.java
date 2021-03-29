@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -34,6 +35,9 @@ public class Member {
     private String contractAddress;
     private String profileImage;
 
+    private String tempLink;
+    private LocalDateTime tempLinkDate;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<MemberRole> roles;
@@ -53,5 +57,10 @@ public class Member {
 
     public void updatePassword(String encodePassword) {
         this.password = encodePassword;
+    }
+
+    public void updateTempLink(String tempLink) {
+        this.tempLink = tempLink;
+        this.tempLinkDate = LocalDateTime.now();
     }
 }

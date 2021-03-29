@@ -55,7 +55,7 @@ public class AppConfig {
 
                 // 일반 유저 생성
                 Consumer consumer = Consumer.builder()
-                        .email("ssafy@ssafy.com")
+                        .email("solser12@naver.com")
                         .password(appProperties.getAdminPassword())
                         .name("김싸피")
                         .phoneNumber("01012341234")

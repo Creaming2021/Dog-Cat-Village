@@ -1,7 +1,9 @@
 package donation.pet.exception;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 public enum ErrorCode {
 
     /**
@@ -17,7 +19,8 @@ public enum ErrorCode {
     // TODO : 에러코드 Custom 하기
     // 예측 가능한 에러 or Return
     EMAIL_DUPLICATION(HttpStatus.CONFLICT, "01000", "중복된 이메일 입니다."),
-    NAME_DUPLICATION(HttpStatus.CONFLICT, "01001", "중복된 닉네임입니다."),
+    NAME_DUPLICATION(HttpStatus.CONFLICT, "01001", "중복된 닉네임 입니다."),
+    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "01002", "계정을 찾을 수 없습니다"),
 
     // 서버 에러
     RUNTIME_EXCEPTION(HttpStatus.BAD_REQUEST, "00100"),
@@ -40,16 +43,4 @@ public enum ErrorCode {
         this.code = code;
         this.message = message;
     }
-
-
-    public HttpStatus getStatus() { return status; }
-
-    public String getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
 }
