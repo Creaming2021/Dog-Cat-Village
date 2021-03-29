@@ -9,7 +9,7 @@ const DonatedShelterItem = ({ data }) => {
       <div className={styles['item-box']}>
         <img src={data.img} className={styles['item-img']}/>
         <div className={styles['item-description']}>
-          <h4 className={styles['item-sheltername']}>{data.shelterName}</h4>
+          <h4 className={styles['item-shelter-name']}>{data.shelterName}</h4>
           <h5 className={styles['item-date']}>{data.date}</h5>
           <div className={styles['item-amount-container']}>
             <FontAwesomeIcon icon={faCoins} className={styles['coin-icon']} />

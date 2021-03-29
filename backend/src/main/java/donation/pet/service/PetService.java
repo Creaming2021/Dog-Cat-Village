@@ -1,11 +1,9 @@
 package donation.pet.service;
 
 import donation.pet.domain.adopt.Adopt;
-import donation.pet.domain.center.Center;
-import donation.pet.domain.center.CenterRepository;
-import donation.pet.dto.pet.*;
 import donation.pet.domain.pet.Pet;
 import donation.pet.domain.pet.PetRepository;
+import donation.pet.dto.pet.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -22,7 +20,7 @@ import java.util.stream.Collectors;
 public class PetService {
 
     private final PetRepository petRepository;
-    private final CenterRepository centerRepository;
+//    private final CenterRepository centerRepository;
     private final ModelMapper modelMapper;
 
     public PetResponseListDto getPetAll() {
@@ -37,12 +35,13 @@ public class PetService {
 
     @Transactional
     public PetResponseDto insertPet(PetPostRequestDto dto) {
-        Center center = centerRepository.findById(dto.getCenterId()).orElseThrow();
-        PetDto petDto = modelMapper.map(dto, PetDto.class);
-        Pet pet = Pet.createPet2(petDto, center);
-        petRepository.save(pet);
-
-        return modelMapper.map(pet.changeToDto(), PetResponseDto.class);
+//        Center center = centerRepository.findById(dto.getCenterId()).orElseThrow();
+//        PetDto petDto = modelMapper.map(dto, PetDto.class);
+//        Pet pet = Pet.createPet2(petDto, center);
+//        petRepository.save(pet);
+//
+//        return modelMapper.map(pet.changeToDto(), PetResponseDto.class);
+        return null;
     }
 
     public PetResponseDto getPetById(Long petId) {
@@ -57,18 +56,19 @@ public class PetService {
      */
     @Transactional
     public PetDto updatePetById(Long petId, PetUpdateRequestDto dto) {
-        Center center = centerRepository.findById(dto.getCenterId()).orElseThrow();
-        PetDto petDto = modelMapper.map(dto, PetDto.class);
-        petDto.setCenter(center);
-        Pet pet = modelMapper.map(petDto, Pet.class);
-        petRepository.save(pet);
-        return petDto;
+//        Center center = centerRepository.findById(dto.getCenterId()).orElseThrow();
+//        PetDto petDto = modelMapper.map(dto, PetDto.class);
+//        petDto.setCenter(center);
+//        Pet pet = modelMapper.map(petDto, Pet.class);
+//        petRepository.save(pet);
+//        return petDto;
+        return null;
     }
 
     @Transactional
     public void deletePetById(Long petId) {
-        Pet pet = petRepository.findById(petId).orElseThrow();
-        pet.getAdopts().forEach(Adopt::removeAdopt);
-        petRepository.delete(pet);
+//        Pet pet = petRepository.findById(petId).orElseThrow();
+//        pet.getAdopts().forEach(Adopt::removeAdopt);
+//        petRepository.delete(pet);
     }
 }

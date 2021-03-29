@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './myPage.module.css';
 
 import DonatedShelterList from '../donatedShelterList/donatedShelterList';
@@ -10,10 +10,16 @@ import Nav from '../nav/nav';
 
 const MyPage = () => {
   
-  const [userType, setUserType] = useState('user');
+  // const [userType, setUserType] = useState('user');
+  const [userTypeBoolean, setUserTypeBoolean] = useState(true);
+  
+
+  useEffect(() => {
+    setUserTypeBoolean(false);
+  }, []);
 
   return (
-    <div className={`${styles.mypage} ${userType === 'user' ? styles.user : styles.shelter}`}>
+    <div className={`${styles.mypage} ${userTypeBoolean ? styles.user : styles.shelter}`}>
       <div className={styles.upperbox}>
         {/* 로고 */}
         <Nav name="userMyPage"/>
@@ -22,7 +28,7 @@ const MyPage = () => {
       <div className={styles.content}>
         <div className={styles.leftbox}>
           <div className={styles['user-info-container']}>
-            <UserInfo  />
+            <UserInfo userTypeBoolean={userTypeBoolean} />
           </div>
           <div className={styles['wallet-container']}>
             <Wallet className={styles.wallet} />

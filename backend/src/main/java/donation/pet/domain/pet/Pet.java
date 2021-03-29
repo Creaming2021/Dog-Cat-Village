@@ -3,11 +3,11 @@ package donation.pet.domain.pet;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import donation.pet.domain.adopt.Adopt;
-import donation.pet.domain.center.Center;
 import donation.pet.domain.etc.BaseTimeEntity;
 import donation.pet.dto.pet.PetDto;
 import lombok.*;
 import org.modelmapper.ModelMapper;
+import donation.pet.domain.member.shelter.Shelter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -64,36 +64,23 @@ public class Pet extends BaseTimeEntity {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "center_id")
-    private Center center;
+    @JoinColumn(name = "member_id")
+    private Shelter shelter;
 
     @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Adopt> adopts = new ArrayList<>();
-
 
     ///////////////////////////////////
 
     public void changeStatus(AdoptStatus adoptStatus) {
         this.adoptStatus = adoptStatus;
     }
-
-    public static Pet createPet(String name, Center center) {
+    public static Pet createPet(String name, Shelter shelter) {
         Pet pet = new Pet();
         pet.name = name;
-        pet.center = center;
+        pet.shelter = shelter;
         pet.adoptStatus = AdoptStatus.UNADOPTED;
-        center.getPets().add(pet);
-
-        return pet;
-    }
-
-    public static Pet createPet2(PetDto petDto, Center center) {
-        ModelMapper modelMapper = new ModelMapper();
-        Pet pet = modelMapper.map(petDto, Pet.class);
-
-        pet.center = center;
-        pet.adoptStatus = AdoptStatus.UNADOPTED;
-        center.getPets().add(pet);
+        shelter.getPets().add(pet);
 
         return pet;
     }

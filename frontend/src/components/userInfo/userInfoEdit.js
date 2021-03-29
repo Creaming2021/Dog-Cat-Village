@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ImageSmall } from '../common/common';
 import styles from './userInfoEdit.module.css';
 
 const UserInfoEdit = (props) => {
@@ -38,14 +39,16 @@ const UserInfoEdit = (props) => {
     console.log(data);
   };
 
+  const phoneNumberHandler = (e, setNumber) => {
+    const value = e.target.value.replace(/[^0-9]/g, '')
+    setNumber(value);
+    e.target.value = value;
+  }
+
   return (
     <div className={styles['user-info-edit']}>
       <div className={styles['user-info-img']}>
-        <img 
-          src={imgUrl || '../../images/jiyoung.png' } 
-          alt="fakeimgdata" 
-          className={styles['user-img']} 
-        />
+        <ImageSmall src={imgUrl || '../../images/jiyoung.png'} alt={'fakeimgdata'} />
         <label htmlFor="img-file" className={styles['user-img-edit-btn']}>
           프로필 이미지 편집
         </label>
@@ -57,54 +60,59 @@ const UserInfoEdit = (props) => {
       <input 
         type="password" 
         placeholder="CURRENT PW" 
-        className={[styles['user-input-form'], styles['current-pw']].join(' ')}
+        className={`${styles['user-input-form']} ${styles['current-pw']} ${!props.userTypeBoolean && styles['blue-line']}`}
         onChange={(e) => {setCurrentPassword(e.target.value);}}
       />
       <input 
         type="password" 
         placeholder="NEW PW" 
-        className={[styles['user-input-form'], styles['new-pw']].join(' ')} 
+        className={`${styles['user-input-form']} ${styles['new-pw']} ${!props.userTypeBoolean && styles['blue-line']} ${password1 !== password2 && styles['error-line']} `} 
         onChange={(e) => {setPassword1(e.target.value);}} 
       />
       <input 
         type="password" 
         placeholder="PW CONFIRM" 
-        className={[styles['user-input-form'], styles['new-pw-confirm']].join(' ')} 
+        className={`${styles['user-input-form']} ${styles['new-pw-confirm']} ${!props.userTypeBoolean && styles['blue-line']} ${password1 !== password2 && styles['error-line']}`} 
         onChange={(e) => {setPassword2(e.target.value);}} 
       />
-      <div className={styles['nickname-container']}>
-        <input 
-          type="text" 
-          className={[styles['user-input-form'], styles.nickname].join(' ')}
-          onChange={(e) => {setEditNickname(e.target.value);}}
-        />
-        <button className={styles['nickname-check']}>중복체크</button>
-      </div>
+      {
+        password1 !== password2 && <div className={styles['pw-confirm-error-message']}>비밀번호가 일치하지 않습니다.</div>
+      }
+      {props.userTypeBoolean && 
+        <div className={styles['nickname-container']}>
+          <input 
+            type="text" 
+            className={`${styles['user-input-form']} ${styles.nickname}`}
+            onChange={(e) => {setEditNickname(e.target.value);}}
+          />
+          <button className={styles['nickname-check']}>중복체크</button>
+        </div>
+      }
       <div className={styles.phonenumber}>
         <input 
           type="text" 
           maxLength="3" 
-          className={[styles['user-input-form'], styles.phonenumber1].join(' ')} 
-          onChange={(e) => {setEditPhoneNumber1(e.target.value);}}
+          className={`${styles['user-input-form']} ${styles.phonenumber1} ${!props.userTypeBoolean && styles['blue-line']}`} 
+          onChange={(e) => {phoneNumberHandler(e, setEditPhoneNumber1)}}
         /> 
         <div className={styles['phonenumber-dash']}>-</div>
         <input 
           type="text" 
           maxLength="4" 
-          className={[styles['user-input-form'], styles.phonenumber2].join(' ')}
-          onChange={(e) => {setEditPhoneNumber2(e.target.value);}}          
+          className={`${styles['user-input-form']} ${styles.phonenumber2} ${!props.userTypeBoolean && styles['blue-line']}`} 
+          onChange={(e) => {phoneNumberHandler(e, setEditPhoneNumber2)}}          
         />
         <div className={styles['phonenumber-dash']}>-</div>
         <input 
           type="text" 
           maxLength="4" 
-          className={[styles['user-input-form'], styles.phonenumber2].join(' ')}
-          onChange={(e) => {setEditPhoneNumber3(e.target.value);}}
+          className={`${styles['user-input-form']} ${styles.phonenumber2} ${!props.userTypeBoolean && styles['blue-line']}`} 
+          onChange={(e) => {phoneNumberHandler(e, setEditPhoneNumber3)}}
         />
       </div>
       <div className={styles['edit-btns']}>
-        <button className={styles['edit-cancel-btn']} onClick={changeEditState}>수정취소</button>
-        <button className={styles['edit-confirm-btn']} onClick={submitUserInfo} >수정완료</button>
+        <button className={`${styles['edit-cancel-btn']} ${!props.userTypeBoolean && styles['blue-btn']}`} onClick={changeEditState}>수정취소</button>
+        <button className={`${styles['edit-confirm-btn']} ${!props.userTypeBoolean && styles['blue-btn']}`} onClick={submitUserInfo}>수정완료</button>
       </div>
     </div>
   );

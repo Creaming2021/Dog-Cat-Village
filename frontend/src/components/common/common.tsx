@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './common.module.css';
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+// 버튼
 
 type ButtonProps = {
   content: string,
@@ -30,6 +32,8 @@ export const ButtonSmall = ({ content, value, onClick, buttonColor }: ButtonProp
     value={value}
     onClick={onClick}>{content}</button>;
 }
+
+// 이미지 
 
 type ImageProps = {
   src: string,
@@ -60,16 +64,52 @@ export const ImageXsmall = ({ src, alt }: ImageProps) => {
     src={src} alt={alt} />;
 }
 
-interface optionType {
+// select
+
+export interface optionType {
   value: string,
   option: string,
 }
 
-interface selectType {
+export interface selectType {
   name: string,
   value?: string,
   options: optionType[],
 }
+
+type SelectProps = {
+  select: selectType,
+  index: number,
+  selectValue: string[],
+  onChange: (e: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>)
+    => void,
+}
+
+export const Select = ({ select, index, selectValue, onChange }: SelectProps) => {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    if(select) setReady(true);
+  },[select]);
+
+  return (
+  <>{ ready &&
+      <select
+        key={index}
+        className={styles['search-option']}
+        name={select.name}
+        value={selectValue[index]}
+        onChange={onChange}>
+          {select.options.map((option, index) =>
+            <option
+            key={index}
+            value={option.value}>{option.option}</option>)}
+      </select>}
+  </>
+  );
+}
+
+// 검색
 
 type SearchProps = {
   selectList: selectType[],
@@ -94,18 +134,12 @@ export const Search = ({ selectList, selectValue, inputName, inputValue,
   return (
     <div className={styles['search-container']}>
       { selectList.map((select, index) =>
-        <select
+        <Select 
           key={index}
-          className={styles['search-option']}
-          name={select.name}
-          value={selectValue[index]}
-          onChange={onChange}>
-          {select.options.map((option, index) =>
-            <option
-              key={index}
-              value={option.value}>{option.option}</option>)}
-        </select>
-      )}
+          select={select} 
+          index={index}
+          selectValue={selectValue} 
+          onChange={onChange}/>)}
       <input 
         className={styles[`${inputSize}`]}
         placeholder={placeholder}
@@ -119,6 +153,9 @@ export const Search = ({ selectList, selectValue, inputName, inputValue,
         onClick={onSearch} />
     </div>);
 }
+
+
+// 모달
 
 type ModalProps = {
   children: any,

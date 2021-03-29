@@ -1,24 +1,17 @@
 package donation.pet.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import donation.pet.domain.center.Center;
-import donation.pet.domain.center.CenterRepository;
 import donation.pet.domain.pet.*;
 import donation.pet.dto.pet.PetUpdateRequestDto;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,25 +23,7 @@ class PetControllerTest {
     protected MockMvc mockMvc;
 
     @Autowired
-    CenterRepository centerRepository;
-
-    @Autowired
     PetRepository petRepository;
-
-    @BeforeEach
-    public void beforeEach() {
-        for (int i = 1; i <= 5; i++) {
-
-            Center center = Center.builder()
-                    .name("center" + i)
-                    .build();
-            centerRepository.save(center);
-
-            Pet pet = Pet.createPet("pet" + i, center);
-            petRepository.save(pet);
-        }
-
-    }
 
     @Test
     public void 펫전체출력() throws Exception {

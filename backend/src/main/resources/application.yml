@@ -16,6 +16,9 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
   mail:
     host: smtp.gmail.com
@@ -28,3 +31,16 @@ spring:
           auth: true
           starttls:
             enable: true
+
+logging:
+  level:
+    org:
+    springframwork:
+      security: debug
+
+
+my-app:
+  admin-email: admin@ssafy.com
+  admin-password: ssafy
+  client-id: ssafy
+  client-secret: ssafy

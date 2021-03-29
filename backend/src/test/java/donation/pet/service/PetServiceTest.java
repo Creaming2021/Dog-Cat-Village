@@ -1,12 +1,9 @@
 package donation.pet.service;
 
-import donation.pet.domain.center.Center;
-import donation.pet.domain.center.CenterRepository;
 import donation.pet.domain.pet.*;
 import donation.pet.dto.pet.PetDto;
 import donation.pet.dto.pet.PetPostRequestDto;
 import donation.pet.dto.pet.PetResponseDto;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,29 +20,10 @@ class PetServiceTest {
     PetService petService;
 
     @Autowired
-    CenterRepository centerRepository;
-
-    @Autowired
     PetRepository petRepository;
 
     @Autowired
     ModelMapper modelMapper;
-
-    @BeforeEach
-    public void beforeEach() {
-        for (int i = 1; i <= 5; i++) {
-
-            Center center = Center.builder()
-                    .name("center" + i)
-                    .build();
-            centerRepository.save(center);
-
-            Pet pet = Pet.createPet("pet" + i, center);
-            petRepository.save(pet);
-        }
-
-    }
-
 
     @Test
     public void 모델매퍼_테스트() throws Exception {
@@ -66,8 +44,6 @@ class PetServiceTest {
     @Test
     public void insertPet() throws Exception {
         // given
-        Center center = new Center();
-        centerRepository.save(center);
 
         PetPostRequestDto dto = PetPostRequestDto.builder()
                 .centerId(1L).name("쿠로").breed("웰시코기").weight(12.4f)
