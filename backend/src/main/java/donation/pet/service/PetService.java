@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,5 +67,14 @@ public class PetService {
                 .orElseThrow(() -> new BaseException(ErrorCode.PET_NOT_EXIST));
         pet.changeStatus(AdoptStatus.DELETE);
         pet.getAdopts().forEach(adopt -> adopt.setAcceptStatus(AcceptStatus.REFUSED));
+    }
+
+    @Transactional
+    public void updatePetImage(Long petId, MultipartFile file) {
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow(() -> new BaseException(ErrorCode.PET_NOT_EXIST));
+        // 파일 처리
+        String fileName = "";
+        pet.changeProfileImage(fileName);
     }
 }

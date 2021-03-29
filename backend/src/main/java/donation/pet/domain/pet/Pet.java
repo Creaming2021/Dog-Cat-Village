@@ -21,7 +21,6 @@ import java.util.List;
 @Entity
 @Builder
 @Getter
-@Setter // ModelMapper 쓰려면 필요
 @AllArgsConstructor // @Builder 쓰려면 필요
 @NoArgsConstructor // 기본 생성자
 @EqualsAndHashCode(of = "id", callSuper = false)
@@ -123,4 +122,7 @@ public class Pet extends BaseTimeEntity {
         return years + "살";
     }
 
+    public void changeProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
 }
