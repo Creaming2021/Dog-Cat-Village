@@ -15,29 +15,57 @@
   text-align: center;
 }
 
-.main-text1,
-.main-text2 {
+.main-text {
   font-size: 60px;
+  margin-right: 100px;
   color: #5e5e5e;
 }
 
-.main-text1 {
-  margin-right: 100px;
+.display {
+  animation: fadeout 10s normal forwards;
 }
 
-.number-box1,
-.number-box2,
-.number-box3 {
+.displayNone {
+  display: none;
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.2;
+  }
+  35% {
+    opacity: 1;
+  }
+  65% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.number-box {
   width: 100px;
   height: 150px;
   margin-right: 40px;
-  background-color: #ffce00;
   border-radius: 20px;
 }
 
-.number-text1,
-.number-text2,
-.number-text3 {
+.yellow {
+  background-color: #ffce00;
+}
+
+.blue {
+  background-color: #16a8eb;
+}
+
+.number-text {
   color: white;
   height: 150px;
   line-height: 150px;
