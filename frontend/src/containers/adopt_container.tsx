@@ -8,31 +8,31 @@ import { AdoptDetailType, AdoptListType } from "../interface/adopt";
 const AdoptContainer = () => {
   const adoptList: AdoptListType[] = [
     {
-      adoptId: 1,
+      id: 1,
       petName: "petname",
-      userName: "username",
-      createdAt: "2021.03.02",
+      name: "username",
+      createdDate: "2021.03.02",
       acceptStatus: "ACCEPTED",
     },
     {
-      adoptId: 2,
+      id: 2,
       petName: "petname",
-      userName: "username",
-      createdAt: "2021.03.02",
+      name: "username",
+      createdDate: "2021.03.02",
       acceptStatus: "PENDING",
     },
     {
-      adoptId: 3,
+      id: 3,
       petName: "petname",
-      userName: "username",
-      createdAt: "2021.03.02",
+      name: "username",
+      createdDate: "2021.03.02",
       acceptStatus: "REFUSED",
     },
     {
-      adoptId: 4,
+      id: 4,
       petName: "petname",
-      userName: "username",
-      createdAt: "2021.03.02",
+      name: "username",
+      createdDate: "2021.03.02",
       acceptStatus: "ACCEPTED",
     },
   ];
@@ -68,8 +68,8 @@ const AdoptContainer = () => {
         adoptList.filter(
           (adopt) =>
             adopt.acceptStatus.includes(searchInput.adopt) &&
-            adopt.userName &&
-            adopt.userName.includes(searchInput.input)
+            adopt.name &&
+            adopt.name.includes(searchInput.input)
         )
       );
     } else if (searchInput.type === "pet") {
@@ -89,26 +89,26 @@ const AdoptContainer = () => {
 
   const onClick = (adoptId: number) => {
     setSelectedAdopt({
-      adoptId: adoptId,
+      id: 1,
       petId: 1,
       petName: "동물 이름",
-      user: {
+      consumer: {
         id: 1,
-        imageUrl:
+        profileImage:
           "http://ojsfile.ohmynews.com/STD_IMG_FILE/2007/1128/IE000838568_STD.jpg",
         name: "멤버 닉네임",
         email: "ssafy@ssafy.com",
         phoneNumber: "01020457251",
       },
-      userName: "멤버실제이름",
-      userSex: "FEMALE",
-      userAge: "25",
-      userLiveIn: "서울",
+      name: "멤버실제이름",
+      sex: "FEMALE",
+      age: "25",
+      address: "서울",
       description: "입양 사유",
       day: "주말 선호",
       time: "오후 시간 선호",
       acceptStatus: "PENDING",
-      createdAt: "20210321",
+      createdDate: "20210321",
     });
   };
 

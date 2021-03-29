@@ -9,16 +9,16 @@ type AdoptListFormProps = {
 };
 
 const AdoptListForm = ({ adopt, type, onClick }: AdoptListFormProps) => {
-  const { adoptId, petName, userName, createdAt, acceptStatus } = adopt;
+  const { id, petName, name, createdDate, acceptStatus } = adopt;
 
   return (
-    <tr onClick={() => onClick(adoptId)}>
-      <td>{adoptId}</td>
+    <tr onClick={() => onClick(id)}>
+      <td>{id}</td>
       <td>
         {acceptStatus}/{petName}
       </td>
-      {type === "shelter" && <td>{userName}</td>}
-      <td>{createdAt}</td>
+      {type === "shelter" && <td>{name}</td>}
+      <td>{createdDate}</td>
     </tr>
   );
 };
@@ -44,7 +44,7 @@ const AdoptList = ({ adoptList, type, onClick }: AdoptListProps) => {
         <tbody>
           {adoptList.map((adopt) => (
             <AdoptListForm
-              key={adopt.adoptId}
+              key={adopt.id}
               adopt={adopt}
               type={type}
               onClick={onClick}

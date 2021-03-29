@@ -9,17 +9,10 @@ export interface AdoptRegisterType {
 	time: string; 
 }
 
-export interface ShelterAdoptListType {
+export interface AdoptListType {
   id: number;
   petName: string;
-  name: string;
-  createdDate: string;
-  acceptStatus: string;
-}
-
-export interface ConsumerAdoptListType {
-  id: number;
-  petName: string;
+  name?: string;
   createdDate: string;
   acceptStatus: string;
 }
