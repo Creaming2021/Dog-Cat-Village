@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import AdoptContainer from "../../../../containers/adopt_container";
 import Nav from "../../../nav/nav";
 import Animal from "../animal/animal";
 import Chatting from "../chatting/chatting";
@@ -23,6 +24,7 @@ const SubMain = () => {
     email: "ssafy@ssafy.com",
     introduction:
       "안녕하세요 동아동입니다~ 많은 관심과 후원 감사합니다! 하는 등의 소개글",
+    role: "shelter",
   };
 
   const streaming = {
@@ -43,6 +45,7 @@ const SubMain = () => {
         {category === "animal" && <Animal type="center" />}
         {category === "chatting" && <Chatting />}
         {category === "donation" && <Donation />}
+        {category === "adopt" && <AdoptContainer/>}
       </div>
     </div>
   );
