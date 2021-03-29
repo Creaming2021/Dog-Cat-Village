@@ -1,46 +1,51 @@
 export interface AdoptRegisterType {
-  petId: number;
-  userId: number;
-  userName: string;
-  userSex: string;
-  userAge: string;
-  userLiveIn: string;
-  description: string;
-  day: string;
-  time: string;
+	petId: number;
+	name: string;
+	sex: string;
+	age: string;
+	address: string;
+	description: string;
+	day: string;
+	time: string; 
 }
 
-export interface AdoptListType {
-  adoptId: number;
+export interface ShelterAdoptListType {
+  id: number;
   petName: string;
-  userName?: string;
-  createdAt: string;
+  name: string;
+  createdDate: string;
+  acceptStatus: string;
+}
+
+export interface ConsumerAdoptListType {
+  id: number;
+  petName: string;
+  createdDate: string;
   acceptStatus: string;
 }
 
 export interface AdoptDetailType {
-  adoptId: number;
-  petId: number;
-  petName: string;
-  user: {
-    id: number;
-    imageUrl: string;
-    name: string;
-    email: string;
-    phoneNumber: string;
-  };
-  userName: string;
-  userSex: string;
-  userAge: string;
-  userLiveIn: string;
-  description: string;
-  day: string;
-  time: string;
-  acceptStatus: string;
-  createdAt: string;
+	id: number;
+	petId: number;
+	petName: string;
+	consumer: {
+					id: number;
+					profileImage: string;
+					name: string;
+					email: string;
+					phoneNumber: string;
+	};
+	name: string;
+	sex: string;
+	age: string;
+	address: string;
+	description: string;
+	day: string;
+	time: string; 
+	acceptStatus: string;
+	createdDate: string;
 }
 
 export interface AdoptChangeStatusType {
-  adoptId: string;
   status: string;
 }
