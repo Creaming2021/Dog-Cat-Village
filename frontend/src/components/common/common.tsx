@@ -1,31 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './common.module.css';
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+// 버튼
+
 type ButtonProps = {
-  value: string,
-  onClick: () => void
+  content: string,
+  value?: string,
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
   buttonColor: string, 
 }
 
-export const ButtonLarge = ({ value, onClick, buttonColor }: ButtonProps) => {
+export const ButtonLarge = ({ content, value, onClick, buttonColor }: ButtonProps) => {
   return <button
     className={`${styles['btn-large']} ${styles[`${buttonColor}`]}`}
-    onClick={onClick}>{value}</button>;
+    value={value}
+    onClick={onClick}>{content}</button>;
 }
 
-export const ButtonMedium = ({ value, onClick, buttonColor }: ButtonProps) => {
+export const ButtonMedium = ({ content, value, onClick, buttonColor }: ButtonProps) => {
   return <button
     className={`${styles['btn-medium']} ${styles[`${buttonColor}`]}`}
-    onClick={onClick}>{value}</button>;
+    value={value}
+    onClick={onClick}>{content}</button>;
 }
 
-export const ButtonSmall = ({ value, onClick, buttonColor }: ButtonProps) => {
+export const ButtonSmall = ({ content, value, onClick, buttonColor }: ButtonProps) => {
   return <button
     className={`${styles['btn-small']} ${styles[`${buttonColor}`]}`}
-    onClick={onClick}>{value}</button>;
+    value={value}
+    onClick={onClick}>{content}</button>;
 }
+
+// 이미지 
 
 type ImageProps = {
   src: string,
@@ -56,16 +64,52 @@ export const ImageXsmall = ({ src, alt }: ImageProps) => {
     src={src} alt={alt} />;
 }
 
-interface optionType {
+// select
+
+export interface optionType {
   value: string,
   option: string,
 }
 
-interface selectType {
+export interface selectType {
   name: string,
   value?: string,
   options: optionType[],
 }
+
+type SelectProps = {
+  select: selectType,
+  index: number,
+  selectValue: string[],
+  onChange: (e: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>)
+    => void,
+}
+
+export const Select = ({ select, index, selectValue, onChange }: SelectProps) => {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    if(select) setReady(true);
+  },[select]);
+
+  return (
+  <>{ ready &&
+      <select
+        key={index}
+        className={styles['search-option']}
+        name={select.name}
+        value={selectValue[index]}
+        onChange={onChange}>
+          {select.options.map((option, index) =>
+            <option
+            key={index}
+            value={option.value}>{option.option}</option>)}
+      </select>}
+  </>
+  );
+}
+
+// 검색
 
 type SearchProps = {
   selectList: selectType[],
@@ -79,7 +123,8 @@ type SearchProps = {
   inputSize: string,
 }
 
-export const Search = ({ selectList, selectValue, inputName, inputValue, onSearch, onChange, placeholder, inputSize }: SearchProps) => {
+export const Search = ({ selectList, selectValue, inputName, inputValue, 
+                        onSearch, onChange, placeholder, inputSize }: SearchProps) => {
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.key === "Enter") {
       onSearch();
@@ -89,18 +134,12 @@ export const Search = ({ selectList, selectValue, inputName, inputValue, onSearc
   return (
     <div className={styles['search-container']}>
       { selectList.map((select, index) =>
-        <select
+        <Select 
           key={index}
-          className={styles['search-option']}
-          name={select.name}
-          value={selectValue[index]}
-          onChange={onChange}>
-          {select.options.map((option, index) =>
-            <option
-              key={index}
-              value={option.value}>{option.option}</option>)}
-        </select>
-      )}
+          select={select} 
+          index={index}
+          selectValue={selectValue} 
+          onChange={onChange}/>)}
       <input 
         className={styles[`${inputSize}`]}
         placeholder={placeholder}
@@ -113,4 +152,38 @@ export const Search = ({ selectList, selectValue, inputName, inputValue, onSearc
         icon={faSearch}
         onClick={onSearch} />
     </div>);
+}
+
+
+// 모달
+
+type ModalProps = {
+  children: any,
+}
+
+export const ModalLarge = ({ children }: ModalProps) => {
+  return (
+  <div className={styles['modal-container']}>
+    <div className={styles['modal-large']}>
+        {children}
+    </div>
+  </div>);
+}
+
+export const ModalMedium = ({ children }: ModalProps) => {
+  return (
+  <div className={styles['modal-container']}>
+    <div className={styles['modal-medium']}>
+        {children}
+    </div>
+  </div>);
+}
+
+export const ModalSmall = ({ children }: ModalProps) => {
+  return (
+  <div className={styles['modal-container']}>
+    <div className={styles['modal-small']}>
+        {children}
+    </div>
+  </div>);
 }
