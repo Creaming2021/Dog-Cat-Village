@@ -4,23 +4,22 @@ import donation.pet.domain.adopt.Adopt;
 import donation.pet.domain.adopt.AdoptRepository;
 import donation.pet.domain.etc.AcceptStatus;
 import donation.pet.domain.member.consumer.Consumer;
+import donation.pet.domain.member.consumer.ConsumerRepository;
 import donation.pet.domain.member.shelter.Shelter;
+import donation.pet.domain.member.shelter.ShelterRepository;
 import donation.pet.domain.pet.Pet;
 import donation.pet.domain.pet.PetRepository;
-import donation.pet.dto.adopt.AdoptMonthlyCountDto;
-import org.junit.jupiter.api.BeforeEach;
+import donation.pet.dto.adopt.AdoptDto;
+import donation.pet.dto.consumer.ConsumerResponseDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -34,6 +33,12 @@ class AdoptServiceTest {
 
     @Autowired
     PetRepository petRepository;
+
+    @Autowired
+    ShelterRepository shelterRepository;
+
+    @Autowired
+    ConsumerRepository consumerRepository;
 
     @Test
     public void 오늘_입양_수_출력() throws Exception {
@@ -77,14 +82,33 @@ class AdoptServiceTest {
         }
 
         // when
-        int[] monthlyAdoption2020 = adoptService.getMontlyPerCount(LocalDate.now().getYear())
+        int[] monthlyAdoption2020 = adoptService.getMonthlyPerCount(LocalDate.now().getYear())
                 .getMonthlyAdoption();
-        int[] monthlyAdoption2021 = adoptService.getMontlyPerCount(LocalDate.now().plusYears(1).getYear())
+        int[] monthlyAdoption2021 = adoptService.getMonthlyPerCount(LocalDate.now().plusYears(1).getYear())
                 .getMonthlyAdoption();
 
         System.out.println(Arrays.toString(monthlyAdoption2020));
         System.out.println(Arrays.toString(monthlyAdoption2021));
         // then
 
+    }
+
+    @Test
+    public void dto테스트() throws Exception {
+        // given
+        Consumer consumer = new Consumer();
+        Shelter shelter = new Shelter();
+        Pet pet = new Pet();
+        Adopt adopt = Adopt.createAdopt(consumer, shelter, pet);
+        consumerRepository.save(consumer);
+        shelterRepository.save(shelter);
+        petRepository.save(pet);
+        adoptRepository.save(adopt);
+
+        // when
+        AdoptDto adoptDto = adopt.toDto();
+        System.out.println("adoptDto = " + adoptDto);
+
+        // then
     }
 }

@@ -1,6 +1,7 @@
 package donation.pet.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import donation.pet.domain.etc.Sex;
 import donation.pet.domain.pet.*;
 import donation.pet.dto.pet.PetUpdateRequestDto;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ class PetControllerTest {
     public void 펫정보업데이트() throws Exception {
         // given
         PetUpdateRequestDto dto = PetUpdateRequestDto.builder()
-                .centerId(1L).id(1L).name("쿠로").breed("웰시코기").weight(12.4f)
+                .id(1L).name("쿠로").breed("웰시코기").weight(12.4f)
                 .breedType(BreedType.DOG).personality("식탐이 강함").condition("돼지")
                 .sex(Sex.MALE).neuter(Neuter.YES).adoptStatus(AdoptStatus.ADOPTED)
                 .build();

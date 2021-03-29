@@ -6,6 +6,7 @@ import donation.pet.domain.etc.AcceptStatus;
 import donation.pet.domain.member.shelter.Shelter;
 import donation.pet.domain.member.shelter.ShelterRepository;
 import donation.pet.dto.adopt.AdoptTodayDto;
+import donation.pet.dto.shelter.ShelterListResponseDto;
 import donation.pet.dto.shelter.ShelterResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -56,6 +57,23 @@ class ShelterServiceTest {
 
         // then
         assertThat(findShelter.getMonthlyAdoption()[2]).isEqualTo(todayAdoption.getTodayAdoptedPetCount());
+    }
+
+    @Test
+    public void 보호소_전체출력() throws Exception {
+        // given
+        for (int i = 0; i < 10; i++) {
+            Shelter shelter = Shelter.builder().email(i + "test@test.com")
+                    .name("보호소" + i)
+                    .build();
+            shelterRepository.save(shelter);
+        }
+
+        // when
+        ShelterListResponseDto allShelters = shelterService.getAllShelters();
+        allShelters.getShelterList().forEach(System.out::println);
+
+        // then
     }
 
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import donation.pet.domain.adopt.Adopt;
 import donation.pet.domain.etc.BaseTimeEntity;
+import donation.pet.domain.etc.Sex;
 import donation.pet.dto.pet.PetDto;
 import lombok.*;
 import org.modelmapper.ModelMapper;

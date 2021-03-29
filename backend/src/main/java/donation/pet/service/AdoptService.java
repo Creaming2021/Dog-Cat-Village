@@ -28,7 +28,7 @@ public class AdoptService {
         return new AdoptTodayDto(count);
     }
 
-    public AdoptMonthlyCountDto getMontlyPerCount(int year) {
+    public AdoptMonthlyCountDto getMonthlyPerCount(int year) {
         int[] monthlyAdoption = new int[12];
         adoptRepository.findAll().forEach(adopt -> {
             Month month = adopt.getMonthByGivenYearAdopted(year);
@@ -39,12 +39,4 @@ public class AdoptService {
         return new AdoptMonthlyCountDto(year, monthlyAdoption);
     }
 
-
-//    public void requestAdopt(AdoptRequestDto dto) {
-//        Center center = centerRepository.findById(dto.getCenterId()).orElseThrow();
-//        Pet pet = petRepository.findById(dto.getPetId()).orElseThrow();
-//        User user = userRepository.findById(dto.getUserId()).orElseThrow();
-//        Adopt adopt = Adopt.createAdopt(user, pet, center);
-//        adoptRepository.save(adopt);
-//    }
 }

@@ -7,6 +7,7 @@ import donation.pet.domain.member.Member;
 import donation.pet.domain.member.MemberRole;
 import donation.pet.domain.pet.AdoptStatus;
 import donation.pet.domain.pet.Pet;
+import donation.pet.dto.shelter.ShelterUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -53,4 +54,16 @@ public class Shelter extends Member {
         });
         return monthlyAdoption;
     }
+
+    public void updateShelter(ShelterUpdateRequestDto dto) {
+        introduce = dto.getIntroduce();
+        setPhoneNumber(dto.getPhoneNumber());
+        setName(dto.getName());
+        setPassword(dto.getPassword());
+    }
+
+    public void updateProfileImage(String fileName) {
+        setProfileImage(fileName);
+    }
+
 }

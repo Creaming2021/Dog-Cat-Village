@@ -1,7 +1,6 @@
 package donation.pet.controller;
 
 import donation.pet.dto.adopt.AdoptMonthlyCountDto;
-import donation.pet.dto.adopt.AdoptRequestDto;
 import donation.pet.dto.adopt.AdoptTodayDto;
 import donation.pet.service.AdoptService;
 import io.swagger.annotations.ApiOperation;
@@ -17,12 +16,6 @@ public class AdoptController {
 
     private final AdoptService adoptService;
 
-    @PostMapping
-    public ResponseEntity<Void> requestAdopt(@RequestBody AdoptRequestDto dto) {
-//        adoptService.requestAdopt(dto);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
     @ApiOperation("오늘 입양된 동물 수")
     @GetMapping("/today/count")
     public ResponseEntity<AdoptTodayDto> getTodayAdoption() {
@@ -33,7 +26,7 @@ public class AdoptController {
     @ApiOperation("연도별 월별 입양된 동물 수")
     @GetMapping("/years/{year}/count")
     public ResponseEntity<AdoptMonthlyCountDto> getMonthlyPetCount(@PathVariable("year") int year){
-        AdoptMonthlyCountDto result = adoptService.getMontlyPerCount(year);
+        AdoptMonthlyCountDto result = adoptService.getMonthlyPerCount(year);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

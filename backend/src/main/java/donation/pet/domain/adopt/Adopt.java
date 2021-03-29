@@ -6,13 +6,13 @@ import donation.pet.domain.member.shelter.Shelter;
 import donation.pet.domain.member.consumer.Consumer;
 import donation.pet.domain.pet.AdoptStatus;
 import donation.pet.domain.pet.Pet;
+import donation.pet.domain.etc.Sex;
 import donation.pet.dto.adopt.AdoptDto;
 import lombok.*;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Month;
 
 @NoArgsConstructor
@@ -47,7 +47,15 @@ public class Adopt extends BaseTimeEntity {
     @JoinColumn(name = "pet_id")
     private Pet pet;
 
-    // 입양 신청 form 추가 예정
+    // 입양 신청 form
+    private String name;
+    private Sex sex;
+    private String age;
+    private String address;
+    @Lob
+    private String description;
+    private String day;
+    private String time;
 
     //////////////////////////////////////////
 
@@ -90,6 +98,9 @@ public class Adopt extends BaseTimeEntity {
         return null;
     }
 
-
+    public AdoptDto toDto() {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(this, AdoptDto.class);
+    }
 
 }
