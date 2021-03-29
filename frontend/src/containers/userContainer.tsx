@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import rootReducer from "../modules/index";
 import { useSelector, useDispatch } from "react-redux";
-import * as UserAction from "../modules/user";
+import * as UserAction from "../modules/member";
 import { SignInInputType, SignUpInputType } from "../interface/consumer";
 import Nav from "../components/nav/nav";
 import Main from "../components/submain/main/main";
@@ -40,14 +40,14 @@ const UserContainer = () => {
   };
 
   // store에 있는 state와 dispatch 가져오는 작업
-  const user = useSelector((state: any) => state.user.userInfo);
+  const member = useSelector((state: any) => state.member);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user.logIn) {
+    if (member.logIn) {
       history.push(`/${type}/main`);
     }
-  }, [user]);
+  }, [member]);
 
   useEffect(() => {
     setSignUpInput({...signUpInput, role: type});
