@@ -67,6 +67,7 @@
   background-color: transparent;
   font-size: 1rem;
   color: #858585;
+  cursor: pointer;
 }
 
 .btn-large {
@@ -76,6 +77,7 @@
   font-weight: bold;
   width: 370px;
   height: 70px;
+  cursor: pointer;
 }
 
 .btn-medium {
@@ -85,6 +87,7 @@
   font-weight: bold;
   width: 195px;
   height: 60px;
+  cursor: pointer;
 }
 
 .btn-small {
@@ -94,6 +97,7 @@
   font-weight: bold;
   width: 125px;
   height: 50px;
+  cursor: pointer;
 }
 
 /* background */
@@ -103,6 +107,16 @@
 }
 
 .bg-green:hover {
+  background-color: #788e6e;
+  color: white;
+}
+
+.bg-white-green {
+  background-color: white;
+  color: #454545;
+}
+
+.bg-white-green:hover {
   background-color: #788e6e;
   color: white;
 }
@@ -153,8 +167,8 @@
 }
 
 .input-content {
-  width: 820px;
-  height: 540px;
+  width: 860px;
+  height: 600px;
   border: none;
   border-radius: 10px;
   font-size: 17px;
