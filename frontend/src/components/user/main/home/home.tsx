@@ -7,34 +7,56 @@ import {
   faCoins,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { stringify } from "node:querystring";
+import { ButtonLarge, ImageSmall } from "../../../common/common";
 
-type OnAirStreamingProps = {};
+type OnAirStreamingProps = {
+  onAir: boolean;
+  title: string;
+  video?: string;
+  content?: string;
+  viewers?: number;
+  totalCoin?: number;
+};
 
-const OnAirStreaming = ({}: OnAirStreamingProps) => {
+const OnAirStreaming = ({
+  onAir,
+  title,
+  video,
+  content,
+  viewers,
+  totalCoin,
+}: OnAirStreamingProps) => {
   return (
     <div className={styles.streaming}>
       <div className={styles["title-box"]}>
         <FontAwesomeIcon
-          className={`${styles["icon-broadcast"]}`}
+          className={
+            onAir
+              ? `${styles["icon-broadcast"]} ${styles["on-air"]}`
+              : `${styles["icon-broadcast"]}`
+          }
           icon={faBroadcastTower}
         />
-        <div>스트리밍 오늘의 제목!</div>
+        <div>{title}</div>
       </div>
       <div className={styles["video-box"]}>
-        <video className={styles.video} src=""></video>
-        <div className={styles["video-icon-box"]}>
-          <FontAwesomeIcon className={styles["video-content"]} icon={faUsers} />
-          <span className={styles["video-content"]}>101명 시청중</span>
-          <FontAwesomeIcon className={styles["video-content"]} icon={faCoins} />
-          <span className={styles["video-content"]}>10234</span>
-        </div>
+        <video className={styles.video} src={video} />
+        {onAir && (
+          <div className={styles["video-icon-box"]}>
+            <FontAwesomeIcon
+              className={styles["video-content"]}
+              icon={faUsers}
+            />
+            <span className={styles["video-content"]}>{viewers}명 시청중</span>
+            <FontAwesomeIcon
+              className={styles["video-content"]}
+              icon={faCoins}
+            />
+            <span className={styles["video-content"]}>{totalCoin}</span>
+          </div>
+        )}
       </div>
-      <div className={styles.content}>
-        스트리밍 오늘의 내용
-        <br />
-        오늘은 날이 좋네요!
-      </div>
+      <div className={styles.content}>{content}</div>
     </div>
   );
 };
@@ -42,6 +64,10 @@ const OnAirStreaming = ({}: OnAirStreamingProps) => {
 type ReadyStreamingProps = {};
 
 const ReadyStreaming = ({}: ReadyStreamingProps) => {
+  const onClick = () => {
+    alert("방송시작");
+  };
+
   return (
     <div className={styles.streaming}>
       <input
@@ -52,9 +78,11 @@ const ReadyStreaming = ({}: ReadyStreamingProps) => {
         className={commons["input-content"]}
         placeholder="오늘의 스트리밍 내용을 입력하세요."
       />
-      <button className={`${commons["bg-green"]} ${commons["btn-middle"]}`}>
-        스트리밍 시작하기
-      </button>
+      <ButtonLarge
+        content="스트리밍 시작하기"
+        onClick={onClick}
+        buttonColor="bg-white-green"
+      />
     </div>
   );
 };
@@ -70,12 +98,14 @@ const Donation = ({ userList }: DonationProps) => {
         <div className={styles["donation-box"]}>
           <div>후원 누적 금액</div>
           <FontAwesomeIcon className={styles["icon-donation"]} icon={faCoins} />
-          <span>123456</span>
+          <span>
+            {userList.reduce((acc, current) => acc + current.coin, 0)}
+          </span>
         </div>
         <div className={styles["donation-box"]}>
           <div>후원 사람 수</div>
           <FontAwesomeIcon className={styles["icon-donation"]} icon={faUsers} />
-          <span>145</span>
+          <span>{userList.length}</span>
         </div>
       </div>
       <div className={styles.list}>
@@ -85,7 +115,7 @@ const Donation = ({ userList }: DonationProps) => {
             id={user.id}
             nickname={user.nickname}
             imageUrl={user.imageUrl}
-            total={user.total}
+            coin={user.coin}
           />
         ))}
       </div>
@@ -97,16 +127,17 @@ type DonationCardProps = {
   id: number;
   nickname: string;
   imageUrl: string;
-  total: number;
+  coin: number;
 };
 
-const DonationCard = ({ id, nickname, imageUrl, total }: DonationCardProps) => {
+const DonationCard = ({ id, nickname, imageUrl, coin }: DonationCardProps) => {
   return (
     <>
       <div className={styles.card}>
-        <img className={styles.image} src={imageUrl} alt={nickname} />
+        <ImageSmall src={imageUrl} alt={nickname} />
+        <br />
         <FontAwesomeIcon className={styles["card-text"]} icon={faCoins} />
-        <span className={styles["card-text"]}>{total}</span>
+        <span className={styles["card-text"]}>{coin}</span>
 
         <div className={styles["card-hover"]}>
           <div className={styles["card-text"]}>{nickname}</div>
@@ -118,22 +149,45 @@ const DonationCard = ({ id, nickname, imageUrl, total }: DonationCardProps) => {
 
 type HomeProps = {
   type: string;
+  streaming: {
+    onAir: boolean;
+    title: string;
+    video: string;
+    content?: string;
+    viewers?: number;
+    totalCoin?: number;
+  };
 };
 
-const Home = ({ type }: HomeProps) => {
+const Home = ({ type, streaming }: HomeProps) => {
   const userList: DonationCardProps[] = [
-    { id: 1, nickname: "첫번째", imageUrl: "", total: 1234 },
-    { id: 2, nickname: "두번째", imageUrl: "", total: 1 },
-    { id: 3, nickname: "세번째", imageUrl: "", total: 12 },
-    { id: 4, nickname: "네번째", imageUrl: "", total: 123 },
-    { id: 5, nickname: "다섯번째", imageUrl: "", total: 12345 },
-    { id: 6, nickname: "여섯번째", imageUrl: "", total: 123456 },
-    { id: 7, nickname: "일곱번째", imageUrl: "", total: 1234567 },
+    { id: 1, nickname: "첫번째", imageUrl: "", coin: 1234 },
+    { id: 2, nickname: "두번째", imageUrl: "", coin: 1 },
+    { id: 3, nickname: "세번째", imageUrl: "", coin: 12 },
+    { id: 4, nickname: "네번째", imageUrl: "", coin: 123 },
+    { id: 5, nickname: "다섯번째", imageUrl: "", coin: 12345 },
+    { id: 6, nickname: "여섯번째", imageUrl: "", coin: 123456 },
+    { id: 7, nickname: "일곱번째", imageUrl: "", coin: 1234567 },
   ];
+
+  const { onAir, title, video, content, viewers, totalCoin } = streaming;
 
   return (
     <>
-      {type === "user" ? <OnAirStreaming /> : <ReadyStreaming />}
+      {type === "user" &&
+        (onAir ? (
+          <OnAirStreaming
+            onAir={onAir}
+            title={title}
+            video={video}
+            content={content}
+            viewers={viewers}
+            totalCoin={totalCoin}
+          />
+        ) : (
+          <OnAirStreaming onAir={onAir} title="현재 스트리밍 중이 아닙니다." />
+        ))}
+      {type === "shelter" && <ReadyStreaming />}
       <Donation userList={userList} />
     </>
   );

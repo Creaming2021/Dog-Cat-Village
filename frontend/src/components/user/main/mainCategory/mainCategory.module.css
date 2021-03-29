@@ -1,28 +1,19 @@
 .main-category {
-  /* display: inline-block; */
-  width: 450px;
-  height: 840px;
+  width: 500px;
   float: left;
+  margin-bottom: 10px;
 }
 
 .top {
   display: block;
   text-align: center;
   width: 100%;
-  height: 370px;
-  margin-bottom: 20px;
-}
-
-.profile {
-  display: block;
-  background-color: yellowgreen;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  margin: 30px auto;
+  height: fit-content;
+  margin-bottom: 30px;
 }
 
 .title {
+  margin-top: 30px;
   font-size: 25px;
   font-weight: bold;
   color: #5E5E5E;
@@ -32,7 +23,7 @@
   font-size: 18px;
   font-weight: bold;
   color: #5E5E5E;
-  margin-bottom: 30px;
+  margin-bottom: 70px;
 }
 
 .info {
@@ -42,8 +33,12 @@
 
 .bottom {
   width: 100%;
-  height: 420px;
+  height: fit-content;
   text-align: center;
+}
+
+.bottom button {
+  margin: 5px;
 }
 
 .introduction-box {
@@ -55,6 +50,7 @@
   margin: 0 auto;
   margin-top: 5px;
   background-color: #F3FBE4;
+  padding: 40px;
 }
 
 .introduction {
@@ -72,6 +68,6 @@
 
 .btn-edit {
   position: absolute;
-  margin: 10px;
+  top: 10px;
   right: 10px;
 }
