@@ -2,9 +2,27 @@ spring:
   jpa:
     properties:
       hibernate:
-#        show_sql: true
+        #        show_sql: true
         format_sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ekdbs628@gmail.com
+    password: MacBye^^
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 logging.level:
   org.hibernate.SQL: debug
   # org.hibernate.type: trace
+
+my-app:
+  admin-email: admin@ssafy.com
+  admin-password: ssafy
+  client-id: ssafy
+  client-secret: ssafy

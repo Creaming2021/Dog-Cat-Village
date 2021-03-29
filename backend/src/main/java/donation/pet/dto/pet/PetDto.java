@@ -1,6 +1,5 @@
 package donation.pet.dto.pet;
 
-import donation.pet.domain.center.Center;
 import donation.pet.domain.pet.AdoptStatus;
 import donation.pet.domain.pet.BreedType;
 import donation.pet.domain.pet.Neuter;
@@ -16,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class PetDto {
 
-    private Center center;
+//    private Center center;
 
     private Long id;
     private String name;

@@ -4,7 +4,9 @@ import donation.pet.domain.member.MemberRepository;
 import donation.pet.domain.member.MemberRole;
 import donation.pet.domain.member.consumer.Consumer;
 import donation.pet.domain.member.consumer.ConsumerRepository;
+import donation.pet.dto.consumer.ConsumerResponseDto;
 import donation.pet.dto.consumer.ConsumerSignupRequestDto;
+import donation.pet.dto.consumer.ConsumerUpdateRequestDto;
 import donation.pet.dto.member.DuplRequestDto;
 import donation.pet.exception.BaseException;
 import donation.pet.exception.ErrorCode;
@@ -14,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.Set;
@@ -45,5 +48,25 @@ public class ConsumerService {
         if (memberRepository.findByName(dto.getName()).isPresent()) {
             throw new BaseException(ErrorCode.NAME_DUPLICATION);
         }
+    }
+
+    public ConsumerResponseDto getConsumer(Long consumerId) {
+        Consumer consumer = consumerRepository.findById(consumerId)
+                .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_ID_NOT_EXIST));
+        return modelMapper.map(consumer, ConsumerResponseDto.class);
+    }
+
+    public ConsumerResponseDto updateConsumer(Long consumerId, ConsumerUpdateRequestDto dto) {
+        Consumer consumer = consumerRepository.findById(consumerId)
+                .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_ID_NOT_EXIST));
+        consumer.updateConsumer(dto.getName(), dto.getPassword(), dto.getPhoneNumber());
+        return modelMapper.map(consumer, ConsumerResponseDto.class);
+    }
+
+    public void saveProfileImage(Long consumerId, MultipartFile file) {
+        Consumer consumer = consumerRepository.findById(consumerId)
+                .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_ID_NOT_EXIST));
+
+        // file 등록 예정
     }
 }

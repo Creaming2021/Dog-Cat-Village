@@ -26,4 +26,10 @@ public class Consumer extends Member {
     public Consumer(Long id, String name, String email, String password, String phoneNumber, String accept, String contractAddress, String profileImage, Set<MemberRole> roles) {
         super(id, name, email, password, phoneNumber, accept, contractAddress, profileImage, roles);
     }
+
+    public void updateConsumer(String name, String password, String phoneNumber) {
+        this.name = name;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+    }
 }
