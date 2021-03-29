@@ -3,9 +3,45 @@
   outline: none;
 }
 
+button {
+  cursor: pointer;
+}
+
+.list-out-container {
+  display: flex;
+  flex-direction: column;
+  height: 820px;
+  width: 640px;
+  border-radius: 30px;
+  background-color: white;
+}
+
+.btn-container {
+  display: flex;
+  margin: 20px 25px 0px 20px;
+}
+
+.tab-btn {
+  width: 125px;
+  height: 30px;
+  margin: 0 5px;
+  background-color: white;
+  font-size: 12px;
+  font-weight: 900;
+  color: rgb(252, 126, 8);
+  border: 2px solid rgb(247, 166, 90);
+  border-bottom: none;
+}
+
+.btn-active {
+  background-color: rgb(241, 155, 74);
+  color: white;
+}
+
 .list-container {
+  margin: 0 auto;
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 800px;
-  width: 650px;
+  height: 740px;
+  width: 600px;
 }
