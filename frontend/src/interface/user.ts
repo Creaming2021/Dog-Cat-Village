@@ -32,4 +32,5 @@ export interface LogInResponseType {
   email: string;
   nickname: string;
   phone: string;
+  role: string;
 }

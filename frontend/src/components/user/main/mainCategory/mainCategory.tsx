@@ -14,6 +14,7 @@ type MainCategoryProps = {
     phoneNumber: string;
     email: string;
     introduction: string;
+    role: string;
   };
 };
 
@@ -50,12 +51,22 @@ const MainCategory = ({ onChangeCategory, userInfo }: MainCategoryProps) => {
           onClick={onClick}
           buttonColor="bg-green"
         />
-        <ButtonMedium
-          content="후원하기"
-          value="donation"
-          onClick={onClick}
-          buttonColor="bg-green"
-        />
+        { userInfo.role === "shelter" &&
+          <ButtonMedium
+            content="입양 신청"
+            value="adopt"
+            onClick={onClick}
+            buttonColor="bg-green"
+            />
+        }
+        { userInfo.role === "user" &&
+          <ButtonMedium
+            content="후원하기 "
+            value="donation"
+            onClick={onClick}
+            buttonColor="bg-green"
+            />
+        }
         <div className={`${styles["introduction-box"]}`}>
           <FontAwesomeIcon
             className={`${commons["text-color"]} ${styles["btn-edit"]}`}
