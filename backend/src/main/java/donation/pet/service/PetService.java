@@ -38,7 +38,8 @@ public class PetService {
     @Transactional
     public PetResponseDto insertPet(PetPostRequestDto dto) {
         Center center = centerRepository.findById(dto.getCenterId()).orElseThrow();
-        Pet pet = modelMapper.map(dto, Pet.class).initPet(center);
+        PetDto petDto = modelMapper.map(dto, PetDto.class);
+        Pet pet = Pet.createPet2(petDto, center);
         petRepository.save(pet);
 
         return modelMapper.map(pet.changeToDto(), PetResponseDto.class);

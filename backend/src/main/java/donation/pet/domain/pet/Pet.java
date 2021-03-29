@@ -3,26 +3,25 @@ package donation.pet.domain.pet;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import donation.pet.domain.adopt.Adopt;
-import donation.pet.domain.etc.BaseTimeEntity;
 import donation.pet.domain.center.Center;
+import donation.pet.domain.etc.BaseTimeEntity;
 import donation.pet.dto.pet.PetDto;
 import lombok.*;
-import org.aspectj.weaver.patterns.PerThisOrTargetPointcutVisitor;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 @Builder
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@Setter // ModelMapper 쓰려면 필요
+@AllArgsConstructor // @Builder 쓰려면 필요
+@NoArgsConstructor // 기본 생성자
 @EqualsAndHashCode(of = "id", callSuper = false)
 public class Pet extends BaseTimeEntity {
 
@@ -88,18 +87,21 @@ public class Pet extends BaseTimeEntity {
         return pet;
     }
 
-    public Pet initPet(Center center) {
-        this.center = center;
-        this.adoptStatus = AdoptStatus.UNADOPTED;
-        center.getPets().add(this);
+    public static Pet createPet2(PetDto petDto, Center center) {
+        ModelMapper modelMapper = new ModelMapper();
+        Pet pet = modelMapper.map(petDto, Pet.class);
 
-        return this;
+        pet.center = center;
+        pet.adoptStatus = AdoptStatus.UNADOPTED;
+        center.getPets().add(pet);
+
+        return pet;
     }
 
     public PetDto changeToDto() {
         ModelMapper modelMapper = new ModelMapper();
         PetDto dto = modelMapper.map(this, PetDto.class);
-        dto.setAge(calculateAge());
+//        dto.setAge(calculateAge());
         return dto;
     }
 

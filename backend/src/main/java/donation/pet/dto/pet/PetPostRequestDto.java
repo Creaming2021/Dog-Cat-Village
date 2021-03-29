@@ -4,12 +4,16 @@ import donation.pet.domain.pet.AdoptStatus;
 import donation.pet.domain.pet.BreedType;
 import donation.pet.domain.pet.Neuter;
 import donation.pet.domain.pet.Sex;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class PetPostRequestDto {
 
