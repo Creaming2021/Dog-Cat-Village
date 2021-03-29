@@ -16,43 +16,45 @@ public class ShelterController {
 
     @ApiOperation("보호소 리스트")
     @GetMapping
-    public ResponseEntity<> getAllShelters(){
+    public ResponseEntity getAllShelters(){
         shelterService.getAllShelters();
+        return null;
     }
 
     @ApiOperation("보호소 유저 정보")
     @GetMapping("/{shelterId}")
-    public ResponseEntity<> func(@PathVariable("shelterId") Long shelterId){
+    public ResponseEntity func2(@PathVariable("shelterId") Long shelterId){
         shelterService.getShelter(shelterId);
+        return null;
     }
 
     @ApiOperation("보호소 유저 정보 수정")
     @PutMapping("/{shelterId}")
-    public ResponseEntity<> func(@PathVariable("shelterId") Long shelterId){
-
+    public ResponseEntity func3(@PathVariable("shelterId") Long shelterId){
+        return null;
     }
 
     @ApiOperation("특정 보호소에 들어온 입양 신청 리스트 요청")
     @GetMapping("/{shelterId}/adopts")
-    public ResponseEntity<> func(@PathVariable("shelterId") Long shelterId){
-
+    public ResponseEntity func4(@PathVariable("shelterId") Long shelterId){
+        return null;
     }
 
     @ApiOperation("입양 신청 디테일 정보 요청")
     @GetMapping("/{shelterId}/adopts/{adoptId}")
-    public ResponseEntity<> func(@PathVariable("shelterId") Long shelterId, @PathVariable("adoptId") Long adoptId){
-
+    public ResponseEntity func5(@PathVariable("shelterId") Long shelterId, @PathVariable("adoptId") Long adoptId){
+        return null;
     }
 
     @ApiOperation("입양 신청 상태 변경 요청")
     @PutMapping("/{shelterId}/adopts/{adoptId}")
-    public ResponseEntity<> func(@PathVariable("shelterId") Long shelterId, @PathVariable("adoptId") Long adoptId){
-
+    public ResponseEntity func6(@PathVariable("shelterId") Long shelterId, @PathVariable("adoptId") Long adoptId){
+        return null;
     }
 
     @ApiOperation("특정 보호소 동물 리스트")
     @GetMapping("/{shelterId}/pets")
-    public ResponseEntity<> func(@PathVariable("shelterId") Long shelterId){
-
+    public ResponseEntity func7(@PathVariable("shelterId") Long shelterId){
+        return null;
     }
 }

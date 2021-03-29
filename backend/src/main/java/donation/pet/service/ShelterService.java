@@ -27,6 +27,6 @@ public class ShelterService {
         Shelter shelter = shelterRepository.findById(shelterId)
                 .orElseThrow(() -> new BaseException(ErrorCode.SHELTER_NOT_EXIST));
         ShelterResponseDto dto = modelMapper.map(shelter, ShelterResponseDto.class);
-
+        return null;
     }
 }

@@ -78,5 +78,8 @@ public class Adopt extends BaseTimeEntity {
         return modelMapper.map(this, AdoptDto.class);
     }
 
+    public boolean isAdopted() {
+        return acceptStatus == AcceptStatus.ACCEPTED;
+    }
 
 }
