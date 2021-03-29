@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import lombok.Data;
 
 import javax.persistence.Column;
+import java.util.List;
 
 @Data
 public class ShelterResponseDto {
@@ -15,5 +16,6 @@ public class ShelterResponseDto {
     private String profileImage;
     private String introduce;
 
+    private List<Integer> monthlyAdoption;
 
 }
