@@ -1,5 +1,8 @@
 package donation.pet.controller;
 
+import donation.pet.dto.adopt.AdoptListResponseDto;
+import donation.pet.dto.adopt.AdoptRequestDto;
+import donation.pet.dto.adopt.AdoptResponseDto;
 import donation.pet.dto.consumer.ConsumerResponseDto;
 import donation.pet.dto.consumer.ConsumerSignupRequestDto;
 import donation.pet.dto.consumer.ConsumerUpdateRequestDto;
@@ -64,5 +67,26 @@ public class ConsumerController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @ApiOperation("개인 유저가 작성한 입양 신청 리스트 요청")
+    @GetMapping("/{consumerId}/adopts")
+    public ResponseEntity<AdoptListResponseDto> getAdoptsByConsumer(@PathVariable("consumerId") Long consumerId){
+        AdoptListResponseDto result = consumerService.getAdoptsByConsumer(consumerId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation("입양 신청 디테일 정보 요청")
+    @GetMapping("/{consumerId}/adopts/{adoptId}")
+    public ResponseEntity<AdoptResponseDto> getAdoptDetailByConsumer(@PathVariable("consumerId") Long consumerId, @PathVariable("adoptId") Long adoptId){
+        AdoptResponseDto result = consumerService.getAdoptDetailByConsumer(consumerId, adoptId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation("입양 신청 등록 요청")
+    @PostMapping("/{consumerId}/adopts")
+    public ResponseEntity<Void> insertAdoptByConsumer(@PathVariable("consumerId") Long consumerId,
+                                                      @RequestBody AdoptRequestDto dto){
+        consumerService.insertAdoptByConsumer(consumerId, dto);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
 }

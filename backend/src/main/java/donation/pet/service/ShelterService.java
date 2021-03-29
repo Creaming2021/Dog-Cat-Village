@@ -93,7 +93,10 @@ public class ShelterService {
     public AdoptResponseDto getAdopt(Long shelterId, Long adoptId) {
         Adopt adopt = adoptRepository.findById(adoptId)
                 .orElseThrow(() -> new BaseException(ErrorCode.ADOPT_NOT_EXIST));
-        return getAdoptResponseDto(adopt);
+        if (!adopt.getShelter().getId().equals(shelterId)) {
+            throw new BaseException(ErrorCode.SHELTER_NOT_MATCH);
+        }
+        return adopt.toAdoptDto();
     }
 
     // 입양 신청 상태 변경 요청
@@ -102,21 +105,9 @@ public class ShelterService {
         Adopt adopt = adoptRepository.findById(adoptId).orElseThrow(() -> new BaseException(ErrorCode.ADOPT_NOT_EXIST));
         adopt.changeAccept(dto.getStatus());
         adoptRepository.save(adopt);
-        return getAdoptResponseDto(adopt);
+        return adopt.toAdoptDto();
     }
 
-    private AdoptResponseDto getAdoptResponseDto(Adopt adopt) {
-        AdoptDto adoptDto = adopt.toDto();
-        Consumer consumer = consumerRepository.findById(adoptDto.getConsumerId())
-                .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_NOT_EXIST));
-        AdoptResponseDto dto = modelMapper.map(adoptDto, AdoptResponseDto.class);
-        ConsumerResponseDto consumerResponseDto = modelMapper.map(consumer, ConsumerResponseDto.class);
-        dto.setConsumer(consumerResponseDto);
-        Pet pet = petRepository.findById(adoptDto.getPetId())
-                .orElseThrow(() -> new BaseException(ErrorCode.PET_NOT_EXIST));
-        dto.setPetName(pet.getName());
-        return dto;
-    }
 
     // 특정 보호소 동물 리스트
     public PetResponseListDto getPetsByShelterId(Long shelterId){

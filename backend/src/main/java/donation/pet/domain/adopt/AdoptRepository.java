@@ -15,4 +15,6 @@ public interface AdoptRepository extends JpaRepository<Adopt, Long> {
     @Query("select a from Adopt a join fetch a.pet p where a.shelter.id = :shelterId")
     List<Adopt> findByShelter(@Param("shelterId") Long shelterId);
 
+    @Query("select a from Adopt a join fetch a.pet p where a.consumer.id = :consumerId")
+    List<Adopt> findByConsumer(@Param("consumerId") Long consumerId);
 }

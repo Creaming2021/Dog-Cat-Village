@@ -22,6 +22,8 @@ public enum ErrorCode {
     SHELTER_NOT_EXIST(HttpStatus.NOT_FOUND, "03000", "존재하지 않는 보호소입니다."),
     ADOPT_NOT_EXIST(HttpStatus.NOT_FOUND, "04000", "존재하지 않는 신청서입니다."),
     PET_NOT_EXIST(HttpStatus.NOT_FOUND, "05000", "존재하지 않는 동물입니다."),
+    SHELTER_NOT_MATCH(HttpStatus.BAD_REQUEST, "03001", "해당 보호소의 입양신청서가 아닙니다."),
+    CONSUMER_NOT_MATCH(HttpStatus.BAD_REQUEST, "02001", "해당 사용자의 입양신청서가 아닙니다."),
 
     // 서버 에러
     RUNTIME_EXCEPTION(HttpStatus.BAD_REQUEST, "00100"),

@@ -10,6 +10,7 @@ import donation.pet.domain.member.shelter.ShelterRepository;
 import donation.pet.domain.pet.Pet;
 import donation.pet.domain.pet.PetRepository;
 import donation.pet.dto.adopt.AdoptDto;
+import donation.pet.dto.adopt.AdoptResponseDto;
 import donation.pet.dto.consumer.ConsumerResponseDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,16 +99,17 @@ class AdoptServiceTest {
         // given
         Consumer consumer = new Consumer();
         Shelter shelter = new Shelter();
-        Pet pet = new Pet();
+        Pet pet = Pet.builder().name("쿠로").build();
         Adopt adopt = Adopt.createAdopt(consumer, shelter, pet);
+        adopt.setName("다윤");
         consumerRepository.save(consumer);
         shelterRepository.save(shelter);
         petRepository.save(pet);
         adoptRepository.save(adopt);
 
         // when
-        AdoptDto adoptDto = adopt.toDto();
-        System.out.println("adoptDto = " + adoptDto);
+        AdoptResponseDto adoptResponseDto = adopt.toAdoptDto();
+        System.out.println("adoptResponseDto = " + adoptResponseDto);
 
         // then
     }

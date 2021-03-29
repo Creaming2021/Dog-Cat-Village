@@ -8,6 +8,9 @@ import donation.pet.domain.pet.AdoptStatus;
 import donation.pet.domain.pet.Pet;
 import donation.pet.domain.etc.Sex;
 import donation.pet.dto.adopt.AdoptDto;
+import donation.pet.dto.adopt.AdoptRequestDto;
+import donation.pet.dto.adopt.AdoptResponseDto;
+import donation.pet.dto.consumer.ConsumerResponseDto;
 import lombok.*;
 import org.modelmapper.ModelMapper;
 
@@ -90,6 +93,15 @@ public class Adopt extends BaseTimeEntity {
         return adopt;
     }
 
+    public void addForm(AdoptRequestDto dto) {
+        name = dto.getName();
+        sex = dto.getSex();
+        address = dto.getAddress();
+        description = dto.getDescription();
+        day = dto.getDay();
+        time = dto.getTime();
+    }
+
     // 입양 승인 & 연도 체크용
     public Month getMonthByGivenYearAdopted(int year) {
         if (acceptStatus == AcceptStatus.ACCEPTED && statusDate.getYear() == year) {
@@ -98,9 +110,12 @@ public class Adopt extends BaseTimeEntity {
         return null;
     }
 
-    public AdoptDto toDto() {
+    public AdoptResponseDto toAdoptDto() {
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(this, AdoptDto.class);
+        AdoptResponseDto dto = modelMapper.map(this, AdoptResponseDto.class);
+        ConsumerResponseDto consumerResponseDto = modelMapper.map(this.consumer, ConsumerResponseDto.class);
+        dto.setConsumer(consumerResponseDto);
+        return dto;
     }
 
 }
