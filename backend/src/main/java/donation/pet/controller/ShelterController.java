@@ -23,7 +23,7 @@ public class ShelterController {
     @ApiOperation("보호소 유저 정보")
     @GetMapping("/{shelterId}")
     public ResponseEntity<> func(@PathVariable("shelterId") Long shelterId){
-
+        shelterService.getShelter(shelterId);
     }
 
     @ApiOperation("보호소 유저 정보 수정")

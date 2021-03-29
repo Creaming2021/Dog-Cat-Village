@@ -52,20 +52,20 @@ public class ConsumerService {
 
     public ConsumerResponseDto getConsumer(Long consumerId) {
         Consumer consumer = consumerRepository.findById(consumerId)
-                .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_ID_NOT_EXIST));
+                .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_NOT_EXIST));
         return modelMapper.map(consumer, ConsumerResponseDto.class);
     }
 
     public ConsumerResponseDto updateConsumer(Long consumerId, ConsumerUpdateRequestDto dto) {
         Consumer consumer = consumerRepository.findById(consumerId)
-                .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_ID_NOT_EXIST));
+                .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_NOT_EXIST));
         consumer.updateConsumer(dto.getName(), dto.getPassword(), dto.getPhoneNumber());
         return modelMapper.map(consumer, ConsumerResponseDto.class);
     }
 
     public void saveProfileImage(Long consumerId, MultipartFile file) {
         Consumer consumer = consumerRepository.findById(consumerId)
-                .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_ID_NOT_EXIST));
+                .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_NOT_EXIST));
 
         // file 등록 예정
     }

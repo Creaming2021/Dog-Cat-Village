@@ -18,7 +18,8 @@ public enum ErrorCode {
     // 예측 가능한 에러 or Return
     EMAIL_DUPLICATION(HttpStatus.CONFLICT, "01000", "중복된 이메일 입니다."),
     NAME_DUPLICATION(HttpStatus.CONFLICT, "01001", "중복된 닉네임입니다."),
-    CONSUMER_ID_NOT_EXIST(HttpStatus.NOT_FOUND, "02000", "존재하지않는 사용자아이디입니다."),
+    CONSUMER_NOT_EXIST(HttpStatus.NOT_FOUND, "02000", "존재하지 않는 사용자입니다."),
+    SHELTER_NOT_EXIST(HttpStatus.NOT_FOUND, "03000", "존재하지 않는 보호소입니다."),
 
     // 서버 에러
     RUNTIME_EXCEPTION(HttpStatus.BAD_REQUEST, "00100"),
