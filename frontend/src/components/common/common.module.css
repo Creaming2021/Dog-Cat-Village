@@ -23,7 +23,12 @@
 }
 
 .text-small-light {
-  font-size: 20px;
+  font-size: 1.25rem;
+  color: #747474;
+}
+
+.text-xsmall-light {
+  font-size: 0.8rem;
   color: #747474;
 }
 
@@ -143,6 +148,30 @@
   cursor: pointer;
 }
 
+.bg-white-yellow {
+	color: #5e5e5e;
+	background-color: transparent;
+}
+
+.bg-white-yellow:hover {
+  color: white;
+  background-color: #ffce00;
+  border: none;
+  cursor: pointer;
+}
+
+.bg-white-blue {
+	color: #5e5e5e;
+	background-color: transparent;
+}
+
+.bg-white-blue:hover {
+  color: white;
+  background-color: #16a8eb;
+  border: none;
+  cursor: pointer;
+}
+
 .bg-gradient-yellow-blue {
   background: linear-gradient(0.25turn, #fef6c7, #e7ffff);
 }
@@ -215,7 +244,7 @@
   background-color: transparent;
   border-width: 0 0 2px;
 
-  width: 90px;
+  width: 110px;
   height: 35px;
 
   margin: 0px 10px 10px 0px;
