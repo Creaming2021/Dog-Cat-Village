@@ -18,25 +18,25 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
-    private Long id;
+    protected Long id;
 
     @NotNull
     @Column(unique = true)
-    private String name;
+    protected String name;
 
     @Column(unique = true)
-    private String email;
+    protected String email;
 
-    private String password;
-    private String phoneNumber;
-    private String accept;
+    protected String password;
+    protected String phoneNumber;
+    protected String accept;
 
-    private String contractAddress;
-    private String profileImage;
+    protected String contractAddress;
+    protected String profileImage;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private Set<MemberRole> roles;
+    protected Set<MemberRole> roles;
 
     public void signup(String encodePassword, String role) {
         this.updatePassword(encodePassword);
@@ -54,4 +54,5 @@ public class Member {
     public void updatePassword(String encodePassword) {
         this.password = encodePassword;
     }
+
 }
