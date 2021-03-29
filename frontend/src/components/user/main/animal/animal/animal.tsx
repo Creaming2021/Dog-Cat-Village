@@ -105,21 +105,24 @@ const Animal = ({ type }: AnimalProps) => {
 
   const animal: AnimalInputType = {
     id: 1,
-		imageUrl: "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
-		name: "이름", 
-		breed: "품종",
-		weight: '45', 
-		breedType: "CAT",
-		personality: "성격",
-		condition: "건강상태",
-		sex: 'MALE', 
-		neuter: 'NO',
-    year: '2021',
-    month: '3',
-    date: '2',
-	}
+    imageUrl:
+      "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
+    name: "이름",
+    breed: "품종",
+    weight: "45",
+    breedType: "CAT",
+    personality: "성격",
+    condition: "건강상태",
+    sex: "MALE",
+    neuter: "NO",
+    year: "2021",
+    month: "3",
+    date: "2",
+  };
 
-  const [resultAnimalList, setResultAnimalList] = useState<AnimalListType[]>(animalList);
+  const [resultAnimalList, setResultAnimalList] = useState<AnimalListType[]>(
+    animalList
+  );
 
   const [searchInput, setSearchInput] = useState({
     keyword: "",
@@ -179,18 +182,21 @@ const Animal = ({ type }: AnimalProps) => {
     onCloseModify();
   }
 
-  const onChange = ( e: React.ChangeEvent<HTMLSelectElement>
-      							| React.ChangeEvent<HTMLInputElement>): void => {
-		const { name, value } = e.target;
-		setSearchInput({
-			...searchInput,
-			[name]: value,
-		});
-	};
+  const onChange = (
+    e:
+      | React.ChangeEvent<HTMLSelectElement>
+      | React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const { name, value } = e.target;
+    setSearchInput({
+      ...searchInput,
+      [name]: value,
+    });
+  };
 
   return (
     <div className={styles["animal-container"]}>
-			<Search
+      <Search
         selectList={selectList}
         selectValue={[searchInput.type]}
         inputName="keyword"
@@ -198,36 +204,40 @@ const Animal = ({ type }: AnimalProps) => {
         onSearch={onSearch}
         onChange={onChange}
         placeholder="동물 이름"
-        inputSize="input-medium"/>
-				
-			{type === "center" && (
-        <ButtonSmall 
-					content="동물 등록" 
-					onClick={onOpenRegister} 
-					buttonColor="bg-green"/>
+        inputSize="input-medium"
+      />
+
+      {type === "center" && (
+        <ButtonSmall
+          content="동물 등록"
+          onClick={onOpenRegister}
+          buttonColor="bg-green"
+        />
       )}
 
-			<div className={styles['animal-list']}>
-    		<AnimalList animalList={resultAnimalList}/>
-			</div>
+      <div className={styles["animal-list"]}>
+        <AnimalList animalList={resultAnimalList} />
+      </div>
 
-      {registerAnimal && 
+      {registerAnimal && (
         <ModalMedium>
           <EditAnimalForm
             type="register"
             onRegister={onSubmitRegister}
-            onCancle={onCloseRegister}/>
+            onCancle={onCloseRegister}
+          />
         </ModalMedium>
-      }
-      {modifyAnimal &&
+      )}
+      {modifyAnimal && (
         <ModalMedium>
           <EditAnimalForm
             type="modify"
             animal={animal}
             onModify={onSubmitModify}
-            onCancle={onCloseModify}/>
+            onCancle={onCloseModify}
+          />
         </ModalMedium>
-      }
+      )}
     </div>
   );
 };

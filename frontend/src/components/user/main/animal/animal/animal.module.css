@@ -1,17 +1,17 @@
-.animal-container{
-	width: fit-content;
-	height: fit-content;
+.animal-container {
+  width: fit-content;
+  height: fit-content;
 }
 
-.animal-list{
-	display: block;
-	height: 800px;
+.animal-list {
+  display: block;
+  height: 800px;
 
-	overflow: auto;
-	-ms-overflow-style: none;
-	scrollbar-width: none;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .animal-list::-webkit-scrollbar {
-	display: none;
+  display: none;
 }

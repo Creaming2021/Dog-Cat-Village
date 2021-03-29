@@ -1,73 +1,73 @@
 .main-category {
-    width: 500px;
-    float: left;
-    margin-bottom: 10px;
+  width: 500px;
+  float: left;
+  margin-bottom: 10px;
 }
 
 .top {
-    display: block;
-    text-align: center;
-    width: 100%;
-    height: fit-content;
-    margin-bottom: 30px;
+  display: block;
+  text-align: center;
+  width: 100%;
+  height: fit-content;
+  margin-bottom: 30px;
 }
 
-.title{
-    margin-top: 30px;
-    font-size: 25px;
-    font-weight: bold;
-    color: #5E5E5E;
+.title {
+  margin-top: 30px;
+  font-size: 25px;
+  font-weight: bold;
+  color: #5E5E5E;
 }
 
-.site{
-    font-size: 18px;
-    font-weight: bold;
-    color: #5E5E5E;
-    margin-bottom: 70px;
+.site {
+  font-size: 18px;
+  font-weight: bold;
+  color: #5E5E5E;
+  margin-bottom: 70px;
 }
 
-.info{
-    font-size: 18px;
-    color: #5E5E5E;
+.info {
+  font-size: 18px;
+  color: #5E5E5E;
 }
 
 .bottom {
-    width: 100%;
-    height: fit-content;
-    text-align: center;
+  width: 100%;
+  height: fit-content;
+  text-align: center;
 }
 
 .bottom button {
-    margin: 5px;
+  margin: 5px;
 }
 
 .introduction-box {
-    display: block;
-    position:relative;
-    border-radius: 10px;
-    width: 400px;
-    height: 190px;
-    margin: 0 auto;
-    margin-top: 5px;
-    background-color: #F3FBE4;
-    padding: 40px;
+  display: block;
+  position: relative;
+  border-radius: 10px;
+  width: 400px;
+  height: 190px;
+  margin: 0 auto;
+  margin-top: 5px;
+  background-color: #F3FBE4;
+  padding: 40px;
 }
 
 .introduction {
-    height: 100%;
-    text-align: center;
+  height: 100%;
+  text-align: center;
 
-    overflow: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .introduction::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
-.btn-edit{
-    position: absolute;
-    top: 10px;
-    right: 10px;
+.btn-edit {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }

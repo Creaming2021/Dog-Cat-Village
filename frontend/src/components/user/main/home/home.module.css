@@ -1,180 +1,180 @@
-.streaming{
-    width: 970px;
-    height: 820px;
-    background-color: #F3FBE4;
-    border-radius: 10px;
-    text-align: center;
-    margin: 20px 25px 0px 0px;
-    float: left;
+.streaming {
+  width: 970px;
+  height: 820px;
+  background-color: #F3FBE4;
+  border-radius: 10px;
+  text-align: center;
+  margin: 20px 25px 0px 0px;
+  float: left;
 }
 
-.donation{
-    width: 430px;
-    height: 800px;
-    border-radius: 10px;
-    text-align: center;
-    float: left;
+.donation {
+  width: 430px;
+  height: 800px;
+  border-radius: 10px;
+  text-align: center;
+  float: left;
 }
 
-.test{
-    width: 100px;
-    height: 100px;
-    background-color: white;
+.test {
+  width: 100px;
+  height: 100px;
+  background-color: white;
 }
 
-.title-box{
-    margin: auto;
-    margin-top: 50px;
+.title-box {
+  margin: auto;
+  margin-top: 50px;
 }
 
-.title-box div{
-    display: inline-block;
-    font-size: 35px;
-    font-weight: bold;
-    color: #5E5E5E;
+.title-box div {
+  display: inline-block;
+  font-size: 35px;
+  font-weight: bold;
+  color: #5E5E5E;
 }
 
-.icon-broadcast{
-    display: inline-block;
-    color: #D1D1D1;
-    font-size: 40px;
-    margin: auto;
-    margin-right: 10px;
+.icon-broadcast {
+  display: inline-block;
+  color: #D1D1D1;
+  font-size: 40px;
+  margin: auto;
+  margin-right: 10px;
 }
 
-.on-air{
-    color: #AD0000;
+.on-air {
+  color: #AD0000;
 }
 
-.video-box{
-    position: relative;
-    width: 920px;
-    height: 520px;
-    margin: 50px auto;
+.video-box {
+  position: relative;
+  width: 920px;
+  height: 520px;
+  margin: 50px auto;
 }
 
-.video-icon-box{
-    position: absolute;
-    top:15px;
-    left:15px;
+.video-icon-box {
+  position: absolute;
+  top: 15px;
+  left: 15px;
 }
 
-.video-content{
-    display: inline-block;
-    color: white;
-    margin: 0 5px;
+.video-content {
+  display: inline-block;
+  color: white;
+  margin: 0 5px;
 }
 
-.video{
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-color: gray;
-    border-radius: 30px;
+.video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: gray;
+  border-radius: 30px;
 }
 
-.content{
-    display: inline-block;
-    margin: auto;
-    font-size: 20px;
-    font-weight: bold;
-    color: #5E5E5E;
+.content {
+  display: inline-block;
+  margin: auto;
+  font-size: 20px;
+  font-weight: bold;
+  color: #5E5E5E;
 }
 
-.donation-info{
-    width: 100%;
-    height: fit-content;
-    margin-bottom: 30px;
+.donation-info {
+  width: 100%;
+  height: fit-content;
+  margin-bottom: 30px;
 }
 
-.donation-box{
-    width: 100%;
-    height: 40%;
-    margin: 30px 0px;
+.donation-box {
+  width: 100%;
+  height: 40%;
+  margin: 30px 0px;
 }
 
-.donation-box div{
-    font-size: 20px;
-    font-weight: bold;
-    color: #A0A0A0;
-    margin: 10px 0;
+.donation-box div {
+  font-size: 20px;
+  font-weight: bold;
+  color: #A0A0A0;
+  margin: 10px 0;
 }
 
-.donation-info span{
-    font-size: 40px;
-    font-weight: 900;
-    color: #5E5E5E;
+.donation-info span {
+  font-size: 40px;
+  font-weight: 900;
+  color: #5E5E5E;
 }
 
-.icon-donation{
-    font-size: 50px;
-    color: #788E6E;
-    margin-right: 15px;
+.icon-donation {
+  font-size: 50px;
+  color: #788E6E;
+  margin-right: 15px;
 }
 
-.list{
-    background-color: #F3FBE4;
-    height: 567px;
-    border-radius: 10px;
-    text-align: left;
-    overflow: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+.list {
+  background-color: #F3FBE4;
+  height: 567px;
+  border-radius: 10px;
+  text-align: left;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .list::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
-.card-text{
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 100%;
-    color: #5E5E5E;
+.card-text {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 100%;
+  color: #5E5E5E;
 }
 
-.card{
-    display: inline-block;
-    position: relative;
-    width: 125px;
-    height: 165px;
-    border-radius: 10px;
-    background-color: white;
-    margin: 12px 0px 0px 13px;
-    padding: 12px 0px 12px 0px;
-    text-align: center;
+.card {
+  display: inline-block;
+  position: relative;
+  width: 125px;
+  height: 165px;
+  border-radius: 10px;
+  background-color: white;
+  margin: 12px 0px 0px 13px;
+  padding: 12px 0px 12px 0px;
+  text-align: center;
 }
 
-.card:hover .card-hover{
-    visibility: visible;
+.card:hover .card-hover {
+  visibility: visible;
 }
 
-.card-hover{
-    visibility: hidden;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.card-hover {
+  visibility: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    background-color: black;
-    opacity: 0.6;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: black;
+  opacity: 0.6;
 }
 
-.card-hover .card-text{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    
-    color: white;
-    font-size: 18px;
-    font-weight: 900;
+.card-hover .card-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  color: white;
+  font-size: 18px;
+  font-weight: 900;
 }
 
-.card span{
-    margin-left: 5px;
+.card span {
+  margin-left: 5px;
 }
