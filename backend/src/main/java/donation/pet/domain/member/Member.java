@@ -8,6 +8,7 @@ import java.util.Set;
 
 @Entity
 @Getter
+@Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -18,25 +19,25 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
-    protected Long id;
+    private Long id;
 
     @NotNull
     @Column(unique = true)
-    protected String name;
+    private String name;
 
     @Column(unique = true)
-    protected String email;
+    private String email;
 
-    protected String password;
-    protected String phoneNumber;
-    protected String accept;
+    private String password;
+    private String phoneNumber;
+    private String accept;
 
-    protected String contractAddress;
-    protected String profileImage;
+    private String contractAddress;
+    private String profileImage;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    protected Set<MemberRole> roles;
+    private Set<MemberRole> roles;
 
     public void signup(String encodePassword, String role) {
         this.updatePassword(encodePassword);

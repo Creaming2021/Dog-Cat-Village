@@ -10,6 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -26,7 +28,9 @@ public class ShelterService {
     public ShelterResponseDto getShelter(Long shelterId) {
         Shelter shelter = shelterRepository.findById(shelterId)
                 .orElseThrow(() -> new BaseException(ErrorCode.SHELTER_NOT_EXIST));
+        int[] monthlyAdoption = shelter.getMonthlyAdoptionFromYear(LocalDate.now().getYear());
         ShelterResponseDto dto = modelMapper.map(shelter, ShelterResponseDto.class);
-        return null;
+        dto.setMonthlyAdoption(monthlyAdoption);
+        return dto;
     }
 }

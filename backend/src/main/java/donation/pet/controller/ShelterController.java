@@ -1,9 +1,11 @@
 package donation.pet.controller;
 
 import donation.pet.domain.member.shelter.ShelterRepository;
+import donation.pet.dto.shelter.ShelterResponseDto;
 import donation.pet.service.ShelterService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,9 +25,9 @@ public class ShelterController {
 
     @ApiOperation("보호소 유저 정보")
     @GetMapping("/{shelterId}")
-    public ResponseEntity func2(@PathVariable("shelterId") Long shelterId){
-        shelterService.getShelter(shelterId);
-        return null;
+    public ResponseEntity<ShelterResponseDto> func2(@PathVariable("shelterId") Long shelterId){
+        ShelterResponseDto result = shelterService.getShelter(shelterId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation("보호소 유저 정보 수정")

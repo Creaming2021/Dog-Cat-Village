@@ -13,11 +13,13 @@ import org.modelmapper.ModelMapper;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Getter @Setter
+@Getter
+@Setter // 테스트 코드 용도....
 @Builder
 @EqualsAndHashCode(of = "id", callSuper = false)
 public class Adopt extends BaseTimeEntity {
@@ -49,37 +51,45 @@ public class Adopt extends BaseTimeEntity {
 
     //////////////////////////////////////////
 
-    // 승인 상태 변경
+    // 승인 상태 변경 ( 승인 상태 변경시 statusDate 수정)
     public void changeAccept(AcceptStatus acceptStatus) {
-        this.acceptStatus = acceptStatus;
-        if (acceptStatus == AcceptStatus.PENDING) {
+        if (this.acceptStatus == acceptStatus) {
             return;
-        } else if (acceptStatus == AcceptStatus.ACCEPTED) {
+        }
+        this.acceptStatus = acceptStatus;
+        statusDate = LocalDate.now();
+        if (acceptStatus == AcceptStatus.ACCEPTED) {
             pet.changeStatus(AdoptStatus.ADOPTED);
         }
-        statusDate = LocalDate.now();
     }
 
-    // 유저의 입양신청서 작성 ( 생성 메소드 )
-    public static Adopt createAdoptForMember(Consumer consumer, Pet pet) {
+    // 입양신청서 작성 ( 생성 메소드 )
+    public static Adopt createAdopt(Consumer consumer, Shelter shelter, Pet pet) {
         Adopt adopt = new Adopt();
-        adopt.consumer = consumer;
-        adopt.pet = pet;
+        if (consumer != null) {
+            adopt.consumer = consumer;
+            consumer.getAdopts().add(adopt);
+        }
+        if (pet != null) {
+            adopt.pet = pet;
+            pet.getAdopts().add(adopt);
+        }
+        if (shelter != null) {
+            adopt.shelter = shelter;
+            shelter.getAdopts().add(adopt);
+        }
         adopt.acceptStatus = AcceptStatus.PENDING;
-        consumer.getAdopts().add(adopt);
-
-        pet.getAdopts().add(adopt);
-
         return adopt;
     }
 
-    public AdoptDto changeToDto() {
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(this, AdoptDto.class);
+    // 입양 승인 & 연도 체크용
+    public Month getMonthByGivenYearAdopted(int year) {
+        if (acceptStatus == AcceptStatus.ACCEPTED && statusDate.getYear() == year) {
+            return getStatusDate().getMonth();
+        }
+        return null;
     }
 
-    public boolean isAdopted() {
-        return acceptStatus == AcceptStatus.ACCEPTED;
-    }
+
 
 }

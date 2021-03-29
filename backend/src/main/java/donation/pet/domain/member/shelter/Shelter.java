@@ -12,10 +12,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Set;
+import java.time.Month;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Entity
@@ -44,12 +43,14 @@ public class Shelter extends Member {
     //////////////////////////////////////
 
     // 해당 보호소에서 연도에 맞춰 입양 수 리스트 리턴
-    public List<Integer> getMonthlyAdoptionFromYear(int year) {
-        List<Integer> monthlyAdoption = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            monthlyAdoption.add(0);
-        }
-        getAdopts().stream().filter(Adopt::isAdopted);
-        return null;
+    public int[] getMonthlyAdoptionFromYear(int year) {
+        int[] monthlyAdoption = new int[12];
+        getAdopts().forEach(adopt -> {
+            Month month = adopt.getMonthByGivenYearAdopted(year);
+            if (month != null) {
+                monthlyAdoption[month.getValue() - 1]++;
+            }
+        });
+        return monthlyAdoption;
     }
 }
