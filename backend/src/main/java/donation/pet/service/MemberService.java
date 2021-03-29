@@ -8,10 +8,13 @@ import donation.pet.domain.member.consumer.ConsumerRepository;
 import donation.pet.dto.consumer.ConsumerSignupRequestDto;
 import donation.pet.dto.member.DuplRequestDto;
 import donation.pet.dto.member.FindPasswordRequestDto;
+import donation.pet.dto.member.LoginRequestDto;
+import donation.pet.dto.member.LoginResponseDto;
 import donation.pet.exception.BaseException;
 import donation.pet.exception.ErrorCode;
 import donation.pet.exception.RedirectCode;
 import donation.pet.exception.RedirectException;
+import donation.pet.util.ConnectOauth;
 import donation.pet.util.MailUtil;
 import donation.pet.util.MemberAdapter;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +26,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -36,6 +38,7 @@ public class MemberService implements UserDetailsService {
     public final ModelMapper modelMapper;
     public final PasswordEncoder passwordEncoder;
     public final MailUtil mailUtil;
+    public final ConnectOauth connectOauth;
 
     public void signup(ConsumerSignupRequestDto dto) {
         if (memberRepository.findByEmail(dto.getEmail()).isPresent()) {
@@ -46,7 +49,7 @@ public class MemberService implements UserDetailsService {
         String token = mailUtil.sendauthenticateEmail(dto.getEmail());
 
         // todo 나중에 shelter도 가입 가능해야 함
-        Consumer consumer = dto.toEntity(encodePassword, Set.of(MemberRole.USER), token);
+        Consumer consumer = dto.toEntity(encodePassword, Set.of(MemberRole.CONSUMER), token);
         consumerRepository.save(consumer);
     }
 
@@ -64,15 +67,21 @@ public class MemberService implements UserDetailsService {
         member.updateTempLink(token);
     }
 
-    public void test(Member member) {
-        member.updateAccept("123123123123123123");
-//        memberRepository.findById(member.getId()).get().updateAccept("AAAAAAAA");
-    }
-
     public void checkEmailToken(String token) {
         Member member = memberRepository.findByAccept(token)
                 .orElseThrow(() -> new RedirectException(RedirectCode.WRONG_EMAIL_CHECK));
         member.updateAccept("true");
+    }
+
+
+    public LoginResponseDto login(LoginRequestDto dto) {
+        LoginResponseDto loginResponseDto = connectOauth.loginCheck(dto);
+        Member member = memberRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));
+        if (!member.getAccept().equals("true")) {
+            throw new BaseException(ErrorCode.WRONG_EMAIL_CHECK_AUTH);
+        }
+        return loginResponseDto;
     }
 
     // Security

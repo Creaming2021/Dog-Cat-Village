@@ -18,9 +18,11 @@ public enum ErrorCode {
 
     // TODO : 에러코드 Custom 하기
     // 예측 가능한 에러 or Return
-    EMAIL_DUPLICATION(HttpStatus.CONFLICT, "01000", "중복된 이메일 입니다."),
-    NAME_DUPLICATION(HttpStatus.CONFLICT, "01001", "중복된 닉네임 입니다."),
-    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "01002", "계정을 찾을 수 없습니다"),
+    EMAIL_DUPLICATION(HttpStatus.CONFLICT, "01000", "중복된 이메일"),
+    NAME_DUPLICATION(HttpStatus.CONFLICT, "01001", "중복된 닉네임"),
+    LOGIN_FAIL(HttpStatus.UNAUTHORIZED, "01002", "로그인 실패"),
+    WRONG_EMAIL_CHECK_AUTH(HttpStatus.UNAUTHORIZED, "01003", "이메일 인증 미실시"),
+    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "01004", "계정을 찾을 수 없습니다"),
 
     // 서버 에러
     RUNTIME_EXCEPTION(HttpStatus.BAD_REQUEST, "00100"),

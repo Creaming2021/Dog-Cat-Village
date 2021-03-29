@@ -45,9 +45,9 @@ public class Member {
     public void signup(String encodePassword, String role) {
         this.updatePassword(encodePassword);
         if (role.equals("admin")) {
-            roles = Set.of(MemberRole.ADMIN, MemberRole.USER, MemberRole.SHELTER);
+            roles = Set.of(MemberRole.ADMIN, MemberRole.CONSUMER, MemberRole.SHELTER);
         } else if (role.equals("user")){
-            roles = Set.of(MemberRole.USER);
+            roles = Set.of(MemberRole.CONSUMER);
         } else {
             roles = Set.of(MemberRole.SHELTER);
         }

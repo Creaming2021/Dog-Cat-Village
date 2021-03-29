@@ -32,7 +32,7 @@ public class ConsumerRepositoryTest {
                 .email(email)
                 .password(password)
                 .name(name)
-                .roles(Set.of(MemberRole.USER))
+                .roles(Set.of(MemberRole.CONSUMER))
                 .build();
 
         // When

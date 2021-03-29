@@ -1,15 +1,15 @@
 package donation.pet.controller;
 
-import donation.pet.domain.member.Member;
 import donation.pet.dto.consumer.ConsumerSignupRequestDto;
 import donation.pet.dto.member.DuplRequestDto;
 import donation.pet.dto.member.FindPasswordRequestDto;
+import donation.pet.dto.member.LoginRequestDto;
+import donation.pet.dto.member.LoginResponseDto;
 import donation.pet.service.MemberService;
-import donation.pet.util.CurrentUser;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.patterns.IToken;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,11 +43,20 @@ public class MemberController {
     @ApiOperation("이메일 인증")
     @GetMapping("/auth/{token}")
     public RedirectView authenticateEmail(@PathVariable("token") String token) {
-        log.info("(Get) authenticateEmail = {}", token);
+        log.info("(Get) authenticateEmail - {}", token);
         memberService.checkEmailToken(token);
         RedirectView redirectView = new RedirectView();
+        // todo 링크나오면 바꾸기
         redirectView.setUrl("http://www.google.com");
         return redirectView;
+    }
+
+    @ApiOperation("로그인")
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto dto) {
+        log.info("(Post) login - {}", dto.getEmail());
+        LoginResponseDto loginResponseDto = memberService.login(dto);
+        return ResponseEntity.status(HttpStatus.OK).body(loginResponseDto);
     }
 
     @ApiOperation("비밀번호 찾기")
@@ -58,9 +67,10 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    // todo 비밀번호 찾기 링크만들기
 
     @PostMapping("/test")
-    public void test(@CurrentUser Member member) {
-        memberService.test(member);
+    public void test() throws JSONException {
+
     }
 }
