@@ -1,5 +1,8 @@
 package donation.pet.util;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -47,7 +50,9 @@ public class MailUtil {
             String content = mailContent
                     .append("하단의 링크로 접속하여 인증해주세요.")
                     .append("\n")
+                    .append("<a href='")
                     .append(url)
+                    .append("'>인증하기</a>")
                     .toString();
             messageHelper.setText(content, true);
         };
