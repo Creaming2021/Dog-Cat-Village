@@ -1,161 +1,173 @@
-import React, { useEffect, useState } from 'react';
-import rootReducer from '../modules/index';
-import { useSelector, useDispatch } from 'react-redux';
-import * as UserAction from '../modules/user';
-import { SignInInputType, SignUpInputType } from '../interface/user';
-import Nav from '../components/nav/nav';
-import Main from '../components/submain/main/main';
-import FindPassword from '../components/submain/findPassword/findPassword';
-import SignIn from '../components/submain/signIn/signIn';
-import SignUp from '../components/submain/signUp/signUp';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import rootReducer from "../modules/index";
+import { useSelector, useDispatch } from "react-redux";
+import * as UserAction from "../modules/user";
+import { SignInInputType, SignUpInputType } from "../interface/user";
+import Nav from "../components/nav/nav";
+import Main from "../components/submain/main/main";
+import FindPassword from "../components/submain/findPassword/findPassword";
+import SignIn from "../components/submain/signIn/signIn";
+import SignUp from "../components/submain/signUp/signUp";
+import { useHistory } from "react-router-dom";
 
 const UserContainer = () => {
-    const history = useHistory();
-    type ViewType = 'main' | 'logIn' | 'join' | 'findPassword';
-    
-    const [view, setView] = useState<ViewType>('main');
-    const [type, setType] = useState<string>('');
+  const history = useHistory();
+  type ViewType = "main" | "logIn" | "join" | "findPassword";
 
-    const goToMain = (): void => {
-        setView('main');
-        setType('');
+  const [view, setView] = useState<ViewType>("main");
+  const [type, setType] = useState<string>("");
+
+  const goToMain = (): void => {
+    setView("main");
+    setType("");
+  };
+
+  const goToLogIn = (type: string): void => {
+    setView("logIn");
+    setType(type);
+  };
+
+  const goToJoin = (type: string): void => {
+    setView("join");
+    setType(type);
+  };
+
+  const goToFindPassword = (type: string): void => {
+    setView("findPassword");
+    setType(type);
+  };
+
+  // store에 있는 state와 dispatch 가져오는 작업
+  const user = useSelector((state: any) => state.user.userInfo);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user.logIn) {
+      history.push(`/${type}`);
     }
+  }, [user]);
 
-    const goToLogIn = (type: string): void  => {
-        setView('logIn');
-        setType(type);
-    }
+  // 로그인
+  const initialSignInInput: SignInInputType = {
+    email: "",
+    password: "",
+  };
 
-    const goToJoin = (type: string): void  => {
-        setView('join');
-        setType(type);
-    }
+  const initialSignUpInputType: SignUpInputType = {
+    emailId: "",
+    emailSite: "",
+    nickname: "",
+    password: "",
+    passwordConfirm: "",
+    phoneNumber1: "",
+    phoneNumber2: "",
+    phoneNumber3: "",
+  };
 
-    const goToFindPassword = (type: string): void  => {
-        setView('findPassword');
-        setType(type);
-    }
+  const initialFindPasswordInput: string = "";
 
-    // store에 있는 state와 dispatch 가져오는 작업
-    const user = useSelector( (state: any) => state.user.userInfo);
-    const dispatch = useDispatch();
+  const [signInInput, setSignInInput] = useState<SignInInputType>(
+    initialSignInInput
+  );
+  const [signUpInput, setSignUpInput] = useState<SignUpInputType>(
+    initialSignUpInputType
+  );
+  const [email, setEmail] = useState<string>(initialFindPasswordInput);
 
-    useEffect(() => {
-        if(user.logIn){
-            history.push(`/${type}`);
-        }
-    }, [user]);
+  useEffect(() => {
+    setSignInInput(initialSignInInput);
+    setSignUpInput(initialSignUpInputType);
+    setEmail(initialFindPasswordInput);
+  }, [view]);
 
-    // 로그인 
-    const initialSignInInput: SignInInputType = {
-        email: '',
-        password: '',
-    }
-    
-    const initialSignUpInputType: SignUpInputType = {
-        emailId: '',
-        emailSite: '',
-        nickname: '',
-        password: '',
-        passwordConfirm: '',
-        phoneNumber1: '',
-        phoneNumber2: '',
-        phoneNumber3: '',
-    }
+  // 로그인 정보 데이터 수정
+  const onChangeSignIn = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
-    const initialFindPasswordInput: string = '';
+    setSignInInput({
+      ...signInInput,
+      [name]: value,
+    });
+  };
 
-    const [ signInInput, setSignInInput ] = useState<SignInInputType>(initialSignInInput);
-    const [ signUpInput, setSignUpInput ] = useState<SignUpInputType>(initialSignUpInputType);
-    const [ email, setEmail ] = useState<string>(initialFindPasswordInput);
+  // 회원가입 정보 데이터 수정
+  const onChangeSignUp = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
-    useEffect(()=>{
-        setSignInInput(initialSignInInput);
-        setSignUpInput(initialSignUpInputType);
-        setEmail(initialFindPasswordInput);
-    }, [view]);
+    setSignUpInput({
+      ...signUpInput,
+      [name]: value,
+    });
+  };
 
-    // 로그인 정보 데이터 수정
-    const onChangeSignIn = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+  // 이메일 정보 데이터 수정
+  const onChangeFindPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
 
-        setSignInInput({ 
-            ...signInInput,
-            [name]: value});
-    }
+    setEmail(value);
+  };
 
-    // 회원가입 정보 데이터 수정
-    const onChangeSignUp = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+  /* api 요청을 보낼 함수 */
+  // 로그인 요청
+  const signIn = () => {
+    dispatch(UserAction.signIn(signInInput));
+  };
 
-        setSignUpInput({
-            ...signUpInput,
-            [name]: value,
-        })
-    }
+  // 회원가입 요청
+  const signUp = () => {
+    dispatch(UserAction.signUp(signUpInput));
+  };
 
-    // 이메일 정보 데이터 수정
-    const onChangeFindPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = e.target;
+  // 비밀번호찾기 요청
+  const findPW = () => {
+    dispatch(UserAction.findPW(email));
+  };
 
-        setEmail(value);
-    }
+  //닉네임 중복 확인 요청
+  const checkNickname = ():boolean => {
+    dispatch(UserAction.checkNickname(signUpInput.nickname))
+    .catch(() => false);
 
-    /* api 요청을 보낼 함수 */
-    // 로그인 요청
-    const signIn = () => { 
-        dispatch(UserAction.signIn(signInInput)); 
-    };
+    return true;
+  };
 
-    // 회원가입 요청
-    const signUp = () => {
-        dispatch(UserAction.signUp(signUpInput));
-    }
-
-    // 비밀번호찾기 요청
-    const findPW = () => {
-        dispatch(UserAction.findPW(email));
-    }
-
-    //닉네임 중복 확인 요청
-    const checkNickname = () => {
-        dispatch(UserAction.checkNickname(signUpInput.nickname));
-    }
-
-    return (<> 
-        <Nav name="subMain"/>
-        { view === 'main' && 
-            <Main
-                goToLogIn={goToLogIn}/>}
-        { view === 'logIn' && 
-            <SignIn 
-                type={type}
-                goToMain={goToMain}
-                goToJoin={goToJoin}
-                goToFindPassword={goToFindPassword}
-                signInInput={signInInput}
-                onChangeSignIn={onChangeSignIn}
-                signIn={signIn}/>}
-        { view === 'join' && 
-            <SignUp 
-                type={type}
-                goToLogIn={goToLogIn}
-                signUpInput={signUpInput}
-                onChangeSignUp={onChangeSignUp}
-                signUp={signUp}
-                checkNickname={checkNickname}
-                />} 
-        { view === 'findPassword' && 
-            <FindPassword 
-                type={type}
-                goToJoin={goToJoin}
-                goToLogIn={goToLogIn}
-                email={email}
-                onChangeFindPassword={onChangeFindPassword}
-                findPW={findPW}
-                />}
-    </>);
+  return (
+    <>
+      <Nav name="subMain" />
+      {view === "main" && <Main goToLogIn={goToLogIn} />}
+      {view === "logIn" && (
+        <SignIn
+          type={type}
+          goToMain={goToMain}
+          goToJoin={goToJoin}
+          goToFindPassword={goToFindPassword}
+          signInInput={signInInput}
+          onChangeSignIn={onChangeSignIn}
+          signIn={signIn}
+        />
+      )}
+      {view === "join" && (
+        <SignUp
+          type={type}
+          goToLogIn={goToLogIn}
+          signUpInput={signUpInput}
+          onChangeSignUp={onChangeSignUp}
+          signUp={signUp}
+          checkNickname={checkNickname}
+        />
+      )}
+      {view === "findPassword" && (
+        <FindPassword
+          type={type}
+          goToJoin={goToJoin}
+          goToLogIn={goToLogIn}
+          email={email}
+          onChangeFindPassword={onChangeFindPassword}
+          findPW={findPW}
+        />
+      )}
+    </>
+  );
 };
 
 export default UserContainer;
