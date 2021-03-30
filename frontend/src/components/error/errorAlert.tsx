@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import MemberContainer from "../../containers/memberContainer";
 import { ButtonMedium, ModalSmall } from "../common/common";
-import styles from "./routeNoMatch.module.css";
+import styles from "./errorAlert.module.css";
 
 type ProtectedRouteProps = {
   Component: () => JSX.Element;
@@ -17,7 +17,7 @@ export const ProtectedRouteAdmin = ({ Component }: ProtectedRouteProps) => {
   return (
     member.role === 'ADMIN'
     ? <Component />
-    : <RouteNoMatch/>
+    : <ErrorAlert message="잘못된 요청 입니다."/>
   );
 };
 
@@ -27,7 +27,7 @@ export const ProtectedRouteShelter = ({ Component }: ProtectedRouteProps) => {
   return (
     member.role === 'SHELTER'
     ? <Component />
-    : <RouteNoMatch/>
+    : <ErrorAlert message="잘못된 요청 입니다."/>
   );
 };
 
@@ -37,7 +37,7 @@ export const ProtectedRouteConsumer = ({ Component }: ProtectedRouteProps) => {
   return (
     member.role === 'CONSUMER'
     ? <Component />
-    : <RouteNoMatch/>
+    : <ErrorAlert message="잘못된 요청 입니다."/>
   );
 };
 
@@ -50,7 +50,12 @@ export const ProtectedRouteToken = ({ Component }: ProtectedRouteProps) => {
   );
 };
 
-const RouteNoMatch = () => {
+type ErrorAlertProps = {
+  message: string;
+}
+
+
+const ErrorAlert = ({ message }: ErrorAlertProps) => {
   const history = useHistory();
 
   const onClick = () => {
@@ -59,7 +64,7 @@ const RouteNoMatch = () => {
 
   return (
     <ModalSmall>
-      <div className={styles.text}>잘못된 요청 입니다.</div>
+      <div className={styles.text}>{message}</div>
       <ButtonMedium
         content="메인으로 가기"
         buttonColor="bg-blue"
@@ -69,4 +74,4 @@ const RouteNoMatch = () => {
   );
 };
 
-export default RouteNoMatch;
+export default ErrorAlert;
