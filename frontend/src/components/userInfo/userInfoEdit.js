@@ -49,7 +49,7 @@ const UserInfoEdit = (props) => {
     <div className={styles['user-info-edit']}>
       <div className={styles['user-info-img']}>
         <ImageSmall src={imgUrl || '../../images/jiyoung.png'} alt={'fakeimgdata'} />
-        <label htmlFor="img-file" className={styles['user-img-edit-btn']}>
+        <label htmlFor="img-file" className={`${styles['user-img-edit-btn']} ${!props.userTypeBoolean && styles['blue-btn']}`}>
           프로필 이미지 편집
         </label>
         <input 
