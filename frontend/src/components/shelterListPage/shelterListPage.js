@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ShelterListItem from './shelterListItem';
 import styles from './shelterListPage.module.css';
+import { Search } from '../common/common';
 
 const shelterList = [
   {
@@ -78,12 +79,33 @@ const shelterList = [
 
 
 const ShelterListPage = () => {
+  const [values, setValues] = useState({ first: 'shelterName', input: ''});
+
   return (
     <>
       <div>
         {/* 로고 */}
         {/* 네브바 */}
         {/* 마이페이지 아이콘 */}
+      </div>
+      <div className={styles['search-container']}>
+        <Search
+          selectList={[{ name: 'type', options: [
+            { value: "shelterName", option: "보호소 이름"}
+          ]
+          }]}
+          selectValue={values.first}
+          inputValue={values.input}
+          inputName={'keyword'}
+          onSearch={() => {
+
+          }}
+          onChange={(e) => {
+
+          }}
+          placeholder={'검색어'}
+          inputSize={'input-medium'}
+        />
       </div>
       <div className={styles['main-container']}>
         {
