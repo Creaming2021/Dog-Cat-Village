@@ -3,24 +3,39 @@ import axios from 'axios';
 import styles from './wallet.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
+import * as BlockChainAPI from '../../service/blockchain';
 
 const Wallet = () => {
   const [ myWallet, setMyWallet ] = useState({
-    address: '0x553e6f207305C348188DA38E58A1C28d77A66271',
+    address: '0xA9e4f0d5332b26C9B323cC299604D001dA25db1B',
+    //address: '0x1AeE84790f75F4EbB3A769746de6642a0bd4C9e1',
     addressShort: '0x553e6f',
     coin: '',
   });
 
+  const toAddress = '0x1AeE84790f75F4EbB3A769746de6642a0bd4C9e1';
+  //const toAddress = '0xA9e4f0d5332b26C9B323cC299604D001dA25db1B';
+  const privateKey = 'cf61f430c051df6dc8d650d7a65c95a15b6a1a1df685785e3d75096964836585';
+
   useEffect(() => {
-    axios.get(`https://api-ropsten.etherscan.io/api?module=account&action=tokenbalance&contractaddress=0x0B21843cdf103F67a513c001e02606ba2384a650&address=${myWallet.address}&tag=latest&apikey=6QMEM9F74YBT8WM8E1I8W5XGE4G7GT824M`)
-    .then( ({data}) => {
-      setMyWallet({ ...myWallet, coin: data.result.substring(0, data.result.length - 5)});
-    })
+    getTokenBalance();
   }, []);
 
-  useEffect(() => {
+  const getTokenBalance = () => {
+    BlockChainAPI.getTokenBalance(myWallet.address)
+    .then( ( data ) => {
+      setMyWallet({ ...myWallet, coin: data});
+    })
+  };
 
-  });
+  const onClick = () => {
+    BlockChainAPI.sendTransaction({
+      fromAddress: myWallet.address,
+      toAddress,
+      amount: 0.9,
+      privateKey,
+    });
+  }
 
   return (
     <div className={styles.wallet}>
@@ -31,9 +46,9 @@ const Wallet = () => {
         <div className={styles.coin}>{myWallet.coin}</div>
       </div>
       <div className={styles['coin-btns']}>
-        <button className={styles['coin-charge-btn']}>충전하기</button> 
+        <button className={styles['coin-charge-btn']} onClick={getTokenBalance}>충전하기</button> 
         <div className={styles['division-line']}>ㅣ</div>
-        <button className={styles['coin-withdraw-btn']}>출금하기</button>
+        <button className={styles['coin-withdraw-btn']} onClick={onClick}>출금하기</button>
       </div>
     </div>
   );
