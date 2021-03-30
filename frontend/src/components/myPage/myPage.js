@@ -38,7 +38,7 @@ const MyPage = () => {
           <DonationList userTypeBoolean={userTypeBoolean} />
         </div>
         <div className={styles['donated-shelter-list-container']}>
-          <DonatedShelterList userTypeBoolean={userTypeBoolean} />
+          <DonatedShelterList />
         </div>
       </div>
     </div>

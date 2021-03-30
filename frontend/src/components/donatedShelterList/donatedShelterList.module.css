@@ -33,20 +33,20 @@ button {
   border-bottom: none;
 }
 
-.blue-tab-btn {
+/* .blue-tab-btn {
   color: #1c6097;
   border: 2px solid #396f9b;
-}
+} */
 
 .btn-active {
   background-color: rgb(241, 155, 74);
   color: white;
 }
 
-.blue-btn-active {
+/* .blue-btn-active {
   background-color: #1c6097d8;
   color: white;
-}
+} */
 
 .list-container {
   margin: 0 auto;
