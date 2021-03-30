@@ -7,11 +7,11 @@ import {
 } from "../../../common/common";
 import styles from "./editAnimalForm.module.css";
 import commons from "../../../common/common.module.css";
-import { AnimalInputType } from "../../../../interface/animal";
+import { PetInputType } from "../../../../interface/pet";
 
 type EditAnimalFormProps = {
   type: string;
-  animal?: AnimalInputType;
+  pet?: PetInputType;
   onCancle: () => void;
   onRegister?: () => void;
   onModify?: () => void;
@@ -19,25 +19,26 @@ type EditAnimalFormProps = {
 
 const EditAnimalForm = ({
   type,
-  animal,
+  pet,
   onRegister,
   onModify,
   onCancle,
 }: EditAnimalFormProps) => {
-  const initialState: AnimalInputType = {
-    id: animal ? animal.id : -1,
-    imageUrl: animal ? animal.imageUrl : "",
-    name: animal ? animal.name : "",
-    breed: animal ? animal.breed : "",
-    weight: animal ? animal.weight : "",
-    year: animal ? animal.year : "생년",
-    month: animal ? animal.month : "월",
-    date: animal ? animal.date : "일",
-    breedType: animal ? animal.breedType : "dog",
-    personality: animal ? animal.personality : "",
-    condition: animal ? animal.condition : "",
-    sex: animal ? animal.sex : "",
-    neuter: animal ? animal.neuter : "",
+  const initialState: PetInputType = {
+    id: pet ? pet.id : -1,
+    profileImage: pet ? pet.profileImage : "",
+    name: pet ? pet.name : "",
+    breed: pet ? pet.breed : "",
+    weight: pet ? pet.weight : "",
+    year: pet ? pet.year : "생년",
+    month: pet ? pet.month : "월",
+    date: pet ? pet.date : "일",
+    breedType: pet ? pet.breedType : "dog",
+    personality: pet ? pet.personality : "",
+    condition: pet ? pet.condition : "",
+    sex: pet ? pet.sex : "",
+    neuter: pet ? pet.neuter : "",
+    shelterId: pet? pet.shelterId: 0,
   };
 
   const [input, setInput] = useState(initialState);
@@ -103,7 +104,7 @@ const EditAnimalForm = ({
     if (e.target.files) {
       setInput({
         ...input,
-        imageUrl: URL.createObjectURL(e.target.files[0]),
+        profileImage: URL.createObjectURL(e.target.files[0]),
       });
     }
   };
@@ -114,7 +115,7 @@ const EditAnimalForm = ({
         <tr>
           <td rowSpan={9}>
             <img
-              src={input.imageUrl}
+              src={input.profileImage}
               alt="파일을 업로드하세요"
               className={styles.image}
             />

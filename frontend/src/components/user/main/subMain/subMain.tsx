@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AdoptContainer from "../../../../containers/adopt_container";
+import PetContainer from "../../../../containers/petContainer";
 import Nav from "../../../nav/nav";
 import Animal from "../animal/animal";
 import Chatting from "../chatting/chatting";
@@ -42,7 +43,7 @@ const SubMain = () => {
       <div className={styles["sub-main-box"]}>
         <MainCategory userInfo={userInfo} onChangeCategory={onChangeCategory} />
         {category === "home" && <Home type="shelter" streaming={streaming} />}
-        {category === "animal" && <Animal type="center" />}
+        {category === "animal" && <PetContainer/>}
         {category === "chatting" && <Chatting />}
         {category === "donation" && <Donation />}
         {category === "adopt" && <AdoptContainer/>}

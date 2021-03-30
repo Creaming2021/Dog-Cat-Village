@@ -3,7 +3,7 @@ import styles from "./animalList.module.css";
 import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ModalMedium } from "../../../common/common";
-import { AnimalDetailType, AnimalListType, AnimalInputType } from "../../../../interface/animal";
+import { PetDetailType, PetListType, PetInputType } from "../../../../interface/pet";
 import DetailAnimalForm from "../detailAnimalForm/detailAnimalForm";
 import EditAnimalForm from "../editAnimalForm/editAnimalForm";
 
@@ -58,33 +58,17 @@ const AnimalCard = ({
 };
 
 type AnimalListProps = {
-  animalList: AnimalListType[];
+  petList: PetListType[];
+  selectedPet: PetDetailType;
 };
 
-const AnimalList = ({ animalList }: AnimalListProps) => {
+const AnimalList = ({ petList, selectedPet }: AnimalListProps) => {
   const [selectedAnimal, setSelectedAnimal] = useState("");
   const [modal, setModal] = useState(false);
   const [mode, setMode] = useState("");
-  const [inputAnimal, setInputAnimal] = useState<AnimalInputType>();
+  const [inputPet, setInputPet] = useState<PetInputType>();
 
   const userInfo = {
-    shelterId: 1,
-  };
-
-  const animal: AnimalDetailType = {
-    id: 1,
-    age: "2살",
-    birthday: "20210301",
-    imageUrl:
-      "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
-    name: "이름",
-    breed: "품종",
-    weight: "45",
-    breedType: "CAT",
-    personality: "성격",
-    condition: "건강상태",
-    sex: "MALE",
-    neuter: "NO",
     shelterId: 1,
   };
 
@@ -108,20 +92,21 @@ const AnimalList = ({ animalList }: AnimalListProps) => {
   };
 
   const onGoToModify = () => {
-    setInputAnimal({
-      id: animal.id,
-      name: animal.name,
-      imageUrl: animal.imageUrl,
-      sex: animal.sex,
-      breedType: animal.breedType,
-      weight: animal.weight,
-      breed: animal.breed,
-      personality: animal.personality,
-      neuter: animal.neuter,
-      condition: animal.condition,
-      year: animal.birthday.substr(0, 4),
-      month: animal.birthday.substr(4, 2),
-      date: animal.birthday.substr(6, 2),
+    setInputPet({
+      id: selectedPet.id,
+      name: selectedPet.name,
+      profileImage: selectedPet.profileImage,
+      sex: selectedPet.sex,
+      breedType: selectedPet.breedType,
+      weight: selectedPet.weight,
+      breed: selectedPet.breed,
+      personality: selectedPet.personality,
+      neuter: selectedPet.neuter,
+      condition: selectedPet.condition,
+      year: selectedPet.birthday.substr(0, 4),
+      month: selectedPet.birthday.substr(4, 2),
+      date: selectedPet.birthday.substr(6, 2),
+      shelterId: selectedPet.shelterId,
     });
     setMode("MODIFY");
   };
@@ -140,15 +125,15 @@ const AnimalList = ({ animalList }: AnimalListProps) => {
   return (
     <>
       <div className={styles["animal-list-container"]}>
-        {animalList.map((animal: AnimalListType) => (
+        {petList.map((pet: PetListType) => (
           <AnimalCard
-            key={animal.id}
-            id={animal.id}
-            imageUrl={animal.imageUrl}
-            name={animal.name}
-            birthday={animal.birthday}
-            age={animal.age}
-            sex={animal.sex}
+            key={pet.id}
+            id={pet.id}
+            imageUrl={pet.profileImage}
+            name={pet.name}
+            birthday={pet.birthday}
+            age={pet.age}
+            sex={pet.sex}
             onClick={onClick}
           />
         ))}
@@ -158,7 +143,7 @@ const AnimalList = ({ animalList }: AnimalListProps) => {
         <ModalMedium>
           <DetailAnimalForm
             userInfo={userInfo}
-            animal={animal}
+            pet={selectedPet}
             onSubmit={onAdapting}
             onClose={onClose}
             onGoToModify={onGoToModify}
@@ -170,7 +155,7 @@ const AnimalList = ({ animalList }: AnimalListProps) => {
           <ModalMedium>
             <EditAnimalForm
               type="modify"
-              animal={inputAnimal}
+              pet={inputPet}
               onModify={onModify}
               onCancle={onGoToDetail}
             />

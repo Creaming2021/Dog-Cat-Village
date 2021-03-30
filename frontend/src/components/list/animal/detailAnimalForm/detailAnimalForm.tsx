@@ -1,13 +1,13 @@
 import React from "react";
 import styles from "./detailAnimalForm.module.css";
-import { AnimalDetailType } from "../../../../interface/animal";
+import { PetDetailType } from "../../../../interface/pet";
 import { ButtonSmall } from "../../../common/common";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type DetailAnimalFormProps = {
   userInfo: { shelterId: number };
-  animal: AnimalDetailType;
+  pet: PetDetailType;
   onClose: () => void;
   onSubmit: () => void;
   onGoToModify: () => void;
@@ -16,7 +16,7 @@ type DetailAnimalFormProps = {
 
 const DetailAnimalForm = ({
   userInfo,
-  animal,
+  pet,
   onClose,
   onSubmit,
   onGoToModify,
@@ -25,7 +25,7 @@ const DetailAnimalForm = ({
   const {
     id,
     age,
-    imageUrl,
+    profileImage,
     name,
     breed,
     weight,
@@ -36,7 +36,7 @@ const DetailAnimalForm = ({
     sex,
     neuter,
     shelterId,
-  } = animal;
+  } = pet;
 
   return (
     <div className={styles["detail-animal-form-container"]}>
@@ -45,7 +45,7 @@ const DetailAnimalForm = ({
           <tr>
             <td>
               <img
-                src={imageUrl}
+                src={profileImage}
                 alt="파일을 업로드하세요"
                 className={styles.image}
               />
