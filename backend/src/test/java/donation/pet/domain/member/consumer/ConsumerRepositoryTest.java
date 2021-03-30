@@ -24,26 +24,26 @@ public class ConsumerRepositoryTest {
     @Test
     public void save() {
         // Given
-        String email = "test@naver.com";
-        String password = "ssafy";
-        String name = "hello";
-
-        Consumer consumer = Consumer.builder()
-                .email(email)
-                .password(password)
-                .name(name)
-                .roles(Set.of(MemberRole.CONSUMER))
-                .build();
-
-        // When
-        consumerRepository.save(consumer);
-
-        Consumer member = consumerRepository.findByEmail(email).orElse(null);
-
-        System.out.println(member.getClass());
-
-        // Then
-        assertThat(member.getEmail()).isEqualTo(email);
-        assertThat(member.getEmail()).isNotEqualTo("ssafy@naver.com");
+//        String email = "test@naver.com";
+//        String password = "ssafy";
+//        String name = "hello";
+//
+//        Consumer consumer = Consumer.builder()
+//                .email(email)
+//                .password(password)
+//                .name(name)
+//                .roles(Set.of(MemberRole.CONSUMER))
+//                .build();
+//
+//        // When
+//        consumerRepository.save(consumer);
+//
+//        Consumer member = consumerRepository.findByEmail(email).orElse(null);
+//
+//        System.out.println(member.getClass());
+//
+//        // Then
+//        assertThat(member.getEmail()).isEqualTo(email);
+//        assertThat(member.getEmail()).isNotEqualTo("ssafy@naver.com");
     }
 }

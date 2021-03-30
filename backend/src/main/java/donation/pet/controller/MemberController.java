@@ -85,9 +85,4 @@ public class MemberController {
         memberService.changeLinkPassword(passwordRequestDto, token);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-
-    @PostMapping("/test")
-    public void test() throws JSONException {
-
-    }
 }
