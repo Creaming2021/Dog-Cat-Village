@@ -45,7 +45,9 @@ const MemberContainer = () => {
 
   useEffect(() => {
     if (member.logIn) {
-      history.push(`/${type}/main`);
+      if(member.role === "ADMIN") history.push(`/admin`);
+      else if(member.role === "CONSUMER") history.push(`/user`);
+      else if(member.role === "SHELTER") history.push(`/main`);
     }
   }, [member]);
 
