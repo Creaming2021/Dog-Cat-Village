@@ -5,7 +5,7 @@ COPY build.gradle .
 COPY settings.gradle .
 COPY src src
 RUN chmod +x ./gradlew
-RUN ./gradlew build
+RUN ./gradlew build --exclude-task test
 
 FROM adoptopenjdk:11-jdk
 COPY --from=builder build/libs/*.jar app.jar
