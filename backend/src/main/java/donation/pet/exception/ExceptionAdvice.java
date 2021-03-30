@@ -1,6 +1,8 @@
 package donation.pet.exception;
 
+import donation.pet.common.AppProperties;
 import donation.pet.dto.exception.ExceptionDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice(annotations = RestController.class)
 public class ExceptionAdvice {
+
+    @Autowired
+    private AppProperties appProperties;
 
     // CustomException
     @ExceptionHandler({BaseException.class})
@@ -65,7 +70,7 @@ public class ExceptionAdvice {
     @ExceptionHandler({RedirectException.class})
     public RedirectView exceptionHandler(RedirectException e) {
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl(e.getRedirectCode().getUrl());
+        redirectView.setUrl(appProperties.getServerUrl() + e.getRedirectCode().getUrl());
         return redirectView;
     }
 }

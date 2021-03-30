@@ -26,7 +26,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                     .and()
                 .authorizeRequests()
                     .antMatchers("/members/signup", "/members/duplication", "/members/login",
-                            "/members/password/**", "/members/auth/**")
+                            "/members/password/**", "/members/auth/**", "/members/forget")
                         .permitAll()
                     .anyRequest()
                         .authenticated()

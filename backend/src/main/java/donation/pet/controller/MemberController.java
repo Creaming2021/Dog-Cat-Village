@@ -1,10 +1,8 @@
 package donation.pet.controller;
 
+import donation.pet.common.AppProperties;
 import donation.pet.dto.consumer.ConsumerSignupRequestDto;
-import donation.pet.dto.member.DuplRequestDto;
-import donation.pet.dto.member.FindPasswordRequestDto;
-import donation.pet.dto.member.LoginRequestDto;
-import donation.pet.dto.member.LoginResponseDto;
+import donation.pet.dto.member.*;
 import donation.pet.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +21,7 @@ import org.springframework.web.servlet.view.RedirectView;
 public class MemberController {
 
     private final MemberService memberService;
+    private final AppProperties appProperties;
 
     @ApiOperation("사용자 회원 가입")
     @PostMapping("/signup")
@@ -47,7 +46,7 @@ public class MemberController {
         memberService.checkEmailToken(token);
         RedirectView redirectView = new RedirectView();
         // todo 링크나오면 바꾸기
-        redirectView.setUrl("http://www.google.com");
+        redirectView.setUrl(appProperties.getServerUrl() + "/signup/success");
         return redirectView;
     }
 
@@ -59,15 +58,33 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(loginResponseDto);
     }
 
-    @ApiOperation("비밀번호 찾기")
-    @PostMapping("/password")
-    public ResponseEntity<Void> findPassword(@RequestBody FindPasswordRequestDto dto) {
-        log.info("(Post) findPassword = {}", dto);
-        memberService.findPassword(dto);
+    @ApiOperation("비밀번호 찾기 신청")
+    @PostMapping("/forget")
+    public ResponseEntity<Void> forgetPassword(@RequestBody FindPasswordRequestDto dto) {
+        log.info("(Post) forgetPassword - {}", dto.getEmail());
+        memberService.forgetPassword(dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    // todo 비밀번호 찾기 링크만들기
+    @ApiOperation("비밀번호 링크 만들기")
+    @GetMapping("/password/{token}")
+    public RedirectView makeChangeLink(@PathVariable("token") String token) {
+        log.info("(Get) makeChangeLink - {}", token);
+        memberService.makeChangeLink(token);
+        RedirectView redirectView = new RedirectView();
+        // todo 링크 나오면 수정
+        redirectView.setUrl(appProperties.getServerUrl() + "/members/password/" + token);
+        return redirectView;
+    }
+
+    @ApiOperation("비밀번호 변경 링크로 비밀번호 변경")
+    @PostMapping("/password/{token}")
+    public ResponseEntity<Void> changeLinkPassword(@RequestBody PasswordRequestDto passwordRequestDto,
+                                       @PathVariable("token") String token) {
+        log.info("(Get) changeLinkPassword - {}", token);
+        memberService.changeLinkPassword(passwordRequestDto, token);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
     @PostMapping("/test")
     public void test() throws JSONException {

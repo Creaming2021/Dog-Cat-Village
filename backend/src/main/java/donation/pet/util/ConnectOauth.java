@@ -1,5 +1,6 @@
 package donation.pet.util;
 
+import donation.pet.common.AppProperties;
 import donation.pet.dto.member.LoginRequestDto;
 import donation.pet.dto.member.LoginResponseDto;
 import donation.pet.exception.BaseException;
@@ -14,9 +15,15 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class ConnectOauth {
 
+    private final AppProperties appProperties;
+
+    public ConnectOauth(AppProperties appProperties) {
+        this.appProperties = appProperties;
+    }
+
     public LoginResponseDto loginCheck(LoginRequestDto dto) {
 
-        String url = "http://localhost:8080/api/oauth/token";
+        String url = appProperties.getServerUrl() + "/api/oauth/token";
 
         String credentials = dto.getClientId() + ":" + dto.getClientSecret();
         String basicAuth = new String(Base64.encodeBase64(credentials.getBytes()));

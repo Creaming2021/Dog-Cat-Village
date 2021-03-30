@@ -27,6 +27,7 @@ public class ConsumerSignupRequestDto {
                 .name(this.name)
                 .roles(Roles)
                 .accept(accept)
+                .tempLink("none")
                 .build();
     }
 }

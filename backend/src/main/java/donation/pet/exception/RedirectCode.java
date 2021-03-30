@@ -1,13 +1,14 @@
 package donation.pet.exception;
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 public enum RedirectCode {
 
-
-    WRONG_EMAIL_CHECK("https://www.naver.com", "이메일 인증 실패");
+    // todo 링크 수정
+    WRONG_EMAIL_CHECK("/signup/fail", "이메일 인증 실패"),
+    MEMBER_NOT_FOUND("https://www.naver.com", "계정 없음"),
+    EXPIRE_PASSWORD_LINK("/password/expire", "패스워드 변경 링크 만료");
 
     private final String url;
     private String message;

@@ -22,7 +22,9 @@ public enum ErrorCode {
     NAME_DUPLICATION(HttpStatus.CONFLICT, "01001", "중복된 닉네임"),
     LOGIN_FAIL(HttpStatus.UNAUTHORIZED, "01002", "로그인 실패"),
     WRONG_EMAIL_CHECK_AUTH(HttpStatus.UNAUTHORIZED, "01003", "이메일 인증 미실시"),
-    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "01004", "계정을 찾을 수 없습니다"),
+    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "01004", "없는 계정"),
+    EXPIRE_PASSWORD_LINK(HttpStatus.NOT_FOUND, "01005", "비밀번호 변경 링크 만료"),
+    PASSWORD_NOT_FORGOT(HttpStatus.NOT_FOUND, "01006", "비밀번호 변경 요청 안함"),
 
     // 서버 에러
     RUNTIME_EXCEPTION(HttpStatus.BAD_REQUEST, "00100"),
