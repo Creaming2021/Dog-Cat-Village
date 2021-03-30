@@ -6,6 +6,8 @@ import DonationList from '../donationList/donationList';
 import UserInfo from '../userInfo/userInfo';
 import Wallet from '../wallet/wallet';
 import Nav from '../nav/nav';
+import AdoptedAnimalsChart from '../chart/adoptedAnimalsChart';
+import ContributionChart from '../chart/contributionChart';
 
 
 const MyPage = () => {
@@ -39,6 +41,8 @@ const MyPage = () => {
         </div>
         <div className={styles['list-containers']}>
           {userTypeBoolean && <DonatedShelterList />}
+          <ContributionChart />
+          <AdoptedAnimalsChart />
         </div>
       </div>
     </div>
