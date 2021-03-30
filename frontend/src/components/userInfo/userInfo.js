@@ -4,7 +4,7 @@ import styles from './userInfo.module.css';
 import UserInfoEdit from './userInfoEdit';
 
 
-const UserInfo = ({userTypeBoolean}) => {
+const UserInfo = ({ userTypeBoolean }) => {
   const [editState, setEditState] = useState(false);
 
   const changeEditState = () => {
