@@ -5,12 +5,18 @@
     실패로 왔을 경우를 client에서 한번에 처리 작성
 */
 
+import qs from 'qs';
 import { security, basic, auth, 
-    handleAuthResponse, handleResponse, handleError, handleSecurityError } from './client';
+    handleAuthResponse, handleResponse, handleError, handleSecurityError } from './instance';
 
 // 로그인 정보 확인
 export const signIn = ({ username, password }) => {
-  return auth.post(`consumers/login`, { username, password });
+  return auth.post(
+    `oauth/token`, 
+    qs.stringify({ username, password, grant_type: "password" }))
+  .then((response) => handleAuthResponse(response))
+  .catch((e) => handleError(e));
+  // return auth.post(`oauth/token`, `username=${username}&password=${password}&grant_type=password`);
 };
 
 // 회원 가입 하기

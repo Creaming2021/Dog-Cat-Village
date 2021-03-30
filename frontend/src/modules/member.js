@@ -3,8 +3,8 @@ import * as MemberAPI from '../service/member';
 import { applyPenders } from 'redux-pender';
 
 // user 관련 요청 액션 타입
-const LOG_IN = 'member/LOG_IN';
-const LOG_OUT = 'member/LOG_OUT';
+const SIGN_IN = 'member/SIGN_IN';
+const SIGN_OUT = 'member/SIGN_OUT';
 const GET_ACCOUNT = 'member/GET_ACCOUNT';
 const SIGN_UP = 'member/SIGN_UP';
 const MODIFY_ACCOUNT = 'member/MODIFY_ACCOUNT';
@@ -15,12 +15,12 @@ const SET_PW = 'member/SET_PW';
 
 // 액션 객체 생성함수
 export const signIn = createAction(
-  LOG_IN, 
+  SIGN_IN, 
   MemberAPI.signIn
 );
 
 export const logOut = createAction(
-  LOG_OUT
+  SIGN_OUT
 );
 
 export const getAccount = createAction(
@@ -60,16 +60,12 @@ export const setPW = createAction(
 // 초기 상태
 const initialState = {
   logIn: false,
-  profileImage: '',
-  name: '',
-  email: '',
-  introduction: '',
 };
 
 // reducer 함수
 const memberReducer = handleActions(
   {
-    [LOG_OUT]: (state, action) => {
+    [SIGN_OUT]: (state, action) => {
       localStorage.removeItem('token');
       return { ...initialState };
     },
@@ -83,15 +79,14 @@ const memberReducer = handleActions(
 // reducer 함수로 요청된 액션들을 처리하기 위한 함수
 export default applyPenders(memberReducer, [
   {
-    type: LOG_IN,
+    type: SIGN_IN,
     onSuccess: (state, action) => {
-      const response = action.payload;
-
-      console.log("로그인 응답", action.payload);
-
-      return { ...action.payload, login: true, };
+      if(action.payload.status === 200) console.log("리듀서 성공");
+      else console.log("리듀서 실패");
+      return { login: true, };
     },
     onFailure: (state, action) => {
+      console.log("리듀서 에러");
       return {...initialState};
     },
   },
@@ -99,7 +94,7 @@ export default applyPenders(memberReducer, [
     type: SIGN_UP,
     onSuccess: (state, action) => {
       alert('인증 메일을 발송하였습니다.');
-      return {...state};
+      return { ...state };
     },
     onFailure: (state, action) => {
       return {...initialState};

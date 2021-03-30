@@ -9,7 +9,7 @@ import FindPassword from "../components/submain/findPassword/findPassword";
 import SignIn from "../components/submain/signIn/signIn";
 import SignUp from "../components/submain/signUp/signUp";
 import { useHistory } from "react-router-dom";
-import { handleAuthResponse, handleError, handleResponse } from "../service/client";
+import { handleAuthResponse, handleError, handleResponse } from "../service/instance";
 import { AxiosError } from "axios";
 
 const MemberContainer = () => {
@@ -120,8 +120,8 @@ const MemberContainer = () => {
   // 로그인 요청
   const signIn = () => {
     dispatch(UserAction.signIn(signInInput))
-    .then(handleAuthResponse)
-    .catch((e: AxiosError) => handleError(e));
+    // .then(handleAuthResponse)
+    // .catch((e: AxiosError) => { console.log("컨테이너"); handleError(e)});
   };
 
   // 회원가입 요청

@@ -10,10 +10,30 @@ import shelterListPage from './components/shelterListPage/shelterListPage';
 import ErrorAlert, { ProtectedRouteConsumer, ProtectedRouteShelter, ProtectedRouteAdmin, ProtectedRouteToken } from './components/error/errorAlert';
 import PasswordContainer from './containers/passwordContainer';
 import ConfirmSignUp from './components/submain/confirmSignUp/confirmSignUp';
+import { refresh, security, auth } from './service/instance';
+
+import qs from 'qs';
 
 function App() {
+
+  const onClick1 = () => {
+    refresh.post('oauth/token', 
+      qs.stringify({ grant_type: "refresh_token", refresh_token: localStorage.getItem('refresh_token') })
+    );
+  }
+
+  const onClick2 = () => {
+    security.get('members/test', {
+      'headers': {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+      }
+    });
+  }
+
   return (
     <div className={styles.app}>
+    <button onClick={onClick1}>요청 테스트</button>
+      <button onClick={onClick2}>요청 테스트</button>
       <Switch>
         <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/>
         <ProtectedRouteShelter path="/main" Component={SubMain} exact/>
