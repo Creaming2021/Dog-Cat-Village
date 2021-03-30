@@ -62,7 +62,6 @@ public class Shelter extends Member {
         introduce = dto.getIntroduce();
         setPhoneNumber(dto.getPhoneNumber());
         setName(dto.getName());
-        setPassword(dto.getPassword());
     }
 
     public void updateProfileImage(String fileName) {
