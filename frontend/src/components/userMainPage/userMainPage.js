@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import styles from './userMainPage.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faIdBadge, faVideo, faCoins,  faDog } from '@fortawesome/free-solid-svg-icons';
+import { faVideo, faCoins,  faDog } from '@fortawesome/free-solid-svg-icons';
+import client from '../../service/client';
+
 
 const coin = [0,0,0]
-const animal = [0,0,0]
 
 
 const todayTotalDonation = () => {
+
   return (
     <div className={styles['main-part']}>
       <h1 className={styles['main-text']}>오늘 기부된 총 금액</h1>
@@ -25,12 +27,12 @@ const todayTotalDonation = () => {
   );
 }
 
-const todayAdoptedAnimalCount = () => {
+const todayAdoptedAnimalCount = (animalCount) => {
   return (
     <div className={styles['main-part']}>
       <h1 className={styles['main-text']}>오늘 입양된 동물 수</h1>
       {
-        animal.map(number => {
+        animalCount.map(number => {
           return (
             <div className={`${styles['number-box']} ${styles.blue}`}>
               <h1 className={styles['number-text']}>{number}</h1>
@@ -38,17 +40,28 @@ const todayAdoptedAnimalCount = () => {
           );
         })
       }
-      
       <h1 className={styles['main-text']}>마리</h1>
     </div>
   );
-}
-
-
+};
 
 
 const UserMainPage = () => {
   const [boardToggle, setBoardToggle] = useState(true);
+  const [animalCount, setAnimalCount] = useState([]);
+
+  useEffect(() => {
+    client.get('/adopts/today/count')
+      .then((res) => {
+        const count = String(res.data.todayAdoptedPetCount);
+        setAnimalCount(count.split(''));
+      })
+      .catch((err) => {
+        console.log(err.response);
+        // alert(error.message)
+      })
+  }, [])
+
   useEffect(() => {
     setTimeout(() => {
       setBoardToggle(!boardToggle);
@@ -58,14 +71,13 @@ const UserMainPage = () => {
   return (
     <>
       <div className={styles['upper-part']}>
-        {/* 로고 */}
-        <FontAwesomeIcon icon={faIdBadge} className={styles['idBadge-icon']} />
+        {/* 네브바 */}
       </div> 
       <div className={boardToggle ? styles.displayNone : styles.display }>
         {todayTotalDonation()}
       </div>
       <div className={boardToggle ? styles.display :  styles.displayNone }>
-        {todayAdoptedAnimalCount()}
+        {todayAdoptedAnimalCount(animalCount)}
       </div>
       <div className={styles['lower-part']}>
         <div className={styles['vod-container']}>
