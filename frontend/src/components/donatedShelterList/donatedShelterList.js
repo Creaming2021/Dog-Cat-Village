@@ -36,7 +36,7 @@ const donatedShelterDataList = [
 ]
 
 
-const DonatedShelterList = () => {
+const DonatedShelterList = ({ userTypeBoolean }) => {
   const [choicedList, setChoicedList] = useState(true);
 
   const btnActiveController = () => {
@@ -48,13 +48,13 @@ const DonatedShelterList = () => {
       <div className={styles['list-out-container']}>
         <div className={styles['btn-container']}>
           <button 
-            className={`${styles['tab-btn']} ${choicedList && styles['btn-active']}`}
+            className={`${styles['tab-btn']} ${choicedList && userTypeBoolean && styles['btn-active']} ${!userTypeBoolean && styles['blue-tab-btn']} ${choicedList && !userTypeBoolean && styles['blue-btn-active']}`}
             onClick={btnActiveController}
           >
             후원한 보호소
           </button>
           <button 
-            className={`${styles['tab-btn']} ${!choicedList && styles['btn-active']}`}
+            className={`${styles['tab-btn']} ${!choicedList && userTypeBoolean && styles['btn-active']} ${!userTypeBoolean && styles['blue-tab-btn']} ${!choicedList && !userTypeBoolean && styles['blue-btn-active']}`}
             onClick={btnActiveController}
           >
             입양 신청
