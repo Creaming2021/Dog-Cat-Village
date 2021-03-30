@@ -3,9 +3,16 @@
   outline: none;
 }
 
+.search-container {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-right: 100px;
+}
+
 .main-container {
   display: flex;
   flex-wrap: wrap;
+  margin: 20px 0 0 0;
 }
 
 .streaming-item-container {
