@@ -12,7 +12,7 @@ import { useHistory } from "react-router-dom";
 import { handleAuthResponse, handleError, handleResponse } from "../service/client";
 import { AxiosError } from "axios";
 
-const UserContainer = () => {
+const MemberContainer = () => {
   const history = useHistory();
   type ViewType = "main" | "logIn" | "join" | "findPassword";
 
@@ -149,7 +149,7 @@ const UserContainer = () => {
 
   return (
     <>
-      <Nav name="subMain" />
+      <Nav role="MEMBER" />
       {view === "main" && <Main goToLogIn={goToLogIn} />}
       {view === "logIn" && (
         <SignIn
@@ -186,4 +186,4 @@ const UserContainer = () => {
   );
 };
 
-export default UserContainer;
+export default MemberContainer;
