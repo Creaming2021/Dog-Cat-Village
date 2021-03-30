@@ -10,7 +10,10 @@ import donation.pet.domain.member.shelter.Shelter;
 import donation.pet.domain.member.shelter.ShelterRepository;
 import donation.pet.domain.pet.Pet;
 import donation.pet.domain.pet.PetRepository;
-import donation.pet.dto.adopt.*;
+import donation.pet.dto.adopt.AdoptListResponseDto;
+import donation.pet.dto.adopt.AdoptRequestDto;
+import donation.pet.dto.adopt.AdoptResponseDto;
+import donation.pet.dto.adopt.AdoptSimpleDto;
 import donation.pet.dto.consumer.ConsumerResponseDto;
 import donation.pet.dto.consumer.ConsumerSignupRequestDto;
 import donation.pet.dto.consumer.ConsumerUpdateRequestDto;
@@ -19,9 +22,7 @@ import donation.pet.exception.BaseException;
 import donation.pet.exception.ErrorCode;
 import donation.pet.util.MailUtil;
 import lombok.RequiredArgsConstructor;
-import org.bouncycastle.jcajce.provider.asymmetric.ec.KeyFactorySpi;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,25 +45,6 @@ public class ConsumerService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final MailUtil mailUtil;
-
-    @Transactional
-    public void signup(ConsumerSignupRequestDto dto) {
-        if (memberRepository.findByEmail(dto.getEmail()).isPresent()) {
-            throw new BaseException(ErrorCode.EMAIL_DUPLICATION);
-        }
-
-        String encodePassword = passwordEncoder.encode(dto.getPassword());
-        String key = mailUtil.sendMail(dto.getEmail());
-
-        Consumer consumer = dto.toEntity(encodePassword, Set.of(MemberRole.USER), key);
-        consumerRepository.save(consumer);
-    }
-
-    public void checkDuplicatedNickname(DuplRequestDto dto) {
-        if (memberRepository.findByName(dto.getName()).isPresent()) {
-            throw new BaseException(ErrorCode.NAME_DUPLICATION);
-        }
-    }
 
     public ConsumerResponseDto getConsumer(Long consumerId) {
         Consumer consumer = consumerRepository.findById(consumerId)

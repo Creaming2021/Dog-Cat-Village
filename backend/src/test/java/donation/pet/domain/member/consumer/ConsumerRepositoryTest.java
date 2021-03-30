@@ -1,6 +1,6 @@
-package donation.pet.domain.member.shelter;
+package donation.pet.domain.member.consumer;
 
-import donation.pet.domain.member.MemberRole;
+import donation.pet.domain.member.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +13,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ShelterRepositoryTest {
+public class ConsumerRepositoryTest {
 
     @Autowired
-    ShelterRepository shelterRepository;
+    ConsumerRepository consumerRepository;
+
+    @Autowired
+    MemberRepository memberRepository;
 
     @Test
     public void save() {
-
         // Given
         String email = "test@naver.com";
         String password = "ssafy";
         String name = "hello";
 
-        Shelter shelter = Shelter.builder()
+        Consumer consumer = Consumer.builder()
                 .email(email)
                 .password(password)
                 .name(name)
@@ -34,9 +36,9 @@ public class ShelterRepositoryTest {
                 .build();
 
         // When
-        shelterRepository.save(shelter);
+        consumerRepository.save(consumer);
 
-        Shelter member = shelterRepository.findByEmail(email).orElse(null);
+        Consumer member = consumerRepository.findByEmail(email).orElse(null);
 
         System.out.println(member.getClass());
 

@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -35,6 +36,9 @@ public class Member {
     private String contractAddress;
     private String profileImage;
 
+    private String tempLink;
+    private LocalDateTime tempLinkDate;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<MemberRole> roles;
@@ -42,9 +46,9 @@ public class Member {
     public void signup(String encodePassword, String role) {
         this.updatePassword(encodePassword);
         if (role.equals("admin")) {
-            roles = Set.of(MemberRole.ADMIN, MemberRole.USER, MemberRole.SHELTER);
+            roles = Set.of(MemberRole.ADMIN, MemberRole.CONSUMER, MemberRole.SHELTER);
         } else if (role.equals("user")){
-            roles = Set.of(MemberRole.USER);
+            roles = Set.of(MemberRole.CONSUMER);
         } else {
             roles = Set.of(MemberRole.SHELTER);
         }
@@ -56,4 +60,9 @@ public class Member {
         this.password = encodePassword;
     }
 
+    // 패스워드 변경 링크
+    public void updateTempLink(String tempLink) {
+        this.tempLink = tempLink;
+        this.tempLinkDate = LocalDateTime.now();
+    }
 }
