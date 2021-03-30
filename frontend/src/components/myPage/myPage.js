@@ -37,8 +37,8 @@ const MyPage = () => {
         <div className={styles['donation-list-container']}>
           <DonationList userTypeBoolean={userTypeBoolean} />
         </div>
-        <div className={styles['donated-shelter-list-container']}>
-          <DonatedShelterList />
+        <div className={styles['list-containers']}>
+          {userTypeBoolean && <DonatedShelterList />}
         </div>
       </div>
     </div>
