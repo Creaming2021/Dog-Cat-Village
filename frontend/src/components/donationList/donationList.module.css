@@ -130,3 +130,7 @@ button {
 .list-line-last {
   margin-top: 16px;
 }
+
+.blue-btn:hover {
+  color: #16a8eb;
+}
