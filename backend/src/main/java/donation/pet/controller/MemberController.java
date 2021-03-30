@@ -85,4 +85,9 @@ public class MemberController {
         memberService.changeLinkPassword(passwordRequestDto, token);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @GetMapping("/test")
+    public ResponseEntity<Void> test() {
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
