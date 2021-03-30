@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 public class PetRequestDto {
 
     private Long shelterId;
-    private Long petId;
 
     private String name;
     private String profileImage;

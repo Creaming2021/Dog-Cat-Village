@@ -11,9 +11,7 @@ import donation.pet.dto.adopt.*;
 import donation.pet.dto.pet.PetDto;
 import donation.pet.dto.pet.PetResponseListDto;
 import donation.pet.dto.pet.PetSimpleDto;
-import donation.pet.dto.shelter.ShelterListResponseDto;
-import donation.pet.dto.shelter.ShelterResponseDto;
-import donation.pet.dto.shelter.ShelterUpdateRequestDto;
+import donation.pet.dto.shelter.*;
 import donation.pet.exception.BaseException;
 import donation.pet.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -57,6 +55,9 @@ public class ShelterService {
     public ShelterResponseDto updateShelter(Long shelterId, ShelterUpdateRequestDto dto) {
         Shelter shelter = shelterRepository.findById(shelterId)
                 .orElseThrow(() -> new BaseException(ErrorCode.SHELTER_NOT_EXIST));
+
+        // 패스워드 암호화 상태와 비교
+
         if (checkShelterName(dto.getName())) {
             throw new BaseException(ErrorCode.NAME_DUPLICATION);
         }
@@ -118,4 +119,18 @@ public class ShelterService {
         return new PetResponseListDto(petResponseDtos);
     }
 
+    @Transactional
+    public ShelterMainResponseDto updateShelterMain(Long shelterId, ShelterMainRequestDto dto) {
+        Shelter shelter = shelterRepository.findById(shelterId)
+                .orElseThrow(() -> new BaseException(ErrorCode.SHELTER_NOT_EXIST));
+        shelter.updateMainShelter(dto);
+        shelterRepository.save(shelter);
+        return modelMapper.map(shelter, ShelterMainResponseDto.class);
+    }
+
+    public ShelterMainResponseDto getShelterMain(Long shelterId) {
+        Shelter shelter = shelterRepository.findById(shelterId)
+                .orElseThrow(() -> new BaseException(ErrorCode.SHELTER_NOT_EXIST));
+        return modelMapper.map(shelter, ShelterMainResponseDto.class);
+    }
 }

@@ -7,6 +7,7 @@ import donation.pet.domain.member.Member;
 import donation.pet.domain.member.MemberRole;
 import donation.pet.domain.pet.AdoptStatus;
 import donation.pet.domain.pet.Pet;
+import donation.pet.dto.shelter.ShelterMainRequestDto;
 import donation.pet.dto.shelter.ShelterUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +22,8 @@ import java.util.stream.Collectors;
 @Entity
 @NoArgsConstructor
 public class Shelter extends Member {
+
+    private String siteUrl;
 
     @Lob
     @Column(name = "shelter_introduce")
@@ -65,5 +68,11 @@ public class Shelter extends Member {
     public void updateProfileImage(String fileName) {
         setProfileImage(fileName);
     }
+
+    public void updateMainShelter(ShelterMainRequestDto dto){
+        siteUrl = dto.getSiteUrl();
+        introduce = dto.getIntroduce();
+    }
+
 
 }
