@@ -70,3 +70,8 @@ export const findPW = (email) => {
 export const checkName = (name) => {
   return security.post(`consumers/check`, { name });
 };
+
+// 비밀번호 설정
+export const setPW = (password) => {
+  return basic.post(`consumers/do`);
+};

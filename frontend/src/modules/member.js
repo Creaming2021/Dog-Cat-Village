@@ -11,6 +11,7 @@ const MODIFY_ACCOUNT = 'member/MODIFY_ACCOUNT';
 const DELETE_ACCOUNT = 'member/DELETE_ACCOUNT';
 const FIND_PW = 'member/FIND_PW';
 const CHECK_NAME = 'member/CHECK_NAME';
+const SET_PW = 'member/SET_PW';
 
 // 액션 객체 생성함수
 export const signIn = createAction(
@@ -49,6 +50,11 @@ export const deleteAccount = createAction(
 export const checkName = createAction(
   CHECK_NAME,
   MemberAPI.checkName
+)
+
+export const setPW = createAction(
+  SET_PW,
+  MemberAPI.setPW
 )
 
 // 초기 상태
@@ -157,6 +163,18 @@ export default applyPenders(memberReducer, [
     },
     onFailure: (state, action) => {
       return { ...initialState};
+    },
+  },
+  {
+    type: SET_PW,
+    onSuccess: (state, action) => {
+      const response = action.payload;
+      
+      alert('임시 비밀번호가 발급되었습니다.');
+      return state;
+    },
+    onFailure: (state, action) => {
+      return state;
     },
   },
 ]);
