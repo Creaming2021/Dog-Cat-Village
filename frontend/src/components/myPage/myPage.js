@@ -31,14 +31,14 @@ const MyPage = () => {
             <UserInfo userTypeBoolean={userTypeBoolean} />
           </div>
           <div className={styles['wallet-container']}>
-            <Wallet className={styles.wallet} />
+            <Wallet userTypeBoolean={userTypeBoolean} />
           </div>
         </div>
         <div className={styles['donation-list-container']}>
-          <DonationList />
+          <DonationList userTypeBoolean={userTypeBoolean} />
         </div>
         <div className={styles['donated-shelter-list-container']}>
-          <DonatedShelterList />
+          <DonatedShelterList userTypeBoolean={userTypeBoolean} />
         </div>
       </div>
     </div>
