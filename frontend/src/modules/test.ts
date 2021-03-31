@@ -1,13 +1,8 @@
-import axios, { AxiosError } from "axios"; 
-import { Dispatch } from "redux"; 
-import { ActionType, createAsyncAction, createReducer, AsyncActionCreatorBuilder } from "typesafe-actions"; 
-import { ThunkAction } from 'redux-thunk';
-import {RootState} from './index';
+import { AxiosError } from "axios"; 
+import { ActionType, createAsyncAction, createReducer } from "typesafe-actions"; 
 import * as TestAPI from "../service/test";
-import createAsyncThunk from "../lib/createAsyncThunk";
 import { asyncState, createAsyncReducer, transformToArray } from "../lib/reducerUtils";
-import { createStandardAction } from "typesafe-actions/dist/deprecated/create-standard-action";
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { takeEvery } from 'redux-saga/effects';
 import createAsyncSaga from "../lib/createAsyncSaga";
 
 const GET_USER_PROFILE = "test/GITHUB_USER_PROFILE";
@@ -18,7 +13,7 @@ export const getUserProfileAsync = createAsyncAction(
   GET_USER_PROFILE, 
   GET_USER_PROFILE_SUCCESS, 
   GET_USER_PROFILE_ERROR 
-)<string, TestAPI.GithubProfile, AxiosError>(); 
+)<TestAPI.test, TestAPI.GithubProfile, AxiosError>(); 
 // )<any, TestAPI.GithubProfile, AxiosError>(); 
 
 // export const getUserProfile = createStandardAction(GET_USER_PROFILE)();
@@ -60,9 +55,11 @@ export function* githubSaga() {
   yield takeEvery(GET_USER_PROFILE, getUserProfileSaga);
 }
 
-export type GithubAction = ActionType<typeof getUserProfileAsync> 
+const actions = { getUserProfileAsync };
 
-export type GithubState = { 
+type GithubAction = ActionType<typeof actions> 
+
+type GithubState = { 
   userProfile: { 
     loading: boolean; 
     data: TestAPI.GithubProfile | null; 
@@ -79,7 +76,7 @@ export type GithubState = {
 // } 
 
 const initialState: GithubState = {
-  userProfile: asyncState.initial()
+  userProfile: asyncState.initial(),
 };
 
 // const test = createReducer<GithubState, GithubAction>(initialState, 

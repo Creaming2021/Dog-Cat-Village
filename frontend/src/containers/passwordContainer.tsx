@@ -28,7 +28,7 @@ const PasswordContainer = ({ match }: PasswordContainerProps) => {
   }
 
   const onSubmitSetPassword = (): void => {
-    dispatch(MemberAction.setPW(password));
+    // dispatch(MemberAction.setPW(password));
   }
 
   return (

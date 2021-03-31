@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./signIn.module.css";
 import commons from "../../common/common.module.css";
-import { SignInInputType } from "../../../interface/consumer";
+import { SignInInputType } from "../../../interface/member";
 import { ButtonLarge } from "../../common/common";
 
 type SignInProps = {

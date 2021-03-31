@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./signUp.module.css";
 import commons from "../../common/common.module.css";
-import { SignUpInputType } from "../../../interface/consumer";
+import { SignUpInputType } from "../../../interface/member";
 import { ButtonLarge } from "../../common/common";
 
 type SignUpFormProps = {

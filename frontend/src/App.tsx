@@ -10,41 +10,10 @@ import shelterListPage from './components/shelterListPage/shelterListPage';
 import ErrorAlert, { ProtectedRouteConsumer, ProtectedRouteShelter, ProtectedRouteAdmin, ProtectedRouteToken } from './components/error/errorAlert';
 import PasswordContainer from './containers/passwordContainer';
 import ConfirmSignUp from './components/submain/confirmSignUp/confirmSignUp';
-import { refresh, security, auth } from './service/instance';
-
-import qs from 'qs';
-import { useDispatch, useSelector } from 'react-redux';
-import * as TestActions from './modules/test';
 
 function App() {
-
-  const onClick1 = () => {
-    refresh.post('oauth/token', 
-      qs.stringify({ grant_type: "refresh_token", refresh_token: localStorage.getItem('refresh_token') })
-    );
-  }
-
-  const onClick2 = () => {
-    security.get('members/test', {
-      'headers': {
-        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-      }
-    });
-  }
-
-  const { data, loading, error } = useSelector((state:any) => state.test.userProfile);
-  const dispatch = useDispatch();
-
-  const onClick3 = () => {
-    dispatch(TestActions.getUserProfileAsync.request("velopert"));
-  }
-
   return (
     <div className={styles.app}>
-      <button onClick={onClick1}>리프레쉬 토큰</button>
-      <button onClick={onClick2}>토큰 유효성 검사</button>
-      <button onClick={onClick3}>saga 테스트</button>
-      <div>{data && data.name}</div>
       <Switch>
         <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/>
         <ProtectedRouteShelter path="/main" Component={SubMain} exact/>

@@ -12,7 +12,7 @@ type PromiseCreatorFunction<P, T> =
 
 // action 이 payload 를 갖고 있는지 확인합니다.
 // __ is __ 문법은 Type guard 라고 부릅니다 https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-guards-and-type-assertions
-function isPayloadAction<P>(action: any): action is PayloadAction<string, P> {
+function isPayloadAction<P>(action: any): action is PayloadAction<any, P> {
   return action.payload !== undefined;
 }
 
@@ -25,7 +25,7 @@ export default function createAsyncSaga<T1, P1, T2, P2, T3, P3>(
   >,
   promiseCreator: PromiseCreatorFunction<P1, P2>
 ) {
-  return function* saga(action: ReturnType<typeof asyncActionCreator.request>) {
+  return function* saga(action: ReturnType<any>) {
     try {
       const result: P2 = isPayloadAction<P1>(action)
         ? yield call(promiseCreator, action.payload)

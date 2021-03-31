@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./signUp.module.css";
 import commons from "../../common/common.module.css";
-import { SignUpInputType } from "../../../interface/consumer";
+import { SignUpInputType } from "../../../interface/member";
 import SignUpForm from './signUpForm';
 import { faPaw } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

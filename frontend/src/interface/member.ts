@@ -28,9 +28,10 @@ export interface SignUpResponseType {
   result: boolean;
 }
 
-export interface LogInResponseType {
+export interface SignInResponseType {
   email: string;
   name: string;
   phone: string;
   role: string;
+  logIn: string;
 }
