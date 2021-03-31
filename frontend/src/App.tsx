@@ -7,6 +7,8 @@ import MyPage from './components/myPage/myPage';
 import StreamingListPage from './components/streamingListPage/streamingListPage';
 import UserMainPage from './components/userMainPage/userMainPage';
 import shelterListPage from './components/shelterListPage/shelterListPage';
+import UserStreamingPage from './components/userStreamingPage/userStreamingPage';
+
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
       <Route path="/streaming/list" component={StreamingListPage} exact/>
       <Route path="/user/main" component={UserMainPage}/>
       <Route path="/shelter/list" component={shelterListPage} exact/>
+      <Route path="/user/streaming" component={UserStreamingPage} exact/>
       {/* <Route path="/user" component={User}/>
       <Route path="/center" component={Center}/> */}
     </div>
