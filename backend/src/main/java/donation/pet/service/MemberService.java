@@ -5,7 +5,9 @@ import donation.pet.domain.member.MemberRepository;
 import donation.pet.domain.member.MemberRole;
 import donation.pet.domain.member.consumer.Consumer;
 import donation.pet.domain.member.consumer.ConsumerRepository;
-import donation.pet.dto.consumer.ConsumerSignupRequestDto;
+import donation.pet.domain.member.shelter.Shelter;
+import donation.pet.domain.member.shelter.ShelterRepository;
+import donation.pet.dto.consumer.MemberSignupRequestDto;
 import donation.pet.dto.member.*;
 import donation.pet.exception.BaseException;
 import donation.pet.exception.ErrorCode;
@@ -32,6 +34,7 @@ import java.util.Set;
 public class MemberService implements UserDetailsService {
 
     public final ConsumerRepository consumerRepository;
+    public final ShelterRepository shelterRepository;
     public final MemberRepository memberRepository;
     public final ModelMapper modelMapper;
     public final PasswordEncoder passwordEncoder;
@@ -39,17 +42,30 @@ public class MemberService implements UserDetailsService {
     public final ConnectOauth connectOauth;
 
     // 회원가입
-    public void signup(ConsumerSignupRequestDto dto) {
+    public void signup(MemberSignupRequestDto dto) {
+        // 이메일 중복 확인
         if (memberRepository.findByEmail(dto.getEmail()).isPresent()) {
             throw new BaseException(ErrorCode.EMAIL_DUPLICATION);
+        }
+        // 이름 중복 확인
+        if (memberRepository.findByName(dto.getName()).isPresent()) {
+            throw new BaseException(ErrorCode.NAME_DUPLICATION);
         }
 
         String encodePassword = passwordEncoder.encode(dto.getPassword());
         String token = mailUtil.sendAuthenticateEmail(dto.getEmail());
 
-        // todo 나중에 shelter도 가입 가능해야 함
-        Consumer consumer = dto.toEntity(encodePassword, Set.of(MemberRole.CONSUMER), token);
-        consumerRepository.save(consumer);
+        // MemberRole 에 따라 다르게 회원가입
+        if (dto.getMemberRole() == MemberRole.CONSUMER) {
+            Consumer consumer = dto.toConsumer(encodePassword, Set.of(MemberRole.CONSUMER), token);
+            consumerRepository.save(consumer);
+        } else if (dto.getMemberRole() == MemberRole.SHELTER) {
+            Shelter shelter = dto.toShelter(encodePassword, Set.of(MemberRole.SHELTER), token);
+            shelterRepository.save(shelter);
+        } else {
+            // MemberRole 에 의미 없는 값이 들어올 경우
+            throw new BaseException(ErrorCode.MEMBER_ROLE_NOT_EXIST);
+        }
     }
 
     // 닉네임 중복 확인

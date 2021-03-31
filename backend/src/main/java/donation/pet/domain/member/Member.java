@@ -43,6 +43,8 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Set<MemberRole> roles;
 
+    private String privateKey;
+
     public void signup(String encodePassword, String role) {
         this.updatePassword(encodePassword);
         if (role.equals("admin")) {
@@ -64,5 +66,11 @@ public class Member {
     public void updateTempLink(String tempLink) {
         this.tempLink = tempLink;
         this.tempLinkDate = LocalDateTime.now();
+    }
+
+    // 계정 주소 및 비밀키 저장
+    public void createContractAddress(String contractAddress, String privateKey) {
+        this.contractAddress = contractAddress;
+        this.privateKey = privateKey;
     }
 }

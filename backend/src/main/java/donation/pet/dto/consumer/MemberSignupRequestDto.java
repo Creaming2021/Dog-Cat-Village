@@ -2,6 +2,7 @@ package donation.pet.dto.consumer;
 
 import donation.pet.domain.member.MemberRole;
 import donation.pet.domain.member.consumer.Consumer;
+import donation.pet.domain.member.shelter.Shelter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,19 +14,31 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class ConsumerSignupRequestDto {
+public class MemberSignupRequestDto {
 
+    private MemberRole memberRole;
     private String email;
     private String password;
     private String name;
     private String phoneNumber;
 
-    public Consumer toEntity(String password, Set<MemberRole> Roles, String accept) {
+    public Consumer toConsumer(String password, Set<MemberRole> roles, String accept) {
         return Consumer.builder()
                 .email(this.email)
                 .password(password)
                 .name(this.name)
-                .roles(Roles)
+                .roles(roles)
+                .accept(accept)
+                .tempLink("none")
+                .build();
+    }
+
+    public Shelter toShelter(String password, Set<MemberRole> roles, String accept) {
+        return Shelter.builder()
+                .email(this.email)
+                .password(password)
+                .name(this.name)
+                .roles(roles)
                 .accept(accept)
                 .tempLink("none")
                 .build();
