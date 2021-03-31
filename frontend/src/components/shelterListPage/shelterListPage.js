@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import ShelterListItem from './shelterListItem';
 import styles from './shelterListPage.module.css';
 import { Search } from '../common/common';
-import client from '../../service/client';
+// import client from '../../service/client';
+import client from 'axios';
+import Nav from '../nav/nav';
+
+client.defaults.baseURL = 'https://j4b106.p.ssafy.io/api/';
 
 // const shelterList = [
 //   {
@@ -93,11 +97,9 @@ const ShelterListPage = () => {
   },[])
 
   return (
-    <>
-      <div>
-        {/* 로고 */}
-        {/* 네브바 */}
-        {/* 마이페이지 아이콘 */}
+    <div className={styles['shelter-list-container']}>
+      <div className={styles['upper-container']}>
+        <Nav role={'CONSUMER'} />
       </div>
       <div className={styles['search-container']}>
         <Search
@@ -129,7 +131,7 @@ const ShelterListPage = () => {
           })
         }
       </div>
-    </>
+    </div>
   );
 };
 
