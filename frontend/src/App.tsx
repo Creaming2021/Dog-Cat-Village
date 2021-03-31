@@ -13,6 +13,8 @@ import ConfirmSignUp from './components/submain/confirmSignUp/confirmSignUp';
 import { refresh, security, auth } from './service/instance';
 
 import qs from 'qs';
+import { useDispatch, useSelector } from 'react-redux';
+import * as TestActions from './modules/test';
 
 function App() {
 
@@ -30,10 +32,19 @@ function App() {
     });
   }
 
+  const { data, loading, error } = useSelector((state:any) => state.test.userProfile);
+  const dispatch = useDispatch();
+
+  const onClick3 = () => {
+    dispatch(TestActions.getUserProfileAsync.request("velopert"));
+  }
+
   return (
     <div className={styles.app}>
-    <button onClick={onClick1}>요청 테스트</button>
-      <button onClick={onClick2}>요청 테스트</button>
+      <button onClick={onClick1}>리프레쉬 토큰</button>
+      <button onClick={onClick2}>토큰 유효성 검사</button>
+      <button onClick={onClick3}>saga 테스트</button>
+      <div>{data && data.name}</div>
       <Switch>
         <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/>
         <ProtectedRouteShelter path="/main" Component={SubMain} exact/>
