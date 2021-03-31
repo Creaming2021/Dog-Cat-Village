@@ -3,7 +3,6 @@ package donation.pet.service;
 import donation.pet.domain.adopt.Adopt;
 import donation.pet.domain.adopt.AdoptRepository;
 import donation.pet.domain.member.MemberRepository;
-import donation.pet.domain.member.MemberRole;
 import donation.pet.domain.member.consumer.Consumer;
 import donation.pet.domain.member.consumer.ConsumerRepository;
 import donation.pet.domain.member.shelter.Shelter;
@@ -15,9 +14,7 @@ import donation.pet.dto.adopt.AdoptRequestDto;
 import donation.pet.dto.adopt.AdoptResponseDto;
 import donation.pet.dto.adopt.AdoptSimpleDto;
 import donation.pet.dto.consumer.ConsumerResponseDto;
-import donation.pet.dto.consumer.ConsumerSignupRequestDto;
 import donation.pet.dto.consumer.ConsumerUpdateRequestDto;
-import donation.pet.dto.member.DuplRequestDto;
 import donation.pet.exception.BaseException;
 import donation.pet.exception.ErrorCode;
 import donation.pet.util.MailUtil;
@@ -29,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service

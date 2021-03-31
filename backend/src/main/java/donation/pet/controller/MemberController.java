@@ -1,13 +1,12 @@
 package donation.pet.controller;
 
 import donation.pet.common.AppProperties;
-import donation.pet.dto.consumer.ConsumerSignupRequestDto;
+import donation.pet.dto.consumer.MemberSignupRequestDto;
 import donation.pet.dto.member.*;
 import donation.pet.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +24,8 @@ public class MemberController {
 
     @ApiOperation("사용자 회원 가입")
     @PostMapping("/signup")
-    public ResponseEntity<Void> signup(@RequestBody ConsumerSignupRequestDto dto) {
-        log.info("(Post) signup - {}, {}, {}", dto.getEmail(), dto.getName(), dto.getPhoneNumber());
+    public ResponseEntity<Void> signup(@RequestBody MemberSignupRequestDto dto) {
+        log.info("(Post) signup - {}, {}, {}, {}", dto.getEmail(), dto.getName(), dto.getPhoneNumber(), dto.getMemberRole());
         memberService.signup(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -83,6 +82,11 @@ public class MemberController {
                                        @PathVariable("token") String token) {
         log.info("(Get) changeLinkPassword - {}", token);
         memberService.changeLinkPassword(passwordRequestDto, token);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<Void> test() {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
