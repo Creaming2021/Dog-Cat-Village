@@ -26,12 +26,6 @@ button {
   margin-bottom: 2em;
 }
 
-.user-img {
-  width: 17.5rem;
-  height: 17.5rem;
-  border-radius: 50%;
-}
-
 .user-description {
   position: absolute;
   top: 0;
@@ -86,4 +80,8 @@ button {
 .user-info-edit-btn:hover,
 .user-unsubs-btn:hover {
   color: #ffce00;
+}
+
+.blue-btn:hover {
+  color: #16a8eb;
 }

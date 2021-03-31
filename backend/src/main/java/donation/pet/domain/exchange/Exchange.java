@@ -1,8 +1,8 @@
 package donation.pet.domain.exchange;
 
-import donation.pet.domain.center.Center;
 import donation.pet.domain.etc.AcceptStatus;
 import donation.pet.domain.etc.BaseTimeEntity;
+import donation.pet.domain.member.shelter.Shelter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,18 +27,18 @@ public class Exchange extends BaseTimeEntity {
     private AcceptStatus acceptStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "center_id")
-    private Center center;
+    @JoinColumn(name = "member_id")
+    private Shelter shelter;
 
     /////////////////////////////////////
 
-    public static Exchange createExchage(Center center, String receiptImage, String transactionAddress) {
+    public static Exchange createExchage(Shelter shelter, String receiptImage, String transactionAddress) {
         Exchange exchange = new Exchange();
-        exchange.center = center;
+        exchange.shelter = shelter;
         exchange.receiptImage = receiptImage;
         exchange.transactionAddress = transactionAddress;
         exchange.acceptStatus = AcceptStatus.PENDING;
-        center.getExchanges().add(exchange);
+        shelter.getExchanges().add(exchange);
 
         return exchange;
     }
