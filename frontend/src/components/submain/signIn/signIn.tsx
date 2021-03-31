@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./signIn.module.css";
 import commons from "../../common/common.module.css";
-import { SignInInputType } from "../../../interface/user";
+import { SignInInputType } from "../../../interface/member";
 import { ButtonLarge } from "../../common/common";
 
 type SignInProps = {
@@ -24,13 +24,13 @@ const SignIn = ({
   signIn,
 }: SignInProps) => {
   // 로그인폼 구성하는 속성들 비구조화 할당
-  const { email, password } = signInInput;
-  const [ inputState, setInputState ] = useState({email: false, password: false});
+  const { username, password } = signInInput;
+  const [ inputState, setInputState ] = useState({username: false, password: false});
 
   useEffect(() => {
     let ret = validateEmail();
-    setInputState({...inputState, email:ret})
-  }, [email]);
+    setInputState({...inputState, username:ret})
+  }, [username]);
 
   useEffect(() => {
     let ret = validatePW();
@@ -45,14 +45,14 @@ const SignIn = ({
 
   // 로그인 할 조건이 맞는지 확인하는 함수
   const onSubmitSignIn = (): void => {
-    if(inputState.email && inputState.password){
+    if(inputState.username && inputState.password){
       signIn();
     }
   };
 
   // 이메일 형식 맞는지 확인하는 함수
   const validateEmail = () => {
-    if (/^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/.test(email)){
+    if (/^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/.test(username)){
       return true;
     }
     return false;
@@ -67,9 +67,9 @@ const SignIn = ({
   };
 
   return (
-    <div className={`${styles.signIn} ${type === "user" ? styles.dog : styles.cat}`}>
+    <div className={`${styles.signIn} ${type === "consumer" ? styles.dog : styles.cat}`}>
       <div className={`${styles.box} ${styles.left}`}>
-        {type === "user" 
+        {type === "consumer" 
         ? (<>
             <div className={`${commons["text-xlarge"]} ${styles["main-text"]}`}>
               당신의 작은 손길,<br />소중한 생명을 살립니다.
@@ -96,7 +96,7 @@ const SignIn = ({
         <button
           className={`${commons["btn-text"]} 
                       ${commons["text-left"]}
-                      ${type === "user"
+                      ${type === "consumer"
                         ? commons["text-yellow"]
                         : commons["text-blue"]}`}
           onClick={goToMain}>
@@ -104,7 +104,7 @@ const SignIn = ({
         <button
           className={`${commons["btn-text"]}  
                       ${commons["text-right"]}
-                      ${type === "user"
+                      ${type === "consumer"
                           ? commons["text-yellow"]
                           : commons["text-blue"]}`}
           onClick={() => goToJoin(type)}>
@@ -113,21 +113,21 @@ const SignIn = ({
           <input
             className={`${commons["input-large"]} 
                         ${styles.input}
-                        ${type === "user"
+                        ${type === "consumer"
                         ? commons["border-yellow"]
                         : commons["border-blue"]}`}
             type="text"
-            name="email"
-            value={email}
+            name="username"
+            value={username}
             onChange={onChangeSignIn}
             onKeyDown={onKeyDown}
             placeholder="E-mail"/><br/>
-          {inputState.email 
+          {inputState.username 
           || <div className={commons['text-xsmall-light']}>이메일 형식을 맞춰주세요.</div>}
           <input
             className={`${commons["input-large"]} ${styles.input}
                                 ${
-                                  type === "user"
+                                  type === "consumer"
                                     ? commons["border-yellow"]
                                     : commons["border-blue"]
                                 }`}
@@ -137,12 +137,12 @@ const SignIn = ({
             onChange={onChangeSignIn}
             onKeyDown={onKeyDown}
             placeholder="PW"/><br />
-          {(inputState.email && !inputState.password)
+          {(inputState.username && !inputState.password)
             && <div className={commons['text-xsmall-light']}>비밀번호를 입력하세요.</div>}
           <button
             className={`${commons["btn-text"]} ${commons["text-left"]}
                                  ${
-                                   type === "user"
+                                   type === "consumer"
                                      ? commons["text-yellow"]
                                      : commons["text-blue"]
                                  }`}
@@ -151,14 +151,14 @@ const SignIn = ({
           <button
             className={`${commons["btn-text"]} 
                         ${commons["text-right"]}
-                        ${type === "user"
+                        ${type === "consumer"
                           ? commons["text-yellow"]
                           : commons["text-blue"]}`}>
             자동 로그인</button> <br />
           <ButtonLarge
             content="LOGIN"
             onClick={onSubmitSignIn}
-            buttonColor={type === "user" ? "bg-yellow" : "bg-blue"}/>
+            buttonColor={type === "consumer" ? "bg-yellow" : "bg-blue"}/>
         </div>
       </div>
     </div>
