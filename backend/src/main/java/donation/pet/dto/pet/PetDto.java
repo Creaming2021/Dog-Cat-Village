@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class PetDto {
 
+    private Long shelterId;
 
     private Long id;
     private String name;
