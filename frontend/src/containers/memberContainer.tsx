@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import rootReducer from "../modules/index";
+import rootReducer, { RootState } from "../modules/index";
 import { useSelector, useDispatch } from "react-redux";
-import * as UserAction from "../modules/user";
-import { SignInInputType, SignUpInputType } from "../interface/user";
+import * as MemberActions from "../modules/member";
+import { SignInInputType, SignUpInputType } from "../interface/member";
 import Nav from "../components/nav/nav";
 import Main from "../components/submain/main/main";
 import FindPassword from "../components/submain/findPassword/findPassword";
 import SignIn from "../components/submain/signIn/signIn";
 import SignUp from "../components/submain/signUp/signUp";
 import { useHistory } from "react-router-dom";
+import { handleAuthResponse, handleError, handleResponse } from "../service/instance";
+import { AxiosError, AxiosResponse } from "axios";
 
-const UserContainer = () => {
+const MemberContainer = () => {
   const history = useHistory();
   type ViewType = "main" | "logIn" | "join" | "findPassword";
 
@@ -38,30 +40,37 @@ const UserContainer = () => {
   };
 
   // store에 있는 state와 dispatch 가져오는 작업
-  const user = useSelector((state: any) => state.user.userInfo);
+  const member = useSelector((state: RootState) => state.member.memberInfo);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user.logIn) {
-      history.push(`/${type}`);
+    if (member.data && member.data.logIn) {
+      if(member.data.role === "ADMIN") history.push(`/admin`);
+      else if(member.data.role === "CONSUMER") history.push(`/user`);
+      else if(member.data.role === "SHELTER") history.push(`/main`);
     }
-  }, [user]);
+  }, [member]);
+
+  useEffect(() => {
+    setSignUpInput({...signUpInput, role: type});
+  }, [type]);
 
   // 로그인
   const initialSignInInput: SignInInputType = {
-    email: "",
+    username: "",
     password: "",
   };
 
   const initialSignUpInputType: SignUpInputType = {
     emailId: "",
     emailSite: "",
-    nickname: "",
+    name: "",
     password: "",
     passwordConfirm: "",
     phoneNumber1: "",
     phoneNumber2: "",
     phoneNumber3: "",
+    role: '',
   };
 
   const initialFindPasswordInput: string = "";
@@ -97,43 +106,41 @@ const UserContainer = () => {
     setSignUpInput({
       ...signUpInput,
       [name]: value,
+      role: type,
     });
   };
 
   // 이메일 정보 데이터 수정
   const onChangeFindPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-
     setEmail(value);
   };
 
   /* api 요청을 보낼 함수 */
   // 로그인 요청
   const signIn = () => {
-    dispatch(UserAction.signIn(signInInput));
+    dispatch(MemberActions.signInAsync.request(signInInput));
   };
 
   // 회원가입 요청
   const signUp = () => {
-    dispatch(UserAction.signUp(signUpInput));
+    // dispatch(UserAction.signUp(signUpInput));
   };
 
   // 비밀번호찾기 요청
   const findPW = () => {
-    dispatch(UserAction.findPW(email));
+    // dispatch(UserAction.findPW(email));
   };
 
   //닉네임 중복 확인 요청
-  const checkNickname = ():boolean => {
-    dispatch(UserAction.checkNickname(signUpInput.nickname))
-    .catch(() => false);
-
+  const checkName = ():boolean => {
+    // dispatch(UserAction.checkName(signUpInput.name));
     return true;
   };
 
   return (
     <>
-      <Nav name="subMain" />
+      <Nav role="MEMBER" />
       {view === "main" && <Main goToLogIn={goToLogIn} />}
       {view === "logIn" && (
         <SignIn
@@ -153,7 +160,7 @@ const UserContainer = () => {
           signUpInput={signUpInput}
           onChangeSignUp={onChangeSignUp}
           signUp={signUp}
-          checkNickname={checkNickname}
+          checkName={checkName}
         />
       )}
       {view === "findPassword" && (
@@ -170,4 +177,4 @@ const UserContainer = () => {
   );
 };
 
-export default UserContainer;
+export default MemberContainer;
