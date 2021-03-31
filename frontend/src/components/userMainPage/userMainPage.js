@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import styles from './userMainPage.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVideo, faCoins,  faDog } from '@fortawesome/free-solid-svg-icons';
-import client from '../../service/client';
-
+// import client from '../../service/client';
+import client from 'axios';
+import Nav from '../nav/nav';
+client.defaults.baseURL = 'https://j4b106.p.ssafy.io/api/';
 
 const coin = [0,0,0]
 
@@ -46,7 +48,7 @@ const todayAdoptedAnimalCount = (animalCount) => {
 };
 
 
-const UserMainPage = () => {
+const UserMainPage = (props) => {
   const [boardToggle, setBoardToggle] = useState(true);
   const [animalCount, setAnimalCount] = useState([]);
 
@@ -71,7 +73,7 @@ const UserMainPage = () => {
   return (
     <>
       <div className={styles['upper-part']}>
-        {/* 네브바 */}
+        <Nav role={'CONSUMER'} />
       </div> 
       <div className={boardToggle ? styles.displayNone : styles.display }>
         {todayTotalDonation()}
@@ -80,15 +82,15 @@ const UserMainPage = () => {
         {todayAdoptedAnimalCount(animalCount)}
       </div>
       <div className={styles['lower-part']}>
-        <div className={styles['vod-container']}>
+        <div className={styles['vod-container']} onClick={() => {props.history.push('/')}}>
           <FontAwesomeIcon icon={faVideo} className={styles['video-icon']} />
           <div className={styles['vod-text']}>동물 보러 가기</div>
         </div>
-        <div className={styles['donate-container']}>
+        <div className={styles['donate-container']} onClick={() => {props.history.push('/')}}>
           <FontAwesomeIcon icon={faCoins} className={styles['coin-icon']} />
           <div className={styles['donate-text']}>기부 하러 가기</div>
         </div>
-        <div className={styles['adopt-container']}>
+        <div className={styles['adopt-container']} onClick={() => {props.history.push('/')}}>
           <FontAwesomeIcon icon={faDog} className={styles['dog-icon']} />
           <div className={styles['adopt-text']}>입양 보러 가기</div>
         </div>
