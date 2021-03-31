@@ -10,7 +10,7 @@ import SignIn from "../components/submain/signIn/signIn";
 import SignUp from "../components/submain/signUp/signUp";
 import { useHistory } from "react-router-dom";
 import { handleAuthResponse, handleError, handleResponse } from "../service/instance";
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 const MemberContainer = () => {
   const history = useHistory();
@@ -119,33 +119,22 @@ const MemberContainer = () => {
   /* api 요청을 보낼 함수 */
   // 로그인 요청
   const signIn = () => {
-    dispatch(MemberActions.signInAsync.request(signInInput))
-    // .then(handleAuthResponse)
-    // .catch((e: AxiosError) => { console.log("컨테이너"); handleError(e)});
+    dispatch(MemberActions.signInAsync.request(signInInput));
   };
 
   // 회원가입 요청
   const signUp = () => {
-    // dispatch(UserAction.signUp(signUpInput))
-    // .then(handleResponse)
-    // .catch((e: AxiosError) => handleError(e));
+    // dispatch(UserAction.signUp(signUpInput));
   };
 
   // 비밀번호찾기 요청
   const findPW = () => {
-    // dispatch(UserAction.findPW(email))
-    // .then(handleResponse)
-    // .catch((e: AxiosError) => handleError(e));
+    // dispatch(UserAction.findPW(email));
   };
 
   //닉네임 중복 확인 요청
   const checkName = ():boolean => {
-    // dispatch(UserAction.checkName(signUpInput.name))
-    // .then(handleResponse)
-    // .catch((e: AxiosError) => { 
-    //   handleError(e); 
-    //   return false; 
-    // });
+    // dispatch(UserAction.checkName(signUpInput.name));
     return true;
   };
 

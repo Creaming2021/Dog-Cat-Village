@@ -6,7 +6,7 @@ import createAsyncSaga from "../lib/createAsyncSaga";
 import * as MemberAPI from '../service/member';
 import { SignInResponseType, SignInInputType } from "../interface/member";
 
-// user 관련 요청 액션 타입
+// 로그인 요청 액션 타입
 const SIGN_IN = 'member/SIGN_IN';
 const SIGN_IN_SUCCESS = 'member/SIGN_IN_SUCCESS';
 const SIGN_IN_ERROR = 'member/SIGN_IN_ERROR';
@@ -20,28 +20,32 @@ const SIGN_IN_ERROR = 'member/SIGN_IN_ERROR';
 // const CHECK_NAME = 'member/CHECK_NAME';
 // const SET_PW = 'member/SET_PW';
 
-// 액션 객체 생성함수
+// 로그인 요청 액션 객체 생성함수
 export const signInAsync = createAsyncAction( 
   SIGN_IN, 
   SIGN_IN_SUCCESS, 
   SIGN_IN_ERROR 
-)<SignInInputType, SignInResponseType, AxiosError>();
+)<SignInInputType, AxiosResponse<SignInResponseType>, AxiosError>();
 
-// saga
+// 로그인 요청 saga
 const signInSaga = createAsyncSaga(signInAsync, MemberAPI.signIn);
 
+// 멤버 saga 생성
 export function* memberSaga() {
   yield takeEvery(SIGN_IN, signInSaga);
   // 다른 요청들 여기 추가로 적으면 됨
 }
 
+// 멤버 actions 객체 모음
 const actions = { 
   signInAsync 
   // 다른 요청들 여기 추가로 적으면 됨
 };
 
+// 멤버 actions type 저장
 type MemberAction = ActionType<typeof actions> 
 
+// 멤버 state 선언
 type MemberState = {
   memberInfo: {
     loading: boolean; 
@@ -50,18 +54,42 @@ type MemberState = {
   },
 };
 
-// 초기 상태
+// 멤버 state 초기 상태
 const initialState: MemberState = {
   memberInfo: asyncState.initial(),
 };
 
-const member = createReducer<MemberState, MemberAction>(initialState).handleAction(
-  transformToArray(signInAsync),
-  createAsyncReducer(signInAsync, 'memberInfo')
-)
-// .handleAction(
-//   transformToArray(),
-//   createAsyncReducer(, '')
+// 요청 저장 할 때 예외 처리 할 일 없으면 이거 바로 사용
+// const member = createReducer<MemberState, MemberAction>(initialState).handleAction(
+//   transformToArray(signInAsync),
+//   createAsyncReducer(signInAsync, 'memberInfo')
+// )
+
+// 요청 저장 시 특정값 수정해야 할 때 각 상태 별 state값 변경시 사용
+const member = createReducer<MemberState, MemberAction>(initialState, {
+  [SIGN_IN]: state => ({
+    ...state,
+    memberInfo: asyncState.load()
+  }),
+  [SIGN_IN_SUCCESS]: (state, action) => ({
+    ...state,
+    memberInfo: {
+      loading: false,
+      error: null,
+      data: {
+        logIn: true,
+        role: action.payload.data.role,
+      }
+    }
+  }),
+  [SIGN_IN_ERROR]: (state, action) => ({
+    ...state,
+    memberInfo: asyncState.error(action.payload)
+  })
+})
+// .handleAction( // 주석 해제 후 다른 async 함수들 적으면 됨
+//   transformToArray(signInAsync),
+//   createAsyncReducer(signInAsync, 'memberInfo')
 // );
 
 export default member;

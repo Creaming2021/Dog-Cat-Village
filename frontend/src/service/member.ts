@@ -17,9 +17,8 @@ export const signIn = async ({ username, password }: SignInInputType) => {
     `oauth/token`, 
     qs.stringify({ username, password, grant_type: "password" })
   )
-  .then((response) => handleAuthResponse(response))
-  .catch((e) => handleError(e));
 };
+
 
 // // 회원 가입 하기
 // export const signUp = ({ emailId, emailSite, name, password, 
