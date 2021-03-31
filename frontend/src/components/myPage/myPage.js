@@ -22,27 +22,30 @@ const MyPage = () => {
 
   return (
     <div className={`${styles.mypage} ${userTypeBoolean ? styles.user : styles.shelter}`}>
-      <div className={styles.upperbox}>
-        {/* 로고 */}
-        <Nav name="userMyPage"/>
-        {/* 이모티콘? 어디로 가는거지..? */}
+      <div className={styles['upper-container']}>
+        <Nav role={userTypeBoolean ? "CONSUMER" : "SHELTER"} />
       </div>
-      <div className={styles.content}>
-        <div className={styles.leftbox}>
-          <div className={styles['user-info-container']}>
+      <div className={styles['main-container']}>
+        <div className={styles['left-container']}>
+          <div className={styles['user-info-box']}>
             <UserInfo userTypeBoolean={userTypeBoolean} />
           </div>
-          <div className={styles['wallet-container']}>
+          <div className={styles['wallet-box']}>
             <Wallet userTypeBoolean={userTypeBoolean} />
           </div>
         </div>
-        <div className={styles['donation-list-container']}>
+        <div className={styles['donation-list-box']}>
           <DonationList userTypeBoolean={userTypeBoolean} />
         </div>
-        <div className={styles['list-containers']}>
-          {userTypeBoolean && <DonatedShelterList />}
-          <ContributionChart />
-          <AdoptedAnimalsChart />
+        <div className={styles['etc-boxes']}>
+          {
+            userTypeBoolean 
+            ? <DonatedShelterList /> 
+            : <>
+                <ContributionChart />
+                <AdoptedAnimalsChart />
+              </>
+          }    
         </div>
       </div>
     </div>
