@@ -33,9 +33,9 @@ class MemberControllerTest {
     public void 사용자_회원가입() throws Exception {
         MemberSignupRequestDto dto = MemberSignupRequestDto.builder()
                 .memberRole(MemberRole.CONSUMER)
-                .email("test@test.com")
+                .email("meloncha0205@gmail.com")
                 .password("test")
-                .name("청주가고싶다")
+                .name("멜론")
                 .phoneNumber("01012345678")
                 .build();
 
