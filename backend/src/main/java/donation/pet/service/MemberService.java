@@ -83,13 +83,15 @@ public class MemberService implements UserDetailsService {
     }
 
     // 로그인
-    public LoginResponseDto login(LoginRequestDto dto) {
-        LoginResponseDto loginResponseDto = connectOauth.loginCheck(dto);
-        Member member = memberRepository.findByEmail(dto.getEmail())
+    public LoginResponseDto login(String authorization, LoginRequestDto dto) {
+        LoginResponseDto loginResponseDto = connectOauth.loginCheck(authorization, dto);
+        Member member = memberRepository.findByEmail(dto.getUsername())
                 .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));
         if (!member.getAccept().equals("true")) {
             throw new BaseException(ErrorCode.WRONG_EMAIL_CHECK_AUTH);
         }
+        loginResponseDto.setMemberId(member.getId());
+        loginResponseDto.setMemberRole(member.getRoles());
         return loginResponseDto;
     }
 
@@ -124,6 +126,15 @@ public class MemberService implements UserDetailsService {
         }
         member.updateTempLink("none");
         member.updatePassword(passwordEncoder.encode(dto.getPassword()));
+    }
+
+    public void deleteMember(Member oauthMember) {
+        if (oauthMember == null) {
+            throw new BaseException(ErrorCode.MEMBER_NOT_FOUND);
+        }
+        Member member = memberRepository.findById(oauthMember.getId())
+                .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));
+        memberRepository.delete(member);
     }
 
     // Security
