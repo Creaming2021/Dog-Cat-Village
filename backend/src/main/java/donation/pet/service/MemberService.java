@@ -18,18 +18,19 @@ import donation.pet.util.MailUtil;
 import donation.pet.util.MemberAdapter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
 
@@ -42,6 +43,8 @@ public class MemberService implements UserDetailsService {
     public final ConnectOauth connectOauth;
 
     // 회원가입
+    @Async
+    @Transactional
     public void signup(MemberSignupRequestDto dto) {
         // 이메일 중복 확인
         if (memberRepository.findByEmail(dto.getEmail()).isPresent()) {
@@ -76,6 +79,7 @@ public class MemberService implements UserDetailsService {
     }
 
     // 이메일 인증
+    @Transactional
     public void checkEmailToken(String token) {
         Member member = memberRepository.findByAccept(token)
                 .orElseThrow(() -> new RedirectException(RedirectCode.WRONG_EMAIL_CHECK));
@@ -83,17 +87,21 @@ public class MemberService implements UserDetailsService {
     }
 
     // 로그인
-    public LoginResponseDto login(LoginRequestDto dto) {
-        LoginResponseDto loginResponseDto = connectOauth.loginCheck(dto);
-        Member member = memberRepository.findByEmail(dto.getEmail())
+    public LoginResponseDto login(String authorization, LoginRequestDto dto) {
+        LoginResponseDto loginResponseDto = connectOauth.loginCheck(authorization, dto);
+        Member member = memberRepository.findByEmail(dto.getUsername())
                 .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));
         if (!member.getAccept().equals("true")) {
             throw new BaseException(ErrorCode.WRONG_EMAIL_CHECK_AUTH);
         }
+        loginResponseDto.setMemberId(member.getId());
+        loginResponseDto.setMemberRole(member.getRoles());
         return loginResponseDto;
     }
 
     // 패스워드 찾기
+    @Async
+    @Transactional
     public void forgetPassword(FindPasswordRequestDto dto) {
         Member member = memberRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));
@@ -102,6 +110,7 @@ public class MemberService implements UserDetailsService {
     }
 
     // 비밀번호 변경 링크 리다이렉트
+    @Transactional
     public void makeChangeLink(String token) {
         Member member = memberRepository.findByTempLink(token)
                 .orElseThrow(() -> new RedirectException(RedirectCode.MEMBER_NOT_FOUND));
@@ -113,6 +122,7 @@ public class MemberService implements UserDetailsService {
     }
 
     // 비밀번호 변경 링크를 통한 변경
+    @Transactional
     public void changeLinkPassword(PasswordRequestDto dto, String token) {
         Member member = memberRepository.findByTempLink(token)
                 .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));
@@ -124,6 +134,15 @@ public class MemberService implements UserDetailsService {
         }
         member.updateTempLink("none");
         member.updatePassword(passwordEncoder.encode(dto.getPassword()));
+    }
+
+    public void deleteMember(Member oauthMember) {
+        if (oauthMember == null) {
+            throw new BaseException(ErrorCode.MEMBER_NOT_FOUND);
+        }
+        Member member = memberRepository.findById(oauthMember.getId())
+                .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));
+        memberRepository.delete(member);
     }
 
     // Security
