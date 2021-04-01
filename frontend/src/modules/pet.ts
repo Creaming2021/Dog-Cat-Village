@@ -38,16 +38,6 @@ const SET_PROFILE_IMAGE_ERROR = 'pet/SET_PROFILE_IMAGE_ERROR';
 
 // 선택된 동물 지우는 액션 타입
 const SET_INITIAL_SELECTED_PET = 'pet/SET_INITIAL_SELECTED_PET';
-const SET_INITIAL_SELECTED_PET_SUCCESS = 'pet/SET_INITIAL_SELECTED_PET_SUCCESS';
-const SET_INITIAL_SELECTED_PET_ERROR = 'pet/SET_INITIAL_SELECTED_PET_ERROR';
-
-// 반려 동물 전체 조회 액션
-// 반려 동물 등록 액션
-// 반려 동물 조회 액션
-// 반려 동물 수정 액션
-// 반려 동물 삭제 액션
-// 반려 동물 이미지 삽입 액션
-// 선택된 동물 지우는 액션
 
 // 반려 동물 전체 조회 액션 객체 생성함수
 export const getPetListAsync = createAsyncAction(
@@ -92,11 +82,7 @@ export const setProfileImageAsync = createAsyncAction(
 )<PetProfileImage, AxiosResponse<undefined>, AxiosError>();
 
 // 선택된 동물 지우는 액션 객체 생성함수
-export const setInitialSelectedPetAsync = createAsyncAction(
-  SET_INITIAL_SELECTED_PET,
-  SET_INITIAL_SELECTED_PET_SUCCESS,
-  SET_INITIAL_SELECTED_PET_ERROR
-)<any, undefined, undefined>();
+export const setInitialSelectedPet = () => ({ type: SET_INITIAL_SELECTED_PET });
 
 // saga
 const getPetListSaga = createAsyncSaga(getPetListAsync, PetAPI.getPetList);
@@ -105,11 +91,7 @@ const getPetSaga = createAsyncSaga(getPetAsync, PetAPI.getPet);
 const modifyPetSaga = createAsyncSaga(modifyPetAsync, PetAPI.modifyPet);
 const deletePetSaga = createAsyncSaga(deletePetAsync, PetAPI.deletePet);
 const setProfileImageSaga = createAsyncSaga(setProfileImageAsync, PetAPI.setProfileImage);
-// const setInitialSelectedPetSaga = createAsyncSaga(setInitialSelectedPetAsync, );
 
-
-
-// yield takeEvery(SIGN_IN, signInSaga);
 // pet saga 생성
 export function* petSaga() {
   yield takeEvery(GET_PET_LIST, getPetListSaga);
@@ -118,12 +100,16 @@ export function* petSaga() {
   yield takeEvery(MODIFY_PET, modifyPetSaga);
   yield takeEvery(DELETE_PET, deletePetSaga);
   yield takeEvery(SET_PROFILE_IMAGE, setProfileImageSaga);
-  // 선택 동물 초기화
 }
 
 // pet actions 객체 모음
 const actions = {
-
+  getPetListAsync,
+  registerPetAsync,
+  getPetAsync,
+  modifyPetAsync,
+  deletePetAsync,
+  setProfileImageAsync
 }
 
 // pet actions type 저장
@@ -149,101 +135,66 @@ const initialState: PetState = {
   selectedPet: asyncState.initial(),
 }
 
-// reducer 생성
-// const pet = createReducer<PetState, PetAction>(initialState).handleAction(
-//   transformToArray(getPetListAsync),
-//   createAsyncReducer(getPetListAsync, 'petList')
-// )
+// 반려 동물 전체 조회 reducer 생성
+const getPetListReducer = createReducer<PetState, PetAction>(initialState)
+.handleAction(
+  transformToArray(getPetListAsync),
+  createAsyncReducer(getPetListAsync, 'petList')
+)
 
+// 반려 동물 등록 reducer 생성
+const registerPetReducer = createReducer<PetState, PetAction>(initialState)
+.handleAction(
+  transformToArray(registerPetAsync),
+  createAsyncReducer(registerPetAsync, 'selectedPet')
+)
 
-// reducer 함수
-// const petReducer = handleActions(
-//   {
-//     [SET_INITIAL_SELECTED_PET]: (state, action) => {
-//       return { ...state, selectedPet: {...initailState.selectedPet}};
-//     }
-//   }, 
-//   initailState
-// )
+// 반려 동물 전체 조회 reducer 생성
+const getPetReducer = createReducer<PetState, PetAction>(initialState)
+.handleAction(
+  transformToArray(getPetAsync),
+  createAsyncReducer(getPetAsync, 'selectedPet')
+)
 
-// export default applyPenders(petReducer, [
-//   {
-//     type: GET_PET_LIST,
-//     onSuccess: (state, action) => {
-//       const response = action.payload;
+// 반려 동물 수정 reducer 생성
+const modifyPetReducer = createReducer<PetState, PetAction>(initialState)
+.handleAction(
+  transformToArray(modifyPetAsync),
+  createAsyncReducer(modifyPetAsync, 'selectedPet')
+)
 
-//       console.log("동물 리스트 응답 ", response);
+// 반려 동물 삭제 reducer 생성
+const deletePetReducer = createReducer<PetState, PetAction>(initialState)
+.handleAction(
+  transformToArray(deletePetAsync),
+  createAsyncReducer(deletePetAsync, 'selectedPet')
+)
 
-//       return {
-//         ...state,
-//         petList: { ...response.data, }
-//       };
-//     },
-//     onFailure: (state, action) => {
-//       return { ...state };
-//     }
-//   },
-//   {
-//     type: REGISTER_PET,
-//     onSuccess: (state, action) => {
-//       const response = action.payload;
+// 반려 동물 이미지 삽입 reducer 생성
+const setProfileImageReducer = createReducer<PetState, PetAction>(initialState)
+.handleAction(
+  transformToArray(setProfileImageAsync),
+  createAsyncReducer(setProfileImageAsync, 'petList')
+)
 
-//       console.log("동물 등록 응답 ", response);
+// 선택된 동물 지우는 액션 reducer 생성
+const setInitialSelectedPetReducer = createReducer(initialState, {
+  [SET_INITIAL_SELECTED_PET]: (state, action) => ({
+    ...state,
+    selectedPet: {
+      ...initialState.selectedPet,
+    }
+  })
+});
 
-//       return {
-//         ...state,
-//       };
-//     },
-//     onFailure: (state, action) => {
-//       return { ...state };
-//     }
-//   },
-//   {
-//     type: GET_PET,
-//     onSuccess: (state, action) => {
-//       const response = action.payload;
+const pet = createReducer<PetState, PetAction>(initialState, {
+  ...getPetListReducer.handlers,
+  ...registerPetReducer.handlers,
+  ...getPetReducer.handlers,
+  ...modifyPetReducer.handlers,
+  ...deletePetReducer.handlers,
+  ...setProfileImageReducer.handlers,
+  ...setInitialSelectedPetReducer.handlers,
+});
 
-//       console.log("동물 디테일 정보 응답 ", response);
-
-//       return {
-//         ...state,
-//         selectedPet: { ...response.data, }
-//       };
-//     },
-//     onFailure: (state, action) => {
-//       return { ...state };
-//     }
-//   },
-//   {
-//     type: MODIFY_PET,
-//     onSuccess: (state, action) => {
-//       const response = action.payload;
-
-//       console.log("동물 정보 수정 응답 ", response);
-
-//       return {
-//         ...state,
-//         petList: { ...response.data, }
-//       };
-//     },
-//     onFailure: (state, action) => {
-//       return { ...state };
-//     }
-//   },
-//   {
-//     type: DELETE_PET,
-//     onSuccess: (state, action) => {
-//       const response = action.payload;
-
-//       console.log("동물 정보 삭제 응답 ", response);
-
-//       return {
-//         ...state,
-//         selectedPet: { ...initailState.selectedAnimal, }
-//       };
-//     },
-//     onFailure: (state, action) => {
-//       return { ...state };
-//     }
-//   },
-// ]);
+export default pet;
