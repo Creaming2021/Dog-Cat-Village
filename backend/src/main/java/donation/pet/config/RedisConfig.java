@@ -14,14 +14,14 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @EnableRedisRepositories
 public class RedisConfig {
 
-    // @Value("${spring.redis.port}")
-    // public int port;
+     @Value("${spring.redis.port}")
+     public int port;
 
-    // @Value("${spring.redis.host}")
-    // public String host;
+     @Value("${spring.redis.host}")
+     public String host;
 
-    // @Value("${spring.redis.password}")
-    // private String password;
+//     @Value("${spring.redis.password}")
+//     private String password;
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
@@ -35,8 +35,8 @@ public class RedisConfig {
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
-        redisStandaloneConfiguration.setHostName("127.0.0.1");
-        redisStandaloneConfiguration.setPort(6379);
+        redisStandaloneConfiguration.setHostName(host);
+        redisStandaloneConfiguration.setPort(port);
         // redisStandaloneConfiguration.setPassword(password);
         LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory(redisStandaloneConfiguration);
         return connectionFactory;
