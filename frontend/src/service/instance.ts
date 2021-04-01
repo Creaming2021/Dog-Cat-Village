@@ -41,7 +41,7 @@ export const handleAuthResponse = (response: any) => {
 export const handleError = (e: any) => {
   console.log("일반 에러 핸들러");
   if (e.response) {
-    alert(e.response.data.error_description);
+    alert(e.response.data.errorMessage);
     console.log("응답은 있는데 오류", e.response.status);
     console.log(e.response.headers);
   } else if(e.request){
@@ -49,7 +49,7 @@ export const handleError = (e: any) => {
   } else {
     alert("요청 이상" + e.message);
   }
-  console.log(e.config);
+  console.log(e.response.data.errorMessage);
   return e;
 };
 
