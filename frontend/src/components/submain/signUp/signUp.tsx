@@ -108,7 +108,7 @@ const SignUp = ({
 
   return (
   <div className={`${styles['sign-up-container']} 
-                ${ type === "consumer"
+                ${ type === "CONSUMER"
                   ? commons["bg-gradient-yellow-green"]
                   : commons["bg-gradient-green-blue"]}`}>
     <div className={`${commons["box-white"]} ${styles['left-container']}`}>
@@ -116,7 +116,7 @@ const SignUp = ({
         className={`${commons["btn-text"]} 
                     ${commons["text-right"]} 
                     ${styles.button}
-                    ${type === "consumer"
+                    ${type === "CONSUMER"
                       ? commons["text-yellow"]
                       : commons["text-blue"]}`}
         onClick={() => goToLogIn(type)}>
@@ -141,7 +141,7 @@ const SignUp = ({
         <div className={`${commons['text-small-light']}`}><FontAwesomeIcon icon={faPaw}/> 안전하게</div>
         <div className={`${commons['text-small-light']}`}><FontAwesomeIcon icon={faPaw}/> 간편하게</div>
       </div>
-      { type === 'consumer'
+      { type === 'CONSUMER'
         ? <p className={`${commons['text-medium-light']}`}>후원하세요!</p>
         : <p className={`${commons['text-medium-light']}`}>시작하세요!</p> }
     </div>

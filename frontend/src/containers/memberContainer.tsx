@@ -44,21 +44,22 @@ const MemberContainer = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (member.data && member.data.logIn) {
-      if(member.data.role === "ADMIN") history.push(`/admin`);
-      else if(member.data.role === "CONSUMER") history.push(`/user`);
-      else if(member.data.role === "SHELTER") history.push(`/main`);
+    if (member.data?.logIn) {
+      if(member.data.memberRole === "ADMIN") history.push(`/admin`);
+      else if(member.data.memberRole === "CONSUMER") history.push(`/user`);
+      else if(member.data.memberRole === "SHELTER") history.push(`/main`);
     }
   }, [member]);
 
   useEffect(() => {
-    setSignUpInput({...signUpInput, role: type});
+    setSignUpInput({...signUpInput, memberRole: type});
   }, [type]);
 
   // 로그인
   const initialSignInInput: SignInInputType = {
     username: "",
     password: "",
+    memberRole: "",
   };
 
   const initialSignUpInputType: SignUpInputType = {
@@ -70,7 +71,7 @@ const MemberContainer = () => {
     phoneNumber1: "",
     phoneNumber2: "",
     phoneNumber3: "",
-    role: '',
+    memberRole: '',
   };
 
   const initialFindPasswordInput: string = "";
@@ -96,6 +97,7 @@ const MemberContainer = () => {
     setSignInInput({
       ...signInInput,
       [name]: value,
+      memberRole: type,
     });
   };
 
@@ -106,7 +108,7 @@ const MemberContainer = () => {
     setSignUpInput({
       ...signUpInput,
       [name]: value,
-      role: type,
+      memberRole: type,
     });
   };
 
