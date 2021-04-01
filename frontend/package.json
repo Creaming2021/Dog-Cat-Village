@@ -66,5 +66,5 @@
     "@types/react-router-dom": "^5.1.7",
     "redux-devtools-extension": "^2.13.2"
   },
-  "proxy": "https://j4b106.p.ssafy.io/api/"
+  "proxy": "https://j4b106.p.ssafy.io/"
 }

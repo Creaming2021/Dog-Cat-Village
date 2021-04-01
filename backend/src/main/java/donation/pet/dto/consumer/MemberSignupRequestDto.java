@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 public class MemberSignupRequestDto {
 
-    private MemberRole memberRole;
+    private String memberRole;
     private String email;
     private String password;
     private String name;

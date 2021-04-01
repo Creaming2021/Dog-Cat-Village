@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import MemberContainer from "../../containers/memberContainer";
+import { RootState } from "../../modules";
 import { ButtonMedium, ModalSmall } from "../common/common";
 import styles from "./errorAlert.module.css";
 
@@ -12,30 +13,30 @@ type ProtectedRouteProps = {
 }
 
 export const ProtectedRouteAdmin = ({ Component }: ProtectedRouteProps) => {
-  const member = useSelector((state: any) => state.member);
+  const member = useSelector((state: RootState) => state.member.memberInfo);
 
   return (
-    member.role === 'ADMIN'
+    member.data?.memberRole === 'ADMIN'
     ? <Component />
     : <ErrorAlert message="잘못된 요청 입니다."/>
   );
 };
 
 export const ProtectedRouteShelter = ({ Component }: ProtectedRouteProps) => {
-  const member = useSelector((state: any) => state.member);
+  const member = useSelector((state: RootState) => state.member.memberInfo);
 
   return (
-    member.role === 'SHELTER'
+    member.data?.memberRole === 'SHELTER'
     ? <Component />
     : <ErrorAlert message="잘못된 요청 입니다."/>
   );
 };
 
 export const ProtectedRouteConsumer = ({ Component }: ProtectedRouteProps) => {
-  const member = useSelector((state: any) => state.member);
+  const member = useSelector((state: RootState) => state.member.memberInfo);
 
   return (
-    member.role === 'CONSUMER'
+    member.data?.memberRole === 'CONSUMER'
     ? <Component />
     : <ErrorAlert message="잘못된 요청 입니다."/>
   );
