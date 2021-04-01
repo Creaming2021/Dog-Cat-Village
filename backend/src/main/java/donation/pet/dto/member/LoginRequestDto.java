@@ -8,8 +8,7 @@ import lombok.*;
 @Getter
 public class LoginRequestDto {
 
-    private String clientId;
-    private String clientSecret;
-    private String email;
+    private String username;
     private String password;
+    private String grant_type;
 }
