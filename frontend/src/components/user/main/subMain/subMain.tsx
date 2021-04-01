@@ -11,6 +11,8 @@ import styles from "./subMain.module.css";
 const SubMain = () => {
   const [category, setCategory] = useState<string>("home");
 
+  const member = {memberRole: 'SHELTER'};
+
   const onChangeCategory = (category: string): void => {
     setCategory(category);
   };
@@ -24,7 +26,7 @@ const SubMain = () => {
     email: "ssafy@ssafy.com",
     introduction:
       "안녕하세요 동아동입니다~ 많은 관심과 후원 감사합니다! 하는 등의 소개글",
-    role: "shelter",
+    memberRole: "SHELTER",
   };
 
   const streaming = {
@@ -38,7 +40,7 @@ const SubMain = () => {
 
   return (
     <div className={styles["sub-main-container"]}>
-      <Nav name="centerMainPage" />
+      <Nav role={member.memberRole} />
       <div className={styles["sub-main-box"]}>
         <MainCategory userInfo={userInfo} onChangeCategory={onChangeCategory} />
         {category === "home" && <Home type="shelter" streaming={streaming} />}

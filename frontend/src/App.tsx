@@ -1,20 +1,35 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import styles from './App.module.css';
 import SubMain from './components/user/main/subMain/subMain';
-import UserContainer from './containers/userContainer';
+import MemberContainer from './containers/memberContainer';
 import MyPage from './components/myPage/myPage';
+import StreamingListPage from './components/streamingListPage/streamingListPage';
+import UserMainPage from './components/userMainPage/userMainPage';
 import shelterListPage from './components/shelterListPage/shelterListPage';
+import ErrorAlert, { ProtectedRouteConsumer, ProtectedRouteShelter, ProtectedRouteAdmin, ProtectedRouteToken } from './components/error/errorAlert';
+import PasswordContainer from './containers/passwordContainer';
+import ConfirmSignUp from './components/submain/confirmSignUp/confirmSignUp';
 
 function App() {
   return (
     <div className={styles.app}>
-      <Route path="/" component={UserContainer} exact/>
-      <Route path="/user" component={MyPage} exact/>
-      <Route path="/shelter" component={SubMain} exact/>
-      <Route path="/shelter/list" component={shelterListPage} exact/>
-      {/* <Route path="/user" component={User}/>
-      <Route path="/center" component={Center}/> */}
+      <Switch>
+        <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/>
+        <ProtectedRouteShelter path="/main" Component={SubMain} exact/>
+        {/* <ProtectedRouteAdmin path="/admin" Component={Admin} exact/> */}
+        <Route path="/profile" component={MyPage} exact/>
+        {/* <Route path="/shelter/streaming" component={Streaming} exact/> */}
+        <ProtectedRouteConsumer path="/shelter" Component={shelterListPage} exact/>
+        <ProtectedRouteConsumer path="/streaming" Component={StreamingListPage} exact/>
+        {/* <ProtectedRouteConsumer path="/pet" Component={Pet} exact/> */}
+        <Route path="/signup/:result" component={ConfirmSignUp} exact/>
+        <Route path="/password/:auth" component={PasswordContainer} exact/>
+        <ProtectedRouteToken path="/" Component={MemberContainer} exact/>
+        <Route>
+          <ErrorAlert message="잘못된 요청 입니다."/>
+        </Route>
+      </Switch>
     </div>
   );
 }

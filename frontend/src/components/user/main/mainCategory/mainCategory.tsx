@@ -14,7 +14,7 @@ type MainCategoryProps = {
     phoneNumber: string;
     email: string;
     introduction: string;
-    role: string;
+    memberRole: string;
   };
 };
 
@@ -51,7 +51,7 @@ const MainCategory = ({ onChangeCategory, userInfo }: MainCategoryProps) => {
           onClick={onClick}
           buttonColor="bg-green"
         />
-        { userInfo.role === "shelter" &&
+        { userInfo.memberRole === "SHELTER" &&
           <ButtonMedium
             content="입양 신청"
             value="adopt"
@@ -59,7 +59,7 @@ const MainCategory = ({ onChangeCategory, userInfo }: MainCategoryProps) => {
             buttonColor="bg-green"
             />
         }
-        { userInfo.role === "user" &&
+        { userInfo.memberRole === "CONSUMER" &&
           <ButtonMedium
             content="후원하기 "
             value="donation"
