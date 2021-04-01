@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import member, { memberSaga } from "./member";
+import member, { memberSaga } from './member';
 import test, { githubSaga } from './test';
 import { all } from 'redux-saga/effects';
 
