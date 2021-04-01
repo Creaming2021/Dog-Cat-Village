@@ -46,8 +46,8 @@ const MemberContainer = () => {
   useEffect(() => {
     if (member.data?.logIn) {
       if(member.data.memberRole === "ADMIN") history.push(`/admin`);
-      else if(member.data.memberRole[0] === "CONSUMER") history.push(`/user`);
-      else if(member.data.memberRole[0] === "SHELTER") history.push(`/main`);
+      else if(member.data.memberRole === "CONSUMER") history.push(`/user`);
+      else if(member.data.memberRole === "SHELTER") history.push(`/main`);
     }
   }, [member]);
 
@@ -59,6 +59,7 @@ const MemberContainer = () => {
   const initialSignInInput: SignInInputType = {
     username: "",
     password: "",
+    memberRole: "",
   };
 
   const initialSignUpInputType: SignUpInputType = {
@@ -96,6 +97,7 @@ const MemberContainer = () => {
     setSignInInput({
       ...signInInput,
       [name]: value,
+      memberRole: type,
     });
   };
 

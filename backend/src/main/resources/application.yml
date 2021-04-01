@@ -14,7 +14,7 @@ spring:
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -24,13 +24,15 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: ekdbs628@gmail.com
-    password: meloncha0205!
+    password: MacBye^^
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
+#  jackson:
+#    deserialization: true
 
 logging:
   level:
@@ -44,3 +46,4 @@ my-app:
   admin-password: ssafy
   client-id: ssafy
   client-secret: ssafy
+  server-url: https://j4b106.p.ssafy.io

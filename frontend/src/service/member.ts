@@ -9,11 +9,11 @@ import { security, basic, auth,
     handleAuthResponse, handleResponse, handleError, handleSecurityError } from './instance';
 
 // 로그인 정보 확인
-export const signIn = async ({ username, password }: SignInInputType) => {
+export const signIn = async ({ username, password, memberRole }: SignInInputType) => {
   return await auth.post<SignInResponseType>(
     `members/login`, 
     {
-      username, password, grant_type: "password",
+      username, password, memberRole, grant_type: "password",
     }
     // qs.stringify({ username, password, grant_type: "password" })
   )

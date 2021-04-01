@@ -2,5 +2,5 @@ package donation.pet.domain.member;
 
 public enum MemberRole {
 
-    ADMIN, SHELTER, USER
+    ADMIN, SHELTER, CONSUMER
 }

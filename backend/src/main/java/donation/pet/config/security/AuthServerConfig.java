@@ -36,8 +36,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .authorizedGrantTypes("password", "refresh_token")
                 .scopes("read", "write")
                 .secret(this.passwordEncoder.encode(appProperties.getClientSecret()))
-                .accessTokenValiditySeconds(10 * 60)        // AccessToken 시간
-                .refreshTokenValiditySeconds(6 * 10 * 60);  // RefreshToken 시간
+                .accessTokenValiditySeconds(2 * 60)        // AccessToken 시간
+                .refreshTokenValiditySeconds(10 * 60);  // RefreshToken 시간
     }
 
     @Override

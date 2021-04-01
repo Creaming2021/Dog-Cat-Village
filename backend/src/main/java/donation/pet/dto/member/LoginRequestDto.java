@@ -7,6 +7,8 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 public class LoginRequestDto {
-    private String email;
+
+    private String username;
     private String password;
+    private String grant_type;
 }

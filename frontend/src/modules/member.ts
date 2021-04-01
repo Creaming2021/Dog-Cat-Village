@@ -46,7 +46,7 @@ const actions = {
 type MemberAction = ActionType<typeof actions> 
 
 // 멤버 state 선언
-export type MemberState = {
+type MemberState = {
   memberInfo: {
     loading: boolean; 
     data: SignInResponseType | null; 

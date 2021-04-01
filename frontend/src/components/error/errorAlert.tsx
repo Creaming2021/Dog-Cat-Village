@@ -16,7 +16,7 @@ export const ProtectedRouteAdmin = ({ Component }: ProtectedRouteProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
 
   return (
-    member.data && member.data.memberRole[2] === 'ADMIN'
+    member.data?.memberRole === 'ADMIN'
     ? <Component />
     : <ErrorAlert message="잘못된 요청 입니다."/>
   );
@@ -26,7 +26,7 @@ export const ProtectedRouteShelter = ({ Component }: ProtectedRouteProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
 
   return (
-    member.data && member.data.memberRole[0] === 'SHELTER'
+    member.data?.memberRole === 'SHELTER'
     ? <Component />
     : <ErrorAlert message="잘못된 요청 입니다."/>
   );
@@ -36,7 +36,7 @@ export const ProtectedRouteConsumer = ({ Component }: ProtectedRouteProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
 
   return (
-    member.data && member.data.memberRole[0] === 'CONSUMER'
+    member.data?.memberRole === 'CONSUMER'
     ? <Component />
     : <ErrorAlert message="잘못된 요청 입니다."/>
   );

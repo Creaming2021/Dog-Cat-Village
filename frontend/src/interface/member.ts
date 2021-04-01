@@ -23,6 +23,7 @@ export interface SignUpRequestType {
 export interface SignInInputType {
   username: string;
   password: string;
+  memberRole: string;
 }
 
 export interface ModfiyInputType {

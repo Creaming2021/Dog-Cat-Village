@@ -4,10 +4,12 @@ import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Getter
+@Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -34,16 +36,21 @@ public class Member {
     private String contractAddress;
     private String profileImage;
 
+    private String tempLink;
+    private LocalDateTime tempLinkDate;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<MemberRole> roles;
 
+    private String privateKey;
+
     public void signup(String encodePassword, String role) {
         this.updatePassword(encodePassword);
         if (role.equals("admin")) {
-            roles = Set.of(MemberRole.ADMIN, MemberRole.USER, MemberRole.SHELTER);
+            roles = Set.of(MemberRole.ADMIN, MemberRole.CONSUMER, MemberRole.SHELTER);
         } else if (role.equals("user")){
-            roles = Set.of(MemberRole.USER);
+            roles = Set.of(MemberRole.CONSUMER);
         } else {
             roles = Set.of(MemberRole.SHELTER);
         }
@@ -53,5 +60,17 @@ public class Member {
 
     public void updatePassword(String encodePassword) {
         this.password = encodePassword;
+    }
+
+    // 패스워드 변경 링크
+    public void updateTempLink(String tempLink) {
+        this.tempLink = tempLink;
+        this.tempLinkDate = LocalDateTime.now();
+    }
+
+    // 계정 주소 및 비밀키 저장
+    public void createContractAddress(String contractAddress, String privateKey) {
+        this.contractAddress = contractAddress;
+        this.privateKey = privateKey;
     }
 }
