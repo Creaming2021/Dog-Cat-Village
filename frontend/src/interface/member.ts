@@ -39,7 +39,7 @@ export interface SignUpResponseType {
 }
 
 export interface SignInResponseType {
-  id: number;
+  memberId: number;
   memberRole: string;
   logIn: boolean;
 }

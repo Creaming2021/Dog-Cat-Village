@@ -46,7 +46,7 @@ const actions = {
 type MemberAction = ActionType<typeof actions> 
 
 // 멤버 state 선언
-type MemberState = {
+export type MemberState = {
   memberInfo: {
     loading: boolean; 
     data: SignInResponseType | null; 
@@ -79,7 +79,7 @@ const member = createReducer<MemberState, MemberAction>(initialState, {
       data: {
         logIn: true,
         memberRole: action.payload.data.memberRole,
-        id: action.payload.data.id,
+        memberId: action.payload.data.memberId,
       }
     }
   }),

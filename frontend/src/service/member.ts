@@ -12,7 +12,10 @@ import { security, basic, auth,
 export const signIn = async ({ username, password }: SignInInputType) => {
   return await auth.post<SignInResponseType>(
     `members/login`, 
-    qs.stringify({ username, password, grant_type: "password" })
+    {
+      username, password, grant_type: "password",
+    }
+    // qs.stringify({ username, password, grant_type: "password" })
   )
 };
 

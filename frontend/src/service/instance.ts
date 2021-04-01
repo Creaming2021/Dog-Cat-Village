@@ -80,7 +80,7 @@ export const basic = axios.create({
 // 로그인 ( auth만 )
 export const auth = axios.create({
   headers: {
-    'Content-Type' : 'application/x-www-form-urlencoded',
+    'Content-Type' : 'application/json',
     'Authorization': 'Basic ' + new Buffer('ssafy:ssafy').toString('base64'),
   },
 });
