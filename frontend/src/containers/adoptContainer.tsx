@@ -5,11 +5,12 @@ import AdoptDetail from "../components/adopt/adoptDetail/adoptDetail";
 import AdoptList from "../components/adopt/adoptList/adoptList";
 import { Search } from "../components/common/common";
 import { AdoptDetailType, AdoptListType } from "../interface/adopt";
+import { RootState } from "../modules";
 
 const AdoptContainer = () => {
-  const userInfo: any = useSelector((state: any) => state.user.userInfo);
-  const adoptList: AdoptListType[] = useSelector((state: any) => state.adopt.adoptList);
-  const selectedAdopt: AdoptDetailType = useSelector((state: any) => state.adopt.selectedAdopt);
+  const member = useSelector((state: RootState) => state.member.memberInfo);
+  const adoptList = useSelector((state: RootState) => state.adopt.adoptList);
+  const selectedAdopt = useSelector((state: RootState) => state.adopt.selectedAdopt);
   const dispatch = useDispatch();
 
   const [searchInput, setSearchInput] = useState({
@@ -19,7 +20,7 @@ const AdoptContainer = () => {
   });
 
   const [resultAdoptList, setResultAdoptList] = useState<AdoptListType[]>(
-    adoptList
+    adoptList.data || []
   );
 
   const onChange = (
@@ -38,45 +39,49 @@ const AdoptContainer = () => {
   const onSearch = () => {
     if (searchInput.type === "member") {
       setResultAdoptList(
-        adoptList.filter(
-          (adopt) =>
-            adopt.acceptStatus.includes(searchInput.adopt) &&
-            adopt.name &&
-            adopt.name.includes(searchInput.input)
-        )
+        adoptList.data 
+          ? adoptList.data.filter(
+            (adopt) =>
+              (adopt.acceptStatus.includes(searchInput.adopt) &&
+              adopt.name &&
+              adopt.name.includes(searchInput.input))
+            )
+          : []
       );
     } else if (searchInput.type === "pet") {
       setResultAdoptList(
-        adoptList.filter(
+        adoptList.data 
+        ? adoptList.data.filter(
           (adopt) =>
             adopt.acceptStatus.includes(searchInput.adopt) &&
             adopt.petName.includes(searchInput.input)
-        )
+          )
+        : []
       );
     }
   };
 
   // 목록으로 돌아올 때 디테일 정보 지우기
   const goToBack = () => {
-    dispatch(AdoptAction.setInitialAdoptDetail())
-    .then()
-    .catch();
+    dispatch(AdoptAction.setInitialAdoptDetail());
   };
 
   // 입양 신청서 하나 클릭시 디테일 정보 요청
   const onClick = (adoptId: number) => {
-    dispatch(AdoptAction.getShelterAdoptDetail({ id: userInfo.id, adoptId}))
-    .then()
-    .catch();
+    if(member.data?.memberRole === "SHELTER") {
+      dispatch(AdoptAction.getShelterAdoptDetailAsync.request({ id: member.data?.memberId, adoptId}));
+    }else if(member.data?.memberRole === "CONSUMER") {
+      dispatch(AdoptAction.getConsumerAdoptDetailAsync.request({ id: member.data?.memberId, adoptId}));
+    }
   };
 
   // 입양 신청서 상태 변경
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = e.currentTarget;
-    dispatch(AdoptAction.changeAdoptStatus(
-      { id: userInfo.id, adoptId: selectedAdopt.id, status: value }))
-    .then()
-    .catch();
+    
+    member.data && selectedAdopt.data && 
+    dispatch(AdoptAction.changeAdoptStatusAsync.request(
+      { id: member.data?.memberId, adoptId: selectedAdopt.data?.id, status: value }));
   };
 
   const selectList = [
@@ -100,32 +105,33 @@ const AdoptContainer = () => {
 
   return (
     <>
-      {selectedAdopt.id ? (
-        <AdoptDetail
-          selectedAdopt={selectedAdopt}
-          role={userInfo.role}
-          goToBack={goToBack}
-          onSubmit={onSubmit}
-        />
-      ) : (
-        <>
-          <Search
-            selectList={selectList}
-            selectValue={[searchInput.adopt, searchInput.type]}
-            inputName="input"
-            inputValue={searchInput.input}
-            onSearch={onSearch}
-            onChange={onChange}
-            placeholder="검색어"
-            inputSize="input-medium"
+      {member.data && 
+        (selectedAdopt.data?.id ? (
+          <AdoptDetail
+            selectedAdopt={selectedAdopt.data}
+            role={member.data?.memberRole}
+            goToBack={goToBack}
+            onSubmit={onSubmit}
           />
-          <AdoptList
-            adoptList={resultAdoptList}
-            role={userInfo.role}
-            onClick={onClick}
-          />
-        </>
-      )}
+        ) : (
+          <>
+            <Search
+              selectList={selectList}
+              selectValue={[searchInput.adopt, searchInput.type]}
+              inputName="input"
+              inputValue={searchInput.input}
+              onSearch={onSearch}
+              onChange={onChange}
+              placeholder="검색어"
+              inputSize="input-medium"
+            />
+            <AdoptList
+              adoptList={resultAdoptList}
+              role={member.data?.memberRole}
+              onClick={onClick}
+            />
+          </>
+        ))}
     </>
   );
 };
