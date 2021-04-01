@@ -2,11 +2,8 @@
     서버한테 유저 관련 요청 보낼 함수 세팅 파일
 */
 
-import axios, { AxiosResponse } from 'axios';
-import qs from 'qs';
 import { SignInInputType, SignInResponseType, SignUpInputType, SetPasswordRequestType } from '../interface/member';
-import { security, basic, auth, 
-    handleAuthResponse, handleResponse, handleError, handleSecurityError } from './instance';
+import { security, basic, auth } from './instance';
 
 // 로그인 정보 확인
 export const signIn = async ({ username, password, memberRole }: SignInInputType) => {
@@ -15,14 +12,13 @@ export const signIn = async ({ username, password, memberRole }: SignInInputType
     {
       username, password, memberRole, grant_type: "password",
     }
-    // qs.stringify({ username, password, grant_type: "password" })
   )
 };
 
 // 회원 가입 하기
 export const signUp = ({ emailId, emailSite, name, password, 
           phoneNumber1, phoneNumber2, phoneNumber3, memberRole }: SignUpInputType) => {
-  return basic.post(`api/members/signup`, 
+  return basic.post<undefined>(`api/members/signup`, 
                     { email: `${emailId}@${emailSite}`, 
                       phoneNumber: `${phoneNumber1}${phoneNumber2}${phoneNumber3}`,
                       name, 
@@ -33,17 +29,26 @@ export const signUp = ({ emailId, emailSite, name, password,
 
 // 비밀번호 찾기
 export const findPW = (email: string) => {
-  return basic.post(`api/members/forget`, { email });
+  return basic.post<undefined>(`api/members/forget`, { email });
 };
 
 // 닉네임 중복확인
 export const checkName = ( name: string ) => {
-  return basic.post(`api/members/duplication`, { name });
+  return basic.post<undefined>(`api/members/duplication`, { name });
 };
 
 // 비밀번호 설정
 export const setPW = ({ password, token }: SetPasswordRequestType ) => {
-  return basic.post(`api/members/password/${token}`, { password });
+  return basic.post<undefined>(`api/members/password/${token}`, { password });
+};
+
+// 회원 탈퇴 하기
+export const deleteAccount = () => {
+  return security.delete<undefined>(`api/members`, {
+    'headers': {
+      'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+    }
+  })
 };
 
 // // 회원 정보 조회
@@ -73,11 +78,4 @@ export const setPW = ({ password, token }: SetPasswordRequestType ) => {
 //   return security.put('consumers',{ formData })
 //                 // .then(handleResponse())
 //                 // .catch(handleSecurityError());
-// };
-
-// // 회원 탈퇴 하기
-// export const deleteAccount = (email) => {
-//   return security.delete(`consumers/${email}`)
-//                 // .then(handleResponse())
-//                 // .catch(handleSecurityError());;
 // };
