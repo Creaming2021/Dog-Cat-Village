@@ -26,7 +26,7 @@ export interface SignInInputType {
   memberRole: string;
 }
 
-export interface ModfiyInputType {
+export interface ModifiyInputType {
   email: string;
   name: string;
   imageUrl: string;

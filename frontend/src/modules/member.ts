@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from "axios"; 
-import { ActionType, createAsyncAction, createReducer } from "typesafe-actions"; 
+import { ActionType, createAction, createAsyncAction, createReducer } from "typesafe-actions"; 
 import { asyncState, createAsyncReducer, transformToArray } from "../lib/reducerUtils";
 import { takeEvery } from 'redux-saga/effects';
 import createAsyncSaga from "../lib/createAsyncSaga";
@@ -11,7 +11,11 @@ const SIGN_IN = 'member/SIGN_IN';
 const SIGN_IN_SUCCESS = 'member/SIGN_IN_SUCCESS';
 const SIGN_IN_ERROR = 'member/SIGN_IN_ERROR';
 
-// const SIGN_OUT = 'member/SIGN_OUT';
+// 로그아웃 요청 액션 타입
+const SIGN_OUT = 'member/SIGN_OUT';
+
+
+
 // const GET_ACCOUNT = 'member/GET_ACCOUNT';
 // const SIGN_UP = 'member/SIGN_UP';
 // const MODIFY_ACCOUNT = 'member/MODIFY_ACCOUNT';
@@ -27,6 +31,10 @@ export const signInAsync = createAsyncAction(
   SIGN_IN_ERROR 
 )<SignInInputType, AxiosResponse<SignInResponseType>, AxiosError>();
 
+// 로그아웃 요청 액션 객체 생성함수
+export const signOut = () => ({ type: SIGN_OUT });
+// export const signOut = createAction(SIGN_OUT);
+
 // 로그인 요청 saga
 const signInSaga = createAsyncSaga(signInAsync, MemberAPI.signIn);
 
@@ -38,7 +46,7 @@ export function* memberSaga() {
 
 // 멤버 actions 객체 모음
 const actions = { 
-  signInAsync 
+  signInAsync,
   // 다른 요청들 여기 추가로 적으면 됨
 };
 
@@ -66,7 +74,7 @@ const initialState: MemberState = {
 // )
 
 // 요청 저장 시 특정값 수정해야 할 때 각 상태 별 state값 변경시 사용
-const member = createReducer<MemberState, MemberAction>(initialState, {
+const signInReducer = createReducer<MemberState, MemberAction>(initialState, {
   [SIGN_IN]: state => ({
     ...state,
     memberInfo: asyncState.load()
@@ -87,11 +95,20 @@ const member = createReducer<MemberState, MemberAction>(initialState, {
     ...state,
     memberInfo: asyncState.error(action.payload)
   })
-})
-// .handleAction( // 주석 해제 후 다른 async 함수들 적으면 됨
-//   transformToArray(signInAsync),
-//   createAsyncReducer(signInAsync, 'memberInfo')
-// );
+});
+
+const signOutReducer = createReducer(initialState, {
+  [SIGN_OUT]: () => ({
+    ...initialState,
+  })
+});
+
+
+const member = createReducer<MemberState, MemberAction>(initialState, {
+  ...signInReducer.handlers,
+  ...signOutReducer.handlers,
+
+});
 
 export default member;
 
