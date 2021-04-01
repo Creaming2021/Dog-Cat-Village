@@ -40,7 +40,7 @@ const SignUpForm = ({
     phoneNumber1,
     phoneNumber2,
     phoneNumber3,
-    role,
+    memberRole,
   } = signUpInput;
 
   return (

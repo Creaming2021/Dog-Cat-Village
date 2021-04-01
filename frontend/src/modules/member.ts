@@ -78,7 +78,8 @@ const member = createReducer<MemberState, MemberAction>(initialState, {
       error: null,
       data: {
         logIn: true,
-        role: action.payload.data.role,
+        memberRole: action.payload.data.memberRole,
+        id: action.payload.data.id,
       }
     }
   }),
