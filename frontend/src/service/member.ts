@@ -11,7 +11,7 @@ import { security, basic, auth,
 // 로그인 정보 확인
 export const signIn = async ({ username, password, memberRole }: SignInInputType) => {
   return await auth.post<SignInResponseType>(
-    `members/login`, 
+    `api/members/login`, 
     {
       username, password, memberRole, grant_type: "password",
     }
@@ -22,7 +22,7 @@ export const signIn = async ({ username, password, memberRole }: SignInInputType
 // 회원 가입 하기
 export const signUp = ({ emailId, emailSite, name, password, 
           phoneNumber1, phoneNumber2, phoneNumber3, memberRole }: SignUpInputType) => {
-  return basic.post(`members/signup`, 
+  return basic.post(`api/members/signup`, 
                     { email: `${emailId}@${emailSite}`, 
                       phoneNumber: `${phoneNumber1}${phoneNumber2}${phoneNumber3}`,
                       name, 
@@ -33,17 +33,17 @@ export const signUp = ({ emailId, emailSite, name, password,
 
 // 비밀번호 찾기
 export const findPW = (email: string) => {
-  return basic.post(`members/forget`, { email });
+  return basic.post(`api/members/forget`, { email });
 };
 
 // 닉네임 중복확인
 export const checkName = ( name: string ) => {
-  return basic.post(`members/duplication`, { name });
+  return basic.post(`api/members/duplication`, { name });
 };
 
 // 비밀번호 설정
 export const setPW = ({ password, token }: SetPasswordRequestType ) => {
-  return basic.post(`members/password/${token}`, { password });
+  return basic.post(`api/members/password/${token}`, { password });
 };
 
 // // 회원 정보 조회
