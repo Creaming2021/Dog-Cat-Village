@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./signUp.module.css";
 import commons from "../../common/common.module.css";
-import { SignUpInputType } from "../../../interface/user";
+import { SignUpInputType } from "../../../interface/member";
 import SignUpForm from './signUpForm';
 import { faPaw } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,8 +12,7 @@ type SignUpProps = {
   signUpInput: SignUpInputType;
   onChangeSignUp: (e: React.ChangeEvent<HTMLInputElement>) => void;
   signUp: () => void;
-  checkNickname?: () => boolean;
-  checkName?: () => boolean;
+  checkName: () => boolean;
 };
 
 const SignUp = ({
@@ -22,7 +21,6 @@ const SignUp = ({
   signUpInput,
   onChangeSignUp,
   signUp,
-  checkNickname,
   checkName,
 }: SignUpProps) => {
   const [ inputState, setInputState ] = useState({
@@ -37,7 +35,6 @@ const SignUp = ({
   const {
     emailId,
     emailSite,
-    nickname,
     password,
     passwordConfirm,
     phoneNumber1,
@@ -56,7 +53,7 @@ const SignUp = ({
 
   useEffect(() => {
     setInputState({ ...inputState, duplicated: false});
-  }, [nickname, name]);
+  }, [name]);
 
   useEffect(() => {
     setInputState({ ...inputState, phoneNumber: validatePhoneNumber()});
@@ -97,11 +94,7 @@ const SignUp = ({
 
   // 중복 체크 하는 함수
   const onCheckDuplicated = (): void => {
-    if(type === 'user' && checkNickname){
-      setInputState({ ...inputState, duplicated: checkNickname()});
-    }else if(type === 'center' && checkName) {
-      setInputState({ ...inputState, duplicated: checkName()});
-    }
+    setInputState({ ...inputState, duplicated: checkName()});
   }
 
   // 핸드폰 번호 양식 확인하는 함수
@@ -115,7 +108,7 @@ const SignUp = ({
 
   return (
   <div className={`${styles['sign-up-container']} 
-                ${ type === "user"
+                ${ type === "CONSUMER"
                   ? commons["bg-gradient-yellow-green"]
                   : commons["bg-gradient-green-blue"]}`}>
     <div className={`${commons["box-white"]} ${styles['left-container']}`}>
@@ -123,7 +116,7 @@ const SignUp = ({
         className={`${commons["btn-text"]} 
                     ${commons["text-right"]} 
                     ${styles.button}
-                    ${type === "user"
+                    ${type === "CONSUMER"
                       ? commons["text-yellow"]
                       : commons["text-blue"]}`}
         onClick={() => goToLogIn(type)}>
@@ -148,7 +141,7 @@ const SignUp = ({
         <div className={`${commons['text-small-light']}`}><FontAwesomeIcon icon={faPaw}/> 안전하게</div>
         <div className={`${commons['text-small-light']}`}><FontAwesomeIcon icon={faPaw}/> 간편하게</div>
       </div>
-      { type === 'user'
+      { type === 'CONSUMER'
         ? <p className={`${commons['text-medium-light']}`}>후원하세요!</p>
         : <p className={`${commons['text-medium-light']}`}>시작하세요!</p> }
     </div>

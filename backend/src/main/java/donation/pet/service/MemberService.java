@@ -5,7 +5,9 @@ import donation.pet.domain.member.MemberRepository;
 import donation.pet.domain.member.MemberRole;
 import donation.pet.domain.member.consumer.Consumer;
 import donation.pet.domain.member.consumer.ConsumerRepository;
-import donation.pet.dto.consumer.ConsumerSignupRequestDto;
+import donation.pet.domain.member.shelter.Shelter;
+import donation.pet.domain.member.shelter.ShelterRepository;
+import donation.pet.dto.consumer.MemberSignupRequestDto;
 import donation.pet.dto.member.*;
 import donation.pet.exception.BaseException;
 import donation.pet.exception.ErrorCode;
@@ -16,22 +18,24 @@ import donation.pet.util.MailUtil;
 import donation.pet.util.MemberAdapter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
 
     public final ConsumerRepository consumerRepository;
+    public final ShelterRepository shelterRepository;
     public final MemberRepository memberRepository;
     public final ModelMapper modelMapper;
     public final PasswordEncoder passwordEncoder;
@@ -39,17 +43,32 @@ public class MemberService implements UserDetailsService {
     public final ConnectOauth connectOauth;
 
     // 회원가입
-    public void signup(ConsumerSignupRequestDto dto) {
+    @Async
+    @Transactional
+    public void signup(MemberSignupRequestDto dto) {
+        // 이메일 중복 확인
         if (memberRepository.findByEmail(dto.getEmail()).isPresent()) {
             throw new BaseException(ErrorCode.EMAIL_DUPLICATION);
+        }
+        // 이름 중복 확인
+        if (memberRepository.findByName(dto.getName()).isPresent()) {
+            throw new BaseException(ErrorCode.NAME_DUPLICATION);
         }
 
         String encodePassword = passwordEncoder.encode(dto.getPassword());
         String token = mailUtil.sendAuthenticateEmail(dto.getEmail());
 
-        // todo 나중에 shelter도 가입 가능해야 함
-        Consumer consumer = dto.toEntity(encodePassword, Set.of(MemberRole.CONSUMER), token);
-        consumerRepository.save(consumer);
+        // MemberRole 에 따라 다르게 회원가입
+        if (dto.getMemberRole().equals(MemberRole.CONSUMER.toString())) {
+            Consumer consumer = dto.toConsumer(encodePassword, Set.of(MemberRole.CONSUMER), token);
+            consumerRepository.save(consumer);
+        } else if (dto.getMemberRole().equals(MemberRole.SHELTER.toString())) {
+            Shelter shelter = dto.toShelter(encodePassword, Set.of(MemberRole.SHELTER), token);
+            shelterRepository.save(shelter);
+        } else {
+            // MemberRole 에 의미 없는 값이 들어올 경우
+            throw new BaseException(ErrorCode.MEMBER_ROLE_NOT_EXIST);
+        }
     }
 
     // 닉네임 중복 확인
@@ -60,6 +79,7 @@ public class MemberService implements UserDetailsService {
     }
 
     // 이메일 인증
+    @Transactional
     public void checkEmailToken(String token) {
         Member member = memberRepository.findByAccept(token)
                 .orElseThrow(() -> new RedirectException(RedirectCode.WRONG_EMAIL_CHECK));
@@ -67,17 +87,28 @@ public class MemberService implements UserDetailsService {
     }
 
     // 로그인
-    public LoginResponseDto login(LoginRequestDto dto) {
-        LoginResponseDto loginResponseDto = connectOauth.loginCheck(dto);
-        Member member = memberRepository.findByEmail(dto.getEmail())
+    public LoginResponseDto login(String authorization, LoginRequestDto dto) {
+        LoginResponseDto loginResponseDto = connectOauth.loginCheck(authorization, dto);
+        Member member = memberRepository.findByEmail(dto.getUsername())
                 .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));
         if (!member.getAccept().equals("true")) {
             throw new BaseException(ErrorCode.WRONG_EMAIL_CHECK_AUTH);
         }
+        try {
+            if (!member.getRoles().contains(Enum.valueOf(MemberRole.class, dto.getMemberRole()))) {
+                throw new BaseException(ErrorCode.MEMBER_ROLE_NOT_EXIST);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new BaseException(ErrorCode.MEMBER_ROLE_NOT_EXIST);
+        }
+        loginResponseDto.setMemberId(member.getId());
+        loginResponseDto.updateRole(member.getRoles());
         return loginResponseDto;
     }
 
     // 패스워드 찾기
+    @Async
+    @Transactional
     public void forgetPassword(FindPasswordRequestDto dto) {
         Member member = memberRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));
@@ -86,6 +117,7 @@ public class MemberService implements UserDetailsService {
     }
 
     // 비밀번호 변경 링크 리다이렉트
+    @Transactional
     public void makeChangeLink(String token) {
         Member member = memberRepository.findByTempLink(token)
                 .orElseThrow(() -> new RedirectException(RedirectCode.MEMBER_NOT_FOUND));
@@ -97,6 +129,7 @@ public class MemberService implements UserDetailsService {
     }
 
     // 비밀번호 변경 링크를 통한 변경
+    @Transactional
     public void changeLinkPassword(PasswordRequestDto dto, String token) {
         Member member = memberRepository.findByTempLink(token)
                 .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));
@@ -108,6 +141,15 @@ public class MemberService implements UserDetailsService {
         }
         member.updateTempLink("none");
         member.updatePassword(passwordEncoder.encode(dto.getPassword()));
+    }
+
+    public void deleteMember(Member oauthMember) {
+        if (oauthMember == null) {
+            throw new BaseException(ErrorCode.MEMBER_NOT_FOUND);
+        }
+        Member member = memberRepository.findById(oauthMember.getId())
+                .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));
+        memberRepository.delete(member);
     }
 
     // Security
