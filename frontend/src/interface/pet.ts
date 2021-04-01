@@ -36,3 +36,8 @@ export interface PetInputType extends PetBasicType, PetExtraType {
 export interface PetEditType extends PetBasicType, PetExtraType {
   birthday: string;
 }
+
+export interface PetProfileImage {
+  file: File;
+  petId: number;
+}
