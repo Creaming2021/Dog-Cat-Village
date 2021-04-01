@@ -59,10 +59,10 @@ public class MemberService implements UserDetailsService {
         String token = mailUtil.sendAuthenticateEmail(dto.getEmail());
 
         // MemberRole 에 따라 다르게 회원가입
-        if (dto.getMemberRole() == MemberRole.CONSUMER) {
+        if (dto.getMemberRole().equals(MemberRole.CONSUMER.toString())) {
             Consumer consumer = dto.toConsumer(encodePassword, Set.of(MemberRole.CONSUMER), token);
             consumerRepository.save(consumer);
-        } else if (dto.getMemberRole() == MemberRole.SHELTER) {
+        } else if (dto.getMemberRole().equals(MemberRole.SHELTER.toString())) {
             Shelter shelter = dto.toShelter(encodePassword, Set.of(MemberRole.SHELTER), token);
             shelterRepository.save(shelter);
         } else {
@@ -94,8 +94,15 @@ public class MemberService implements UserDetailsService {
         if (!member.getAccept().equals("true")) {
             throw new BaseException(ErrorCode.WRONG_EMAIL_CHECK_AUTH);
         }
+        try {
+            if (!member.getRoles().contains(Enum.valueOf(MemberRole.class, dto.getMemberRole()))) {
+                throw new BaseException(ErrorCode.MEMBER_ROLE_NOT_EXIST);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new BaseException(ErrorCode.MEMBER_ROLE_NOT_EXIST);
+        }
         loginResponseDto.setMemberId(member.getId());
-        loginResponseDto.setMemberRole(member.getRoles());
+        loginResponseDto.updateRole(member.getRoles());
         return loginResponseDto;
     }
 
