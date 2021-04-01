@@ -5,21 +5,28 @@ server:
     include-message: always
 
 spring:
+  # DB 접속
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://j4b106.p.ssafy.io/b106?useUnicode=true&charaterEncoding=utf-8
-    username: root
-    password: j4B106_dogcat
+#    url: jdbc:mysql://j4b106.p.ssafy.io/b106?useUnicode=true&charaterEncoding=utf-8
+#    username: root
+#    password: j4B106_dogcat
+    url: jdbc:mysql://spring-study.cfhtw7hbyeyq.ap-northeast-2.rds.amazonaws.com:3306/b106?useUnicode=true&charaterEncoding=utf-8
+    username: melon
+    password: ssafymelon
 
+
+  # JPA 설정
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
         format_sql: true
 
+  # 메일 전송
   mail:
     host: smtp.gmail.com
     port: 587
@@ -40,7 +47,7 @@ logging:
     springframwork:
       security: debug
 
-
+# 테스트 계정 아이디, 비밀번호
 my-app:
   admin-email: admin@ssafy.com
   admin-password: ssafy
