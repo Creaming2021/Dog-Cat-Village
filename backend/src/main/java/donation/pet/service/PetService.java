@@ -52,9 +52,6 @@ public class PetService {
 
     @Transactional
     public PetDto updatePetById(Long petId, PetRequestDto dto) {
-        if (!petId.equals(dto.getPetId())) {
-            throw new BaseException(ErrorCode.PET_NOT_MATCH);
-        }
         Pet pet = petRepository.findById(petId)
                 .orElseThrow(() -> new BaseException(ErrorCode.PET_NOT_EXIST));
         pet.changeForm(dto);

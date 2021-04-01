@@ -5,10 +5,7 @@ import donation.pet.dto.adopt.AdoptListResponseDto;
 import donation.pet.dto.adopt.AdoptResponseDto;
 import donation.pet.dto.adopt.AdoptStatusDto;
 import donation.pet.dto.pet.PetResponseListDto;
-import donation.pet.dto.shelter.ShelterListResponseDto;
-import donation.pet.dto.shelter.ShelterNameDto;
-import donation.pet.dto.shelter.ShelterResponseDto;
-import donation.pet.dto.shelter.ShelterUpdateRequestDto;
+import donation.pet.dto.shelter.*;
 import donation.pet.service.ShelterService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/shelters")
 public class ShelterController {
 
@@ -31,18 +29,33 @@ public class ShelterController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @ApiOperation("보호소 유저 정보")
-    @GetMapping("/{shelterId}")
+    @ApiOperation("보호소 마이페이지 유저 정보 요청")
+    @GetMapping("/{shelterId}/profile")
     public ResponseEntity<ShelterResponseDto> getShelter(@PathVariable("shelterId") Long shelterId){
         ShelterResponseDto result = shelterService.getShelter(shelterId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @ApiOperation("보호소 유저 정보 수정")
-    @PutMapping("/{shelterId}")
+    @ApiOperation("보호소 마이페이지 유저 정보 수정")
+    @PutMapping("/{shelterId}/profile")
     public ResponseEntity<ShelterResponseDto> updateShelter(@PathVariable("shelterId") Long shelterId,
                                         @RequestBody ShelterUpdateRequestDto dto){
         ShelterResponseDto result = shelterService.updateShelter(shelterId, dto);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation("보호소 메인 정보 요청")
+    @GetMapping("/{shelterId}/main")
+    public ResponseEntity<ShelterMainResponseDto> getShelterMain(@PathVariable("shelterId") Long shelterId){
+        ShelterMainResponseDto result = shelterService.getShelterMain(shelterId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ApiOperation("보호소 메인 정보 수정 요청")
+    @PutMapping("/{shelterId}/main")
+    public ResponseEntity<ShelterMainResponseDto> updateShelterMain(@PathVariable("shelterId") Long shelterId,
+                                            @RequestBody ShelterMainRequestDto dto){
+        ShelterMainResponseDto result = shelterService.updateShelterMain(shelterId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

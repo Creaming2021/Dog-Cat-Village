@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import AdoptContainer from "../../../../containers/adopt_container";
 import PetContainer from "../../../../containers/petContainer";
+import AdoptContainer from "../../../../containers/adoptContainer";
 import Nav from "../../../nav/nav";
 import Animal from "../animal/animal";
 import Chatting from "../chatting/chatting";
@@ -11,6 +11,8 @@ import styles from "./subMain.module.css";
 
 const SubMain = () => {
   const [category, setCategory] = useState<string>("home");
+
+  const member = {role: 'SHELTER'};
 
   const onChangeCategory = (category: string): void => {
     setCategory(category);
@@ -39,7 +41,7 @@ const SubMain = () => {
 
   return (
     <div className={styles["sub-main-container"]}>
-      <Nav name="centerMainPage" />
+      <Nav role={member.role} />
       <div className={styles["sub-main-box"]}>
         <MainCategory userInfo={userInfo} onChangeCategory={onChangeCategory} />
         {category === "home" && <Home type="shelter" streaming={streaming} />}

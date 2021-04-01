@@ -3,6 +3,7 @@ package donation.pet.config;
 import donation.pet.common.AppProperties;
 import donation.pet.domain.member.MemberRole;
 import donation.pet.domain.member.consumer.Consumer;
+import donation.pet.domain.member.shelter.Shelter;
 import donation.pet.service.InitService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class AppConfig {
                         .name("운영자")
                         .phoneNumber("01000000000")
                         .accept("true")
-                        .roles(Set.of(MemberRole.ADMIN, MemberRole.USER, MemberRole.SHELTER))
+                        .roles(Set.of(MemberRole.ADMIN, MemberRole.CONSUMER, MemberRole.SHELTER))
                         .build();
 
                 initService.signup(admin);
@@ -59,10 +60,22 @@ public class AppConfig {
                         .name("김싸피")
                         .phoneNumber("01012341234")
                         .accept("true")
-                        .roles(Set.of(MemberRole.USER))
+                        .roles(Set.of(MemberRole.CONSUMER))
                         .build();
 
                 initService.signup(consumer);
+
+                // 일반 유저 생성
+                Shelter shelter = Shelter.builder()
+                        .email("shelter@ssafy.com")
+                        .password(appProperties.getAdminPassword())
+                        .name("보호소")
+                        .phoneNumber("01098765432")
+                        .accept("true")
+                        .roles(Set.of(MemberRole.SHELTER))
+                        .build();
+
+                initService.signup(shelter);
             }
         };
     }
