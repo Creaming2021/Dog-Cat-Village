@@ -8,19 +8,19 @@ import donation.pet.domain.member.MemberRepository;
 import donation.pet.dto.chat.*;
 import donation.pet.exception.BaseException;
 import donation.pet.exception.ErrorCode;
+import donation.pet.exception.FunctionWithException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.redis.core.ListOperations;
-import org.springframework.data.redis.core.SetOperations;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,81 +33,66 @@ public class ChatService {
     private final StringRedisTemplate redisTemplate;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final ModelMapper modelMapper;
+    private final ObjectMapper objectMapper;
 
-    private ObjectMapper objectMapper;
     private ListOperations<String, String> listOps;
     private ValueOperations<String, String> valOps;
 
-    /*
-     * 채팅방 만들기
-     * 1. 채팅방 중복 확인
-     * 2. 채팅방 개설
-     * */
     public ChatCheckResponseDto check(ChatCheckRequestDto dto) throws JsonProcessingException {
 
-        // 왜 얘만 필드로 바꾸면 안되냐고 하니.. 하나라서?
         SetOperations<String, String> setOps = redisTemplate.opsForSet();
         String roomId = null;
 
-        // 근데 보낸 dto에 있는 아이디들이 없는 유저라면?
+        Long myId = dto.getMyId();
+        Long oppId = dto.getOppId();
+        Member myMember = memberRepository.findById(myId)
+                .orElseThrow(() -> new BaseException(ErrorCode.INTERNAL_SERVER_ERROR));
+        Member oppMember = memberRepository.findById(oppId)
+                .orElseThrow(() -> new BaseException(ErrorCode.INTERNAL_SERVER_ERROR));
 
-        // 채팅을 한적이 없다면
-        // Long으로 바꾸자
-        String myId = String.valueOf(dto.getMyId());
-        String oppId = String.valueOf(dto.getOppId());
-        if(!setOps.isMember("checkRoomKey:" + myId, oppId)) {
-            // 서로 채팅방 목록에 추가
-            setOps.add("checkRoomKey:" + myId, oppId);
-            setOps.add("checkRoomKey:" + oppId, myId);
-            roomId = makeRoomId(myId, oppId);
+        Boolean isRoom = setOps.isMember("checkRoomKey:" + myId, oppId);
+        if(isRoom != null && !isRoom) {
+            setOps.add("checkRoomKey:" + myId, oppId + "");
+            setOps.add("checkRoomKey:" + oppId, myId + "");
+            roomId = makeRoomId(myMember, oppMember);
         }else {
-            // 이미 있는 방의 id를 반납한다.
-            // 이거 어떻게 할지 상의하기 => 1:1을 눌렀는데 채팅방 리스트로? 아니면 채팅 바로?
-            // 채팅 바로겠지...
-            Set<String> opps = setOps.members("checkRoomKey:" + myId);
-            for(String opp : opps) {
-                if(opp.equals(oppId)) roomId = opp;
-            }
+            valOps = redisTemplate.opsForValue();
+            String roomInfoString = valOps.get("roomInfo:" + myId + ":" + oppId);
+            RoomInfo roomInfo = objectMapper.readValue(roomInfoString, RoomInfo.class);
+            roomId = roomInfo.getRoomId();
         }
 
         return new ChatCheckResponseDto(roomId);
     }
 
     // 채팅방 개설하기
-    public String makeRoomId(String myId, String oppId) throws JsonProcessingException {
+    public String makeRoomId(Member myMember, Member oppMember) throws JsonProcessingException {
 
         String roomId = UUID.randomUUID().toString();
 
         valOps = redisTemplate.opsForValue();
-        objectMapper = new ObjectMapper();
-
-        // 에러 코드 변경
-        Member my = memberRepository.findById(Long.parseLong(myId))
-                .orElseThrow(() -> new BaseException(ErrorCode.INTERNAL_SERVER_ERROR));
-        Member opp = memberRepository.findById(Long.parseLong(oppId))
-                .orElseThrow(() -> new BaseException(ErrorCode.INTERNAL_SERVER_ERROR));
 
         // 내 채팅방 생성
-        String myRoomStr = objectMapper.writeValueAsString(makeRoom(roomId, my));
-        String oppRoomStr = objectMapper.writeValueAsString(makeRoom(roomId, opp));
+        String myRoomStr = objectMapper.writeValueAsString(makeRoomInfoOtherMember(roomId,oppMember));
+        String oppRoomStr = objectMapper.writeValueAsString(makeRoomInfoOtherMember(roomId,myMember));
 
         // 채팅방 저장
-        valOps.set("roomInfo:" + my.getId() + ":" + opp.getId(), myRoomStr);
-        valOps.set("roomInfo:" + opp.getId() + ":" + my.getId(), oppRoomStr);
+        valOps.set("roomInfo:" + myMember.getId() + ":" + oppMember.getId(), myRoomStr);
+        valOps.set("roomInfo:" + oppMember.getId() + ":" + myMember.getId(), oppRoomStr);
 
         return roomId;
 
     }
     
     // dto로 변경 가능
-    private Map<String, Object> makeRoom(String roomId, Member member) {
-        Map<String, Object> room = new HashMap<>();
-        room.put("roomId", roomId);
-        room.put("oppName", member.getName());
-        room.put("oppProfileImage", member.getProfileImage());
-        room.put("oppId", member.getId());
-        room.put("used", 1); // 사용중
-        return room;
+    private RoomInfo makeRoomInfoOtherMember(String roomId, Member member) {
+        return RoomInfo.builder()
+                .oppProfileImage(member.getProfileImage())
+                .oppName(member.getName())
+                .oppId(member.getId())
+                .roomId(roomId)
+                .used(1)
+                .build();
     }
 
     /*
@@ -115,42 +100,53 @@ public class ChatService {
      * */
     public ChatListResponseDto getRoomList(String memberId) throws JsonProcessingException {
 
-        objectMapper = new ObjectMapper();
         Set<String> keys = redisTemplate.keys("roomInfo:" + memberId + ":*");
-        valOps = redisTemplate.opsForValue();
-
-        List<ChatRoomInfoDto> roomList = new ArrayList<>();
-        for (String oppId : keys) {
-            String roomInfoStr = valOps.get(oppId);
-            Map<String, String> roomInfoObj = objectMapper.readValue(roomInfoStr, Map.class);
-            log.info("room의 정보들에서 무엇을 빼낼지 보자 : {} ", roomInfoStr);
-            String roomId = roomInfoObj.get("roomId");
-            String oppName = roomInfoObj.get("oppName");
-            String recentMsg = getRecentMessage(roomId); // 채팅창 목록에서 보여주는 마지막 메시지
-            ChatRoomInfoDto dto = ChatRoomInfoDto.builder()
-                    .roomId(roomId)
-                    .oppName(oppName)
-                    .recentMsg(recentMsg).build();
-            roomList.add(dto);
+        if (keys == null) {
+            return new ChatListResponseDto(new ArrayList<>());
         }
 
-        return new ChatListResponseDto(roomList);
+        valOps = redisTemplate.opsForValue();
+
+        List<ChatRoomInfoDto> chatRoomInfoDtoList = keys.stream()
+                .map(key -> valOps.get(key))
+                .map(wrapper(roomInfoStr -> objectMapper.readValue(roomInfoStr, RoomInfo.class)))
+                .map(wrapper(roomInfo -> ChatRoomInfoDto.builder()
+                        .recentMsg(getRecentMessage(roomInfo.getRoomId())) // 채팅창 목록에서 보여주는 마지막 메시지
+                        .oppName(roomInfo.getOppName())
+                        .roomId(roomInfo.getRoomId())
+                        .build())).collect(Collectors.toList());
+
+        return new ChatListResponseDto(chatRoomInfoDtoList);
+
+//        List<ChatRoomInfoDto> roomList = new ArrayList<>();
+//        for (String oppId : keys) {
+//            String roomInfoStr = valOps.get(oppId);
+//            Map<String, String> roomInfoObj = objectMapper.readValue(roomInfoStr, Map.class);
+//            log.info("room의 정보들에서 무엇을 빼낼지 보자 : {} ", roomInfoStr);
+//            String roomId = roomInfoObj.get("roomId");
+//            String oppName = roomInfoObj.get("oppName");
+//
+//            String recentMsg = getRecentMessage(roomId); // 채팅창 목록에서 보여주는 마지막 메시지
+//
+//            ChatRoomInfoDto dto = ChatRoomInfoDto.builder()
+//                    .roomId(roomId)
+//                    .oppName(oppName)
+//                    .recentMsg(recentMsg).build();
+//            roomList.add(dto);
+//        }
+
     }
 
     /*
      * 최근 메시지 가져오기
      * */
-    public String getRecentMessage(String room_id) throws JsonProcessingException {
-        String key = "message:" + room_id;
+    public String getRecentMessage(String roomId) throws JsonProcessingException {
         listOps = redisTemplate.opsForList();
-        List<String> str = listOps.range(key, 0, 0);
-        String res = "";
-        // 메시지가 있으면
-        if (str.size() != 0) {
-            ChatMessage chat = objectMapper.readValue(str.get(0), ChatMessage.class);
-            res = chat.getMsg();
+        List<String> stringList = listOps.range("message:" + roomId, 0, 0);
+        if (stringList == null || stringList.isEmpty()) {
+            return "";
         }
-        return res;
+        return objectMapper.readValue(stringList.get(0), ChatMessage.class).getMsg();
     }
 
     /*
@@ -160,6 +156,8 @@ public class ChatService {
 
         Set<String> keys = redisTemplate.keys("notice:" + memberId + ":*");
         log.info("나오니? {}", keys);
+
+
         valOps = redisTemplate.opsForValue();
         List<ChatNoticeDto> list = new ArrayList<>();
         // 나에게 보낸 사람들을 모두 조회
@@ -216,7 +214,6 @@ public class ChatService {
     public List<ChatMessageDto> getMessageList(int startNum, int endNum, String roomId) throws JsonProcessingException {
         String key = "message:" + roomId;
         listOps = redisTemplate.opsForList();
-        objectMapper = new ObjectMapper();
         List<String> str = listOps.range(key, startNum, endNum);
         List<ChatMessageDto> msgList = new ArrayList<>();
         for (String json : str) {
@@ -257,11 +254,21 @@ public class ChatService {
     public void insertMessage(ChatMessageDto message) throws JsonProcessingException {
         String key = "message:" + message.getRoomId();
         listOps = redisTemplate.opsForList();
-        objectMapper = new ObjectMapper();
         log.info("key:{}", key);
         log.info("messages:{}", message.getMsg());
         String strMsg = objectMapper.writeValueAsString(message);
         listOps.leftPush(key, strMsg);
+    }
+
+    // 람다식 내 try catch 문을 없애기 위한 방법
+    private <T, R, E extends Exception> Function<T, R> wrapper(FunctionWithException<T, R, E> fe) {
+        return arg -> {
+            try {
+                return fe.apply(arg);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        };
     }
 
 }

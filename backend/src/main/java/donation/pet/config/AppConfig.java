@@ -1,5 +1,6 @@
 package donation.pet.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import donation.pet.common.AppProperties;
 import donation.pet.domain.member.MemberRole;
 import donation.pet.domain.member.consumer.Consumer;
@@ -22,6 +23,9 @@ public class AppConfig {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+
+    @Bean
+    public ObjectMapper objectMapper() { return new ObjectMapper(); }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
