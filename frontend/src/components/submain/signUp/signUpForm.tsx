@@ -48,7 +48,7 @@ const SignUpForm = ({
     <input
       className={`${commons["input-small"]} 
                   ${styles.input}
-                  ${type === "consumer"
+                  ${type === "CONSUMER"
                     ? commons["border-yellow"]
                     : commons["border-blue"]}`}
       type="text"
@@ -61,7 +61,7 @@ const SignUpForm = ({
     <input
       className={`${commons["input-small"]} 
                   ${styles.input}
-                  ${type === "consumer"
+                  ${type === "CONSUMER"
                     ? commons["border-yellow"]
                     : commons["border-blue"]}`}
       type="text"
@@ -76,7 +76,7 @@ const SignUpForm = ({
     <input
       className={`${commons["input-large"]} 
                   ${styles.input}
-                  ${type === "consumer"
+                  ${type === "CONSUMER"
                     ? commons["border-yellow"]
                     : commons["border-blue"]}`}
       type="password"
@@ -91,7 +91,7 @@ const SignUpForm = ({
     <input
       className={`${commons["input-large"]} 
                   ${styles.input}
-                  ${type === "consumer"
+                  ${type === "CONSUMER"
                     ? commons["border-yellow"]
                     : commons["border-blue"]}`}
       type="password"
@@ -104,7 +104,7 @@ const SignUpForm = ({
     <input
       className={`${styles["input-nickname"]} 
                   ${styles.input}
-                  ${type === "consumer"
+                  ${type === "CONSUMER"
                     ? commons["border-yellow"]
                     : commons["border-blue"]}`}
       type="text"
@@ -112,10 +112,10 @@ const SignUpForm = ({
       value={name}
       onChange={onChangeSignUp}
       onKeyDown={onKeyDown}
-      placeholder={type === 'consumer'? "NICKNAME" : "단체명"}/>
+      placeholder={type === 'CONSUMER'? "NICKNAME" : "단체명"}/>
     <button
       className={`${styles['btn-check']} 
-                ${type === "consumer"
+                ${type === "CONSUMER"
                   ? commons["bg-white-yellow"]
                   : commons["bg-white-blue"]}`}
       name="duplication"
@@ -125,7 +125,7 @@ const SignUpForm = ({
     <input
       className={`${commons["input-xsmall"]} 
                   ${styles.input}
-                  ${type === "consumer"
+                  ${type === "CONSUMER"
                     ? commons["border-yellow"]
                     : commons["border-blue"]}`}
       type="text"
@@ -138,7 +138,7 @@ const SignUpForm = ({
     <input
       className={`${commons["input-xsmall"]} 
                   ${styles.input}
-                  ${type === "consumer"
+                  ${type === "CONSUMER"
                     ? commons["border-yellow"]
                     : commons["border-blue"]}`}
       type="text"
@@ -152,7 +152,7 @@ const SignUpForm = ({
     <input
       className={`${commons["input-xsmall"]} 
                   ${styles.input}
-                  ${type === "consumer"
+                  ${type === "CONSUMER"
                     ? commons["border-yellow"]
                     : commons["border-blue"]}`}
       type="text"
@@ -166,7 +166,7 @@ const SignUpForm = ({
     <ButtonLarge
       content="SIGN IN"
       onClick={onSubmitSignUp}
-      buttonColor={type === "consumer" ? "bg-yellow" : "bg-blue"}/>
+      buttonColor={type === "CONSUMER" ? "bg-yellow" : "bg-blue"}/>
   </div> 
   );
 }
