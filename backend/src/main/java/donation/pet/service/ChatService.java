@@ -88,8 +88,8 @@ public class ChatService {
                 .orElseThrow(() -> new BaseException(ErrorCode.INTERNAL_SERVER_ERROR));
 
         // 내 채팅방 생성
-        String myRoomStr = objectMapper.writeValueAsString(makeRoom(roomId, my));
-        String oppRoomStr = objectMapper.writeValueAsString(makeRoom(roomId, opp));
+        String myRoomStr = objectMapper.writeValueAsString(makeRoom(roomId, opp));
+        String oppRoomStr = objectMapper.writeValueAsString(makeRoom(roomId, my));
 
         // 채팅방 저장
         valOps.set("roomInfo:" + my.getId() + ":" + opp.getId(), myRoomStr);
