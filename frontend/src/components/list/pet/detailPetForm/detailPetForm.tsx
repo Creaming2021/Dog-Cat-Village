@@ -1,11 +1,11 @@
 import React from "react";
-import styles from "./detailAnimalForm.module.css";
+import styles from "./detailPetForm.module.css";
 import { PetDetailType } from "../../../../interface/pet";
 import { ButtonSmall } from "../../../common/common";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-type DetailAnimalFormProps = {
+type DetailPetFormProps = {
   userInfo: { shelterId: number };
   pet: PetDetailType;
   onClose: () => void;
@@ -14,14 +14,14 @@ type DetailAnimalFormProps = {
   onDelete: () => void;
 };
 
-const DetailAnimalForm = ({
+const DetailPetForm = ({
   userInfo,
   pet,
   onClose,
   onSubmit,
   onGoToModify,
   onDelete,
-}: DetailAnimalFormProps) => {
+}: DetailPetFormProps) => {
   const {
     id,
     age,
@@ -39,7 +39,7 @@ const DetailAnimalForm = ({
   } = pet;
 
   return (
-    <div className={styles["detail-animal-form-container"]}>
+    <div className={styles["detail-pet-form-container"]}>
       <table>
         <tbody>
           <tr>
@@ -136,4 +136,4 @@ const DetailAnimalForm = ({
   );
 };
 
-export default DetailAnimalForm;
+export default DetailPetForm;

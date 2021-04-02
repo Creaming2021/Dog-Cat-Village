@@ -10,6 +10,15 @@ export const getPetList = () => {
 	});
 }
 
+// 특정 보호소 동물 리스트 조회
+export const getShelterPetList = (id: number) => {
+	return security.get<PetListType[]>(`shelters/${id}/pets`, {
+		'headers': {
+			'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+		}
+	});
+}
+
 // 반려동물 등록
 export const registerPet = ( petInfo: PetEditType ) => {
 	return security.post<undefined>('pets', {

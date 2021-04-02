@@ -11,6 +11,11 @@ const GET_PET_LIST = 'pet/GET_PET_LIST';
 const GET_PET_LIST_SUCCESS = 'pet/GET_PET_LIST_SUCCESS';
 const GET_PET_LIST_ERROR = 'pet/GET_PET_LIST_ERROR';
 
+// 특정 보호소 동물 리스트 조회 요청 액션 타입
+const GET_SHELTER_PET_LIST = 'pet/GET_SHELTER_PET_LIST';
+const GET_SHELTER_PET_LIST_SUCCESS = 'pet/GET_SHELTER_PET_LIST_SUCCESS';
+const GET_SHELTER_PET_LIST_ERROR = 'pet/GET_SHELTER_PET_LIST_ERROR';
+
 // 반려동물 등록 요청 액션 타입
 const REGISTER_PET = 'pet/REGISTER_PET';
 const REGISTER_PET_SUCCESS = 'pet/REGISTER_PET_SUCCESS';
@@ -45,6 +50,13 @@ export const getPetListAsync = createAsyncAction(
   GET_PET_LIST_SUCCESS,
   GET_PET_LIST_ERROR
 )<any, AxiosResponse<PetListType[]>, AxiosError>();
+
+// 특정 보호소 동물 리스트 조회 액션 객체 생성함수
+export const getShelterPetListAsync = createAsyncAction(
+  GET_SHELTER_PET_LIST,
+  GET_SHELTER_PET_LIST_SUCCESS,
+  GET_SHELTER_PET_LIST_ERROR
+)<number, AxiosResponse<PetListType[]>, AxiosError>();
 
 // 반려 동물 등록 액션 객체 생성함수
 export const registerPetAsync = createAsyncAction(
@@ -86,6 +98,7 @@ export const setInitialSelectedPet = () => ({ type: SET_INITIAL_SELECTED_PET });
 
 // saga
 const getPetListSaga = createAsyncSaga(getPetListAsync, PetAPI.getPetList);
+const getShelterPetListSaga = createAsyncSaga(getShelterPetListAsync, PetAPI.getShelterPetList);
 const registerPetSaga = createAsyncSaga(registerPetAsync, PetAPI.registerPet);
 const getPetSaga = createAsyncSaga(getPetAsync, PetAPI.getPet);
 const modifyPetSaga = createAsyncSaga(modifyPetAsync, PetAPI.modifyPet);
@@ -95,6 +108,7 @@ const setProfileImageSaga = createAsyncSaga(setProfileImageAsync, PetAPI.setProf
 // pet saga 생성
 export function* petSaga() {
   yield takeEvery(GET_PET_LIST, getPetListSaga);
+  yield takeEvery(GET_SHELTER_PET_LIST, getShelterPetListSaga);
   yield takeEvery(REGISTER_PET, registerPetSaga);
   yield takeEvery(GET_PET, getPetSaga);
   yield takeEvery(MODIFY_PET, modifyPetSaga);
@@ -105,6 +119,7 @@ export function* petSaga() {
 // pet actions 객체 모음
 const actions = {
   getPetListAsync,
+  getShelterPetListAsync,
   registerPetAsync,
   getPetAsync,
   modifyPetAsync,
@@ -140,6 +155,13 @@ const getPetListReducer = createReducer<PetState, PetAction>(initialState)
 .handleAction(
   transformToArray(getPetListAsync),
   createAsyncReducer(getPetListAsync, 'petList')
+)
+
+// 반려 동물 전체 조회 reducer 생성
+const getShelterPetListReducer = createReducer<PetState, PetAction>(initialState)
+.handleAction(
+  transformToArray(getShelterPetListAsync),
+  createAsyncReducer(getShelterPetListAsync, 'petList')
 )
 
 // 반려 동물 등록 reducer 생성
@@ -189,6 +211,7 @@ const setInitialSelectedPetReducer = createReducer(initialState, {
 
 const pet = createReducer<PetState, PetAction>(initialState, {
   ...getPetListReducer.handlers,
+  ...getShelterPetListReducer.handlers,
   ...registerPetReducer.handlers,
   ...getPetReducer.handlers,
   ...modifyPetReducer.handlers,

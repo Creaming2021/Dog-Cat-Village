@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import styles from "./animalList.module.css";
+import styles from "./petList.module.css";
 import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ModalMedium } from "../../../common/common";
 import { PetDetailType, PetListType, PetInputType } from "../../../../interface/pet";
-import DetailAnimalForm from "../detailAnimalForm/detailAnimalForm";
-import EditAnimalForm from "../editAnimalForm/editAnimalForm";
+import DetailPetForm from "../detailPetForm/detailPetForm";
+import EditPetForm from "../editPetForm/editPetForm";
 
-export type AnimalCardProps = {
+export type PetCardProps = {
   id: number;
   imageUrl: string;
   name: string;
@@ -17,7 +17,7 @@ export type AnimalCardProps = {
   onClick: (e: any) => void;
 };
 
-const AnimalCard = ({
+const PetCard = ({
   id,
   imageUrl,
   name,
@@ -25,14 +25,14 @@ const AnimalCard = ({
   age,
   sex,
   onClick,
-}: AnimalCardProps) => {
+}: PetCardProps) => {
   useEffect(() => {}, []);
 
   return (
     <div
       id={id.toString()}
       onClick={onClick}
-      className={styles["animal-card-container"]}
+      className={styles["pet-card-container"]}
     >
       <img src={imageUrl} />
       <div id={id.toString()} className={styles["card-hover"]}>
@@ -57,13 +57,14 @@ const AnimalCard = ({
   );
 };
 
-type AnimalListProps = {
-  petList: PetListType[];
-  selectedPet: PetDetailType;
+type PetListProps = {
+  petList: PetListType[] | null;
+  selectedPet: PetDetailType | null;
+  onGetPet: (id: number) => void;
+  onSetInitialSelectedPet: () => void;
 };
 
-const AnimalList = ({ petList, selectedPet }: AnimalListProps) => {
-  const [selectedAnimal, setSelectedAnimal] = useState("");
+const PetList = ({ petList, selectedPet, onGetPet, onSetInitialSelectedPet }: PetListProps) => {
   const [modal, setModal] = useState(false);
   const [mode, setMode] = useState("");
   const [inputPet, setInputPet] = useState<PetInputType>();
@@ -73,7 +74,7 @@ const AnimalList = ({ petList, selectedPet }: AnimalListProps) => {
   };
 
   const onClick = (e: any) => {
-    setSelectedAnimal(e.target.id);
+    onGetPet(e.target.id);
     onGoToDetail();
   };
 
@@ -83,16 +84,16 @@ const AnimalList = ({ petList, selectedPet }: AnimalListProps) => {
   };
 
   const onAdapting = () => {
-    alert("입양 신청 폼 이동");
     setMode("ADOPT");
   };
 
   const onClose = () => {
+    onSetInitialSelectedPet();
     setModal(false);
   };
 
   const onGoToModify = () => {
-    setInputPet({
+    selectedPet && setInputPet({
       id: selectedPet.id,
       name: selectedPet.name,
       profileImage: selectedPet.profileImage,
@@ -124,9 +125,9 @@ const AnimalList = ({ petList, selectedPet }: AnimalListProps) => {
 
   return (
     <>
-      <div className={styles["animal-list-container"]}>
-        {petList.map((pet: PetListType) => (
-          <AnimalCard
+      <div className={styles["pet-list-container"]}>
+        { petList && petList.map((pet: PetListType) => (
+          <PetCard
             key={pet.id}
             id={pet.id}
             imageUrl={pet.profileImage}
@@ -139,9 +140,9 @@ const AnimalList = ({ petList, selectedPet }: AnimalListProps) => {
         ))}
       </div>
 
-      {(modal && mode === "DETAIL" && (
+      {(modal && mode === "DETAIL" && selectedPet && (
         <ModalMedium>
-          <DetailAnimalForm
+          <DetailPetForm
             userInfo={userInfo}
             pet={selectedPet}
             onSubmit={onAdapting}
@@ -153,7 +154,7 @@ const AnimalList = ({ petList, selectedPet }: AnimalListProps) => {
       )) ||
         (mode === "MODIFY" && (
           <ModalMedium>
-            <EditAnimalForm
+            <EditPetForm
               type="modify"
               pet={inputPet}
               onModify={onModify}
@@ -166,4 +167,4 @@ const AnimalList = ({ petList, selectedPet }: AnimalListProps) => {
   );
 };
 
-export default AnimalList;
+export default PetList;

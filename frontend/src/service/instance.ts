@@ -5,7 +5,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import qs from 'qs';
 
-// axios.defaults.baseURL = 'http://j4b106.p.ssafy.io/api/';
+axios.defaults.baseURL = 'api/';
 // axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.responseType = 'json';
 axios.defaults.validateStatus = (status) => status >= 200 && status < 300;

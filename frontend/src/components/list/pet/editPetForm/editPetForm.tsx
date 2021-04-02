@@ -5,21 +5,23 @@ import {
   selectType,
   optionType,
 } from "../../../common/common";
-import styles from "./editAnimalForm.module.css";
+import styles from "./editPetForm.module.css";
 import commons from "../../../common/common.module.css";
 import { PetInputType } from "../../../../interface/pet";
 
 type EditAnimalFormProps = {
   type: string;
   pet?: PetInputType;
+  shelterId: number;
   onCancle: () => void;
-  onRegister?: () => void;
+  onRegister?: (input: PetInputType) => void;
   onModify?: () => void;
 };
 
 const EditAnimalForm = ({
   type,
   pet,
+  shelterId,
   onRegister,
   onModify,
   onCancle,
@@ -38,7 +40,7 @@ const EditAnimalForm = ({
     condition: pet ? pet.condition : "",
     sex: pet ? pet.sex : "",
     neuter: pet ? pet.neuter : "",
-    shelterId: pet? pet.shelterId: 0,
+    shelterId: pet? pet.shelterId: shelterId,
   };
 
   const [input, setInput] = useState(initialState);
@@ -109,6 +111,10 @@ const EditAnimalForm = ({
     }
   };
   
+  const onSubmitRegister = () => {
+    onRegister(input);
+  }
+
   return (
     <table className={styles["register-animal-form-container"]}>
       <tbody>
@@ -257,7 +263,7 @@ const EditAnimalForm = ({
               <>
                 <ButtonSmall
                   content="등록"
-                  onClick={onRegister}
+                  onClick={onSubmitRegister}
                   buttonColor="bg-blue"
                 />
                 <ButtonSmall
