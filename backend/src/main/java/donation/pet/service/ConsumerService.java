@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,6 +42,7 @@ public class ConsumerService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final MailUtil mailUtil;
+    private final S3Service s3Service;
 
     public ConsumerResponseDto getConsumer(Long consumerId) {
         Consumer consumer = consumerRepository.findById(consumerId)
@@ -57,11 +59,11 @@ public class ConsumerService {
     }
 
     @Transactional
-    public void saveProfileImage(Long consumerId, MultipartFile file) {
+    public void saveProfileImage(Long consumerId, MultipartFile file) throws IOException {
         Consumer consumer = consumerRepository.findById(consumerId)
                 .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_NOT_EXIST));
-
-        // file 등록 예정
+        consumer.updateProfileImage(s3Service.uploadFile(file));
+        consumerRepository.save(consumer);
     }
 
     public AdoptListResponseDto getAdoptsByConsumer(Long consumerId) {
