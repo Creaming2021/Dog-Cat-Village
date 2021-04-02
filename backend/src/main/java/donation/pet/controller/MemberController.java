@@ -29,8 +29,9 @@ public class MemberController {
 
     @ApiOperation("사용자 회원 가입")
     @PostMapping("/signup")
-    public ResponseEntity<Void> signup(@RequestBody MemberSignupRequestDto dto) {
+    public ResponseEntity<Boolean> signup(@RequestBody MemberSignupRequestDto dto) {
         log.info("(Post) signup - {}, {}, {}, {}", dto.getEmail(), dto.getName(), dto.getPhoneNumber(), dto.getMemberRole());
+        memberService.checkDuplication(dto);
         memberService.signup(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

@@ -46,16 +46,8 @@ public class MemberService implements UserDetailsService {
     @Async
     @Transactional
     public void signup(MemberSignupRequestDto dto) {
-        // 이메일 중복 확인
-        if (memberRepository.findByEmail(dto.getEmail()).isPresent()) {
-            throw new BaseException(ErrorCode.EMAIL_DUPLICATION);
-        }
-        // 이름 중복 확인
-        if (memberRepository.findByName(dto.getName()).isPresent()) {
-            throw new BaseException(ErrorCode.NAME_DUPLICATION);
-        }
-
         String encodePassword = passwordEncoder.encode(dto.getPassword());
+
         String token = mailUtil.sendAuthenticateEmail(dto.getEmail());
 
         // MemberRole 에 따라 다르게 회원가입
@@ -65,10 +57,8 @@ public class MemberService implements UserDetailsService {
         } else if (dto.getMemberRole().equals(MemberRole.SHELTER.toString())) {
             Shelter shelter = dto.toShelter(encodePassword, Set.of(MemberRole.SHELTER), token);
             shelterRepository.save(shelter);
-        } else {
-            // MemberRole 에 의미 없는 값이 들어올 경우
-            throw new BaseException(ErrorCode.MEMBER_ROLE_NOT_EXIST);
         }
+
     }
 
     // 닉네임 중복 확인
@@ -158,5 +148,21 @@ public class MemberService implements UserDetailsService {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(email));
         return new MemberAdapter(member);
+    }
+
+    // 중복 체크 및 올바른 입력 확인
+    public void checkDuplication(MemberSignupRequestDto dto) {
+        // 이메일 중복 확인
+        if (memberRepository.findByEmail(dto.getEmail()).isPresent()) {
+            throw new BaseException(ErrorCode.EMAIL_DUPLICATION);
+        }
+        // 이름 중복 확인
+        if (memberRepository.findByName(dto.getName()).isPresent()) {
+            throw new BaseException(ErrorCode.NAME_DUPLICATION);
+        }
+        // MemberRole 확인
+        if (!dto.getMemberRole().equals("CONSUMER") && !dto.getMemberRole().equals("SHELTER")) {
+            throw new BaseException(ErrorCode.MEMBER_ROLE_NOT_EXIST);
+        }
     }
 }
