@@ -2,9 +2,9 @@
     서버한테 데이터 요청 보낼 기본 url 세팅 파일
     다른 파일에서는 axios 대신 client.js 를 임포트 하여 요청 파트 작성하면 됨
 */
-import axios, { AxiosError, AxiosResponse } from "axios";
-import qs from 'qs';
+import axios from "axios";
 
+// axios.defaults.baseURL = 'http://localhost:8080/api/';
 axios.defaults.baseURL = 'api/';
 // axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.responseType = 'json';
@@ -58,7 +58,7 @@ export const handleSecurityError = (e: any) => {
   console.log("보안 에러 핸들러");
   if (e.response) {
     console.log(e.response);
-    alert(e.response.data.error_description);
+    alert(e.response.data.errorMessage);
     console.log("응답은 있는데 오류", e.response.status);
     console.log(e.response.headers);
   } else if(e.request){
@@ -66,7 +66,7 @@ export const handleSecurityError = (e: any) => {
   } else {
     alert("요청 이상" + e.message);
   }
-  console.log(e.config);
+  console.log(e.response.data.errorMessage);
   return e;
 };
 

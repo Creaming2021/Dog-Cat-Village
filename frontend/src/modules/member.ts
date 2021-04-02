@@ -125,11 +125,17 @@ type MemberState = {
     data: SignInResponseType | null; 
     error: Error | null; 
   },
+  checkName: {
+    loading: boolean; 
+    data: boolean | null; 
+    error: Error | null; 
+  }
 };
 
 // 멤버 state 초기 상태
 const initialState: MemberState = {
   memberInfo: asyncState.initial(),
+  checkName: asyncState.initial(),
 };
 
 // 로그인 요청 리듀서
@@ -178,14 +184,25 @@ const findPWReducer = createReducer<MemberState, MemberAction>(initialState)
   createAsyncReducer(findPWAsync, "memberInfo")
 );
 
-
 // 닉네임 중복확인 요청 리듀서
-const checkNameReducer = createReducer<MemberState, MemberAction>(initialState)
-.handleAction(
-  transformToArray(checkNameAsync),
-  createAsyncReducer(checkNameAsync, "memberInfo")
-);
-
+const checkNameReducer = createReducer<MemberState, MemberAction>(initialState, {
+  [CHECK_NAME]: state => ({
+    ...state,
+    checkName: asyncState.load()
+  }),
+  [CHECK_NAME_SUCCESS]: (state, action) => ({
+    ...state,
+    checkName: {
+      loading: false,
+      error: null,
+      data: true
+    }
+  }),
+  [CHECK_NAME_ERROR]: (state, action) => ({
+    ...state,
+    checkName: asyncState.error(action.payload)
+  })
+});
 
 // 비밀번호 설정 리듀서
 const setPWReducer = createReducer<MemberState, MemberAction>(initialState)
@@ -194,14 +211,12 @@ const setPWReducer = createReducer<MemberState, MemberAction>(initialState)
   createAsyncReducer(setPWAsync, "memberInfo")
 );
 
-
 // 회원 탈퇴 요청 리듀서
 const deleteAccountReducer = createReducer<MemberState, MemberAction>(initialState)
 .handleAction(
   transformToArray(deleteAccountAsync),
   createAsyncReducer(deleteAccountAsync, "memberInfo")
 );
-
 
 const member = createReducer<MemberState, MemberAction>(initialState, {
   ...signInReducer.handlers,
