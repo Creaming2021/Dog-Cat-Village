@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PetListContainer from "../../../../containers/petContainer";
+import PetListContainer from "../../../../containers/petListContainer";
 import AdoptContainer from "../../../../containers/adoptContainer";
 import Nav from '../../../nav/nav';
 import Chatting from "../chatting/chatting";
