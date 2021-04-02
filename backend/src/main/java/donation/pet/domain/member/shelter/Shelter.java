@@ -66,8 +66,8 @@ public class Shelter extends Member {
         setName(dto.getName());
     }
 
-    public void updateProfileImage(String imagePath) {
-        setProfileImage(imagePath);
+    public void updateProfileImage(String profileImage) {
+        setProfileImage(profileImage);
     }
 
     public void updateMainShelter(ShelterMainRequestDto dto){

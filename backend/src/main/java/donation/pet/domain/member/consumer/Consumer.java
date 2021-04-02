@@ -36,7 +36,7 @@ public class Consumer extends Member {
         this.setPhoneNumber(phoneNumber);
     }
 
-    public void updateProfileImage(String imagePath) {
-        setProfileImage(imagePath);
+    public void updateProfileImage(String profileImage) {
+        setProfileImage(profileImage);
     }
 }
