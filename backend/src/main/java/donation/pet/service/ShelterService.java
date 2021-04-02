@@ -23,6 +23,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static donation.pet.service.S3Service.CLOUD_FRONT_DOMAIN_NAME;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -73,7 +75,7 @@ public class ShelterService {
     public void saveShelterImage(Long shelterId, MultipartFile file) throws IOException {
         Shelter shelter = shelterRepository.findById(shelterId)
                 .orElseThrow(() -> new BaseException(ErrorCode.SHELTER_NOT_EXIST));
-        shelter.updateProfileImage(s3Service.uploadFile(file));
+        shelter.updateProfileImage("https://" + CLOUD_FRONT_DOMAIN_NAME + "/" + s3Service.uploadFile(file));
         shelterRepository.save(shelter);
     }
 

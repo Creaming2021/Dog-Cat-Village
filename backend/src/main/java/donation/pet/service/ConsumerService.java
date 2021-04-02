@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static donation.pet.service.S3Service.CLOUD_FRONT_DOMAIN_NAME;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -62,7 +64,7 @@ public class ConsumerService {
     public void saveProfileImage(Long consumerId, MultipartFile file) throws IOException {
         Consumer consumer = consumerRepository.findById(consumerId)
                 .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_NOT_EXIST));
-        consumer.updateProfileImage(s3Service.uploadFile(file));
+        consumer.updateProfileImage("https://" + CLOUD_FRONT_DOMAIN_NAME + "/" + s3Service.uploadFile(file));
         consumerRepository.save(consumer);
     }
 
