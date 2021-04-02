@@ -134,6 +134,7 @@ const Pet = ({ role, petList, selectedPet, shelterId,
         <PetList 
           petList={resultPetList} 
           selectedPet={selectedPet}
+          shelterId={shelterId}
           onGetPet={onGetPet}
           onSetInitialSelectedPet={onSetInitialSelectedPet}/>
       </div>

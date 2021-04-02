@@ -60,18 +60,15 @@ const PetCard = ({
 type PetListProps = {
   petList: PetListType[] | null;
   selectedPet: PetDetailType | null;
+  shelterId: number;
   onGetPet: (id: number) => void;
   onSetInitialSelectedPet: () => void;
 };
 
-const PetList = ({ petList, selectedPet, onGetPet, onSetInitialSelectedPet }: PetListProps) => {
+const PetList = ({ petList, selectedPet, shelterId, onGetPet, onSetInitialSelectedPet }: PetListProps) => {
   const [modal, setModal] = useState(false);
   const [mode, setMode] = useState("");
   const [inputPet, setInputPet] = useState<PetInputType>();
-
-  const userInfo = {
-    shelterId: 1,
-  };
 
   const onClick = (e: any) => {
     onGetPet(e.target.id);
@@ -143,7 +140,7 @@ const PetList = ({ petList, selectedPet, onGetPet, onSetInitialSelectedPet }: Pe
       {(modal && mode === "DETAIL" && selectedPet && (
         <ModalMedium>
           <DetailPetForm
-            userInfo={userInfo}
+            memberShelterId={shelterId}
             pet={selectedPet}
             onSubmit={onAdapting}
             onClose={onClose}
@@ -157,6 +154,7 @@ const PetList = ({ petList, selectedPet, onGetPet, onSetInitialSelectedPet }: Pe
             <EditPetForm
               type="modify"
               pet={inputPet}
+              shelterId={shelterId}
               onModify={onModify}
               onCancle={onGoToDetail}
             />

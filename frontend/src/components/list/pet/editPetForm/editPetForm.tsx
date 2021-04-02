@@ -43,7 +43,7 @@ const EditAnimalForm = ({
     shelterId: pet? pet.shelterId: shelterId,
   };
 
-  const [input, setInput] = useState(initialState);
+  const [input, setInput] = useState<PetInputType>(initialState);
   const [birthday, setBirthday] = useState<selectType[]>([]);
 
   const typeList: selectType = {
@@ -112,7 +112,7 @@ const EditAnimalForm = ({
   };
   
   const onSubmitRegister = () => {
-    onRegister(input);
+    if(onRegister) onRegister(input);
   }
 
   return (

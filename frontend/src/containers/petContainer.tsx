@@ -54,9 +54,9 @@ const PetContainer = () => {
   }
 
   useEffect(() => {
-    if(member.data?memberRole === "CONSUMER"){
+    if(member.data && member.data.memberRole === "CONSUMER"){
       onGetPetList();
-    }else if(member.data?memberRole === "SHELTER"){
+    }else if(member.data && member.data.memberRole === "SHELTER"){
       onGetShelterPetList();
     }
   }, []);

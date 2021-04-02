@@ -6,7 +6,7 @@ import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type DetailPetFormProps = {
-  userInfo: { shelterId: number };
+  memberShelterId: number;
   pet: PetDetailType;
   onClose: () => void;
   onSubmit: () => void;
@@ -15,7 +15,7 @@ type DetailPetFormProps = {
 };
 
 const DetailPetForm = ({
-  userInfo,
+  memberShelterId,
   pet,
   onClose,
   onSubmit,
@@ -99,7 +99,7 @@ const DetailPetForm = ({
                   </tr>
                   <tr>
                     <td colSpan={2}>
-                      {shelterId === userInfo.shelterId ? (
+                      {shelterId === memberShelterId ? (
                         <>
                           <ButtonSmall
                             content="수정"
