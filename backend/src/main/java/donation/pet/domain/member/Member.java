@@ -43,16 +43,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Set<MemberRole> roles;
 
-    public void signup(String encodePassword, String role) {
-        this.updatePassword(encodePassword);
-        if (role.equals("admin")) {
-            roles = Set.of(MemberRole.ADMIN, MemberRole.CONSUMER, MemberRole.SHELTER);
-        } else if (role.equals("user")){
-            roles = Set.of(MemberRole.CONSUMER);
-        } else {
-            roles = Set.of(MemberRole.SHELTER);
-        }
-    }
+    private String privateKey;
 
     public void updateAccept(String accept) { this.accept = accept; }
 
@@ -64,5 +55,11 @@ public class Member {
     public void updateTempLink(String tempLink) {
         this.tempLink = tempLink;
         this.tempLinkDate = LocalDateTime.now();
+    }
+
+    // 계정 주소 및 비밀키 저장
+    public void createContractAddress(String contractAddress, String privateKey) {
+        this.contractAddress = contractAddress;
+        this.privateKey = privateKey;
     }
 }

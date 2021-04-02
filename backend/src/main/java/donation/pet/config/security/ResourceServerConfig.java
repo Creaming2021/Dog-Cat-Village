@@ -23,16 +23,20 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 //                .httpBasic().disable()
 //                .csrf().disable()
                 .anonymous()
-                    .and()
+                .and()
                 .authorizeRequests()
-                    .antMatchers("/members/signup", "/members/duplication", "/members/login",
-                            "/members/password/**", "/members/auth/**", "/members/forget")
-                        .permitAll()
-                    .anyRequest()
-                        .authenticated()
-                    .and()
+                .antMatchers("/members/test")
+                .authenticated()
+                .anyRequest()
+                .permitAll()
+//                    .antMatchers("/members/signup", "/members/duplication", "/members/login",
+//                            "/members/password/**", "/members/auth/**", "/members/forget")
+//                        .permitAll()
+//                    .anyRequest()
+//                        .authenticated()
+                .and()
                 .exceptionHandling()
-                    .accessDeniedHandler(new OAuth2AccessDeniedHandler());
+                .accessDeniedHandler(new OAuth2AccessDeniedHandler());
 //                    .and()
 //                .csrf().disable();
 
