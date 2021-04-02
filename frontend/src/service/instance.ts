@@ -5,6 +5,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import qs from 'qs';
 
+// axios.defaults.baseURL = 'http://localhost:8080/api/';
 axios.defaults.baseURL = 'api/';
 // axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.responseType = 'json';
@@ -58,7 +59,7 @@ export const handleSecurityError = (e: any) => {
   console.log("보안 에러 핸들러");
   if (e.response) {
     console.log(e.response);
-    alert(e.response.data.error_description);
+    alert(e.response.data.errorMessage);
     console.log("응답은 있는데 오류", e.response.status);
     console.log(e.response.headers);
   } else if(e.request){
@@ -66,7 +67,7 @@ export const handleSecurityError = (e: any) => {
   } else {
     alert("요청 이상" + e.message);
   }
-  console.log(e.config);
+  console.log(e.response.data.errorMessage);
   return e;
 };
 
