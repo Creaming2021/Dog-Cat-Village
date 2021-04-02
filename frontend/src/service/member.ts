@@ -8,7 +8,7 @@ import { security, basic, auth } from './instance';
 // 로그인 정보 확인
 export const signIn = async ({ username, password, memberRole }: SignInInputType) => {
   return await auth.post<SignInResponseType>(
-    `api/members/login`, 
+    `members/login`, 
     {
       username, password, memberRole, grant_type: "password",
     }
@@ -18,7 +18,7 @@ export const signIn = async ({ username, password, memberRole }: SignInInputType
 // 회원 가입 하기
 export const signUp = ({ emailId, emailSite, name, password, 
           phoneNumber1, phoneNumber2, phoneNumber3, memberRole }: SignUpInputType) => {
-  return basic.post<undefined>(`api/members/signup`, 
+  return basic.post<undefined>(`members/signup`, 
                     { email: `${emailId}@${emailSite}`, 
                       phoneNumber: `${phoneNumber1}${phoneNumber2}${phoneNumber3}`,
                       name, 
@@ -29,22 +29,22 @@ export const signUp = ({ emailId, emailSite, name, password,
 
 // 비밀번호 찾기
 export const findPW = (email: string) => {
-  return basic.post<undefined>(`api/members/forget`, { email });
+  return basic.post<undefined>(`members/forget`, { email });
 };
 
 // 닉네임 중복확인
 export const checkName = ( name: string ) => {
-  return basic.post<undefined>(`api/members/duplication`, { name });
+  return basic.post<undefined>(`members/duplication`, { name });
 };
 
 // 비밀번호 설정
 export const setPW = ({ password, token }: SetPasswordRequestType ) => {
-  return basic.post<undefined>(`api/members/password/${token}`, { password });
+  return basic.post<undefined>(`members/password/${token}`, { password });
 };
 
 // 회원 탈퇴 하기
 export const deleteAccount = () => {
-  return security.delete<undefined>(`api/members`, {
+  return security.delete<undefined>(`members`, {
     'headers': {
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
     }
