@@ -47,7 +47,7 @@ const todayAdoptedAnimalCount = () => {
 
 
 
-const UserMainPage = () => {
+const UserMainPage = (props) => {
   const [boardToggle, setBoardToggle] = useState(true);
   useEffect(() => {
     setTimeout(() => {

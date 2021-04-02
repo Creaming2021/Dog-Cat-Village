@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ImageLarge } from '../common/common';
 import styles from './userInfo.module.css';
 import UserInfoEdit from './userInfoEdit';
@@ -6,6 +6,10 @@ import UserInfoEdit from './userInfoEdit';
 
 const UserInfo = ({ userTypeBoolean }) => {
   const [editState, setEditState] = useState(false);
+
+  useEffect(()=> {
+
+  },[])
 
   const changeEditState = () => {
     setEditState(true);
@@ -15,7 +19,7 @@ const UserInfo = ({ userTypeBoolean }) => {
     const result = window.confirm('탈퇴하시겠습니까?');
     console.log(result);
   }
-
+  
   return (
     <>
       {
