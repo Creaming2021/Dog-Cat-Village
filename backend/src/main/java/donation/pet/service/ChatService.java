@@ -155,29 +155,24 @@ public class ChatService {
     public ChatNoticeResponseDto getNotice(String memberId) {
 
         Set<String> keys = redisTemplate.keys("notice:" + memberId + ":*");
-        log.info("나오니? {}", keys);
 
+        if(keys == null) {
+            return new ChatNoticeResponseDto(new ArrayList<>());
+        }
 
         valOps = redisTemplate.opsForValue();
-        List<ChatNoticeDto> list = new ArrayList<>();
         // 나에게 보낸 사람들을 모두 조회
-        for (String pattern : keys) {
-            // {count : val, oppName: "moon"} 이런 형태로 리스트에 저장
-            Map<String, Object> res = new HashMap<>();
-            String[] oppIds = pattern.split(":");
-            Member opp = memberRepository.findById(Long.parseLong(oppIds[2]))
-                    .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_NOT_EXIST));
-                                        // member 통틀어서 없는 에러코드 만들어서 변경하기
-            // 일림이 0인것은 걸러준다
-            if (Integer.valueOf(valOps.get(pattern)) != 0) {
-                ChatNoticeDto dto = ChatNoticeDto.builder()
-                        .count(Long.valueOf(valOps.get(pattern)))
-                        .oppName(opp.getName())
-                        .build();
-                list.add(dto);
-            }
-        }
-        return new ChatNoticeResponseDto(list);
+        List<ChatNoticeDto> collect = keys.stream().filter(key -> Integer.parseInt(Objects.requireNonNull(valOps.get(key))) != 0)
+                .map(key -> {
+                    Member member = memberRepository.findById(Long.parseLong(key.split(":")[2]))
+                            .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));
+                    return ChatNoticeDto.builder()
+                            .count(Long.valueOf(Objects.requireNonNull(valOps.get(key))))
+                            .oppName(member.getName())
+                            .build();
+                }).collect(Collectors.toList());
+
+        return new ChatNoticeResponseDto(collect);
     }
 
     /*
@@ -204,41 +199,29 @@ public class ChatService {
         valOps.set(key, "0");
     
         // 메시지 반환
-        List<ChatMessageDto> list = getMessageList(startNum, endNum, roomId);
-        log.info("메시지 반환");
-        return new ChatMessageListDto(list);
+        String roomStr = "message:" + roomId;
+        List<ChatMessageDto> collect = redisTemplate.opsForList().range(roomStr, startNum, endNum).stream()
+                .map(wrapper(s -> objectMapper.readValue(s, ChatMessageDto.class)))
+                .collect(Collectors.toList());
 
-    }
-    
-    // 제대로 리팩토링 필요함
-    public List<ChatMessageDto> getMessageList(int startNum, int endNum, String roomId) throws JsonProcessingException {
-        String key = "message:" + roomId;
-        listOps = redisTemplate.opsForList();
-        List<String> str = listOps.range(key, startNum, endNum);
-        List<ChatMessageDto> msgList = new ArrayList<>();
-        for (String json : str) {
-            log.info(">>>>>>>>>>>>>> MessageList <<<<<<<<<<<<< {} ", json);
-            ChatMessageDto dto = objectMapper.readValue(json, ChatMessageDto.class);
-            msgList.add(dto);
-        }
-//        List<ChatMessageDto> result = msgList.stream().map(msgInfo -> modelMapper.map(msgInfo, ChatMessageDto.class)).collect(Collectors.toList());
-        return msgList;
+        log.info("메시지 반환");
+        return new ChatMessageListDto(collect);
     }
 
     /*
     * /receive
     * */
     public void receiveMsg(ChatMessageDto message) throws JsonProcessingException {
-        Map<String, Object> resultMap = new HashMap<>();
         String roomId = message.getRoomId();
         String oppId = message.getOppId();
         String myId = message.getMyId();
         String oppName = message.getOppName();
+
         // 메시지 날짜 출력 잘되는지
         log.info("날짜는: {} ", message.getDate());
         valOps = redisTemplate.opsForValue();
         String key = "notice:" + oppId + ":" + myId;
-        // 롸
+        // 롸?
         valOps.increment(key, 1);
         // {count: 1, nickname:""}
         Map<String, String> notices = new HashMap<>();
