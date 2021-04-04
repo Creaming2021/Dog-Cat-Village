@@ -31,7 +31,7 @@ export const getWalletInfoAsync = createAsyncAction(
   GET_WALLET_INFO, 
   GET_WALLET_INFO_SUCCESS, 
   GET_WALLET_INFO_ERROR 
-)<string, WalletType, AxiosError>();
+)<number, WalletType, AxiosError>();
 
 // 지갑 정보 등록 액션 객체 생성함수
 export const setWalletInfoAsync = createAsyncAction( 

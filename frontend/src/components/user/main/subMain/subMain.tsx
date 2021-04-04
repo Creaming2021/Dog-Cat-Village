@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AdoptContainer from "../../../../containers/adoptContainer";
+import WalletContainer from "../../../../containers/walletContainer";
 import Nav from "../../../nav/nav";
 import Animal from "../animal/animal";
 import Chatting from "../chatting/chatting";
@@ -40,6 +41,7 @@ const SubMain = () => {
 
   return (
     <div className={styles["sub-main-container"]}>
+      <WalletContainer/>
       <Nav role={member.memberRole} />
       <div className={styles["sub-main-box"]}>
         <MainCategory userInfo={userInfo} onChangeCategory={onChangeCategory} />
