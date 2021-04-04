@@ -1,8 +1,6 @@
 export interface ShelterInfoType {
   id: number;
   introduce: string;
-  name: string;
-  phoneNumber: string;
   siteUrl: string;
 }
 

@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from "axios"; 
-import { ActionType, createAction, createAsyncAction, createReducer } from "typesafe-actions"; 
+import { ActionType, createAsyncAction, createReducer } from "typesafe-actions"; 
 import { asyncState, createAsyncReducer, transformToArray } from "../lib/reducerUtils";
 import { takeEvery } from 'redux-saga/effects';
 import createAsyncSaga from "../lib/createAsyncSaga";
@@ -105,14 +105,14 @@ export const getShelterInfoAsync = createAsyncAction(
   GET_SHELTER_INFO,
   GET_SHELTER_INFO_SUCCESS,
   GET_SHELTER_INFO_ERROR
-)<number, AxiosResponse<ShelterInfoType>, AxiosError>();
+)<number, ShelterInfoType, AxiosError>();
 
 // 보호소 메인 정보 수정
 export const modifyShelterInfoAsync = createAsyncAction(
   MODIFY_SHELTER_INFO,
   MODIFY_SHELTER_INFO_SUCCESS,
   MODIFY_SHELTER_INFO_ERROR
-)<ModifyShelterInfoType, AxiosResponse<ShelterInfoType>, AxiosError>();
+)<ModifyShelterInfoType, ShelterInfoType, AxiosError>();
 
 // saga
 const signInSaga = createAsyncSaga(signInAsync, MemberAPI.signIn);

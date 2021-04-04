@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AdoptContainer from "../../../containers/adoptContainer";
 import { ProfileInfoType } from "../../../interface/consumer";
 import { SignInResponseType } from '../../../interface/member';
-import { ShelterInfoType } from "../../../interface/shelter";
+import { ModifyShelterInfoType, ShelterInfoType } from "../../../interface/shelter";
 import Nav from "../../nav/nav";
 import Animal from "../animal/animal";
 import Chatting from "../chatting/chatting";
@@ -15,9 +15,10 @@ type SubMainProps = {
   member: SignInResponseType,
   shelter: ShelterInfoType,
   profile: ProfileInfoType,
+  onSubmitModify: (modifyInput: ModifyShelterInfoType) => void,
 }
 
-const SubMain = ({ member, shelter, profile }: SubMainProps) => {
+const SubMain = ({ member, shelter, profile, onSubmitModify }: SubMainProps) => {
   const [category, setCategory] = useState<string>("home");
 
   const onChangeCategory = (category: string): void => {
@@ -41,7 +42,8 @@ const SubMain = ({ member, shelter, profile }: SubMainProps) => {
           member={member} 
           shelter={shelter} 
           profile={profile}
-          onChangeCategory={onChangeCategory} />
+          onChangeCategory={onChangeCategory} 
+          onSubmitModify={onSubmitModify}/>
         {category === "home" && <Home type="shelter" streaming={streaming} />}
         {category === "animal" && <Animal type="center" />}
         {category === "chatting" && <Chatting />}
