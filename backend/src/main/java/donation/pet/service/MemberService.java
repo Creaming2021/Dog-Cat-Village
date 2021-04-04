@@ -7,6 +7,7 @@ import donation.pet.domain.member.consumer.Consumer;
 import donation.pet.domain.member.consumer.ConsumerRepository;
 import donation.pet.domain.member.shelter.Shelter;
 import donation.pet.domain.member.shelter.ShelterRepository;
+import donation.pet.dto.blockchain.BlockchainAddressDto;
 import donation.pet.dto.consumer.MemberSignupRequestDto;
 import donation.pet.dto.member.*;
 import donation.pet.exception.BaseException;
@@ -164,5 +165,15 @@ public class MemberService implements UserDetailsService {
         if (!dto.getMemberRole().equals("CONSUMER") && !dto.getMemberRole().equals("SHELTER")) {
             throw new BaseException(ErrorCode.MEMBER_ROLE_NOT_EXIST);
         }
+    }
+
+    public BlockchainAddressDto getMemberAddress(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));
+
+        return BlockchainAddressDto.builder()
+                .contractAddress(member.getContractAddress())
+                .privateKey(member.getPrivateKey())
+                .build();
     }
 }
