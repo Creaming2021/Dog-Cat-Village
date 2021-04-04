@@ -9,7 +9,7 @@ import FindPassword from "../components/submain/findPassword/findPassword";
 import SignIn from "../components/submain/signIn/signIn";
 import SignUp from "../components/submain/signUp/signUp";
 import { useHistory } from "react-router-dom";
-import * as Blockchain from '../service/blockchain';
+import * as Blockchain from '../service/blockchainAPI';
 import * as BlockchainActions from '../modules/blockchain';
 
 const MemberContainer = () => {
