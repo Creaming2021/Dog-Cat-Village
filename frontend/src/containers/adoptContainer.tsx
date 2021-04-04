@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AdoptDetail from "../components/adopt/adoptDetail/adoptDetail";
 import AdoptList from "../components/adopt/adoptList/adoptList";
 import { Search } from "../components/common/common";
-import Animal from "../components/user/main/animal/animal";
+import Animal from "../components/shelter/animal/animal";
 import { AdoptDetailType, AdoptListType } from "../interface/adopt";
 
 const AdoptContainer = () => {

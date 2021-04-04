@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import styles from './App.module.css';
-import SubMain from './components/user/main/subMain/subMain';
+import SubMain from './components/shelter/subMain/subMain';
 import MemberContainer from './containers/memberContainer';
 import MyPage from './components/myPage/myPage';
 import StreamingListPage from './components/streamingListPage/streamingListPage';

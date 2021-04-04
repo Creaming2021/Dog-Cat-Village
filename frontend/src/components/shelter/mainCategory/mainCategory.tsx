@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styles from "./mainCategory.module.css";
-import commons from "../../../common/common.module.css";
+import commons from "../../common/common.module.css";
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ButtonMedium, ImageLarge } from "../../../common/common";
+import { ButtonMedium, ImageLarge } from "../../common/common";
 
 type MainCategoryProps = {
   onChangeCategory: (category: string) => void;
