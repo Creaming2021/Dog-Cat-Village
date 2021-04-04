@@ -5,6 +5,8 @@ import { takeEvery } from 'redux-saga/effects';
 import createAsyncSaga from "../lib/createAsyncSaga";
 import * as MemberAPI from '../service/member';
 import { SignInResponseType, SignInInputType, SignUpInputType, SetPasswordRequestType } from "../interface/member";
+import { ModifyShelterInfoType, ShelterInfoType } from "../interface/shelter";
+import * as ShelterAPI from "../service/shelter";
 
 // 로그인 요청 액션 타입
 const SIGN_IN = 'member/SIGN_IN';
@@ -38,6 +40,16 @@ const SET_PW_ERROR = 'member/SET_PW_ERROR';
 const DELETE_ACCOUNT = 'member/DELETE_ACCOUNT';
 const DELETE_ACCOUNT_SUCCESS = 'member/DELETE_ACCOUNT_SUCCESS';
 const DELETE_ACCOUNT_ERROR = 'member/DELETE_ACCOUNT_ERROR';
+
+// 보호소 메인 정보 조회
+const GET_SHELTER_INFO = 'shelter/GET_SHELTER_INFO';
+const GET_SHELTER_INFO_SUCCESS = 'shelter/GET_SHELTER_INFO_SUCCESS';
+const GET_SHELTER_INFO_ERROR = 'shelter/GET_SHELTER_INFO_ERROR';
+
+// 보호소 메인 정보 수정
+const MODIFY_SHELTER_INFO = 'shelter/MODIFY_SELTER_INFO';
+const MODIFY_SHELTER_INFO_SUCCESS = 'shelter/MODIFY_SELTER_INFO_SUCCESS';
+const MODIFY_SHELTER_INFO_ERROR = 'shelter/MODIFY_SELTER_INFO_ERROR';
 
 // const GET_ACCOUNT = 'member/GET_ACCOUNT';
 // const MODIFY_ACCOUNT = 'member/MODIFY_ACCOUNT';
@@ -87,6 +99,20 @@ export const deleteAccountAsync = createAsyncAction(
   DELETE_ACCOUNT_ERROR
 )<any, AxiosResponse<undefined>, AxiosError>();
 
+// 보호소 메인 정보 조회
+export const getShelterInfoAsync = createAsyncAction(
+  GET_SHELTER_INFO,
+  GET_SHELTER_INFO_SUCCESS,
+  GET_SHELTER_INFO_ERROR
+)<number, AxiosResponse<ShelterInfoType>, AxiosError>();
+
+// 보호소 메인 정보 수정
+export const modifyShelterInfoAsync = createAsyncAction(
+  MODIFY_SHELTER_INFO,
+  MODIFY_SHELTER_INFO_SUCCESS,
+  MODIFY_SHELTER_INFO_ERROR
+)<ModifyShelterInfoType, AxiosResponse<ShelterInfoType>, AxiosError>();
+
 // saga
 const signInSaga = createAsyncSaga(signInAsync, MemberAPI.signIn);
 const signUpSaga = createAsyncSaga(signUpAsync, MemberAPI.signUp);
@@ -94,6 +120,8 @@ const findPWSaga = createAsyncSaga(findPWAsync, MemberAPI.findPW);
 const checkNameSaga = createAsyncSaga(checkNameAsync, MemberAPI.checkName);
 const setPWSaga = createAsyncSaga(setPWAsync, MemberAPI.setPW);
 const deleteAccountSaga = createAsyncSaga(deleteAccountAsync, MemberAPI.deleteAccount);
+const getShelterInfoSaga = createAsyncSaga(getShelterInfoAsync, ShelterAPI.getShelterInfo);
+const modifyShelterInfoSaga = createAsyncSaga(modifyShelterInfoAsync, ShelterAPI.modifyShelterInfo);
 
 // 멤버 saga 생성
 export function* memberSaga() {
@@ -103,6 +131,8 @@ export function* memberSaga() {
   yield takeEvery(CHECK_NAME, checkNameSaga);
   yield takeEvery(SET_PW, setPWSaga);
   yield takeEvery(DELETE_ACCOUNT, deleteAccountSaga);
+  yield takeEvery(GET_SHELTER_INFO, getShelterInfoSaga);
+  yield takeEvery(MODIFY_SHELTER_INFO, modifyShelterInfoSaga);
 }
 
 // 멤버 actions 객체 모음
@@ -112,7 +142,9 @@ const actions = {
   findPWAsync,
   checkNameAsync,
   setPWAsync,
-  deleteAccountAsync
+  deleteAccountAsync,
+  getShelterInfoAsync,
+  modifyShelterInfoAsync,
 };
 
 // 멤버 actions type 저장
@@ -129,6 +161,11 @@ type MemberState = {
     loading: boolean; 
     data: boolean | null; 
     error: Error | null; 
+  },
+  shelterInfo: {
+    loading: boolean;
+    data: ShelterInfoType | null;
+    error: Error | null;
   }
 };
 
@@ -136,6 +173,7 @@ type MemberState = {
 const initialState: MemberState = {
   memberInfo: asyncState.initial(),
   checkName: asyncState.initial(),
+  shelterInfo: asyncState.initial(),
 };
 
 // 로그인 요청 리듀서
@@ -218,6 +256,20 @@ const deleteAccountReducer = createReducer<MemberState, MemberAction>(initialSta
   createAsyncReducer(deleteAccountAsync, "memberInfo")
 );
 
+// 보호소 메인 정보 조회 리듀서
+const getShelterInfoReducer = createReducer<MemberState, MemberAction>(initialState)
+.handleAction(
+  transformToArray(getShelterInfoAsync),
+  createAsyncReducer(getShelterInfoAsync, "shelterInfo")
+)
+
+// 보호소 메인 정보 수정 리듀서
+const modifyShelterInfoReducer = createReducer<MemberState, MemberAction>(initialState)
+.handleAction(
+  transformToArray(modifyShelterInfoAsync),
+  createAsyncReducer(modifyShelterInfoAsync, "shelterInfo")
+)
+
 const member = createReducer<MemberState, MemberAction>(initialState, {
   ...signInReducer.handlers,
   ...signOutReducer.handlers,
@@ -226,6 +278,8 @@ const member = createReducer<MemberState, MemberAction>(initialState, {
   ...checkNameReducer.handlers,
   ...setPWReducer.handlers,
   ...deleteAccountReducer.handlers,
+  ...getShelterInfoReducer.handlers,
+  ...modifyShelterInfoReducer.handlers
 });
 
 export default member;
