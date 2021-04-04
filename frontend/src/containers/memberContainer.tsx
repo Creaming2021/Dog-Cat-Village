@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import rootReducer, { RootState } from "../modules/index";
+import { RootState } from "../modules/index";
 import { useSelector, useDispatch } from "react-redux";
 import * as MemberActions from "../modules/member";
 import { SignInInputType, SignUpInputType } from "../interface/member";
@@ -9,8 +9,8 @@ import FindPassword from "../components/submain/findPassword/findPassword";
 import SignIn from "../components/submain/signIn/signIn";
 import SignUp from "../components/submain/signUp/signUp";
 import { useHistory } from "react-router-dom";
-import { handleAuthResponse, handleError, handleResponse } from "../service/instance";
-import { AxiosError, AxiosResponse } from "axios";
+import * as Blockchain from '../service/blockchain';
+import * as BlockchainActions from '../modules/blockchain';
 
 const MemberContainer = () => {
   const history = useHistory();
@@ -128,6 +128,13 @@ const MemberContainer = () => {
   // 회원가입 요청
   const signUp = (): void => {
     dispatch(MemberActions.signUpAsync.request(signUpInput));
+    
+    const newAccount = Blockchain.createAccount();
+    dispatch(BlockchainActions.setWalletInfoAsync.request({
+	    address: newAccount.address,
+	    privateKey: newAccount.privateKey
+    }));
+    
     history.push('/');
   };
 
