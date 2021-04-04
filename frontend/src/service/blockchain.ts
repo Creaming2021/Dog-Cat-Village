@@ -2,8 +2,7 @@ import axios from 'axios';
 import Web3 from "web3";
 import abiArray from "./mycoin.json";
 import { security } from './instance';
-import { getTransactionListType, registerWalletType, transactionInfoType, walletInfoType } 
-        from '../interface/blockchain';
+import { getTransactionListType, registerWalletType, transactionInfoType, walletInfoType } from '../interface/blockchain';
 
 const PROJECT_ID = "f8bb83919afd48fe855f54e33595a3ec";
 const MABL_ADDRESS = "0xA9e4f0d5332b26C9B323cC299604D001dA25db1B";
@@ -26,7 +25,7 @@ export const createAccount = () => {
 };
 
 // 코인 잔액 조회
-export const getTokenBalance = async (address) => {
+export const getTokenBalance = async (address: string) => {
   const web3 = new Web3(
     new Web3.providers.HttpProvider(
       `https://ropsten.infura.io/v3/${PROJECT_ID}`
@@ -35,7 +34,7 @@ export const getTokenBalance = async (address) => {
 
   const contract = new web3.eth.Contract(abiArray, CONTRACT_ADDRESS);
 
-  let tokenBalance = null;
+  let tokenBalance;
 
   await contract.methods.balanceOf(address).call()
   .then(result => {
@@ -48,7 +47,7 @@ export const getTokenBalance = async (address) => {
 };
 
 // 트랜잭션 (코인 전송) 생성하기
-export const sendTransaction = ({ fromAddress, toAddress, amount, privateKey }) => {
+export const sendTransaction = ({ fromAddress, toAddress, amount, privateKey }: transactionInfoType) => {
   const web3 = new Web3(
     new Web3.providers.HttpProvider(
       `https://ropsten.infura.io/v3/${PROJECT_ID}`
@@ -116,7 +115,7 @@ export const sendTransaction = ({ fromAddress, toAddress, amount, privateKey }) 
 
 // 지갑 정보 조회
 export const getWalletInfo = () => {
-  return security.get('/blockchain/address', {
+  security.get<walletInfoType>('/blockchain/address', {
     'headers': {
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
     }
@@ -124,8 +123,8 @@ export const getWalletInfo = () => {
 }
 
 // 지갑 정보 등록
-export const setWalletInfo = ( walletInfo ) => {
-  return security.post('/blockchain/address', {
+export const setWalletInfo = ( walletInfo: registerWalletType ) => {
+  security.post<undefined>('/blockchain/address', {
     'headers': {
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
     },
@@ -134,8 +133,8 @@ export const setWalletInfo = ( walletInfo ) => {
 }
 
 // 마블 코인 거래 내역 리스트
-export const getTransactionList = ( address ) => {
-  return security.get(`/blockchain/address/${address}`, {
+export const getTransactionList = ( address: string ) => {
+  security.get<getTransactionListType>(`/blockchain/address/${address}`, {
     'headers': {
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
     }
