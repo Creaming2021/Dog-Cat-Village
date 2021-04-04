@@ -1,24 +1,20 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import AdoptContainer from "../../../containers/adoptContainer";
+import ShelterContainer from "../../../containers/shelterContainer";
 import { ProfileInfoType } from "../../../interface/consumer";
 import { SignInResponseType } from '../../../interface/member';
 import { ModifyShelterInfoType, ShelterInfoType } from "../../../interface/shelter";
+import { RootState } from "../../../modules";
 import Nav from "../../nav/nav";
 import Animal from "../animal/animal";
 import Chatting from "../chatting/chatting";
 import Donation from "../donation/donation";
 import Home from "../home/home";
-import MainCategory from "../mainCategory/mainCategory";
-import styles from "./subMain.module.css";
+import styles from "./main.module.css";
 
-type SubMainProps = {
-  member: SignInResponseType,
-  shelter: ShelterInfoType,
-  profile: ProfileInfoType,
-  onSubmitModify: (modifyInput: ModifyShelterInfoType) => void,
-}
-
-const SubMain = ({ member, shelter, profile, onSubmitModify }: SubMainProps) => {
+const Main = () => {
+  const member = useSelector((state: RootState) => state.member.memberInfo);
   const [category, setCategory] = useState<string>("home");
 
   const onChangeCategory = (category: string): void => {
@@ -36,14 +32,9 @@ const SubMain = ({ member, shelter, profile, onSubmitModify }: SubMainProps) => 
 
   return (
     <div className={styles["sub-main-container"]}>
-      <Nav role={member.memberRole} />
+      <Nav role={member.data?.memberRole || ""} />
       <div className={styles["sub-main-box"]}>
-        <MainCategory 
-          member={member} 
-          shelter={shelter} 
-          profile={profile}
-          onChangeCategory={onChangeCategory} 
-          onSubmitModify={onSubmitModify}/>
+        <ShelterContainer onChangeCategory={onChangeCategory}/>
         {category === "home" && <Home type="shelter" streaming={streaming} />}
         {category === "animal" && <Animal type="center" />}
         {category === "chatting" && <Chatting />}
@@ -54,4 +45,4 @@ const SubMain = ({ member, shelter, profile, onSubmitModify }: SubMainProps) => 
   );
 };
 
-export default SubMain;
+export default Main;

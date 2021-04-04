@@ -9,14 +9,14 @@ import shelterListPage from './components/shelterListPage/shelterListPage';
 import ErrorAlert, { ProtectedRouteConsumer, ProtectedRouteShelter, ProtectedRouteAdmin, ProtectedRouteToken } from './components/error/errorAlert';
 import PasswordContainer from './containers/passwordContainer';
 import ConfirmSignUp from './components/submain/confirmSignUp/confirmSignUp';
-import ShelterContainer from './containers/shelterContainer';
+import Main from '../src/components/shelter/main/main';
 
 function App() {
   return (
     <div className={styles.app}>
       <Switch>
         <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/>
-        <ProtectedRouteShelter path="/main" Component={ShelterContainer} exact/>
+        <ProtectedRouteShelter path="/main" Component={Main} exact/>
         {/* <ProtectedRouteAdmin path="/admin" Component={Admin} exact/> */}
         <Route path="/profile" component={MyPage} exact/>
         {/* <Route path="/shelter/streaming" component={Streaming} exact/> */}

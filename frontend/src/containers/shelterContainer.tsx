@@ -1,11 +1,16 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import SubMain from "../components/shelter/subMain/subMain";
+import SubMain from "../components/shelter/main/main";
+import MainCategory from "../components/shelter/mainCategory/mainCategory";
 import { ModifyShelterInfoType, ShelterInfoType } from "../interface/shelter";
 import { RootState } from "../modules";
 import * as MemberActions from "../modules/member";
 
-const ShelterContainer = () => {
+type ShelterContainerProps = {
+  onChangeCategory: (category: string) => void,
+}
+
+const ShelterContainer = ({ onChangeCategory }: ShelterContainerProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
   const shelter = useSelector((state: RootState) => state.member.shelterInfo);
   const profile = useSelector((state: RootState) => state.member.profileInfo);
@@ -30,7 +35,23 @@ const ShelterContainer = () => {
 
   return (
     <>
-      {member.data !== null && shelter.data !== null && !profile.data && (
+    { member.data !== null && shelter.data !== null && !profile.data && (
+      <MainCategory 
+        member={member.data} 
+        shelter={shelter.data} 
+        profile={
+          profile.data || {
+            profileImage: "https://static.remove.bg/remove-bg-web/71dbdf11b48cb655eefe2f609ad67295258ae141/assets/start-0e837dcc57769db2306d8d659f53555feb500b3c5d456879b9c843d1872e7baa.jpg",
+            name: "이름",
+            phoneNumber: "번호",
+            email: "메일",
+          }
+        }
+        onChangeCategory={onChangeCategory} 
+        onSubmitModify={ModifyShelterInfo}/>
+    )
+    }
+      {/* {member.data !== null && shelter.data !== null && !profile.data && (
         <SubMain
           member={member.data}
           shelter={shelter.data}
@@ -44,7 +65,7 @@ const ShelterContainer = () => {
           }
           onSubmitModify={ModifyShelterInfo}
         />
-      )}
+      )} */}
     </>
   );
 };
