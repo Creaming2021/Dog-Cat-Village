@@ -52,7 +52,7 @@ export const getTransactionListAsync = createAsyncAction(
   GET_TRANSACTION_LIST, 
   GET_TRANSACTION_LIST_SUCCESS, 
   GET_TRANSACTION_LIST_ERROR 
-)<string, TransactionListType, AxiosError>();
+)<string, TransactionListType[], AxiosError>();
 
 // saga
 const getWalletInfoSaga = createAsyncSaga(getWalletInfoAsync, BlockchainAPI.getWalletInfo);
@@ -88,7 +88,7 @@ type BlockchainState = {
   },
   transactionList: {
     loading: boolean;
-    data: TransactionListType | null;
+    data: TransactionListType[] | null;
     error: Error | null;
   },
   changeTransaction: {

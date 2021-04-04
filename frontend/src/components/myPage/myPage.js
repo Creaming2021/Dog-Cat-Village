@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './myPage.module.css';
 
-import DonatedShelterList from '../donatedShelterList/donatedShelterList';
+import DonatedShelterListContainer from '../../containers/donatedShelterListContainer';
 import DonationList from '../donationList/donationList';
 import UserInfo from '../userInfo/userInfo';
 import Wallet from '../blockchain/wallet/wallet';
@@ -38,7 +38,7 @@ const MyPage = () => {
           <DonationList />
         </div>
         <div className={styles['donated-shelter-list-container']}>
-          <DonatedShelterList />
+          <DonatedShelterListContainer />
         </div>
       </div>
     </div>

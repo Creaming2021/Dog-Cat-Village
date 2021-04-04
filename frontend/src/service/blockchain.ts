@@ -38,7 +38,7 @@ export const setWalletInfo = async ( walletInfo: WalletType ) => {
 
 // 마블 코인 거래 내역 리스트
 export const getTransactionList = async ( address: string ) => {
-  const response = await security.get<TransactionListType>(`/blockchain/address/${address}`, {
+  const response = await security.get<TransactionListType[]>(`/blockchain/address/${address}`, {
     'headers': {
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
     }
