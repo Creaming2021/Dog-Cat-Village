@@ -1,15 +1,15 @@
-export interface walletInfoType {
+export interface WalletInfoType {
 	consumerAddress: string;
 	consumerPrivateKey: string;
 	shelterAddress: string;
 }
 
-export interface registerWalletType {
+export interface RegisterWalletType {
 	address: string;
 	privateKey: string;
 }
 
-export interface getTransactionListType {
+export interface TransactionListType {
 	contractAddress: string,
 	fromId: number,
 	fromName: string,
@@ -21,7 +21,7 @@ export interface getTransactionListType {
 	value: number
 }
 
-export interface transactionInfoType {
+export interface TransactionInfoType {
 	fromAddress: string;
 	toAddress: string;
 	amount: number;

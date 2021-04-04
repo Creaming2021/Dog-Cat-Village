@@ -1,9 +1,5 @@
-import axios from 'axios';
 import Web3 from "web3";
 import abiArray from "./mycoin.json";
-import { security } from './instance';
-import { getTransactionListType, registerWalletType, transactionInfoType, walletInfoType } 
-        from '../interface/blockchain';
 
 const PROJECT_ID = "f8bb83919afd48fe855f54e33595a3ec";
 const MABL_ADDRESS = "0xA9e4f0d5332b26C9B323cC299604D001dA25db1B";
@@ -113,31 +109,3 @@ export const sendTransaction = ({ fromAddress, toAddress, amount, privateKey }) 
       .on('error', console.error);
   });
 };
-
-// 지갑 정보 조회
-export const getWalletInfo = () => {
-  return security.get('/blockchain/address', {
-    'headers': {
-      'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-    }
-  })
-}
-
-// 지갑 정보 등록
-export const setWalletInfo = ( walletInfo ) => {
-  return security.post('/blockchain/address', {
-    'headers': {
-      'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-    },
-    walletInfo,
-  })
-}
-
-// 마블 코인 거래 내역 리스트
-export const getTransactionList = ( address ) => {
-  return security.get(`/blockchain/address/${address}`, {
-    'headers': {
-      'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-    }
-  })
-}
