@@ -1,18 +1,32 @@
 import { security } from './instance';
-import { TransactionListType, RegisterWalletType, TransactionInfoType, WalletInfoType } from '../interface/blockchain';
+import { TransactionAddressRequireType, TransactionAddressType, TransactionListType, WalletType } from '../interface/blockchain';
 
 // 지갑 정보 조회
-export const getWalletInfo = async () => {
-  const response = await security.get<WalletInfoType>('/blockchain/address', {
+export const getWalletInfo = async ( memberId: string ) => {
+  const response = await security.get<WalletType>('/blockchain/address', {
     'headers': {
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+    },
+  });
+  return response.data;
+}
+
+
+// 아이디를 주소로 변환
+export const changeIdToAddress = async ( { consumerId, shelterId }: TransactionAddressRequireType ) => {
+  const response = await security.get<TransactionAddressType>(
+    '/blockchain/address', 
+    {
+      'headers': {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+      'params': { consumerId, shelterId },
     }
   });
   return response.data;
 }
 
 // 지갑 정보 등록
-export const setWalletInfo = async ( walletInfo: RegisterWalletType ) => {
+export const setWalletInfo = async ( walletInfo: WalletType ) => {
   const response = await security.post<undefined>('/blockchain/address', {
     'headers': {
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),

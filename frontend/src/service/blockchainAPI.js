@@ -31,7 +31,7 @@ export const getTokenBalance = async (address) => {
 
   const contract = new web3.eth.Contract(abiArray, CONTRACT_ADDRESS);
 
-  let tokenBalance = null;
+  let tokenBalance = 0;
 
   await contract.methods.balanceOf(address).call()
   .then(result => {
