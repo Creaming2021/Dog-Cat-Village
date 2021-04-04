@@ -49,49 +49,49 @@ export const getPetListAsync = createAsyncAction(
   GET_PET_LIST,
   GET_PET_LIST_SUCCESS,
   GET_PET_LIST_ERROR
-)<any, AxiosResponse<PetListType[]>, AxiosError>();
+)<any, PetListType[], AxiosError>();
 
 // 특정 보호소 동물 리스트 조회 액션 객체 생성함수
 export const getShelterPetListAsync = createAsyncAction(
   GET_SHELTER_PET_LIST,
   GET_SHELTER_PET_LIST_SUCCESS,
   GET_SHELTER_PET_LIST_ERROR
-)<number, AxiosResponse<PetListType[]>, AxiosError>();
+)<number, PetListType[], AxiosError>();
 
 // 반려 동물 등록 액션 객체 생성함수
 export const registerPetAsync = createAsyncAction(
   REGISTER_PET,
   REGISTER_PET_SUCCESS,
   REGISTER_PET_ERROR
-)<PetEditType, AxiosResponse<undefined>, AxiosError>();
+)<PetEditType, any, AxiosError>();
 
 // 반려 동물 조회 액션 객체 생성함수
 export const getPetAsync = createAsyncAction(
   GET_PET,
   GET_PET_SUCCESS,
   GET_PET_ERROR
-)<number, AxiosResponse<PetDetailType>, AxiosError>();
+)<number, PetDetailType, AxiosError>();
 
 // 반려 동물 수정 액션 객체 생성함수
 export const modifyPetAsync = createAsyncAction(
   MODIFY_PET,
   MODIFY_PET_SUCCESS,
   MODIFY_PET_ERROR
-)<PetEditType, AxiosResponse<PetDetailType>, AxiosError>();
+)<PetEditType, PetDetailType, AxiosError>();
 
 // 반려 동물 삭제 액션 객체 생성함수
 export const deletePetAsync = createAsyncAction(
   DELETE_PET,
   DELETE_PET_SUCCESS,
   DELETE_PET_ERROR
-)<number, AxiosResponse<undefined>, AxiosError>();
+)<number, any, AxiosError>();
 
 // 반려 동물 이미지 삽입 액션 객체 생성함수
 export const setProfileImageAsync = createAsyncAction(
   SET_PROFILE_IMAGE,
   SET_PROFILE_IMAGE_SUCCESS,
   SET_PROFILE_IMAGE_ERROR
-)<PetProfileImage, AxiosResponse<undefined>, AxiosError>();
+)<PetProfileImage, any, AxiosError>();
 
 // 선택된 동물 지우는 액션 객체 생성함수
 export const setInitialSelectedPet = () => ({ type: SET_INITIAL_SELECTED_PET });

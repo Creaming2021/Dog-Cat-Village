@@ -7,7 +7,7 @@ import { PetEditType, PetProfileImage } from "../interface/pet";
 
 const PetListContainer = () => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
-  const shelter = useSelector((state: RootState) => state.shelter.shelterInfo);
+  const shelter = useSelector((state: RootState) => state.member.shelterInfo);
   const petList = useSelector((state: RootState) => state.pet.petList);
   const selectedPet = useSelector((state: RootState) => state.pet.selectedPet);
   const dispatch = useDispatch();
