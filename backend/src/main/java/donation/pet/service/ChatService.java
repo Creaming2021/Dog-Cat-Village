@@ -12,12 +12,10 @@ import donation.pet.exception.FunctionWithException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.ModelMap;
 
 import java.util.*;
 import java.util.function.Function;
@@ -191,7 +189,7 @@ public class ChatService {
     /*
     * 메시지 모두 가져오기
     * */
-    public ChatMessageListDto getMessageList(int startNum, int endNum, String roomId, String myId, String oppId) throws JsonProcessingException {
+    public ChatDetailDto getMessageList(int startNum, int endNum, String roomId, String myId, String oppId) throws JsonProcessingException {
 
         // id 받고나서 알림 초기화하기
         valOps = redisTemplate.opsForValue();
@@ -200,12 +198,13 @@ public class ChatService {
     
         // 메시지 반환
         String roomStr = "message:" + roomId;
-        List<ChatMessageDto> collect = redisTemplate.opsForList().range(roomStr, startNum, endNum).stream()
+        List<ChatMessageDto> collect = Objects.requireNonNull(redisTemplate.opsForList().range(roomStr, startNum, endNum)).stream()
                 .map(wrapper(s -> objectMapper.readValue(s, ChatMessageDto.class)))
                 .collect(Collectors.toList());
 
         log.info("메시지 반환");
-        return new ChatMessageListDto(collect);
+        return new ChatDetailDto(roomId, myId, oppId, collect);
+
     }
 
     /*
@@ -227,7 +226,7 @@ public class ChatService {
         Map<String, String> notices = new HashMap<>();
         notices.put("oppName", oppName);
         simpMessagingTemplate.convertAndSend("/notice/" + oppId, notices);
-        insertMessage(message);
+        insertMessage(message); // 메시지 저장
         simpMessagingTemplate.convertAndSend("/message/" + roomId + "/" + oppId, message);
     }
 
