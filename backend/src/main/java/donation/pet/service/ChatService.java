@@ -112,6 +112,7 @@ public class ChatService {
                         .recentMsg(getRecentMessage(roomInfo.getRoomId())) // 채팅창 목록에서 보여주는 마지막 메시지
                         .oppName(roomInfo.getOppName())
                         .roomId(roomInfo.getRoomId())
+                        .oppId(roomInfo.getOppId())
                         .build())).collect(Collectors.toList());
 
         return new ChatListResponseDto(chatRoomInfoDtoList);
@@ -191,11 +192,6 @@ public class ChatService {
     * */
     public ChatDetailDto getMessageList(int startNum, int endNum, String roomId, String myId, String oppId) throws JsonProcessingException {
 
-        // id 받고나서 알림 초기화하기
-        valOps = redisTemplate.opsForValue();
-        String key = "notice:" + myId + ":" + oppId;
-        valOps.set(key, "0");
-    
         // 메시지 반환
         String roomStr = "message:" + roomId;
         List<ChatMessageDto> collect = Objects.requireNonNull(redisTemplate.opsForList().range(roomStr, startNum, endNum)).stream()
@@ -227,7 +223,12 @@ public class ChatService {
         notices.put("oppName", oppName);
         simpMessagingTemplate.convertAndSend("/notice/" + oppId, notices);
         insertMessage(message); // 메시지 저장
+
+        // 프론트와 상의해보기 !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // oppId를 붙이지 않을 경우,
+        // oppId를 붙일 경우,
         simpMessagingTemplate.convertAndSend("/message/" + roomId + "/" + oppId, message);
+
     }
 
     /*
