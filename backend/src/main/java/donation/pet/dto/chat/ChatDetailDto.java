@@ -11,5 +11,6 @@ public class ChatDetailDto {
     private String roomId;
     private String myId;
     private String oppId;
+    private String oppName;
     private List<ChatMessageDto> messageList;
 }

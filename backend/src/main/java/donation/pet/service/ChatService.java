@@ -192,6 +192,9 @@ public class ChatService {
     * */
     public ChatDetailDto getMessageList(int startNum, int endNum, String roomId, String myId, String oppId) throws JsonProcessingException {
 
+        Member member = memberRepository.findById(Long.parseLong(oppId))
+                .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));
+
         // 메시지 반환
         String roomStr = "message:" + roomId;
         List<ChatMessageDto> collect = Objects.requireNonNull(redisTemplate.opsForList().range(roomStr, startNum, endNum)).stream()
@@ -199,7 +202,7 @@ public class ChatService {
                 .collect(Collectors.toList());
 
         log.info("메시지 반환");
-        return new ChatDetailDto(roomId, myId, oppId, collect);
+        return new ChatDetailDto(roomId, myId, oppId, member.getName(), collect);
 
     }
 
