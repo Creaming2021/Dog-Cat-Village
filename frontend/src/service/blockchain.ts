@@ -3,7 +3,7 @@ import { TransactionAddressRequireType, TransactionAddressType, TransactionListT
 
 // 지갑 정보 조회
 export const getWalletInfo = async ( memberId:  number ) => {
-  const response = await security.get<WalletType>('/blockchain/address', {
+  const response = await security.get<WalletType>(`/members/${memberId}/address`, {
     'headers': {
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
     },
