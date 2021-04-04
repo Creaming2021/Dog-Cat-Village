@@ -122,7 +122,7 @@ public class Pet extends BaseTimeEntity {
         return years + "살";
     }
 
-    public void changeProfileImage(String profileImage) {
+    public void updateProfileImage(String profileImage) {
         this.profileImage = profileImage;
     }
 }

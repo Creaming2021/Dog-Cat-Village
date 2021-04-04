@@ -50,7 +50,7 @@ public class ChatService {
         Member oppMember = memberRepository.findById(oppId)
                 .orElseThrow(() -> new BaseException(ErrorCode.INTERNAL_SERVER_ERROR));
 
-        Boolean isRoom = setOps.isMember("checkRoomKey:" + myId, oppId);
+        Boolean isRoom = setOps.isMember("checkRoomKey:" + myId, oppId +"");
         if(isRoom != null && !isRoom) {
             setOps.add("checkRoomKey:" + myId, oppId + "");
             setOps.add("checkRoomKey:" + oppId, myId + "");
