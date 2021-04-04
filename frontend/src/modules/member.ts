@@ -7,6 +7,7 @@ import * as MemberAPI from '../service/member';
 import { SignInResponseType, SignInInputType, SignUpInputType, SetPasswordRequestType } from "../interface/member";
 import { ModifyShelterInfoType, ShelterInfoType } from "../interface/shelter";
 import * as ShelterAPI from "../service/shelter";
+import { ProfileInfoType } from "../interface/consumer";
 
 // 로그인 요청 액션 타입
 const SIGN_IN = 'member/SIGN_IN';
@@ -166,6 +167,11 @@ type MemberState = {
     loading: boolean;
     data: ShelterInfoType | null;
     error: Error | null;
+  },
+  profileInfo: {
+    loading: boolean;
+    data: ProfileInfoType | null;
+    error: Error | null;
   }
 };
 
@@ -174,6 +180,7 @@ const initialState: MemberState = {
   memberInfo: asyncState.initial(),
   checkName: asyncState.initial(),
   shelterInfo: asyncState.initial(),
+  profileInfo: asyncState.initial(),
 };
 
 // 로그인 요청 리듀서

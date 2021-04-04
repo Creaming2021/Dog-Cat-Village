@@ -4,21 +4,18 @@ import commons from "../../common/common.module.css";
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ButtonMedium, ImageLarge } from "../../common/common";
+import { SignInResponseType } from "../../../interface/member";
+import { ShelterInfoType } from "../../../interface/shelter";
+import { ProfileInfoType } from "../../../interface/consumer";
 
 type MainCategoryProps = {
   onChangeCategory: (category: string) => void;
-  userInfo: {
-    name: string;
-    imageUrl: string;
-    siteUrl: string;
-    phoneNumber: string;
-    email: string;
-    introduction: string;
-    memberRole: string;
-  };
+  member: SignInResponseType,
+  shelter: ShelterInfoType,
+  profile: ProfileInfoType,
 };
 
-const MainCategory = ({ onChangeCategory, userInfo }: MainCategoryProps) => {
+const MainCategory = ({ onChangeCategory, member, shelter, profile }: MainCategoryProps) => {
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     onChangeCategory(e.currentTarget.value);
   };
@@ -26,11 +23,11 @@ const MainCategory = ({ onChangeCategory, userInfo }: MainCategoryProps) => {
   return (
     <div className={styles["main-category"]}>
       <div className={styles.top}>
-        <ImageLarge src={userInfo.imageUrl} alt={userInfo.name} />
-        <div className={styles.title}>{userInfo.name}</div>
-        <div className={styles.site}>{userInfo.siteUrl}</div>
-        <div className={styles.info}>{userInfo.phoneNumber}</div>
-        <div className={styles.info}>{userInfo.email}</div>
+        <ImageLarge src={profile.profileImage} alt={profile.name} />
+        <div className={styles.title}>{profile.name}</div>
+        <div className={styles.site}>{shelter.siteUrl}</div>
+        <div className={styles.info}>{profile.phoneNumber}</div>
+        <div className={styles.info}>{profile.email}</div>
       </div>
       <div className={styles.bottom}>
         <ButtonMedium
@@ -51,7 +48,7 @@ const MainCategory = ({ onChangeCategory, userInfo }: MainCategoryProps) => {
           onClick={onClick}
           buttonColor="bg-green"
         />
-        { userInfo.memberRole === "SHELTER" &&
+        { member.memberRole === "SHELTER" &&
           <ButtonMedium
             content="입양 신청"
             value="adopt"
@@ -59,7 +56,7 @@ const MainCategory = ({ onChangeCategory, userInfo }: MainCategoryProps) => {
             buttonColor="bg-green"
             />
         }
-        { userInfo.memberRole === "CONSUMER" &&
+        { member.memberRole === "CONSUMER" &&
           <ButtonMedium
             content="후원하기 "
             value="donation"
@@ -72,7 +69,7 @@ const MainCategory = ({ onChangeCategory, userInfo }: MainCategoryProps) => {
             className={`${commons["text-color"]} ${styles["btn-edit"]}`}
             icon={faPencilAlt}
           />
-          <div className={styles.introduction}>{userInfo.introduction}</div>
+          <div className={styles.introduction}>{shelter.introduce}</div>
         </div>
       </div>
     </div>

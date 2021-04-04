@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import AdoptContainer from "../../../containers/adoptContainer";
+import { ProfileInfoType } from "../../../interface/consumer";
+import { SignInResponseType } from '../../../interface/member';
+import { ShelterInfoType } from "../../../interface/shelter";
 import Nav from "../../nav/nav";
 import Animal from "../animal/animal";
 import Chatting from "../chatting/chatting";
@@ -8,25 +11,17 @@ import Home from "../home/home";
 import MainCategory from "../mainCategory/mainCategory";
 import styles from "./subMain.module.css";
 
-const SubMain = () => {
-  const [category, setCategory] = useState<string>("home");
+type SubMainProps = {
+  member: SignInResponseType,
+  shelter: ShelterInfoType,
+  profile: ProfileInfoType,
+}
 
-  const member = {memberRole: 'SHELTER'};
+const SubMain = ({ member, shelter, profile }: SubMainProps) => {
+  const [category, setCategory] = useState<string>("home");
 
   const onChangeCategory = (category: string): void => {
     setCategory(category);
-  };
-
-  const userInfo = {
-    name: "동렬 아저씨의 동물 농장",
-    imageUrl:
-      "https://img2.sbs.co.kr/img/sbs_cms/WE/2020/07/10/WE61973057_ori.jpg",
-    siteUrl: "www.naver.com",
-    phoneNumber: "01012345678",
-    email: "ssafy@ssafy.com",
-    introduction:
-      "안녕하세요 동아동입니다~ 많은 관심과 후원 감사합니다! 하는 등의 소개글",
-    memberRole: "SHELTER",
   };
 
   const streaming = {
@@ -42,7 +37,11 @@ const SubMain = () => {
     <div className={styles["sub-main-container"]}>
       <Nav role={member.memberRole} />
       <div className={styles["sub-main-box"]}>
-        <MainCategory userInfo={userInfo} onChangeCategory={onChangeCategory} />
+        <MainCategory 
+          member={member} 
+          shelter={shelter} 
+          profile={profile}
+          onChangeCategory={onChangeCategory} />
         {category === "home" && <Home type="shelter" streaming={streaming} />}
         {category === "animal" && <Animal type="center" />}
         {category === "chatting" && <Chatting />}

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import styles from './App.module.css';
-import SubMain from './components/shelter/subMain/subMain';
 import MemberContainer from './containers/memberContainer';
 import MyPage from './components/myPage/myPage';
 import StreamingListPage from './components/streamingListPage/streamingListPage';
@@ -10,13 +9,14 @@ import shelterListPage from './components/shelterListPage/shelterListPage';
 import ErrorAlert, { ProtectedRouteConsumer, ProtectedRouteShelter, ProtectedRouteAdmin, ProtectedRouteToken } from './components/error/errorAlert';
 import PasswordContainer from './containers/passwordContainer';
 import ConfirmSignUp from './components/submain/confirmSignUp/confirmSignUp';
+import ShelterContainer from './containers/shelterContainer';
 
 function App() {
   return (
     <div className={styles.app}>
       <Switch>
         <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/>
-        <ProtectedRouteShelter path="/main" Component={SubMain} exact/>
+        <ProtectedRouteShelter path="/main" Component={ShelterContainer} exact/>
         {/* <ProtectedRouteAdmin path="/admin" Component={Admin} exact/> */}
         <Route path="/profile" component={MyPage} exact/>
         {/* <Route path="/shelter/streaming" component={Streaming} exact/> */}
