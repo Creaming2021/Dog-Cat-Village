@@ -128,11 +128,13 @@ const MemberContainer = () => {
   // 회원가입 요청
   const signUp = (): void => {
     dispatch(MemberActions.signUpAsync.request(signUpInput));
+    history.push('/');
   };
 
   // 비밀번호찾기 요청
   const findPW = (): void => {
     dispatch(MemberActions.findPWAsync.request(email));
+    history.push('/');
   };
 
   //닉네임 중복 확인 요청
