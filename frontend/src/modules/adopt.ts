@@ -44,42 +44,42 @@ export const getConsumerAdoptListAsync = createAsyncAction(
   GET_CONSUMER_ADOPT_LIST, 
   GET_CONSUMER_ADOPT_LIST_SUCCESS, 
   GET_CONSUMER_ADOPT_LIST_ERROR 
-)<number, AxiosResponse<AdoptListType[]>, AxiosError>(); 
+)<number, AdoptListType[], AxiosError>(); 
 
 // 입양 신청 등록 요청 액션 객체 생성함수
 export const registerAdoptAsync = createAsyncAction( 
   REGISTER_ADOPT, 
   REGISTER_ADOPT_SUCCESS, 
   REGISTER_ADOPT_ERROR 
-)<AdoptRegisterRequestType, AxiosResponse<undefined>, AxiosError>(); 
+)<AdoptRegisterRequestType, any, AxiosError>(); 
 
 // 개인 유저의 입양 신청 디테일 정보 조회 요청 액션 객체 생성함수
 export const getConsumerAdoptDetailAsync = createAsyncAction( 
   GET_CONSUMER_ADOPT_DETAIL, 
   GET_CONSUMER_ADOPT_DETAIL_SUCCESS, 
   GET_CONSUMER_ADOPT_DETAIL_ERROR 
-)<GetAdoptDetailRequestType, AxiosResponse<AdoptDetailType>, AxiosError>(); 
+)<GetAdoptDetailRequestType, AdoptDetailType, AxiosError>(); 
 
 // 보호소 유저의 입양 신청 목록 조회 요청 액션 객체 생성함수
 export const getShleterAdoptListAsync = createAsyncAction( 
   GET_SHELTER_ADOPT_LIST, 
   GET_SHELTER_ADOPT_LIST_SUCCESS, 
   GET_SHELTER_ADOPT_LIST_ERROR 
-)<number, AxiosResponse<AdoptListType[]>, AxiosError>();
+)<number, AdoptListType[], AxiosError>();
 
 // 보호소 유저의 입양 신청 디테일 정보 조회 요청 액션 객체 생성함수
 export const getShelterAdoptDetailAsync = createAsyncAction( 
   GET_SHELTER_ADOPT_DETAIL, 
   GET_SHELTER_ADOPT_DETAIL_SUCCESS, 
   GET_SHELTER_ADOPT_DETAIL_ERROR 
-)<GetAdoptDetailRequestType, AxiosResponse<AdoptDetailType>, AxiosError>();
+)<GetAdoptDetailRequestType, AdoptDetailType, AxiosError>();
 
 // 입양 신청 상태 변경 요청 액션 객체 생성함수
 export const changeAdoptStatusAsync = createAsyncAction( 
   CHANGE_ADOPT_STATUS, 
   CHANGE_ADOPT_STATUS_SUCCESS, 
   CHANGE_ADOPT_STATUS_ERROR 
-)<AdoptChangeStatusType, AxiosResponse<AdoptDetailType>, AxiosError>(); 
+)<AdoptChangeStatusType, AdoptDetailType, AxiosError>(); 
 
 // 선택된 입양 신청서 지우는 액션 객체 생성함수
 export const setInitialAdoptDetail = () => ({ type: SET_INITIAL_ADOPT_DETAIL });

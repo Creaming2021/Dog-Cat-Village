@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as AdoptAction from '../modules/adopt';
 import AdoptDetail from "../components/adopt/adoptDetail/adoptDetail";
@@ -12,6 +12,10 @@ const AdoptContainer = () => {
   const adoptList = useSelector((state: RootState) => state.adopt.adoptList);
   const selectedAdopt = useSelector((state: RootState) => state.adopt.selectedAdopt);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    getAdoptList();
+  }, []);
 
   const [searchInput, setSearchInput] = useState({
     adopt: "",
@@ -60,6 +64,15 @@ const AdoptContainer = () => {
       );
     }
   };
+
+  // 입양 신청서 목록 조회하기
+  const getAdoptList = () => {
+    if(member.data?.memberRole === "SHELTER"){
+      dispatch(AdoptAction.getShleterAdoptListAsync.request(member.data.memberId));
+    }else if(member.data?.memberRole === "CONSUMER"){
+      dispatch(AdoptAction.getConsumerAdoptListAsync.request(member.data.memberId));
+    }
+  }
 
   // 목록으로 돌아올 때 디테일 정보 지우기
   const goToBack = () => {
