@@ -1,24 +1,46 @@
 import { AxiosError, AxiosResponse } from "axios"; 
-import { ActionType, createAsyncAction, createReducer } from "typesafe-actions"; 
+import { ActionType, createAction, createAsyncAction, createReducer } from "typesafe-actions"; 
 import { asyncState, createAsyncReducer, transformToArray } from "../lib/reducerUtils";
 import { takeEvery } from 'redux-saga/effects';
 import createAsyncSaga from "../lib/createAsyncSaga";
 import * as MemberAPI from '../service/member';
-import { SignInResponseType, SignInInputType } from "../interface/member";
+import { SignInResponseType, SignInInputType, SignUpInputType, SetPasswordRequestType } from "../interface/member";
 
 // 로그인 요청 액션 타입
 const SIGN_IN = 'member/SIGN_IN';
 const SIGN_IN_SUCCESS = 'member/SIGN_IN_SUCCESS';
 const SIGN_IN_ERROR = 'member/SIGN_IN_ERROR';
 
-// const SIGN_OUT = 'member/SIGN_OUT';
+// 로그아웃 요청 액션 타입
+const SIGN_OUT = 'member/SIGN_OUT';
+
+// 회원 가입 요청 액션 타입
+const SIGN_UP = 'member/SIGN_UP';
+const SIGN_UP_SUCCESS = 'member/SIGN_UP_SUCCESS';
+const SIGN_UP_ERROR = 'member/SIGN_UP_ERROR';
+
+// 비밀번호 찾기 요청 액션 타입
+const FIND_PW = 'member/FIND_PW';
+const FIND_PW_SUCCESS = 'member/FIND_PW_SUCCESS';
+const FIND_PW_ERROR = 'member/FIND_PW_ERROR';
+
+// 닉네임 중복확인 요청 액션 타입
+const CHECK_NAME = 'member/CHECK_NAME';
+const CHECK_NAME_SUCCESS = 'member/CHECK_NAME_SUCCESS';
+const CHECK_NAME_ERROR = 'member/CHECK_NAME_ERROR';
+
+// 비밀번호 설정 액션 타입
+const SET_PW = 'member/SET_PW';
+const SET_PW_SUCCESS = 'member/SET_PW_SUCCESS';
+const SET_PW_ERROR = 'member/SET_PW_ERROR';
+
+// 회원 탈퇴 요청 액션 타입
+const DELETE_ACCOUNT = 'member/DELETE_ACCOUNT';
+const DELETE_ACCOUNT_SUCCESS = 'member/DELETE_ACCOUNT_SUCCESS';
+const DELETE_ACCOUNT_ERROR = 'member/DELETE_ACCOUNT_ERROR';
+
 // const GET_ACCOUNT = 'member/GET_ACCOUNT';
-// const SIGN_UP = 'member/SIGN_UP';
 // const MODIFY_ACCOUNT = 'member/MODIFY_ACCOUNT';
-// const DELETE_ACCOUNT = 'member/DELETE_ACCOUNT';
-// const FIND_PW = 'member/FIND_PW';
-// const CHECK_NAME = 'member/CHECK_NAME';
-// const SET_PW = 'member/SET_PW';
 
 // 로그인 요청 액션 객체 생성함수
 export const signInAsync = createAsyncAction( 
@@ -27,19 +49,70 @@ export const signInAsync = createAsyncAction(
   SIGN_IN_ERROR 
 )<SignInInputType, AxiosResponse<SignInResponseType>, AxiosError>();
 
-// 로그인 요청 saga
+// 로그아웃 요청 액션 객체 생성함수
+export const signOut = () => ({ type: SIGN_OUT });
+
+// 회원 가입 요청 액션 객체 생성함수
+export const signUpAsync = createAsyncAction(
+  SIGN_UP,
+  SIGN_UP_SUCCESS,
+  SIGN_UP_ERROR
+)<SignUpInputType, AxiosResponse<undefined>, AxiosError>();
+
+// 비밀번호 찾기 요청 액션 객체 생성함수
+export const findPWAsync = createAsyncAction(
+  FIND_PW,
+  FIND_PW_SUCCESS,
+  FIND_PW_ERROR
+)<string, AxiosResponse<undefined>, AxiosError>();
+
+// 닉네임 중복확인 요청 액션 객체 생성함수
+export const checkNameAsync = createAsyncAction(
+  CHECK_NAME,
+  CHECK_NAME_SUCCESS,
+  CHECK_NAME_ERROR
+)<string, AxiosResponse<undefined>, AxiosError>();
+
+// 비밀번호 설정 액션 객체 생성함수
+export const setPWAsync = createAsyncAction(
+  SET_PW,
+  SET_PW_SUCCESS,
+  SET_PW_ERROR
+)<SetPasswordRequestType, AxiosResponse<undefined>, AxiosError>();
+
+// 회원 탈퇴 요청 액션 객체 생성함수
+export const deleteAccountAsync = createAsyncAction(
+  DELETE_ACCOUNT,
+  DELETE_ACCOUNT_SUCCESS,
+  DELETE_ACCOUNT_ERROR
+)<any, AxiosResponse<undefined>, AxiosError>();
+
+// saga
 const signInSaga = createAsyncSaga(signInAsync, MemberAPI.signIn);
+const signUpSaga = createAsyncSaga(signUpAsync, MemberAPI.signUp);
+const findPWSaga = createAsyncSaga(findPWAsync, MemberAPI.findPW);
+const checkNameSaga = createAsyncSaga(checkNameAsync, MemberAPI.checkName);
+const setPWSaga = createAsyncSaga(setPWAsync, MemberAPI.setPW);
+const deleteAccountSaga = createAsyncSaga(deleteAccountAsync, MemberAPI.deleteAccount);
 
 // 멤버 saga 생성
 export function* memberSaga() {
   yield takeEvery(SIGN_IN, signInSaga);
-  // 다른 요청들 여기 추가로 적으면 됨
+  yield takeEvery(SIGN_UP, signUpSaga);
+  yield takeEvery(FIND_PW, findPWSaga);
+  yield takeEvery(CHECK_NAME, checkNameSaga);
+  yield takeEvery(SET_PW, setPWSaga);
+  yield takeEvery(DELETE_ACCOUNT, deleteAccountSaga);
 }
 
 // 멤버 actions 객체 모음
 const actions = { 
-  signInAsync 
-  // 다른 요청들 여기 추가로 적으면 됨
+  signInAsync,
+  signUpAsync,
+  findPWAsync,
+  checkNameAsync,
+  setPWAsync,
+  deleteAccountAsync
 };
 
 // 멤버 actions type 저장
@@ -52,21 +125,21 @@ type MemberState = {
     data: SignInResponseType | null; 
     error: Error | null; 
   },
+  checkName: {
+    loading: boolean; 
+    data: boolean | null; 
+    error: Error | null; 
+  }
 };
 
 // 멤버 state 초기 상태
 const initialState: MemberState = {
   memberInfo: asyncState.initial(),
+  checkName: asyncState.initial(),
 };
 
-// 요청 저장 할 때 예외 처리 할 일 없으면 이거 바로 사용
-// const member = createReducer<MemberState, MemberAction>(initialState).handleAction(
-//   transformToArray(signInAsync),
-//   createAsyncReducer(signInAsync, 'memberInfo')
-// )
-
-// 요청 저장 시 특정값 수정해야 할 때 각 상태 별 state값 변경시 사용
-const member = createReducer<MemberState, MemberAction>(initialState, {
+// 로그인 요청 리듀서
+const signInReducer = createReducer<MemberState, MemberAction>(initialState, {
   [SIGN_IN]: state => ({
     ...state,
     memberInfo: asyncState.load()
@@ -78,7 +151,8 @@ const member = createReducer<MemberState, MemberAction>(initialState, {
       error: null,
       data: {
         logIn: true,
-        role: action.payload.data.role,
+        memberRole: action.payload.data.memberRole,
+        memberId: action.payload.data.memberId,
       }
     }
   }),
@@ -86,52 +160,75 @@ const member = createReducer<MemberState, MemberAction>(initialState, {
     ...state,
     memberInfo: asyncState.error(action.payload)
   })
-})
-// .handleAction( // 주석 해제 후 다른 async 함수들 적으면 됨
-//   transformToArray(signInAsync),
-//   createAsyncReducer(signInAsync, 'memberInfo')
-// );
+});
+
+// 로그아웃 요청 리듀서
+const signOutReducer = createReducer(initialState, {
+  [SIGN_OUT]: () => ({
+    ...initialState,
+  })
+});
+
+// 회원 가입 요청 리듀서
+const signUpReducer = createReducer<MemberState, MemberAction>(initialState)
+.handleAction(
+  transformToArray(signUpAsync),
+  createAsyncReducer(signUpAsync, "memberInfo")
+);
+
+
+// 비밀번호 찾기 요청 리듀서
+const findPWReducer = createReducer<MemberState, MemberAction>(initialState)
+.handleAction(
+  transformToArray(findPWAsync),
+  createAsyncReducer(findPWAsync, "memberInfo")
+);
+
+// 닉네임 중복확인 요청 리듀서
+const checkNameReducer = createReducer<MemberState, MemberAction>(initialState, {
+  [CHECK_NAME]: state => ({
+    ...state,
+    checkName: asyncState.load()
+  }),
+  [CHECK_NAME_SUCCESS]: (state, action) => ({
+    ...state,
+    checkName: {
+      loading: false,
+      error: null,
+      data: true
+    }
+  }),
+  [CHECK_NAME_ERROR]: (state, action) => ({
+    ...state,
+    checkName: asyncState.error(action.payload)
+  })
+});
+
+// 비밀번호 설정 리듀서
+const setPWReducer = createReducer<MemberState, MemberAction>(initialState)
+.handleAction(
+  transformToArray(setPWAsync),
+  createAsyncReducer(setPWAsync, "memberInfo")
+);
+
+// 회원 탈퇴 요청 리듀서
+const deleteAccountReducer = createReducer<MemberState, MemberAction>(initialState)
+.handleAction(
+  transformToArray(deleteAccountAsync),
+  createAsyncReducer(deleteAccountAsync, "memberInfo")
+);
+
+const member = createReducer<MemberState, MemberAction>(initialState, {
+  ...signInReducer.handlers,
+  ...signOutReducer.handlers,
+  ...signUpReducer.handlers,
+  ...findPWReducer.handlers,
+  ...checkNameReducer.handlers,
+  ...setPWReducer.handlers,
+  ...deleteAccountReducer.handlers,
+});
 
 export default member;
-
-
-// export const logOut = createAction(
-//   SIGN_OUT
-// );
-
-// export const getAccount = createAction(
-//   GET_ACCOUNT
-// );
-
-// export const signUp = createAction(
-//   SIGN_UP,
-//   MemberAPI.signUp
-// );
-
-// export const modifyAccount = createAction(
-//   MODIFY_ACCOUNT, 
-//   MemberAPI.modifyAccount
-// );
-
-// export const findPW = createAction(
-//   FIND_PW,
-//   MemberAPI.findPW
-// );
-
-// export const deleteAccount = createAction(
-//   DELETE_ACCOUNT, 
-//   MemberAPI.deleteAccount
-// );
-
-// export const checkName = createAction(
-//   CHECK_NAME,
-//   MemberAPI.checkName
-// )
-
-// export const setPW = createAction(
-//   SET_PW,
-//   MemberAPI.setPW
-// )
 
 // // reducer 함수
 // const memberReducer = handleActions(

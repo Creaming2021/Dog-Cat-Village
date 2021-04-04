@@ -17,5 +17,15 @@ public class LoginResponseDto {
     private String refresh_token;
     private String expires_in;
     private Long memberId;
-    private Set<MemberRole> memberRole;
+    private String memberRole;
+
+    public void updateRole(Set<MemberRole> roles) {
+        if (roles.contains(MemberRole.ADMIN)) {
+            memberRole = "ADMIN";
+        } else if (roles.contains(MemberRole.CONSUMER)) {
+            memberRole = "CONSUMER";
+        } else if (roles.contains(MemberRole.SHELTER)) {
+            memberRole = "SHELTER";
+        }
+    }
 }

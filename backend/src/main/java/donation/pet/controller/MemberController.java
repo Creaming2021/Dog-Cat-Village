@@ -31,6 +31,7 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<Void> signup(@RequestBody MemberSignupRequestDto dto) {
         log.info("(Post) signup - {}, {}, {}, {}", dto.getEmail(), dto.getName(), dto.getPhoneNumber(), dto.getMemberRole());
+        memberService.checkDuplication(dto);
         memberService.signup(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
