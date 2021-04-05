@@ -5,179 +5,180 @@ import kurentoUtils from 'kurento-utils';
 
 // let broadcast = new Broadcast();
 
-var ws = new WebSocket('wss://j4b106.p.ssafy.io/api' + '/call');
+var ws = new WebSocket('wss://j4b106.p.ssafy.io/api/live');
+console.log(ws);
 var video;
 var webRtcPeer;
 
 window.onload = function() {
-	// console = new Console();
-	video = document.getElementById('video');
-	disableStopButton();
+  // console = new Console();
+  video = document.getElementById('video');
+  disableStopButton();
 }
 
 window.onbeforeunload = function() {
-	ws.close();
+  ws.close();
 }
 
 
 
 function presenterResponse(message) {
-	if (message.response != 'accepted') {
-		var errorMsg = message.message ? message.message : 'Unknow error';
-		console.info('Call not accepted for the following reason: ' + errorMsg);
-		dispose();
-	} else {
-		webRtcPeer.processAnswer(message.sdpAnswer, function(error) {
-			if (error)
-				return console.error(error);
-		});
-	}
+  if (message.response != 'accepted') {
+    var errorMsg = message.message ? message.message : 'Unknow error';
+    console.info('Call not accepted for the following reason: ' + errorMsg);
+    dispose();
+  } else {
+    webRtcPeer.processAnswer(message.sdpAnswer, function(error) {
+      if (error)
+        return console.error(error);
+    });
+  }
 }
 
 function viewerResponse(message) {
-	if (message.response != 'accepted') {
-		var errorMsg = message.message ? message.message : 'Unknow error';
-		console.info('Call not accepted for the following reason: ' + errorMsg);
-		dispose();
-	} else {
-		webRtcPeer.processAnswer(message.sdpAnswer, function(error) {
-			if (error)
-				return console.error(error);
-		});
-	}
+  if (message.response != 'accepted') {
+    var errorMsg = message.message ? message.message : 'Unknow error';
+    console.info('Call not accepted for the following reason: ' + errorMsg);
+    dispose();
+  } else {
+    webRtcPeer.processAnswer(message.sdpAnswer, function(error) {
+      if (error)
+        return console.error(error);
+    });
+  }
 }
 
 function presenter() {
-	if (!webRtcPeer) {
-		showSpinner(video);
+  if (!webRtcPeer) {
+    showSpinner(video);
 
-		var options = {
-			localVideo : video,
-			onicecandidate : onIceCandidate
-		}
-		webRtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options,
-				function(error) {
-					if (error) {
-						return console.error(error);
-					}
-					webRtcPeer.generateOffer(onOfferPresenter);
-				});
+    var options = {
+      localVideo : video,
+      onicecandidate : onIceCandidate
+    }
+    webRtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options,
+        function(error) {
+          if (error) {
+            return console.error(error);
+          }
+          webRtcPeer.generateOffer(onOfferPresenter);
+        });
 
-		enableStopButton();
-	}
+    enableStopButton();
+  }
 }
 
 function onOfferPresenter(error, offerSdp) {
-	if (error)
-		return console.error('Error generating the offer');
-	console.info('Invoking SDP offer callback function ');
-	var message = {
-		id : 'presenter',
-		sdpOffer : offerSdp
-	}
-	sendMessage(message);
+  if (error)
+    return console.error('Error generating the offer');
+  console.info('Invoking SDP offer callback function ');
+  var message = {
+    id : 'presenter',
+    sdpOffer : offerSdp
+  }
+  sendMessage(message);
 }
 
 function viewer() {
-	if (!webRtcPeer) {
-		showSpinner(video);
+  if (!webRtcPeer) {
+    showSpinner(video);
 
-		var options = {
-			remoteVideo : video,
-			onicecandidate : onIceCandidate
-		}
-		webRtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options,
-				function(error) {
-					if (error) {
-						return console.error(error);
-					}
-					this.generateOffer(onOfferViewer);
-				});
+    var options = {
+      remoteVideo : video,
+      onicecandidate : onIceCandidate
+    }
+    webRtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options,
+        function(error) {
+          if (error) {
+            return console.error(error);
+          }
+          this.generateOffer(onOfferViewer);
+        });
 
-		enableStopButton();
-	}
+    enableStopButton();
+  }
 }
 
 function onOfferViewer(error, offerSdp) {
-	if (error)
-		return console.error('Error generating the offer');
-	console.info('Invoking SDP offer callback function ');
-	var message = {
-		id : 'viewer',
-		sdpOffer : offerSdp
-	}
-	sendMessage(message);
+  if (error)
+    return console.error('Error generating the offer');
+  console.info('Invoking SDP offer callback function ');
+  var message = {
+    id : 'viewer',
+    sdpOffer : offerSdp
+  }
+  sendMessage(message);
 }
 
 function onIceCandidate(candidate) {
-	console.log("Local candidate" + JSON.stringify(candidate));
+  console.log("Local candidate" + JSON.stringify(candidate));
 
-	var message = {
-		id : 'onIceCandidate',
-		candidate : candidate
-	};
-	sendMessage(message);
+  var message = {
+    id : 'onIceCandidate',
+    candidate : candidate
+  };
+  sendMessage(message);
 }
 
 function stop() {
-	var message = {
-		id : 'stop'
-	}
-	sendMessage(message);
-	dispose();
+  var message = {
+    id : 'stop'
+  }
+  sendMessage(message);
+  dispose();
 }
 
 function dispose() {
-	if (webRtcPeer) {
-		webRtcPeer.dispose();
-		webRtcPeer = null;
-	}
-	hideSpinner(video);
+  if (webRtcPeer) {
+    webRtcPeer.dispose();
+    webRtcPeer = null;
+  }
+  hideSpinner(video);
 
-	disableStopButton();
+  disableStopButton();
 }
 
 function disableStopButton() {
-	enableButton('#presenter', 'presenter()');
-	enableButton('#viewer', 'viewer()');
-	disableButton('#stop');
+  enableButton('#presenter', 'presenter()');
+  enableButton('#viewer', 'viewer()');
+  disableButton('#stop');
 }
 
 function enableStopButton() {
-	disableButton('#presenter');
-	disableButton('#viewer');
-	enableButton('#stop', 'stop()');
+  disableButton('#presenter');
+  disableButton('#viewer');
+  enableButton('#stop', 'stop()');
 }
 
 function disableButton(id) {
-	// $(id).attr('disabled', true);
-	// $(id).removeAttr('onclick');
+  // $(id).attr('disabled', true);
+  // $(id).removeAttr('onclick');
 }
 
 function enableButton(id, functionName) {
-	// $(id).attr('disabled', false);
-	// $(id).attr('onclick', functionName);
+  // $(id).attr('disabled', false);
+  // $(id).attr('onclick', functionName);
 }
 
 function sendMessage(message) {
-	var jsonMessage = JSON.stringify(message);
-	console.log('Sending message: ' + jsonMessage);
-	ws.send(jsonMessage);
+  var jsonMessage = JSON.stringify(message);
+  console.log('Sending message: ' + jsonMessage);
+  ws.send(jsonMessage);
 }
 
 function showSpinner() {
-	for (var i = 0; i < arguments.length; i++) {
-		arguments[i].poster = './img/transparent-1px.png';
-		arguments[i].style.background = 'center transparent url("./img/spinner.gif") no-repeat';
-	}
+  for (var i = 0; i < arguments.length; i++) {
+    arguments[i].poster = './img/transparent-1px.png';
+    arguments[i].style.background = 'center transparent url("./img/spinner.gif") no-repeat';
+  }
 }
 
 function hideSpinner() {
-	for (var i = 0; i < arguments.length; i++) {
-		arguments[i].src = '';
-		arguments[i].poster = './img/webrtc.png';
-		arguments[i].style.background = '';
-	}
+  for (var i = 0; i < arguments.length; i++) {
+    arguments[i].src = '';
+    arguments[i].poster = './img/webrtc.png';
+    arguments[i].style.background = '';
+  }
 }
 
 

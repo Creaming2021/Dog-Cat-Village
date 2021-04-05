@@ -9,6 +9,8 @@ import UserMainPage from './components/userMainPage/userMainPage';
 import shelterListPage from './components/shelterListPage/shelterListPage';
 import UserStreamingPage from './components/userStreamingPage/userStreamingPage';
 
+import Live from './components/live/live';
+
 import ErrorAlert, { ProtectedRouteConsumer, ProtectedRouteShelter, ProtectedRouteAdmin, ProtectedRouteToken } from './components/error/errorAlert';
 import PasswordContainer from './containers/passwordContainer';
 import ConfirmSignUp from './components/submain/confirmSignUp/confirmSignUp';
@@ -25,6 +27,11 @@ function App() {
         <ProtectedRouteConsumer path="/shelter" Component={shelterListPage} exact/>
         <ProtectedRouteConsumer path="/streaming" Component={StreamingListPage} exact/>
         <Route path="/user/streaming" component={UserStreamingPage} exact/>
+        
+        <Route path="/user/streaming" component={UserStreamingPage} exact/>
+        <Route path="/user/live" component={Live} exact/>
+
+
         {/* <ProtectedRouteConsumer path="/pet" Component={Pet} exact/> */}
         <Route path="/signup/:result" component={ConfirmSignUp} exact/>
         <Route path="/password/:auth" component={PasswordContainer} exact/>
