@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './donatedShelterList.module.css';
 import DonatedShelterItem from './donatedShelterItem';
 import { TransactionListType } from '../../interface/blockchain';
-import { DonatedShelterType } from '../../interface/shleter';
+import { DonatedShelterType } from '../../interface/shelter';
 
 type DonatedShelterListProps = {
   transactionList: TransactionListType[]

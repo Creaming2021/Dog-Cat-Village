@@ -1,11 +1,10 @@
 import React, { useState } from "react";
+import PetListContainer from "../../../containers/petListContainer";
 import { useSelector } from "react-redux";
 import AdoptContainer from "../../../containers/adoptContainer";
 import ShelterContainer from "../../../containers/shelterContainer";
 import { RootState } from "../../../modules";
 import Nav from "../../nav/nav";
-import WalletContainer from "../../../containers/walletContainer";
-import Animal from "../animal/animal";
 import Chatting from "../chatting/chatting";
 import Donation from "../donation/donation";
 import Home from "../home/home";
@@ -34,7 +33,7 @@ const Main = () => {
       <div className={styles["sub-main-box"]}>
         <ShelterContainer onChangeCategory={onChangeCategory}/>
         {category === "home" && <Home type="shelter" streaming={streaming} />}
-        {category === "animal" && <Animal type="center" />}
+        {category === "animal" && <PetListContainer/>}
         {category === "chatting" && <Chatting />}
         {category === "donation" && <Donation />}
         {category === "adopt" && <AdoptContainer/>}

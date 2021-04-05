@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './donatedShelterItem.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from "@fortawesome/free-solid-svg-icons";
-import { DonatedShelterType } from '../../interface/shleter';
+import { DonatedShelterType } from '../../interface/shelter';
 
 type DonatedShleterItemProps = {
   shelter: DonatedShelterType,

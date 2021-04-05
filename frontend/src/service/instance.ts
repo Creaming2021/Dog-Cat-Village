@@ -98,6 +98,20 @@ export const security = axios.create({
 //   }
 // });
 
+// 이미지 관련 요청 (auth, token 둘 다)
+export const image = axios.create({
+  headers: {
+    'Content-Type': 'multipart/data-form',
+  },
+});
+
+// 사용 시 필수 데이터
+// image.get<응답 객체 인터페이스>('url', {
+//   'headers': {
+//     'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+//   }
+// });
+
 // access-token 만료 시 refresh token으로 다시 access-token 불러 오기
 export const refresh = axios.create({
   headers: {
