@@ -15,6 +15,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
@@ -43,9 +44,9 @@ public class ChatController {
     
     @ApiOperation(value = "나의 채팅방 리스트를 출력")
     @GetMapping(value = "/rooms")
-    public ResponseEntity<ChatListResponseDto> getRoomList(@RequestParam("memberId") String memberId) throws JsonProcessingException {
+    public ResponseEntity<List<ChatRoomInfoDto>> getRoomList(@RequestParam("memberId") String memberId) throws JsonProcessingException {
         // 처리하는 코드 ! get => param 변경시 진짜 유저랑 일치하는지의 여부?
-        ChatListResponseDto result = chatService.getRoomList(memberId);
+        List<ChatRoomInfoDto> result = chatService.getRoomList(memberId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
     

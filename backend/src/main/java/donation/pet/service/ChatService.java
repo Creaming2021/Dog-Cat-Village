@@ -98,16 +98,16 @@ public class ChatService {
     /*
      * 채팅방 목록 가져오기
      * */
-    public ChatListResponseDto getRoomList(String memberId) throws JsonProcessingException {
+    public List<ChatRoomInfoDto> getRoomList(String memberId) throws JsonProcessingException {
 
         Set<String> keys = redisTemplate.keys("roomInfo:" + memberId + ":*");
         if (keys == null) {
-            return new ChatListResponseDto(new ArrayList<>());
+            return new ArrayList<>();
         }
 
         valOps = redisTemplate.opsForValue();
 
-        List<ChatRoomInfoDto> chatRoomInfoDtoList = keys.stream()
+        return keys.stream()
                 .map(key -> valOps.get(key))
                 .map(wrapper(roomInfoStr -> objectMapper.readValue(roomInfoStr, RoomInfo.class)))
                 .map(wrapper(roomInfo -> ChatRoomInfoDto.builder()
@@ -115,8 +115,6 @@ public class ChatService {
                         .oppName(roomInfo.getOppName())
                         .roomId(roomInfo.getRoomId())
                         .build())).collect(Collectors.toList());
-
-        return new ChatListResponseDto(chatRoomInfoDtoList);
 
 //        List<ChatRoomInfoDto> roomList = new ArrayList<>();
 //        for (String oppId : keys) {
