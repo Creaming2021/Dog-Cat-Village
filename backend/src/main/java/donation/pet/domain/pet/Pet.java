@@ -38,8 +38,7 @@ public class Pet extends BaseTimeEntity {
 
     private String profileImage;
 
-    private LocalDateTime birthday;
-    // 어떻게 들어갈지는 모르겠다 ...
+    private String birthday;
 
     private Float weight;
 
@@ -84,7 +83,6 @@ public class Pet extends BaseTimeEntity {
 
     public void changeForm(PetRequestDto dto) {
         name = dto.getName();
-        profileImage = dto.getProfileImage();
         sex = dto.getSex();
         weight = dto.getWeight();
         breedType = dto.getBreedType();
@@ -108,21 +106,21 @@ public class Pet extends BaseTimeEntity {
     }
 
     public String calculateAge() {
-        LocalDateTime from = getBirthday();
+        String from = getBirthday();
         LocalDateTime to = LocalDateTime.now();
 
-        long years = ChronoUnit.YEARS.between(from, to);
-        if (years < 1L) {
-            long months = ChronoUnit.MONTHS.between(from, to);
-            if (months < 1L) {
-                return ChronoUnit.DAYS.between(from, to) + "일";
+        int years = Integer.parseInt(from.substring(0, 4)) - to.getYear();
+        if (years < 1) {
+            int months = Math.abs(Integer.parseInt(from.substring(4,6)) - to.getMonthValue());
+            if (months < 1) {
+                return "1개월 미만";
             }
             return months + "개월";
         }
         return years + "살";
     }
 
-    public void changeProfileImage(String profileImage) {
+    public void updateProfileImage(String profileImage) {
         this.profileImage = profileImage;
     }
 }

@@ -1,5 +1,6 @@
 import React, { useDebugValue, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import ErrorAlert from "../components/error/errorAlert";
 import SetPassword from '../components/submain/setPassword/setPassword';
 import * as MemberAction from "../modules/member";
@@ -9,17 +10,20 @@ type PasswordContainerProps = {
 };
 
 const PasswordContainer = ({ match }: PasswordContainerProps) => {
+  const history = useHistory();
   const [state, setState] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(match.params.result === 'expire') {
+    if(match.params.auth === 'expire') {
         setState(false);
     } else { 
       setState(true);
     }
+
+    console.log(match.params.auth);
   }, []);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +32,11 @@ const PasswordContainer = ({ match }: PasswordContainerProps) => {
   }
 
   const onSubmitSetPassword = (): void => {
-    // dispatch(MemberAction.setPW(password));
+    dispatch(MemberAction.setPWAsync.request({ 
+      token: match.params.auth, 
+      password 
+    }));
+    history.push('/');
   }
 
   return (

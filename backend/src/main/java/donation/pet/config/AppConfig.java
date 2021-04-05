@@ -51,6 +51,8 @@ public class AppConfig {
                         .password(appProperties.getAdminPassword())
                         .name("운영자")
                         .phoneNumber("01000000000")
+                        .contractAddress("0xA9e4f0d5332b26C9B323cC299604D001dA25db1B")
+                        .privateKey("cf61f430c051df6dc8d650d7a65c95a15b6a1a1df685785e3d75096964836585")
                         .accept("true")
                         .roles(Set.of(MemberRole.ADMIN, MemberRole.CONSUMER, MemberRole.SHELTER))
                         .build();
@@ -62,6 +64,8 @@ public class AppConfig {
                         .email("ssafy@ssafy.com")
                         .password(appProperties.getAdminPassword())
                         .name("김싸피")
+                        .contractAddress("0x97E3EfFFE90BF2A980e360DEe8dd36383349c65d")
+                        .privateKey("de93f7f0d43ee186492a1390f0869a1b8615b3c6418a2b90241a10afc29d00b8")
                         .phoneNumber("01012341234")
                         .accept("true")
                         .roles(Set.of(MemberRole.CONSUMER))
@@ -69,11 +73,13 @@ public class AppConfig {
 
                 initService.signup(consumer);
 
-                // 일반 유저 생성
+                // 보호소 유저 생성
                 Shelter shelter = Shelter.builder()
                         .email("shelter@ssafy.com")
                         .password(appProperties.getAdminPassword())
                         .name("보호소")
+                        .contractAddress("0x55FcF877e560cB3361AEC9E1FC14D09121cB3027")
+                        .privateKey("4a2c5dec589ee002ea2a4a5fdb9b5fa1f493ae322fdbdb4ae00aade099a24e84")
                         .phoneNumber("01098765432")
                         .accept("true")
                         .roles(Set.of(MemberRole.SHELTER))

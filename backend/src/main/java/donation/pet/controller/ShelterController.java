@@ -1,6 +1,5 @@
 package donation.pet.controller;
 
-import donation.pet.domain.member.shelter.ShelterRepository;
 import donation.pet.dto.adopt.AdoptListResponseDto;
 import donation.pet.dto.adopt.AdoptResponseDto;
 import donation.pet.dto.adopt.AdoptStatusDto;
@@ -13,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @RestController
@@ -69,9 +70,9 @@ public class ShelterController {
     @ApiOperation("보호소 유저 프로필 이미지 등록")
     @PostMapping("/{shelterId}/image")
     public ResponseEntity<ShelterResponseDto> insertShelterImage(@PathVariable("shelterId") Long shelterId,
-                                                                 @RequestParam MultipartFile file) {
-        ShelterResponseDto result = shelterService.insertShelterImage(shelterId, file);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+                                                                 @RequestParam MultipartFile file) throws IOException {
+        shelterService.saveShelterImage(shelterId, file);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @ApiOperation("특정 보호소에 들어온 입양 신청 리스트 요청")

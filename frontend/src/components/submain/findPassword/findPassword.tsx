@@ -35,8 +35,7 @@ const FindPassword = ({
 
   const onSubmitFindPassword = () => {
     if(inputState) {
-      alert("요청");
-      //findPW();
+      findPW();
     }
   };
 

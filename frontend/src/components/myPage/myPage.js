@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styles from './myPage.module.css';
 
-import DonatedShelterList from '../donatedShelterList/donatedShelterList';
+import DonatedShelterListContainer from '../../containers/donatedShelterListContainer';
 import DonationList from '../donationList/donationList';
 import UserInfo from '../userInfo/userInfo';
-import Wallet from '../wallet/wallet';
+import Wallet from '../blockchain/wallet/wallet';
 import Nav from '../nav/nav';
 import AdoptedAnimalsChart from '../chart/adoptedAnimalsChart';
 import ContributionChart from '../chart/contributionChart';
