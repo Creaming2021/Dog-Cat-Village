@@ -10,11 +10,11 @@ import createAsyncSaga from "../lib/createAsyncSaga";
 import * as ChatAPI from "../service/chat";
 import {
   ChatListType,
-  ChatMessageType,
+  ChatRoomType,
   ChatType,
   MessageListType,
   NoticeListType,
-  ResetNoticeType,
+  SelectedChatType,
 } from "../interface/chat";
 
 // 채팅방 생성 액션 타입
@@ -37,15 +37,10 @@ const GET_CHAT_LIST = "chat/GET_CHAT_LIST";
 const GET_CHAT_LIST_SUCCESS = "chat/GET_CHAT_LIST_SUCCESS";
 const GET_CHAT_LIST_ERROR = "chat/GET_CHAT_LIST_ERROR";
 
-// 채팅방 삭제 액션 타입
-const DELETE_CHAT = "chat/DELETE_CHAT";
-const DELETE_CHAT_SUCCESS = "chat/DELETE_CHAT";
-const DELETE_CHAT_ERROR = "chat/DELETE_CHAT_ERROR";
-
-// 현재 채팅방 대화 조회 액션 타입
-const GET_CHAT_MESSAGE = "chat/GET_CHAT_MESSAGE";
-const GET_CHAT_MESSAGE_SUCCESS = "chat/GET_CHAT_MESSAGE_SUCCESS";
-const GET_CHAT_MESSAGE_ERROR = "chat/GET_CHAT_MESSAGE_ERROR";
+// 채팅방 디테일 정보 조회 액션 타입
+const GET_CHAT_DETAIL = "chat/GET_CHAT_DETAIL";
+const GET_CHAT_DETAIL_SUCCESS = "chat/GET_CHAT_DETAIL_SUCCESS";
+const GET_CHAT_DETAIL_ERROR = "chat/GET_CHAT_DETAIL_ERROR";
 
 // 채팅방 생성 액션 객체 생성함수
 export const createChatAsync = createAsyncAction(
@@ -59,7 +54,7 @@ export const resetNoticeAsync = createAsyncAction(
   RESET_NOTICE,
   RESET_NOTICE_SUCCESS,
   RESET_NOTICE_ERROR
-)<ResetNoticeType, AxiosResponse<undefined>, AxiosError>();
+)<ChatType, AxiosResponse<undefined>, AxiosError>();
 
 // 알림 목록 조회 액션 객체 생성함수
 export const getNoticeListAsync = createAsyncAction(
@@ -75,33 +70,19 @@ export const getChatListAsync = createAsyncAction(
   GET_CHAT_LIST_ERROR
 )<number, AxiosResponse<ChatListType[]>, AxiosError>();
 
-// 채팅방 삭제 액션 객체 생성함수
-export const deleteChatAsync = createAsyncAction(
-  DELETE_CHAT,
-  DELETE_CHAT_SUCCESS,
-  DELETE_CHAT_ERROR
-)<ChatType, AxiosResponse<undefined>, AxiosError>();
-
 // 현재 채팅방 대화 조회 액션 객체 생성함수
-export const getChatMessageAsync = createAsyncAction(
-  GET_CHAT_MESSAGE,
-  GET_CHAT_MESSAGE_SUCCESS,
-  GET_CHAT_MESSAGE_ERROR
-)<ChatMessageType, AxiosResponse<MessageListType[]>, AxiosError>();
+export const getChatDetailAsync = createAsyncAction(
+  GET_CHAT_DETAIL,
+  GET_CHAT_DETAIL_SUCCESS,
+  GET_CHAT_DETAIL_ERROR
+)<ChatRoomType, AxiosResponse<SelectedChatType>, AxiosError>();
 
 //saga
 const createChatSaga = createAsyncSaga(createChatAsync, ChatAPI.createChat);
 const resetNoticeSaga = createAsyncSaga(resetNoticeAsync, ChatAPI.resetNotice);
-const getNoticeListSaga = createAsyncSaga(
-  getNoticeListAsync,
-  ChatAPI.getNoticeList
-);
+const getNoticeListSaga = createAsyncSaga(getNoticeListAsync, ChatAPI.getNoticeList);
 const getChatListSaga = createAsyncSaga(getChatListAsync, ChatAPI.getChatList);
-const deleteChatSaga = createAsyncSaga(deleteChatAsync, ChatAPI.deleteChat);
-const getChatMessageSaga = createAsyncSaga(
-  getChatMessageAsync,
-  ChatAPI.getChatMessage
-);
+const getChatDetailSaga = createAsyncSaga(getChatDetailAsync, ChatAPI.getChatDetail);
 
 // chat saga 생성
 export function* chatSaga() {
@@ -109,8 +90,7 @@ export function* chatSaga() {
   yield takeEvery(RESET_NOTICE, resetNoticeSaga);
   yield takeEvery(GET_NOTICE_LIST, getNoticeListSaga);
   yield takeEvery(GET_CHAT_LIST, getChatListSaga);
-  yield takeEvery(DELETE_CHAT, deleteChatSaga);
-  yield takeEvery(GET_CHAT_MESSAGE, getChatMessageSaga);
+  yield takeEvery(GET_CHAT_DETAIL, getChatDetailSaga);
 }
 
 // chat acions 객체 모음
@@ -119,8 +99,7 @@ const actions = {
   resetNoticeAsync,
   getNoticeListAsync,
   getChatListAsync,
-  deleteChatAsync,
-  getChatMessageAsync,
+  getChatDetailAsync,
 };
 
 // chat actions type 저장
@@ -130,7 +109,7 @@ type ChatAction = ActionType<typeof actions>;
 type ChatState = {
   selectedChat: {
     loading: boolean;
-    data: string | null;
+    data: SelectedChatType | null;
     error: Error | null;
   };
   chatList: {
@@ -186,18 +165,11 @@ const getChatListReducer = createReducer<ChatState, ChatAction>(initialState)
   createAsyncReducer(getChatListAsync, "chatList")
 );
 
-// 채팅방 삭제 reducer 생성
-const deleteChatReducer = createReducer<ChatState, ChatAction>(initialState)
-.handleAction(
-  transformToArray(deleteChatAsync),
-  createAsyncReducer(deleteChatAsync, "selectedChat")
-);
-
 // 현재 채팅방 대화 조회 reducer 생성
-const getChatMessageReducer = createReducer<ChatState, ChatAction>(initialState)
+const getChatDetailReducer = createReducer<ChatState, ChatAction>(initialState)
 .handleAction(
-  transformToArray(getChatMessageAsync),
-  createAsyncReducer(getChatMessageAsync, "messageList")
+  transformToArray(getChatDetailAsync),
+  createAsyncReducer(getChatDetailAsync, "selectedChat")
 );
 
 // chat reducer 생성
@@ -206,6 +178,7 @@ const chat = createReducer<ChatState, ChatAction>(initialState, {
   ...resetNoticeReducer.handlers,
   ...getNoticeListReducer.handlers,
   ...getChatListReducer.handlers,
-  ...deleteChatReducer.handlers,
-  ...getChatMessageReducer.handlers,
+  ...getChatDetailReducer.handlers,
 });
+
+export default chat;
