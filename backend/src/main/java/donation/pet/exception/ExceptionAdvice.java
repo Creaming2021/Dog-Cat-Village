@@ -38,7 +38,6 @@ public class ExceptionAdvice {
                 .status(ErrorCode.RUNTIME_EXCEPTION.getStatus())
                 .body(ExceptionDto.builder()
                         .errorCode(ErrorCode.RUNTIME_EXCEPTION.getCode())
-                        .errorMessage(e.getMessage())
                         .build());
     }
 
@@ -50,7 +49,6 @@ public class ExceptionAdvice {
                 .status(ErrorCode.ACCESS_DENIED_EXCEPTION.getStatus())
                 .body(ExceptionDto.builder()
                         .errorCode(ErrorCode.ACCESS_DENIED_EXCEPTION.getCode())
-                        .errorMessage(e.getMessage())
                         .build());
     }
 
@@ -62,7 +60,6 @@ public class ExceptionAdvice {
                 .status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus())
                 .body(ExceptionDto.builder()
                         .errorCode(ErrorCode.INTERNAL_SERVER_ERROR.getCode())
-                        .errorMessage(e.getMessage())
                         .build());
     }
 
