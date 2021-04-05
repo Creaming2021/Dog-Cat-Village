@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styles from "./pet.module.css";
-import { Search, ButtonSmall, ModalMedium } from "../../../common/common";
-import PetList from "../../../list/pet/petList/petList";
-import { PetListType, PetDetailType, PetEditType, PetInputType, PetProfileImage } from '../../../../interface/pet';
-import  EditPetForm  from "../../../list/pet/editPetForm/editPetForm";
+import { Search, ButtonSmall, ModalMedium } from "../../common/common";
+import PetList from "../../list/pet/petList/petList";
+import { PetListType, PetDetailType, PetEditType, PetInputType, PetProfileImage } from '../../../interface/pet';
+import  EditPetForm  from "../../list/pet/editPetForm/editPetForm";
 
 type PetProps = {
   role?: string;

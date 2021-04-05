@@ -1,32 +1,21 @@
 import React, { useState } from "react";
-import PetListContainer from "../../../../containers/petListContainer";
-import AdoptContainer from "../../../../containers/adoptContainer";
-import Nav from '../../../nav/nav';
+import PetListContainer from "../../../containers/petListContainer";
+import { useSelector } from "react-redux";
+import AdoptContainer from "../../../containers/adoptContainer";
+import ShelterContainer from "../../../containers/shelterContainer";
+import { RootState } from "../../../modules";
+import Nav from "../../nav/nav";
 import Chatting from "../chatting/chatting";
 import Donation from "../donation/donation";
 import Home from "../home/home";
-import MainCategory from "../mainCategory/mainCategory";
-import styles from "./subMain.module.css";
+import styles from "./main.module.css";
 
-const SubMain = () => {
+const Main = () => {
+  const member = useSelector((state: RootState) => state.member.memberInfo);
   const [category, setCategory] = useState<string>("home");
-
-  const member = {memberRole: 'SHELTER'};
 
   const onChangeCategory = (category: string): void => {
     setCategory(category);
-  };
-
-  const userInfo = {
-    name: "동렬 아저씨의 동물 농장",
-    imageUrl:
-      "https://img2.sbs.co.kr/img/sbs_cms/WE/2020/07/10/WE61973057_ori.jpg",
-    siteUrl: "www.naver.com",
-    phoneNumber: "01012345678",
-    email: "ssafy@ssafy.com",
-    introduction:
-      "안녕하세요 동아동입니다~ 많은 관심과 후원 감사합니다! 하는 등의 소개글",
-    memberRole: "SHELTER",
   };
 
   const streaming = {
@@ -40,9 +29,9 @@ const SubMain = () => {
 
   return (
     <div className={styles["sub-main-container"]}>
-      <Nav role={member.memberRole} />
+      <Nav role={member.data?.memberRole || ""} />
       <div className={styles["sub-main-box"]}>
-        <MainCategory userInfo={userInfo} onChangeCategory={onChangeCategory} />
+        <ShelterContainer onChangeCategory={onChangeCategory}/>
         {category === "home" && <Home type="shelter" streaming={streaming} />}
         {category === "animal" && <PetListContainer/>}
         {category === "chatting" && <Chatting />}
@@ -53,4 +42,4 @@ const SubMain = () => {
   );
 };
 
-export default SubMain;
+export default Main;

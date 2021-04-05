@@ -2,6 +2,7 @@ package donation.pet.controller;
 
 import donation.pet.common.AppProperties;
 import donation.pet.domain.member.Member;
+import donation.pet.dto.blockchain.BlockchainAddressDto;
 import donation.pet.dto.consumer.MemberSignupRequestDto;
 import donation.pet.dto.member.*;
 import donation.pet.exception.BaseException;
@@ -31,6 +32,7 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<Void> signup(@RequestBody MemberSignupRequestDto dto) {
         log.info("(Post) signup - {}, {}, {}, {}", dto.getEmail(), dto.getName(), dto.getPhoneNumber(), dto.getMemberRole());
+        memberService.checkDuplication(dto);
         memberService.signup(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -105,5 +107,12 @@ public class MemberController {
     @GetMapping("/test")
     public ResponseEntity<Void> test() {
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @ApiOperation("해당 사용자의 계정 주소와 비밀키 요청")
+    @GetMapping("/{memberId}/address")
+    public ResponseEntity<BlockchainAddressDto> getMemberAddress(@PathVariable("memberId") Long memberId) {
+        BlockchainAddressDto result = memberService.getMemberAddress(memberId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

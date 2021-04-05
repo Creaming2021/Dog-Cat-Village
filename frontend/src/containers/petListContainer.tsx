@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Pet from "../components/user/main/pet/pet";
+import Pet from "../components/shelter/pet/pet";
 import * as PetActions from '../modules/pet';
 import { RootState } from "../modules";
 import { PetEditType, PetProfileImage } from "../interface/pet";
@@ -19,7 +19,9 @@ const PetListContainer = () => {
 
   // 보호소 동물 리스트 조회
   const onGetShelterPetList = () => {
-    dispatch(PetActions.getShelterPetListAsync.request(shelter.data.id));
+    if(shelter.data) {
+      dispatch(PetActions.getShelterPetListAsync.request(shelter.data.id));
+    }
   }
 
   // 반려동물 등록
@@ -60,8 +62,9 @@ const PetListContainer = () => {
     }
   }, []);
 
-  return (
-    <Pet
+  return (<>
+    { shelter.data && 
+      <Pet
       role={member.data?.memberRole}
       petList={petList.data}
       selectedPet={selectedPet.data}
@@ -72,7 +75,8 @@ const PetListContainer = () => {
       onDeletePet={onDeletePet}
       onSetProfileImage={onSetProfileImage}
       onSetInitialSelectedPet={onSetInitialSelectedPet}/>
-  );
+    }
+ </>);
 };
 
 export default PetListContainer;

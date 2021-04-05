@@ -11,21 +11,20 @@ type AdoptFormProps = {
 const AdoptForm = ({ onSubmit, onClose }: AdoptFormProps) => {
   const [adoptInputForm, setAdoptInputForm] = useState<AdoptRegisterType>({
     petId: 1,
-    userId: 1,
-    userName: "",
-    userSex: "",
-    userAge: "",
-    userLiveIn: "",
+    name: "",
+    sex: "",
+    age: "",
+    address: "",
     description: "",
     day: "",
     time: "",
   });
 
   const {
-    userName,
-    userSex,
-    userAge,
-    userLiveIn,
+    name,
+    sex,
+    age,
+    address,
     description,
     day,
     time,
@@ -51,8 +50,8 @@ const AdoptForm = ({ onSubmit, onClose }: AdoptFormProps) => {
           <td colSpan={3}>
             <input
               type="text"
-              name="userName"
-              value={userName}
+              name="name"
+              value={name}
               onChange={onChange}
             />
           </td>
@@ -63,7 +62,7 @@ const AdoptForm = ({ onSubmit, onClose }: AdoptFormProps) => {
             <label>
               <input
                 type="radio"
-                name="userSex"
+                name="sex"
                 value="MALE"
                 onChange={onChange}
               />
@@ -72,7 +71,7 @@ const AdoptForm = ({ onSubmit, onClose }: AdoptFormProps) => {
             <label>
               <input
                 type="radio"
-                name="userSex"
+                name="sex"
                 value="FEMALE"
                 onChange={onChange}
               />
@@ -84,8 +83,8 @@ const AdoptForm = ({ onSubmit, onClose }: AdoptFormProps) => {
           <td>연령</td>
           <td colSpan={3}>
             <input
-              name="userAge"
-              value={userAge}
+              name="age"
+              value={age}
               onChange={onChange}
               placeholder="숫자만 입력"
             />
@@ -106,8 +105,8 @@ const AdoptForm = ({ onSubmit, onClose }: AdoptFormProps) => {
           <td colSpan={3}>
             <input
               type="text"
-              name="userLiveIn"
-              value={userLiveIn}
+              name="address"
+              value={address}
               onChange={onChange}
               placeholder="서울, 경기 등등 정도만 입력하시면 됩니다."
             />

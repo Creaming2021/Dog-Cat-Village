@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styles from "./home.module.css";
-import commons from "../../../common/common.module.css";
+import commons from "../../common/common.module.css";
 import {
   faBroadcastTower,
   faUsers,
   faCoins,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ButtonLarge, ImageSmall } from "../../../common/common";
+import { ButtonLarge, ImageSmall } from "../../common/common";
 
 type OnAirStreamingProps = {
   onAir: boolean;

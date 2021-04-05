@@ -9,7 +9,7 @@ import EditPetForm from "../editPetForm/editPetForm";
 
 export type PetCardProps = {
   id: number;
-  imageUrl: string;
+  profileImage: string;
   name: string;
   birthday: string;
   age: string;
@@ -19,7 +19,7 @@ export type PetCardProps = {
 
 const PetCard = ({
   id,
-  imageUrl,
+  profileImage,
   name,
   birthday,
   age,
@@ -34,7 +34,7 @@ const PetCard = ({
       onClick={onClick}
       className={styles["pet-card-container"]}
     >
-      <img src={imageUrl} />
+      <img src={profileImage} />
       <div id={id.toString()} className={styles["card-hover"]}>
         <div id={id.toString()} className={styles.info}>
           <div id={id.toString()} className={styles.name}>
@@ -127,7 +127,7 @@ const PetList = ({ petList, selectedPet, shelterId, onGetPet, onSetInitialSelect
           <PetCard
             key={pet.id}
             id={pet.id}
-            imageUrl={pet.profileImage}
+            profileImage={pet.profileImage}
             name={pet.name}
             birthday={pet.birthday}
             age={pet.age}
