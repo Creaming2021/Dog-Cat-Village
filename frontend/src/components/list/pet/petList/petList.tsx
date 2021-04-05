@@ -1,29 +1,38 @@
 import React, { useEffect, useState } from "react";
-import styles from "./animalList.module.css";
+import styles from "./petList.module.css";
 import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ModalMedium } from "../../../common/common";
-import { AnimalDetailType, AnimalListType, AnimalInputType } from "../../../../interface/animal";
-import DetailAnimalForm from "../detailAnimalForm/detailAnimalForm";
-import EditAnimalForm from "../editAnimalForm/editAnimalForm";
+import { PetDetailType, PetListType, PetInputType } from "../../../../interface/pet";
+import DetailPetForm from "../detailPetForm/detailPetForm";
+import EditPetForm from "../editPetForm/editPetForm";
 
-export type AnimalCardProps = {
-  animal: AnimalListType;
+export type PetCardProps = {
+  id: number;
+  profileImage: string;
+  name: string;
+  birthday: string;
+  age: string;
+  sex: string;
   onClick: (e: any) => void;
 };
 
-const AnimalCard = ({
-  animal,
+const PetCard = ({
+  id,
+  profileImage,
+  name,
+  birthday,
+  age,
+  sex,
   onClick,
-}: AnimalCardProps) => {
-
-  const { id, profileImage, name, birthday, age, sex} = animal;
+}: PetCardProps) => {
+  useEffect(() => {}, []);
 
   return (
     <div
       id={id.toString()}
       onClick={onClick}
-      className={styles["animal-card-container"]}
+      className={styles["pet-card-container"]}
     >
       <img src={profileImage} />
       <div id={id.toString()} className={styles["card-hover"]}>
@@ -48,39 +57,21 @@ const AnimalCard = ({
   );
 };
 
-type AnimalListProps = {
-  animalList: AnimalListType[];
+type PetListProps = {
+  petList: PetListType[] | null;
+  selectedPet: PetDetailType | null;
+  shelterId: number;
+  onGetPet: (id: number) => void;
+  onSetInitialSelectedPet: () => void;
 };
 
-const AnimalList = ({ animalList }: AnimalListProps) => {
-  const [selectedAnimal, setSelectedAnimal] = useState("");
+const PetList = ({ petList, selectedPet, shelterId, onGetPet, onSetInitialSelectedPet }: PetListProps) => {
   const [modal, setModal] = useState(false);
   const [mode, setMode] = useState("");
-  const [inputAnimal, setInputAnimal] = useState<AnimalInputType>();
-
-  const userInfo = {
-    shelterId: 1,
-  };
-
-  const animal: AnimalDetailType = {
-    id: 1,
-    age: "2살",
-    birthday: "20210301",
-    profileImage:
-      "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
-    name: "이름",
-    breed: "품종",
-    weight: "45",
-    breedType: "CAT",
-    personality: "성격",
-    condition: "건강상태",
-    sex: "MALE",
-    neuter: "NO",
-    shelterId: 1,
-  };
+  const [inputPet, setInputPet] = useState<PetInputType>();
 
   const onClick = (e: any) => {
-    setSelectedAnimal(e.target.id);
+    onGetPet(e.target.id);
     onGoToDetail();
   };
 
@@ -90,29 +81,30 @@ const AnimalList = ({ animalList }: AnimalListProps) => {
   };
 
   const onAdapting = () => {
-    alert("입양 신청 폼 이동");
     setMode("ADOPT");
   };
 
   const onClose = () => {
+    onSetInitialSelectedPet();
     setModal(false);
   };
 
   const onGoToModify = () => {
-    setInputAnimal({
-      id: animal.id,
-      name: animal.name,
-      profileImage: animal.profileImage,
-      sex: animal.sex,
-      breedType: animal.breedType,
-      weight: animal.weight,
-      breed: animal.breed,
-      personality: animal.personality,
-      neuter: animal.neuter,
-      condition: animal.condition,
-      year: animal.birthday.substr(0, 4),
-      month: animal.birthday.substr(4, 2),
-      date: animal.birthday.substr(6, 2),
+    selectedPet && setInputPet({
+      id: selectedPet.id,
+      name: selectedPet.name,
+      profileImage: selectedPet.profileImage,
+      sex: selectedPet.sex,
+      breedType: selectedPet.breedType,
+      weight: selectedPet.weight,
+      breed: selectedPet.breed,
+      personality: selectedPet.personality,
+      neuter: selectedPet.neuter,
+      condition: selectedPet.condition,
+      year: selectedPet.birthday.substr(0, 4),
+      month: selectedPet.birthday.substr(4, 2),
+      date: selectedPet.birthday.substr(6, 2),
+      shelterId: selectedPet.shelterId,
     });
     setMode("MODIFY");
   };
@@ -130,21 +122,26 @@ const AnimalList = ({ animalList }: AnimalListProps) => {
 
   return (
     <>
-      <div className={styles["animal-list-container"]}>
-        {animalList.map((animal: AnimalListType) => (
-          <AnimalCard
-            key={animal.id}
-            animal={animal}
+      <div className={styles["pet-list-container"]}>
+        { petList && petList.map((pet: PetListType) => (
+          <PetCard
+            key={pet.id}
+            id={pet.id}
+            profileImage={pet.profileImage}
+            name={pet.name}
+            birthday={pet.birthday}
+            age={pet.age}
+            sex={pet.sex}
             onClick={onClick}
           />
         ))}
       </div>
 
-      {(modal && mode === "DETAIL" && (
+      {(modal && mode === "DETAIL" && selectedPet && (
         <ModalMedium>
-          <DetailAnimalForm
-            userInfo={userInfo}
-            animal={animal}
+          <DetailPetForm
+            memberShelterId={shelterId}
+            pet={selectedPet}
             onSubmit={onAdapting}
             onClose={onClose}
             onGoToModify={onGoToModify}
@@ -154,9 +151,10 @@ const AnimalList = ({ animalList }: AnimalListProps) => {
       )) ||
         (mode === "MODIFY" && (
           <ModalMedium>
-            <EditAnimalForm
+            <EditPetForm
               type="modify"
-              animal={inputAnimal}
+              pet={inputPet}
+              shelterId={shelterId}
               onModify={onModify}
               onCancle={onGoToDetail}
             />
@@ -167,4 +165,4 @@ const AnimalList = ({ animalList }: AnimalListProps) => {
   );
 };
 
-export default AnimalList;
+export default PetList;

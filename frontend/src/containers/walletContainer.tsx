@@ -11,8 +11,7 @@ const WalletContainer = () => {
 
   useEffect(() => {
     getWalletInfo();
-    console.log("여기");
-  }, [member.data]);
+  }, []);
 
   const getWalletInfo = () => {
     if( member.data ){

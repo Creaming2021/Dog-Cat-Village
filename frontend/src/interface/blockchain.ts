@@ -1,5 +1,5 @@
 export interface WalletType {
-	address: string;
+	contractAddress: string;
 	privateKey: string;
 }
 

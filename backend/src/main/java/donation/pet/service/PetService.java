@@ -33,11 +33,10 @@ public class PetService {
     private final ModelMapper modelMapper;
     private final S3Service s3Service;
 
-    public PetResponseListDto getPetAll() {
-        List<PetSimpleDto> simpleDtos = petRepository.findSimplePets().stream()
+    public List<PetSimpleDto> getPetAll() {
+        return petRepository.findSimplePets().stream()
                 .map(pet -> modelMapper.map(pet, PetSimpleDto.class))
                 .collect(Collectors.toList());
-        return new PetResponseListDto(simpleDtos);
     }
 
     @Transactional

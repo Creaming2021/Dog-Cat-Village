@@ -1,5 +1,5 @@
 .streaming {
-  width: 970px;
+  width: 50%;
   height: 820px;
   background-color: #F3FBE4;
   border-radius: 10px;
@@ -177,4 +177,50 @@
 
 .card span {
   margin-left: 5px;
+}
+
+.thumnail {
+  display: block;
+  width: 80%;
+  height: 270px;
+  margin: auto;
+  margin-top: 30px;
+  background-color: rgb(94, 94, 94);
+  border-radius: 10px;
+}
+
+.thumnail img{
+  height: 100%;
+}
+
+.thumnail button {
+  border: 1px solid #454545;
+  border-radius: 10px;
+  width: 195px;
+  height: 60px;
+  background-color: white;
+  margin-top: 100px
+}
+
+.thumnail button:hover {
+  border: none;
+  background-color: #788e6e;
+  color: white;
+  cursor: pointer;
+}
+
+.thumbnail-img-edit-btn {
+  border: none;
+  background-color: transparent;
+  font-size: 0.5rem;
+  color: #d9d9d9;
+  margin-top: 10px;
+}
+
+.thumbnail-img-edit-btn:hover {
+  cursor: pointer;
+}
+
+.img-input-tag {
+  display: none;
 }

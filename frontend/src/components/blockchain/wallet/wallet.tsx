@@ -37,8 +37,8 @@ const Wallet = ({ wallet, memberRole, onSubmitCharge, onSubmigWithdraw }: Wallet
   useEffect(() => {
     if(wallet){
       setMyWallet({
-        address: wallet.address,
-        addressShort: wallet.address.substring(0, 7),
+        address: wallet.contractAddress,
+        addressShort: wallet.contractAddress.substring(0, 7),
         coin: 0
       });
     }

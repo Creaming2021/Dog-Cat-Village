@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { ButtonMedium } from "../../common/common";
+import styles from './charge.module.css';
+import commons from '../../common/common.module.css';
 
 type ChargeProps = {
   onClose: () => void,
@@ -19,21 +21,24 @@ const Charge = ({ onClose, onSubmitCharge }: ChargeProps) => {
     onSubmitCharge(money);
   }
   
-  return <>
-    충전 페이지 입니다.
+  return (
+  <div className={styles['charge-container']}>
     <input 
+      className={commons['input-large']}
       value={money}
       onChange={onChange}
-      placeholder="금액을 입력하세요."/>
-    <ButtonMedium
-      content="충전 하기"
-      onClick={onClick}
-      buttonColor="bg-blue"/>
-    <ButtonMedium
-      content="충전 취소"
-      onClick={onClose}
-      buttonColor="bg-yellow"/>
-  </>;
+      placeholder="충전하실 금액을 입력하세요."/>
+    <div>
+      <ButtonMedium
+        content="충전 하기"
+        onClick={onClick}
+        buttonColor="bg-blue"/>
+      <ButtonMedium
+        content="충전 취소"
+        onClick={onClose}
+        buttonColor="bg-yellow"/>
+    </div>
+  </div>);
 };
 
 export default Charge;

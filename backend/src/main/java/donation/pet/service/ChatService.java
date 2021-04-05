@@ -98,25 +98,24 @@ public class ChatService {
     /*
      * 채팅방 목록 가져오기
      * */
-    public ChatListResponseDto getRoomList(String memberId) throws JsonProcessingException {
+    public List<ChatRoomInfoDto> getRoomList(String memberId) throws JsonProcessingException {
 
         Set<String> keys = redisTemplate.keys("roomInfo:" + memberId + ":*");
         if (keys == null) {
-            return new ChatListResponseDto(new ArrayList<>());
+            return new ArrayList<>();
         }
 
         valOps = redisTemplate.opsForValue();
 
-        List<ChatRoomInfoDto> chatRoomInfoDtoList = keys.stream()
+        return keys.stream()
                 .map(key -> valOps.get(key))
                 .map(wrapper(roomInfoStr -> objectMapper.readValue(roomInfoStr, RoomInfo.class)))
                 .map(wrapper(roomInfo -> ChatRoomInfoDto.builder()
                         .recentMsg(getRecentMessage(roomInfo.getRoomId())) // 채팅창 목록에서 보여주는 마지막 메시지
+                        .oppId(roomInfo.getOppId())
                         .oppName(roomInfo.getOppName())
                         .roomId(roomInfo.getRoomId())
                         .build())).collect(Collectors.toList());
-
-        return new ChatListResponseDto(chatRoomInfoDtoList);
 
 //        List<ChatRoomInfoDto> roomList = new ArrayList<>();
 //        for (String oppId : keys) {
@@ -191,7 +190,7 @@ public class ChatService {
     /*
     * 메시지 모두 가져오기
     * */
-    public ChatMessageListDto getMessageList(int startNum, int endNum, String roomId, String myId, String oppId) throws JsonProcessingException {
+    public List<ChatMessageDto> getMessageList(int startNum, int endNum, String roomId, String myId, String oppId) throws JsonProcessingException {
 
         // id 받고나서 알림 초기화하기
         valOps = redisTemplate.opsForValue();
@@ -200,12 +199,10 @@ public class ChatService {
     
         // 메시지 반환
         String roomStr = "message:" + roomId;
-        List<ChatMessageDto> collect = redisTemplate.opsForList().range(roomStr, startNum, endNum).stream()
+        return redisTemplate.opsForList().range(roomStr, startNum, endNum).stream()
                 .map(wrapper(s -> objectMapper.readValue(s, ChatMessageDto.class)))
                 .collect(Collectors.toList());
 
-        log.info("메시지 반환");
-        return new ChatMessageListDto(collect);
     }
 
     /*

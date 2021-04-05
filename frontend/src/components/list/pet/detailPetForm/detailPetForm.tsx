@@ -1,27 +1,27 @@
 import React from "react";
-import styles from "./detailAnimalForm.module.css";
-import { AnimalDetailType } from "../../../../interface/animal";
+import styles from "./detailPetForm.module.css";
+import { PetDetailType } from "../../../../interface/pet";
 import { ButtonSmall } from "../../../common/common";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-type DetailAnimalFormProps = {
-  userInfo: { shelterId: number };
-  animal: AnimalDetailType;
+type DetailPetFormProps = {
+  memberShelterId: number;
+  pet: PetDetailType;
   onClose: () => void;
   onSubmit: () => void;
   onGoToModify: () => void;
   onDelete: () => void;
 };
 
-const DetailAnimalForm = ({
-  userInfo,
-  animal,
+const DetailPetForm = ({
+  memberShelterId,
+  pet,
   onClose,
   onSubmit,
   onGoToModify,
   onDelete,
-}: DetailAnimalFormProps) => {
+}: DetailPetFormProps) => {
   const {
     id,
     age,
@@ -36,10 +36,10 @@ const DetailAnimalForm = ({
     sex,
     neuter,
     shelterId,
-  } = animal;
+  } = pet;
 
   return (
-    <div className={styles["detail-animal-form-container"]}>
+    <div className={styles["detail-pet-form-container"]}>
       <table>
         <tbody>
           <tr>
@@ -99,7 +99,7 @@ const DetailAnimalForm = ({
                   </tr>
                   <tr>
                     <td colSpan={2}>
-                      {shelterId === userInfo.shelterId ? (
+                      {shelterId === memberShelterId ? (
                         <>
                           <ButtonSmall
                             content="수정"
@@ -136,4 +136,4 @@ const DetailAnimalForm = ({
   );
 };
 
-export default DetailAnimalForm;
+export default DetailPetForm;
