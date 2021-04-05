@@ -27,7 +27,7 @@ public class ExchangeController {
     }
 
     @ApiOperation("관리자 환전 수락 여부 응답")
-    @PutMapping("/{exchangeId}")
+    @PutMapping("/admin/{exchangeId}")
     public ResponseEntity<Void> checkExchange(@PathVariable("exchangeId") Long exchangeId,
                                               @RequestBody ExchangeAcceptStatusDto dto) {
         // 성공인 경우 프론트에서 미리 트랜잭션 보내고 백엔드와 통신
@@ -36,7 +36,7 @@ public class ExchangeController {
     }
 
     @ApiOperation("환전 신청 내역서 전체 출력")
-    @GetMapping
+    @GetMapping("/admin")
     public ResponseEntity<ExchangeResponseDto> getExchangesAll() {
         ExchangeResponseDto result = exchangeService.getExchangesAll();
         return ResponseEntity.status(HttpStatus.OK).body(result);

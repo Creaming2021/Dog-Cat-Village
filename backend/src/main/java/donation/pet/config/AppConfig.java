@@ -54,7 +54,7 @@ public class AppConfig {
                         .contractAddress("0xA9e4f0d5332b26C9B323cC299604D001dA25db1B")
                         .privateKey("cf61f430c051df6dc8d650d7a65c95a15b6a1a1df685785e3d75096964836585")
                         .accept("true")
-                        .roles(Set.of(MemberRole.ADMIN, MemberRole.CONSUMER, MemberRole.SHELTER))
+                        .roles(Set.of(MemberRole.ADMIN))
                         .build();
 
                 initService.signup(admin);
