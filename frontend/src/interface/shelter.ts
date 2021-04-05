@@ -4,8 +4,15 @@ export interface ShelterInfoType {
   siteUrl: string;
 }
 
-export interface ModifyShelterInfoType{
+export interface ModifyShelterInfoType {
 	shelterId: number;
 	introduce: string;
 	siteUrl: string;
+}
+
+export interface DonatedShelterType {
+	profileImage: string;
+	name: string;
+	time: string;
+	value: number;
 }

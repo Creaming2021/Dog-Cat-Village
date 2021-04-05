@@ -5,42 +5,45 @@ import {
   selectType,
   optionType,
 } from "../../../common/common";
-import styles from "./editAnimalForm.module.css";
+import styles from "./editPetForm.module.css";
 import commons from "../../../common/common.module.css";
-import { AnimalInputType } from "../../../../interface/animal";
+import { PetInputType } from "../../../../interface/pet";
 
 type EditAnimalFormProps = {
   type: string;
-  animal?: AnimalInputType;
+  pet?: PetInputType;
+  shelterId: number;
   onCancle: () => void;
-  onRegister?: () => void;
+  onRegister?: (input: PetInputType) => void;
   onModify?: () => void;
 };
 
 const EditAnimalForm = ({
   type,
-  animal,
+  pet,
+  shelterId,
   onRegister,
   onModify,
   onCancle,
 }: EditAnimalFormProps) => {
-  const initialState: AnimalInputType = {
-    id: animal ? animal.id : -1,
-    profileImage: animal ? animal.profileImage : "",
-    name: animal ? animal.name : "",
-    breed: animal ? animal.breed : "",
-    weight: animal ? animal.weight : "",
-    year: animal ? animal.year : "생년",
-    month: animal ? animal.month : "월",
-    date: animal ? animal.date : "일",
-    breedType: animal ? animal.breedType : "dog",
-    personality: animal ? animal.personality : "",
-    condition: animal ? animal.condition : "",
-    sex: animal ? animal.sex : "",
-    neuter: animal ? animal.neuter : "",
+  const initialState: PetInputType = {
+    id: pet ? pet.id : -1,
+    profileImage: pet ? pet.profileImage : "",
+    name: pet ? pet.name : "",
+    breed: pet ? pet.breed : "",
+    weight: pet ? pet.weight : "",
+    year: pet ? pet.year : "생년",
+    month: pet ? pet.month : "월",
+    date: pet ? pet.date : "일",
+    breedType: pet ? pet.breedType : "dog",
+    personality: pet ? pet.personality : "",
+    condition: pet ? pet.condition : "",
+    sex: pet ? pet.sex : "",
+    neuter: pet ? pet.neuter : "",
+    shelterId: pet? pet.shelterId: shelterId,
   };
 
-  const [input, setInput] = useState(initialState);
+  const [input, setInput] = useState<PetInputType>(initialState);
   const [birthday, setBirthday] = useState<selectType[]>([]);
 
   const typeList: selectType = {
@@ -108,6 +111,10 @@ const EditAnimalForm = ({
     }
   };
   
+  const onSubmitRegister = () => {
+    if(onRegister) onRegister(input);
+  }
+
   return (
     <table className={styles["register-animal-form-container"]}>
       <tbody>
@@ -256,7 +263,7 @@ const EditAnimalForm = ({
               <>
                 <ButtonSmall
                   content="등록"
-                  onClick={onRegister}
+                  onClick={onSubmitRegister}
                   buttonColor="bg-blue"
                 />
                 <ButtonSmall
