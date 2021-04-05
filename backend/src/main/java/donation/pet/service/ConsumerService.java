@@ -56,8 +56,13 @@ public class ConsumerService {
     public ConsumerResponseDto updateConsumer(Long consumerId, ConsumerUpdateRequestDto dto) {
         Consumer consumer = consumerRepository.findById(consumerId)
                 .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_NOT_EXIST));
-        consumer.updateConsumer(dto.getName(), dto.getPassword(), dto.getPhoneNumber());
-        return modelMapper.map(consumer, ConsumerResponseDto.class);
+
+        if(!passwordEncoder.matches(dto.getCurrentPassword(), consumer.getPassword())) {
+            throw new BaseException(ErrorCode.PASSWORD_NOT_CORRECT);
+        }
+        consumer.updateConsumer(dto.getName(), passwordEncoder.encode(dto.getNewPassword()), dto.getPhoneNumber());
+        Consumer result = consumerRepository.save(consumer);
+        return modelMapper.map(result, ConsumerResponseDto.class);
     }
 
     @Transactional

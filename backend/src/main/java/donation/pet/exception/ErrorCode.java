@@ -24,8 +24,9 @@ public enum ErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "01004", "없는 계정"),
     EXPIRE_PASSWORD_LINK(HttpStatus.NOT_FOUND, "01005", "비밀번호 변경 링크 만료"),
     PASSWORD_NOT_FORGOT(HttpStatus.UNAUTHORIZED, "01006", "비밀번호 변경 요청 안함"),
-    MEMBER_ROLE_NOT_EXIST(HttpStatus.NOT_FOUND, "01007", "잘못된 사용자 역할"),
-    MEMBER_NOT_ALLOWED(HttpStatus.UNAUTHORIZED, "01008", "사용자 정보 다름, 권한 없는 요청"),
+    PASSWORD_NOT_CORRECT(HttpStatus.UNAUTHORIZED, "01007", "비밀번호 일치하지 않음"),
+    MEMBER_ROLE_NOT_EXIST(HttpStatus.NOT_FOUND, "01008", "잘못된 사용자 역할"),
+    MEMBER_NOT_ALLOWED(HttpStatus.UNAUTHORIZED, "01009", "사용자 정보 다름, 권한 없는 요청"),
 
     // Consumer
     CONSUMER_NOT_EXIST(HttpStatus.NOT_FOUND, "02000", "존재하지 않는 사용자입니다."),
