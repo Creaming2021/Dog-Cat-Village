@@ -123,7 +123,9 @@ const PetList = ({ petList, selectedPet, shelterId, onGetPet, onSetInitialSelect
   return (
     <>
       <div className={styles["pet-list-container"]}>
-        { petList && petList.map((pet: PetListType) => (
+        { ( !petList || petList.length === 0 )
+        ? <>검색 결과가 없습니다.</>
+        : petList.map((pet: PetListType) => (
           <PetCard
             key={pet.id}
             id={pet.id}
@@ -134,7 +136,8 @@ const PetList = ({ petList, selectedPet, shelterId, onGetPet, onSetInitialSelect
             sex={pet.sex}
             onClick={onClick}
           />
-        ))}
+        ))
+      }
       </div>
 
       {(modal && mode === "DETAIL" && selectedPet && (
