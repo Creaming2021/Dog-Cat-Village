@@ -17,12 +17,12 @@ public class SignalingConfig implements WebSocketConfigurer {
         return KurentoClient.create("ws://j4b106.p.ssafy.io:8888/kurento");
     }
 
-    @Bean
-    public ServletServerContainerFactoryBean createServletServerContainerFactoryBean() {
-        ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
-        container.setMaxTextMessageBufferSize(32768);
-        return container;
-    }
+//    @Bean
+//    public ServletServerContainerFactoryBean createServletServerContainerFactoryBean() {
+//        ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
+//        container.setMaxTextMessageBufferSize(32768);
+//        return container;
+//    }
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
