@@ -11,7 +11,7 @@ type DetailPetFormProps = {
   onClose: () => void;
   onSubmit: () => void;
   onGoToModify: () => void;
-  onDelete: () => void;
+  onDelete: (id: number) => void;
 };
 
 const DetailPetForm = ({
@@ -37,6 +37,10 @@ const DetailPetForm = ({
     neuter,
     shelterId,
   } = pet;
+
+  const onSubmitDelete = () => {
+    onDelete(id);
+  }
 
   return (
     <div className={styles["detail-pet-form-container"]}>
@@ -108,7 +112,7 @@ const DetailPetForm = ({
                           />
                           <ButtonSmall
                             content="삭제"
-                            onClick={onDelete}
+                            onClick={onSubmitDelete}
                             buttonColor="bg-blue"
                           />
                         </>

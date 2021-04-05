@@ -15,7 +15,7 @@ type EditAnimalFormProps = {
   shelterId: number;
   onCancle: () => void;
   onRegister?: (input: PetInputType) => void;
-  onModify?: () => void;
+  onModify?: (petInputType : PetInputType) => void;
 };
 
 const EditAnimalForm = ({
@@ -113,6 +113,10 @@ const EditAnimalForm = ({
   
   const onSubmitRegister = () => {
     if(onRegister) onRegister(input);
+  }
+
+  const onSubmitModify = () => {
+    if(onModify) onModify(input);
   }
 
   return (
@@ -277,7 +281,7 @@ const EditAnimalForm = ({
               <>
                 <ButtonSmall
                   content="수정 완료"
-                  onClick={onModify}
+                  onClick={onSubmitModify}
                   buttonColor="bg-blue"
                 />
                 <ButtonSmall

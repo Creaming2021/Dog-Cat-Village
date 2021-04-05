@@ -3,7 +3,7 @@ import styles from "./petList.module.css";
 import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ModalMedium } from "../../../common/common";
-import { PetDetailType, PetListType, PetInputType } from "../../../../interface/pet";
+import { PetDetailType, PetListType, PetInputType, PetEditType } from "../../../../interface/pet";
 import DetailPetForm from "../detailPetForm/detailPetForm";
 import EditPetForm from "../editPetForm/editPetForm";
 
@@ -62,10 +62,12 @@ type PetListProps = {
   selectedPet: PetDetailType | null;
   shelterId: number;
   onGetPet: (id: number) => void;
+  onModifyPet: (petInputType : PetInputType) => void;
+  onDeletePet: (id: number) => void;
   onSetInitialSelectedPet: () => void;
 };
 
-const PetList = ({ petList, selectedPet, shelterId, onGetPet, onSetInitialSelectedPet }: PetListProps) => {
+const PetList = ({ petList, selectedPet, shelterId, onGetPet, onModifyPet, onDeletePet, onSetInitialSelectedPet }: PetListProps) => {
   const [modal, setModal] = useState(false);
   const [mode, setMode] = useState("");
   const [inputPet, setInputPet] = useState<PetInputType>();
@@ -109,13 +111,14 @@ const PetList = ({ petList, selectedPet, shelterId, onGetPet, onSetInitialSelect
     setMode("MODIFY");
   };
 
-  const onModify = () => {
-    alert("수정 요청");
+  const onModify = (inputPet: PetInputType) => {
+    onModifyPet(inputPet);
     setMode("DETAIL");
   };
 
-  const onDelete = () => {
+  const onDelete = (id: number) => {
     if (window.confirm("정말 삭제 하시겠습니까?")) {
+      onDeletePet(id);
       setModal(false);
     }
   };

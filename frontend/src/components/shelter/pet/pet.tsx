@@ -99,6 +99,23 @@ const Pet = ({ role, petList, selectedPet, shelterId,
     })
   }
 
+  const onSumbitModify = (input: PetInputType): void => {
+    setRegisterPetInfo({
+      id: -1,
+      profileImage: input.profileImage,
+      name: input.name,
+      breed: input.breed,
+      weight: input.weight,
+      birthday: input.year + input.month + input.date,
+      breedType: input.breedType,
+      personality: input.personality,
+      condition: input.condition,
+      sex: input.sex,
+      neuter: input.neuter,
+      shelterId: input.shelterId,
+    })
+  }
+
   const onChange = (
     e:
       | React.ChangeEvent<HTMLSelectElement>
@@ -138,6 +155,8 @@ const Pet = ({ role, petList, selectedPet, shelterId,
           selectedPet={selectedPet}
           shelterId={shelterId}
           onGetPet={onGetPet}
+          onModifyPet={onSumbitModify}
+          onDeletePet={onDeletePet}
           onSetInitialSelectedPet={onSetInitialSelectedPet}/>
       </div>
 
