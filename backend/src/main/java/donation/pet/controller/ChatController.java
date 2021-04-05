@@ -76,12 +76,12 @@ public class ChatController {
 
     @ApiOperation(value = "방에 입장 => 메시지 리스트 반환")
     @GetMapping(value = "/rooms/{roomId}")
-    public ResponseEntity<ChatMessageListDto> getMessageList(@RequestParam("startNum") int startNum,
+    public ResponseEntity<List<ChatMessageDto>> getMessageList(@RequestParam("startNum") int startNum,
                                                              @RequestParam("endNum") int endNum,
                                                              @PathVariable("roomId") String roomId,
                                                              @RequestParam("myId") String myId,
                                                              @RequestParam("oppId") String oppId) throws JsonProcessingException {
-        ChatMessageListDto result = chatService.getMessageList(startNum, endNum, roomId, myId, oppId);
+        List<ChatMessageDto> result = chatService.getMessageList(startNum, endNum, roomId, myId, oppId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

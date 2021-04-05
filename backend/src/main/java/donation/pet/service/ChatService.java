@@ -190,7 +190,7 @@ public class ChatService {
     /*
     * 메시지 모두 가져오기
     * */
-    public ChatMessageListDto getMessageList(int startNum, int endNum, String roomId, String myId, String oppId) throws JsonProcessingException {
+    public List<ChatMessageDto> getMessageList(int startNum, int endNum, String roomId, String myId, String oppId) throws JsonProcessingException {
 
         // id 받고나서 알림 초기화하기
         valOps = redisTemplate.opsForValue();
@@ -199,12 +199,10 @@ public class ChatService {
     
         // 메시지 반환
         String roomStr = "message:" + roomId;
-        List<ChatMessageDto> collect = redisTemplate.opsForList().range(roomStr, startNum, endNum).stream()
+        return redisTemplate.opsForList().range(roomStr, startNum, endNum).stream()
                 .map(wrapper(s -> objectMapper.readValue(s, ChatMessageDto.class)))
                 .collect(Collectors.toList());
 
-        log.info("메시지 반환");
-        return new ChatMessageListDto(collect);
     }
 
     /*
