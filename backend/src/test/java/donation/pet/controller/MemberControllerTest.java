@@ -32,7 +32,7 @@ class MemberControllerTest {
     @Test
     public void 사용자_회원가입() throws Exception {
         MemberSignupRequestDto dto = MemberSignupRequestDto.builder()
-                .memberRole(MemberRole.CONSUMER)
+//                .memberRole(MemberRole.CONSUMER)
                 .email("meloncha0205@gmail.com")
                 .password("test")
                 .name("멜론")
@@ -48,7 +48,7 @@ class MemberControllerTest {
     @Test
     public void 사용자_중복_이름_회원가입() throws Exception {
         MemberSignupRequestDto dto = MemberSignupRequestDto.builder()
-                .memberRole(MemberRole.CONSUMER)
+//                .memberRole(MemberRole.CONSUMER)
                 .email("test2@test.com")
                 .password("test")
                 .name("김싸피")
@@ -62,7 +62,7 @@ class MemberControllerTest {
     @Test
     public void 보호소_회원가입() throws Exception {
         MemberSignupRequestDto dto = MemberSignupRequestDto.builder()
-                .memberRole(MemberRole.SHELTER)
+//                .memberRole(MemberRole.SHELTER)
                 .email("test3@test.com")
                 .password("test")
                 .name("(주)싸피")

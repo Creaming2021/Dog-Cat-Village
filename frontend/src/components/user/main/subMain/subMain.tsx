@@ -41,7 +41,6 @@ const SubMain = () => {
 
   return (
     <div className={styles["sub-main-container"]}>
-      <WalletContainer/>
       <Nav role={member.memberRole} />
       <div className={styles["sub-main-box"]}>
         <MainCategory userInfo={userInfo} onChangeCategory={onChangeCategory} />

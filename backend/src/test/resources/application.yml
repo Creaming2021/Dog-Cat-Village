@@ -17,6 +17,10 @@ spring:
           starttls:
             enable: true
 
+  redis:
+    host: j4b106.p.ssafy.io
+    port: 6379
+
 logging.level:
   org.hibernate.SQL: debug
   # org.hibernate.type: trace
@@ -27,3 +31,15 @@ my-app:
   client-id: ssafy
   client-secret: ssafy
   server-url: https://j4b106.p.ssafy.io
+
+cloud:
+  aws:
+    credentials:
+      access-key: AKIATO7XDVM2IJOGXWHJ
+      secret-key: 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
+    s3:
+      bucket: j4b106.p.ssafy.io
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
