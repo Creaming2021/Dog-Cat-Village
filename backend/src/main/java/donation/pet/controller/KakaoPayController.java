@@ -1,5 +1,6 @@
 package donation.pet.controller;
 
+import donation.pet.dto.kakaopay.AddressDto;
 import donation.pet.dto.kakaopay.KakaoPayApprovalDto;
 import donation.pet.service.KakaoPayService;
 import lombok.RequiredArgsConstructor;
@@ -21,34 +22,38 @@ public class KakaoPayController {
 
 
     @GetMapping("/kakao-pay")
-    public void kakaoPay(@RequestParam("amount") int amount,
-                           HttpServletResponse response) throws IOException {
+    public ResponseEntity<AddressDto> kakaoPay(@RequestParam("amount") int amount,
+                                               HttpServletResponse response) throws IOException {
         log.info("kakaoPay post.. amount: {}", amount);
 
-//        return "redirect:" + kakaoPayService.kakaoPayReady(amount); // 프론트 주소를 보내보자
-        response.sendRedirect(kakaoPayService.kakaoPayReady(amount));
+//        return "redirect:" + kakaoPay3334Service.kakaoPayReady(amount); // 프론트 주소를 보내보자
+        String result = kakaoPayService.kakaoPayReady(amount);
+        log.info("result: {}", result);
+        return ResponseEntity.status(HttpStatus.OK).body(new AddressDto(result));
     }
 
     @GetMapping("/kakao-pay/success/{kakaopayId}")
-    public ResponseEntity<KakaoPayApprovalDto> kakaoPaySuccess(@PathVariable("kakaopayId") Long kakaopayId,
-                                                               @RequestParam("pg_token") String pg_token) {
+    public void kakaoPaySuccess(@PathVariable("kakaopayId") Long kakaopayId,
+                                          HttpServletResponse response,
+                                                               @RequestParam("pg_token") String pg_token) throws IOException {
         log.info("kakaoPaySuccess get............................................");
         log.info("kakaoPaySuccess kakaopayId : " + kakaopayId);
         log.info("kakaoPaySuccess pg_token : " + pg_token);
         KakaoPayApprovalDto result = kakaoPayService.kakaoPayInfo(kakaopayId, pg_token);
 
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+//        return ResponseEntity.status(HttpStatus.OK).body(result.getQuantity());
+        response.sendRedirect("https://j4b106.p.ssafy.io/profile/" + result.getQuantity());
     }
 
     @GetMapping("kakao-pay/cancel")
     public void kakaoPayCancel(HttpServletResponse response) throws IOException {
         log.info("kakaoPayCancel get .....");
-        response.sendRedirect("https://j4b106.p.ssafy.com");
+        response.sendRedirect("https://j4b106.p.ssafy.io");
     }
 
     @GetMapping("kakao-pay/fail")
     public void kakaoPayFail(HttpServletResponse response) throws IOException {
         log.info("kakaoPayFail get .....");
-        response.sendRedirect("https://j4b106.p.ssafy.com");
+        response.sendRedirect("https://j4b106.p.ssafy.io");
     }
 }
