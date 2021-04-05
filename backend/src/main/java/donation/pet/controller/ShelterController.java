@@ -1,6 +1,5 @@
 package donation.pet.controller;
 
-import donation.pet.domain.member.shelter.ShelterRepository;
 import donation.pet.dto.adopt.AdoptListResponseDto;
 import donation.pet.dto.adopt.AdoptResponseDto;
 import donation.pet.dto.adopt.AdoptStatusDto;
