@@ -38,7 +38,7 @@ public class ConsumerController {
     public ResponseEntity<ConsumerResponseDto> updateConsumer(@PathVariable("consumerId") Long consumerId,
                                                               @RequestBody ConsumerUpdateRequestDto dto) {
         ConsumerResponseDto result = consumerService.updateConsumer(consumerId, dto);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation("해당 유저 프로필 이미지 등록")
