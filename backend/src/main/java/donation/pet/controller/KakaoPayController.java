@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
+@CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
 public class KakaoPayController {
