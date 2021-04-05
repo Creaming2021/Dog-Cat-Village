@@ -112,6 +112,7 @@ public class ChatService {
                 .map(wrapper(roomInfoStr -> objectMapper.readValue(roomInfoStr, RoomInfo.class)))
                 .map(wrapper(roomInfo -> ChatRoomInfoDto.builder()
                         .recentMsg(getRecentMessage(roomInfo.getRoomId())) // 채팅창 목록에서 보여주는 마지막 메시지
+                        .oppId(roomInfo.getOppId())
                         .oppName(roomInfo.getOppName())
                         .roomId(roomInfo.getRoomId())
                         .build())).collect(Collectors.toList());
