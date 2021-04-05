@@ -14,7 +14,7 @@ public class SignalingConfig implements WebSocketConfigurer {
 
     @Bean
     public KurentoClient kurentoClient() {
-        return KurentoClient.create("ws://j4b106.p.ssafy.io:8888/kurento");
+        return KurentoClient.create("wss://j4b106.p.ssafy.io:8888/kurento");
     }
 
 //    @Bean
