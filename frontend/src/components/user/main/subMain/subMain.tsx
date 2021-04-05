@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AdoptContainer from "../../../../containers/adoptContainer";
+import WalletContainer from "../../../../containers/walletContainer";
 import Nav from "../../../nav/nav";
 import Animal from "../animal/animal";
 import Chatting from "../chatting/chatting";
