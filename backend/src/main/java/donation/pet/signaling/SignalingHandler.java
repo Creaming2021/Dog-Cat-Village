@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
-@Component
+//@Component
 public class SignalingHandler extends TextWebSocketHandler {
 
     private static final Gson gson = new GsonBuilder().create();

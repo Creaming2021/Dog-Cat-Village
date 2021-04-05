@@ -1,13 +1,18 @@
 package donation.pet.service;
 
+import donation.pet.domain.kakaopay.Kakaopay;
+import donation.pet.domain.kakaopay.KakaopayRepository;
 import donation.pet.dto.kakaopay.KakaoPayApprovalDto;
 import donation.pet.dto.kakaopay.KakaoPayReadyDto;
-import donation.pet.exception.FunctionWithException;
+import donation.pet.exception.BaseException;
+import donation.pet.exception.ErrorCode;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
@@ -15,16 +20,17 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.function.Function;
 
 @Service
 @Slf4j
+@Transactional
+@RequiredArgsConstructor
 public class KakaoPayService {
 
     private static final String HOST = "https://kapi.kakao.com";
-    private static final String APP_ADMIN_KEY = "";
-    private static final String CID = "";
-
+    private static final String APP_ADMIN_KEY = "1d674649bcbf1fe696a3cb5d258049cf";
+    private static final String CID = "TC0ONETIME"; // 테스트 결제용 CID
+    private final KakaopayRepository kakaopayRepository;
     private KakaoPayReadyDto kakaoPayReadyDto;
     private int amount;
 
@@ -40,18 +46,22 @@ public class KakaoPayService {
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=utf-8");
 
+        Kakaopay kakaopay = new Kakaopay();
+        kakaopayRepository.save(kakaopay);
+        System.out.println(kakaopay.getId());
+
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", CID);
-        params.add("partner_order_id", "1");
+        params.add("partner_order_id", kakaopay.getId() + "");
         params.add("partner_user_id", "melon");
         params.add("item_name", "MABL 코인");
-        params.add("quantity", this.amount + "");
+        params.add("quantity", amount + "");
         params.add("total_amount", amount + "");
         params.add("tax_free_amount", "0");
-        params.add("approval_url", "http://localhost:8080/kakao-pay/success"); // 프론트 페이지 주소로 보내기
-        params.add("cancel_url", "http://localhost:8080/kakao-pay/cancel");
-        params.add("fail_url", "http://localhost:8080/kakao-pay/fail");
+        params.add("approval_url", "http://localhost:8080/api/kakao-pay/success/" + kakaopay.getId()); // 프론트 페이지 주소로 보내기
+        params.add("cancel_url", "http://localhost:8080/api/kakao-pay/cancel");
+        params.add("fail_url", "http://localhost:8080/api/kakao-pay/fail");
 
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<>(params, headers);
 
@@ -60,6 +70,11 @@ public class KakaoPayService {
 
             log.info("" + kakaoPayReadyDto);
 
+            kakaopay.setAmount(amount);
+            kakaopay.setCreated_at(kakaoPayReadyDto.getCreated_at());
+            kakaopay.setTid(kakaoPayReadyDto.getTid());
+            kakaopay.setUrl(kakaoPayReadyDto.getNext_redirect_pc_url());
+
             return kakaoPayReadyDto.getNext_redirect_pc_url();
 
         } catch (RestClientException | URISyntaxException e) {
@@ -67,13 +82,15 @@ public class KakaoPayService {
             e.printStackTrace();
         }
 
-        return "/pay";
-
+        return "/kakao-pay";
     }
 
 
     // 결제 승인
-    public KakaoPayApprovalDto kakaoPayInfo(String pg_token) {
+    public KakaoPayApprovalDto kakaoPayInfo(Long kakaopayId, String pg_token) {
+        Kakaopay kakaopay = kakaopayRepository.findById(kakaopayId)
+                .orElseThrow(() -> new BaseException(ErrorCode.KAKAOPAY_NOT_EXIST));
+
         RestTemplate restTemplate = new RestTemplate();
 
         // 서버로 요청할 Header
@@ -85,11 +102,11 @@ public class KakaoPayService {
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", CID);
-        params.add("tid", kakaoPayReadyDto.getTid());
-        params.add("partner_order_id", "1");
+        params.add("tid", kakaopay.getTid());
+        params.add("partner_order_id", kakaopay.getId() + "");
         params.add("partner_user_id", "melon");
         params.add("pg_token", pg_token);
-        params.add("total_amount", this.amount + "");
+        params.add("total_amount", kakaopay.getAmount() + "");
 
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 

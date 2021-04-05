@@ -6,15 +6,19 @@ server:
 
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://j4b106.p.ssafy.io/b106?useUnicode=true&charaterEncoding=utf-8
-    username: root
-    password: j4B106_dogcat
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:tcp://localhost/~/b106
+    username: sa
+    password:
+  #    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://j4b106.p.ssafy.io/b106?useUnicode=true&charaterEncoding=utf-8
+#    username: root
+#    password: j4B106_dogcat
 
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
