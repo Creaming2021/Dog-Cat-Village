@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserInfo, postUserProfileImg, putUserInfo } from '../../modules/consumer';
+import { getShelterInfo, postShelterProfileImg, putShelterInfo } from '../../modules/shelter';
 import member from '../../modules/member';
 import { ImageSmall } from '../common/common';
 import styles from './userInfoEdit.module.css';
 import * as MemberActions from "../../modules/member";
+
 
 const UserInfoEdit = (props) => {
   const [imgUrl, setImgUrl] = useState('');
@@ -19,19 +21,30 @@ const UserInfoEdit = (props) => {
   const memberInfo = useSelector((state) => state.member.memberInfo);
   const memberCheck = useSelector((state) => state.member.checkName);
   const consumerInfo = useSelector((state) => state.consumer);
-
+  const shelterInfo = useSelector((state) => state.shelter);
 
 
   const handleChangeImg = (event) => {
     setImgUrl(URL.createObjectURL(event.target.files[0]));
     const formData = new FormData();
     formData.append('file', event.target.files[0])
-    dispatch(postUserProfileImg({
-      id: memberInfo.data.memberId,
-      formData
-    }));
-    if (memberInfo.data) { 
-      dispatch(getUserInfo(memberInfo.data.memberId));
+    if (props.userTypeBoolean) {
+      dispatch(postUserProfileImg({
+        id: memberInfo.data.memberId,
+        formData
+      }));
+      if (memberInfo.data) { 
+        dispatch(getUserInfo(memberInfo.data.memberId));
+      }
+    } else {
+      console.log(shelterInfo.data);
+      dispatch(postShelterProfileImg({
+        id: memberInfo.data.memberId,
+        formData
+      }));
+      if (memberInfo.data) { 
+        dispatch(getShelterInfo(memberInfo.data.memberId));
+      }
     }
   };
 
@@ -57,7 +70,12 @@ const UserInfoEdit = (props) => {
       phoneNumber
     };
     console.log(data);
-    dispatch(putUserInfo(data));
+    if (props.userTypeBoolean) {
+      dispatch(putUserInfo(data));
+    } else {
+      dispatch(putShelterInfo(data));
+    }
+    
     if (memberInfo.data) { 
       dispatch(getUserInfo(memberInfo.data.memberId));
     }
@@ -79,7 +97,7 @@ const UserInfoEdit = (props) => {
   return (
     <div className={styles['user-info-edit']}>
       <div className={styles['user-info-img']}>
-        <ImageSmall src={imgUrl || consumerInfo.profileImage} alt={'fakeimgdata'} />
+        <ImageSmall src={imgUrl || props.userTypeBoolean ? consumerInfo.profileImage : shelterInfo.profileImage} alt={'fakeimgdata'} />
         <label htmlFor="img-file" className={`${styles['user-img-edit-btn']} ${!props.userTypeBoolean && styles['blue-btn']}`}>
           프로필 이미지 편집
         </label>

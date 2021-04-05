@@ -4,19 +4,27 @@ import styles from './userInfo.module.css';
 import UserInfoEdit from './userInfoEdit';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserInfo } from '../../modules/consumer';
+import { getShelterInfo } from '../../modules/shelter';
+
 
 const UserInfo = ({ userTypeBoolean }) => {
   const [editState, setEditState] = useState(false);
   const memberInfo = useSelector((state) => state.member.memberInfo);
   const consumerInfo = useSelector((state) => state.consumer);
+  const shelterInfo = useSelector((state) => state.shelter);
   const dispatch = useDispatch();
 
   useEffect(()=> {
-    if (memberInfo.data) { 
-      dispatch(getUserInfo(memberInfo.data.memberId));
-    }
-    console.log(memberInfo);
-    console.log(consumerInfo);
+    if (memberInfo.data) {
+      if (userTypeBoolean) {
+        dispatch(getUserInfo(memberInfo.data.memberId));
+      } else {
+        dispatch(getShelterInfo(memberInfo.data.memberId));
+      }
+    } 
+    // console.log(memberInfo);
+    // console.log(consumerInfo);
+    console.log(shelterInfo);
   },[]);
 
   const changeEditState = () => {
@@ -35,11 +43,11 @@ const UserInfo = ({ userTypeBoolean }) => {
         ? <UserInfoEdit setEditState={setEditState} userTypeBoolean={userTypeBoolean}/>
         : <div className={styles['user-info']}>
             <div className={styles['user-img-box']}>
-              <ImageLarge src={consumerInfo.profileImage} alt={"fakeimgdata"} />
+              <ImageLarge src={userTypeBoolean ? consumerInfo.profileImage : shelterInfo.profileImage} alt={"fakeimgdata"} />
               <div className={styles['user-description']}>
-                <h2>{consumerInfo.name}</h2>
-                <h4>({consumerInfo.email})</h4>
-                <h3>{consumerInfo.phoneNumber}</h3>
+                <h2>{userTypeBoolean ? consumerInfo.name : shelterInfo.name}</h2>
+                <h4>({userTypeBoolean ? consumerInfo.email : shelterInfo.email})</h4>
+                <h3>{userTypeBoolean ? consumerInfo.phoneNumber : shelterInfo.phoneNumber}</h3>
               </div>
             </div>
             <div className={styles['btn-container']}>
