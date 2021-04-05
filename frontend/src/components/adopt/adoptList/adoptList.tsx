@@ -42,7 +42,9 @@ const AdoptList = ({ adoptList, role, onClick }: AdoptListProps) => {
           </tr>
         </thead>
         <tbody>
-          {adoptList.map((adopt) => (
+          {( !adoptList || adoptList.length === 0) 
+          ? <tr><td colSpan={4}>입양 신청 게시물이 없습니다.</td></tr>
+          : adoptList.map((adopt) => (
             <AdoptListForm
               key={adopt.id}
               adopt={adopt}

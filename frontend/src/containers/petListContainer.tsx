@@ -65,16 +65,16 @@ const PetListContainer = () => {
   return (<>
     { shelter.data && 
       <Pet
-      role={member.data?.memberRole}
-      petList={petList.data}
-      selectedPet={selectedPet.data}
-      shelterId={shelter.data.id}
-      onRegisterPet={onRegisterPet}
-      onGetPet={onGetPet}
-      onModifyPet={onModifyPet}
-      onDeletePet={onDeletePet}
-      onSetProfileImage={onSetProfileImage}
-      onSetInitialSelectedPet={onSetInitialSelectedPet}/>
+        role={member.data?.memberRole}
+        petList={petList.data}
+        selectedPet={selectedPet.data}
+        shelterId={shelter.data.id}
+        onRegisterPet={onRegisterPet}
+        onGetPet={onGetPet}
+        onModifyPet={onModifyPet}
+        onDeletePet={onDeletePet}
+        onSetProfileImage={onSetProfileImage}
+        onSetInitialSelectedPet={onSetInitialSelectedPet}/>
     }
  </>);
 };
