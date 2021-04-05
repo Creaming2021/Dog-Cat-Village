@@ -12,7 +12,10 @@ const UserInfo = ({ userTypeBoolean }) => {
   const dispatch = useDispatch();
 
   useEffect(()=> {
-    dispatch(getUserInfo(memberInfo.id));
+    if (memberInfo.data) { 
+      dispatch(getUserInfo(memberInfo.data.memberId));
+    }
+    console.log(memberInfo);
     console.log(consumerInfo);
   },[]);
 
@@ -32,11 +35,11 @@ const UserInfo = ({ userTypeBoolean }) => {
         ? <UserInfoEdit setEditState={setEditState} userTypeBoolean={userTypeBoolean}/>
         : <div className={styles['user-info']}>
             <div className={styles['user-img-box']}>
-              <ImageLarge src={"../../images/jiyoung.png"} alt={"fakeimgdata"} />
+              <ImageLarge src={consumerInfo.profileImage} alt={"fakeimgdata"} />
               <div className={styles['user-description']}>
-                <h2>지용</h2>
-                <h4>( jiyoung@gmail.com )</h4>
-                <h3>010-2325-3970</h3>
+                <h2>{consumerInfo.name}</h2>
+                <h4>({consumerInfo.email})</h4>
+                <h3>{consumerInfo.phoneNumber}</h3>
               </div>
             </div>
             <div className={styles['btn-container']}>
