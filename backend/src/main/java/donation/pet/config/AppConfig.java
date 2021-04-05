@@ -73,7 +73,7 @@ public class AppConfig {
 
                 initService.signup(consumer);
 
-                // 봇호소 유저 생성
+                // 보호소 유저 생성
                 Shelter shelter = Shelter.builder()
                         .email("shelter@ssafy.com")
                         .password(appProperties.getAdminPassword())
