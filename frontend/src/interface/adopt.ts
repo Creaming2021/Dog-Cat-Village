@@ -1,46 +1,56 @@
 export interface AdoptRegisterType {
   petId: number;
-  userId: number;
-  userName: string;
-  userSex: string;
-  userAge: string;
-  userLiveIn: string;
+  name: string;
+  sex: string;
+  age: string;
+  address: string;
   description: string;
   day: string;
   time: string;
 }
 
 export interface AdoptListType {
-  adoptId: number;
+  id: number;
   petName: string;
-  userName?: string;
-  createdAt: string;
+  name?: string;
+  createdDate: string;
   acceptStatus: string;
 }
 
 export interface AdoptDetailType {
-  adoptId: number;
+  id: number;
   petId: number;
   petName: string;
-  user: {
+  consumer: {
     id: number;
-    imageUrl: string;
+    profileImage: string;
     name: string;
     email: string;
     phoneNumber: string;
   };
-  userName: string;
-  userSex: string;
-  userAge: string;
-  userLiveIn: string;
+  name: string;
+  sex: string;
+  age: string;
+  address: string;
   description: string;
   day: string;
   time: string;
   acceptStatus: string;
-  createdAt: string;
+  createdDate: string;
 }
 
 export interface AdoptChangeStatusType {
-  adoptId: string;
   status: string;
+  id: number;
+  adoptId: number;
+}
+
+export interface AdoptRegisterRequestType{
+  id: number,
+  adoptRegisterForm: AdoptRegisterType
+}
+
+export interface GetAdoptDetailRequestType{
+  id: number,
+  adoptId: number,
 }

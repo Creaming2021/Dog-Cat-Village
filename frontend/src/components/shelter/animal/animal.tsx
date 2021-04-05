@@ -13,7 +13,7 @@ const Animal = ({ type }: AnimalProps) => {
   const animalList: AnimalListType[] = [
     {
       id: 1,
-      imageUrl:
+      profileImage:
         "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
       name: "뽀삐",
       birthday: "2021.02.01",
@@ -23,7 +23,7 @@ const Animal = ({ type }: AnimalProps) => {
     },
     {
       id: 2,
-      imageUrl:
+      profileImage:
         "https://blog.hmgjournal.com/images/contents/article/201603211108-Reissue-pet-family-01.jpg",
       name: "뽀빠이",
       birthday: "2021.02.01",
@@ -33,7 +33,7 @@ const Animal = ({ type }: AnimalProps) => {
     },
     {
       id: 3,
-      imageUrl:
+      profileImage:
         "http://img.insight.co.kr/static/2018/09/12/700/z7n04ul8ig3y27w6l6ok.jpg",
       name: "뽀삐",
       birthday: "2021.02.01",
@@ -43,7 +43,7 @@ const Animal = ({ type }: AnimalProps) => {
     },
     {
       id: 4,
-      imageUrl:
+      profileImage:
         "http://c.files.bbci.co.uk/AD6E/production/_104889344_kitten.jpg",
       name: "뽀삐",
       birthday: "2021.02.01",
@@ -53,7 +53,7 @@ const Animal = ({ type }: AnimalProps) => {
     },
     {
       id: 5,
-      imageUrl:
+      profileImage:
         "https://images.mypetlife.co.kr/content/uploads/2019/09/04222847/dog-panting-1024x683.jpg",
       name: "뽀삐",
       birthday: "2021.02.01",
@@ -63,7 +63,7 @@ const Animal = ({ type }: AnimalProps) => {
     },
     {
       id: 6,
-      imageUrl:
+      profileImage:
         "https://images.mypetlife.co.kr/content/uploads/2019/09/04222847/dog-panting-1024x683.jpg",
       name: "뽀삐",
       birthday: "2021.02.01",
@@ -73,7 +73,7 @@ const Animal = ({ type }: AnimalProps) => {
     },
     {
       id: 7,
-      imageUrl:
+      profileImage:
         "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
       name: "김",
       birthday: "2021.02.01",
@@ -83,7 +83,7 @@ const Animal = ({ type }: AnimalProps) => {
     },
     {
       id: 8,
-      imageUrl:
+      profileImage:
         "https://blog.hmgjournal.com/images/contents/article/201603211108-Reissue-pet-family-01.jpg",
       name: "뽀빠이",
       birthday: "2021.02.01",
@@ -93,7 +93,7 @@ const Animal = ({ type }: AnimalProps) => {
     },
     {
       id: 9,
-      imageUrl:
+      profileImage:
         "http://img.insight.co.kr/static/2018/09/12/700/z7n04ul8ig3y27w6l6ok.jpg",
       name: "김밥",
       birthday: "2021.02.01",
@@ -105,7 +105,7 @@ const Animal = ({ type }: AnimalProps) => {
 
   const animal: AnimalInputType = {
     id: 1,
-    imageUrl:
+    profileImage:
       "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
     name: "이름",
     breed: "품종",

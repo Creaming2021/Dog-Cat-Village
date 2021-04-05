@@ -8,25 +8,16 @@ import DetailAnimalForm from "../detailAnimalForm/detailAnimalForm";
 import EditAnimalForm from "../editAnimalForm/editAnimalForm";
 
 export type AnimalCardProps = {
-  id: number;
-  imageUrl: string;
-  name: string;
-  birthday: string;
-  age: string;
-  sex: string;
+  animal: AnimalListType;
   onClick: (e: any) => void;
 };
 
 const AnimalCard = ({
-  id,
-  imageUrl,
-  name,
-  birthday,
-  age,
-  sex,
+  animal,
   onClick,
 }: AnimalCardProps) => {
-  useEffect(() => {}, []);
+
+  const { id, profileImage, name, birthday, age, sex} = animal;
 
   return (
     <div
@@ -34,7 +25,7 @@ const AnimalCard = ({
       onClick={onClick}
       className={styles["animal-card-container"]}
     >
-      <img src={imageUrl} />
+      <img src={profileImage} />
       <div id={id.toString()} className={styles["card-hover"]}>
         <div id={id.toString()} className={styles.info}>
           <div id={id.toString()} className={styles.name}>
@@ -75,7 +66,7 @@ const AnimalList = ({ animalList }: AnimalListProps) => {
     id: 1,
     age: "2살",
     birthday: "20210301",
-    imageUrl:
+    profileImage:
       "https://i.pinimg.com/originals/87/97/b8/8797b830f3d85fdb96f6ad87ef9fc4fe.jpg",
     name: "이름",
     breed: "품종",
@@ -111,7 +102,7 @@ const AnimalList = ({ animalList }: AnimalListProps) => {
     setInputAnimal({
       id: animal.id,
       name: animal.name,
-      imageUrl: animal.imageUrl,
+      profileImage: animal.profileImage,
       sex: animal.sex,
       breedType: animal.breedType,
       weight: animal.weight,
@@ -143,12 +134,7 @@ const AnimalList = ({ animalList }: AnimalListProps) => {
         {animalList.map((animal: AnimalListType) => (
           <AnimalCard
             key={animal.id}
-            id={animal.id}
-            imageUrl={animal.imageUrl}
-            name={animal.name}
-            birthday={animal.birthday}
-            age={animal.age}
-            sex={animal.sex}
+            animal={animal}
             onClick={onClick}
           />
         ))}
