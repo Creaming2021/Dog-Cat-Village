@@ -1,12 +1,18 @@
 package donation.pet.controller;
 
 import donation.pet.common.AppProperties;
+import donation.pet.domain.member.Member;
+import donation.pet.dto.blockchain.BlockchainAddressDto;
 import donation.pet.dto.consumer.MemberSignupRequestDto;
 import donation.pet.dto.member.*;
+import donation.pet.exception.BaseException;
+import donation.pet.exception.ErrorCode;
 import donation.pet.service.MemberService;
+import donation.pet.util.CurrentUser;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +32,7 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<Void> signup(@RequestBody MemberSignupRequestDto dto) {
         log.info("(Post) signup - {}, {}, {}, {}", dto.getEmail(), dto.getName(), dto.getPhoneNumber(), dto.getMemberRole());
+        memberService.checkDuplication(dto);
         memberService.signup(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -51,9 +58,13 @@ public class MemberController {
 
     @ApiOperation("로그인")
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto dto) {
-        log.info("(Post) login - {}", dto.getEmail());
-        LoginResponseDto loginResponseDto = memberService.login(dto);
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto dto, @RequestHeader HttpHeaders headers) {
+        if (!headers.containsKey("Authorization")) {
+            throw new BaseException(ErrorCode.LOGIN_FAIL);
+        }
+        String auth = headers.get("Authorization").get(0);
+        log.info("(Post) login - {}, {}, {}", auth, dto.getUsername(), dto.getGrant_type());
+        LoginResponseDto loginResponseDto = memberService.login(auth, dto);
         return ResponseEntity.status(HttpStatus.OK).body(loginResponseDto);
     }
 
@@ -85,8 +96,23 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @ApiOperation("회원 탈퇴")
+    @DeleteMapping("")
+    public ResponseEntity<Void> deleteMember(@CurrentUser Member member) {
+        log.info("(Delete) deleteMember - {}", member.getEmail());
+        memberService.deleteMember(member);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @GetMapping("/test")
     public ResponseEntity<Void> test() {
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @ApiOperation("해당 사용자의 계정 주소와 비밀키 요청")
+    @GetMapping("/{memberId}/address")
+    public ResponseEntity<BlockchainAddressDto> getMemberAddress(@PathVariable("memberId") Long memberId) {
+        BlockchainAddressDto result = memberService.getMemberAddress(memberId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

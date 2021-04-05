@@ -8,31 +8,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type AdoptDetailProps = {
   selectedAdopt: AdoptDetailType;
-  type: string;
+  role: string;
   goToBack: () => void;
   onSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 const AdoptDetail = ({
   selectedAdopt,
-  type,
+  role,
   goToBack,
   onSubmit,
 }: AdoptDetailProps) => {
   const {
-    adoptId,
+    id,
     petId,
     petName,
-    user,
-    userName,
-    userSex,
-    userAge,
-    userLiveIn,
+    consumer,
+    name,
+    sex,
+    age,
+    address,
     description,
     day,
     time,
     acceptStatus,
-    createdAt,
+    createdDate,
   } = selectedAdopt;
 
   return (
@@ -41,36 +41,36 @@ const AdoptDetail = ({
         <FontAwesomeIcon icon={faArrowLeft} /> 목록으로
       </button>
       <div className={styles["user-info-box"]}>
-        <ImageMedium src={user.imageUrl} alt="프로필 이미지" />
-        {user.name}
+        <ImageMedium src={consumer.profileImage} alt="프로필 이미지" />
+        {consumer.name}
         <br />
-        {createdAt}
+        {createdDate}
       </div>
       <table className={styles["adopt-info-box"]}>
         <tbody>
           <tr>
             <td>신청자 정보</td>
             <td>
-              {userName} / {userSex} / {userAge}살
+              {name} / {sex} / {age}살
             </td>
             <td>신청 동물</td>
             <td>{petName}</td>
           </tr>
           <tr>
             <td>전화번호</td>
-            <td>{user.phoneNumber}</td>
+            <td>{consumer.phoneNumber}</td>
             <td>통화하기 편한 요일</td>
             <td>{day}</td>
           </tr>
           <tr>
             <td>이메일</td>
-            <td>{user.email}</td>
+            <td>{consumer.email}</td>
             <td>통화하기 편한 시간</td>
             <td>{time}</td>
           </tr>
           <tr>
             <td>사시는 지역</td>
-            <td colSpan={3}>{userLiveIn}</td>
+            <td colSpan={3}>{address}</td>
           </tr>
           <tr>
             <td>입양 신청 사유</td>
@@ -79,11 +79,33 @@ const AdoptDetail = ({
         </tbody>
       </table>
 
-      {acceptStatus === "PENDING" && (
+      {role === "SHELTER" && acceptStatus === "PENDING" && (
         <div className={styles[`button-box`]}>
           <ButtonSmall
             content="입양 완료"
             value="ACCEPTED"
+            onClick={onSubmit}
+            buttonColor="bg-blue"
+          />
+          <ButtonSmall
+            content="입양 거절"
+            value="REFUSED"
+            onClick={onSubmit}
+            buttonColor="bg-yellow"
+          />
+        </div>
+      )}
+      {role === "SHELTER" && acceptStatus === "DEFAULT" && (
+        <div className={styles[`button-box`]}>
+          <ButtonSmall
+            content="입양 완료"
+            value="ACCEPTED"
+            onClick={onSubmit}
+            buttonColor="bg-blue"
+          />
+          <ButtonSmall
+            content="진행중"
+            value="PENDING"
             onClick={onSubmit}
             buttonColor="bg-blue"
           />
