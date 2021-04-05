@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserInfo, postUserProfileImg, putUserInfo } from '../../modules/consumer';
+import member from '../../modules/member';
 import { ImageSmall } from '../common/common';
 import styles from './userInfoEdit.module.css';
+import * as MemberActions from "../../modules/member";
 
 const UserInfoEdit = (props) => {
   const [imgUrl, setImgUrl] = useState('');
@@ -11,11 +15,24 @@ const UserInfoEdit = (props) => {
   const [editPhoneNumber1, setEditPhoneNumber1] = useState('');
   const [editPhoneNumber2, setEditPhoneNumber2] = useState('');
   const [editPhoneNumber3, setEditPhoneNumber3] = useState('');
+  const dispatch = useDispatch();
+  const memberInfo = useSelector((state) => state.member.memberInfo);
+  const memberCheck = useSelector((state) => state.member.checkName);
+  const consumerInfo = useSelector((state) => state.consumer);
 
 
 
   const handleChangeImg = (event) => {
     setImgUrl(URL.createObjectURL(event.target.files[0]));
+    const formData = new FormData();
+    formData.append('file', event.target.files[0])
+    dispatch(postUserProfileImg({
+      id: memberInfo.data.memberId,
+      formData
+    }));
+    if (memberInfo.data) { 
+      dispatch(getUserInfo(memberInfo.data.memberId));
+    }
   };
 
   const changeEditState = () => {
@@ -23,20 +40,27 @@ const UserInfoEdit = (props) => {
   };
 
   const submitUserInfo = () => {
-    //TODO: 요청보내기
+    
     const phoneNumber = editPhoneNumber1 + editPhoneNumber2 + editPhoneNumber3;
     if (phoneNumber.length !== 11) {
       alert('핸드폰 번호를 다시 입력하세요');
       return;
-    } 
+    }
+
+    // 새로운 비밀번호가 일치하는지 검사
+    // 중복 체크를 했는지 검사
+
     const data = {
-      imgUrl,
       currentPassword,
-      password1,
-      editNickname,
+      newPassword : password1,
+      name : editNickname,
       phoneNumber
     };
     console.log(data);
+    dispatch(putUserInfo(data));
+    if (memberInfo.data) { 
+      dispatch(getUserInfo(memberInfo.data.memberId));
+    }
   };
 
   const phoneNumberHandler = (e, setNumber) => {
@@ -45,10 +69,17 @@ const UserInfoEdit = (props) => {
     e.target.value = value;
   }
 
+  const duplicateCheck = () => {
+    if (editNickname) {
+      dispatch(MemberActions.checkNameAsync.request(editNickname));
+      console.log(memberCheck);
+    }
+  }
+
   return (
     <div className={styles['user-info-edit']}>
       <div className={styles['user-info-img']}>
-        <ImageSmall src={imgUrl || '../../images/jiyoung.png'} alt={'fakeimgdata'} />
+        <ImageSmall src={imgUrl || consumerInfo.profileImage} alt={'fakeimgdata'} />
         <label htmlFor="img-file" className={`${styles['user-img-edit-btn']} ${!props.userTypeBoolean && styles['blue-btn']}`}>
           프로필 이미지 편집
         </label>
@@ -85,7 +116,7 @@ const UserInfoEdit = (props) => {
             className={`${styles['user-input-form']} ${styles.nickname}`}
             onChange={(e) => {setEditNickname(e.target.value);}}
           />
-          <button className={styles['nickname-check']}>중복체크</button>
+          <button className={`${styles['nickname-check']} ${memberCheck.data && styles['disable-btn']}`} onClick={duplicateCheck}>중복체크</button>
         </div>
       }
       <div className={styles.phonenumber}>

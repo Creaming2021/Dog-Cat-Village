@@ -98,10 +98,15 @@ button {
   width: 5rem;
   height: 35px;
   font-size: 12px;
-  color: #a7a7a7;
-  border: solid 2px #e5e5e5;
+  color: #ffce00;
+  border: solid 2px #ffce00;
   border-radius: 10px;
   background-color: transparent;
+}
+
+.disable-btn {
+  border-color: #a7a7a7;
+  color: #a7a7a7;
 }
 
 .phonenumber {
