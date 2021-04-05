@@ -23,8 +23,8 @@ function App() {
         <ProtectedRouteConsumer path="/shelter" Component={shelterListPage} exact/>
         <ProtectedRouteConsumer path="/streaming" Component={StreamingListPage} exact/>
         {/* <ProtectedRouteConsumer path="/pet" Component={Pet} exact/> */}
-        <Route path="/signup/:result" component={ConfirmSignUp} exact/>
-        <Route path="/password/:auth" component={PasswordContainer} exact/>
+        <Route path="/members/signup/:result" component={ConfirmSignUp} exact/>
+        <Route path="/members/password/:auth" component={PasswordContainer} exact/>
         <ProtectedRouteToken path="/" Component={MemberContainer} exact/>
         <Route>
           <ErrorAlert message="잘못된 요청 입니다."/>
