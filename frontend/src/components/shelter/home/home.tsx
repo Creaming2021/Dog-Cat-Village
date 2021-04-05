@@ -100,9 +100,7 @@ const ReadyStreaming = ({}: ReadyStreamingProps) => {
                 name="imageUrl"
                 onChange={handleChangeImg}
               />
-              <button 
-                className={commons['bg-green']}
-                onClick={onButtonClick}>
+              <button onClick={onButtonClick}>
                 <div className={styles.download_icon}>
                   다운로드 아이콘
                 </div>
