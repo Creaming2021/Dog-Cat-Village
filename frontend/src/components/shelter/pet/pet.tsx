@@ -76,8 +76,10 @@ const Pet = ({ role, petList, selectedPet, shelterId,
   };
 
   useEffect(() => {
-    onRegisterPet(registerPetInfo);
-    onCloseRegister();
+    if(registerPetInfo.profileImage){
+      onRegisterPet(registerPetInfo);
+      onCloseRegister();
+    }
   }, [registerPetInfo]);
 
   const onSubmitRegister = (input: PetInputType): void => {
