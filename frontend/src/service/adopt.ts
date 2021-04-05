@@ -3,7 +3,7 @@ import { security } from './instance';
 
 // 개인 유저의 입양 신청 목록 조회
 export const getConsumerAdoptList = async ( id: number ) => {
-  const response = await security.get<AdoptListType[]>(`api/consumers/${id}/adopts`, {
+  const response = await security.get<AdoptListType[]>(`consumers/${id}/adopts`, {
 		'headers': {
 			'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
 		}
@@ -13,7 +13,7 @@ export const getConsumerAdoptList = async ( id: number ) => {
 
 // 입양 신청 등록
 export const registerAdopt = async ({ id, adoptRegisterForm }: AdoptRegisterRequestType ) => {
-  const response = await security.post<undefined>(`api/consumers/${id}/adopts`, {
+  const response = await security.post<undefined>(`consumers/${id}/adopts`, {
 		'headers': {
 			'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
 		},
@@ -24,7 +24,7 @@ export const registerAdopt = async ({ id, adoptRegisterForm }: AdoptRegisterRequ
 
 // 개인 유저의 입양 신청 디테일 정보 조회
 export const getConsumerAdoptDetail = async ({ id, adoptId }: GetAdoptDetailRequestType) => {
-  const response = await security.get<AdoptDetailType>(`api/consumers/${id}/adopts/${adoptId}`, {
+  const response = await security.get<AdoptDetailType>(`consumers/${id}/adopts/${adoptId}`, {
 		'headers': {
 			'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
 		}
@@ -34,7 +34,7 @@ export const getConsumerAdoptDetail = async ({ id, adoptId }: GetAdoptDetailRequ
 
 // 보호소 유저의 입양 신청 목록 조회
 export const getShleterAdoptList = async ( id: number ) => {
-  const response = await security.get<AdoptListType[]>(`api/shelters/${id}/adopts`, {
+  const response = await security.get<AdoptListType[]>(`shelters/${id}/adopts`, {
 		'headers': {
 			'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
 		}
@@ -44,7 +44,7 @@ export const getShleterAdoptList = async ( id: number ) => {
 
 // 보호소 유저의 입양 신청 디테일 정보 조회
 export const getShelterAdoptDetail = async ({ id, adoptId }: GetAdoptDetailRequestType) => {
-  const response = await security.get<AdoptDetailType>(`api/shelters/${id}/adopts/${adoptId}`, {
+  const response = await security.get<AdoptDetailType>(`shelters/${id}/adopts/${adoptId}`, {
 		'headers': {
 			'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
 		}
@@ -54,7 +54,7 @@ export const getShelterAdoptDetail = async ({ id, adoptId }: GetAdoptDetailReque
 
 // 입양 신청 상태 변경 요청
 export const changeAdoptStatus = async ({ id, adoptId, status }: AdoptChangeStatusType) => {
-  const response = await security.put<AdoptDetailType>(`api/shelters/${id}/adopts/${adoptId}`, {
+  const response = await security.put<AdoptDetailType>(`shelters/${id}/adopts/${adoptId}`, {
 		'headers': {
 			'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
 		},
