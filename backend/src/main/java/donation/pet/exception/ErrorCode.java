@@ -42,6 +42,9 @@ public enum ErrorCode {
     PET_NOT_EXIST(HttpStatus.NOT_FOUND, "05000", "존재하지 않는 동물입니다."),
     PET_NOT_MATCH(HttpStatus.BAD_REQUEST, "05001", "동물 아이디가 서로 다릅니다."),
 
+    // Exchange
+    EXCHANGE_NOT_EXIST(HttpStatus.NOT_FOUND, "06000", "존재하지 않는 환전신청서입니다."),
+
 
 
     // 서버 에러
