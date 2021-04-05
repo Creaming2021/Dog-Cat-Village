@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,9 +22,9 @@ public class PetController {
 
     @ApiOperation("반려동물 전체 조회")
     @GetMapping
-    public ResponseEntity<PetResponseListDto> getAllPets() {
-        PetResponseListDto petResponseListDto = petService.getPetAll();
-        return ResponseEntity.status(HttpStatus.OK).body(petResponseListDto);
+    public ResponseEntity<List<PetSimpleDto>> getAllPets() {
+        List<PetSimpleDto> result = petService.getPetAll();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation("반려동물 저장")

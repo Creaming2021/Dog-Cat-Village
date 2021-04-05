@@ -64,6 +64,7 @@ public class ShelterService {
             throw new BaseException(ErrorCode.NAME_DUPLICATION);
         }
         shelter.updateShelter(dto);
+        shelterRepository.save(shelter);
         return modelMapper.map(shelter, ShelterResponseDto.class);
     }
 

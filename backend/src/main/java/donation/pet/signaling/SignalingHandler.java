@@ -119,6 +119,7 @@ public class SignalingHandler extends TextWebSocketHandler {
                 }
             });
 
+            log.info("Presenter Start!!!!!!!!!!!");
             String sdpOffer = jsonMessage.getAsJsonPrimitive("sdpOffer").getAsString();
             String sdpAnswer = presenterWebRtc.processOffer(sdpOffer);
 
@@ -183,6 +184,7 @@ public class SignalingHandler extends TextWebSocketHandler {
                 }
             });
 
+            log.info("Join Viewer!!!!!!!!!!!!!!!!");
             viewer.setWebRtcEndpoint(nextWebRtc);
             presenterUserSession.getWebRtcEndpoint().connect(nextWebRtc);
             String sdpOffer = jsonMessage.getAsJsonPrimitive("sdpOffer").getAsString();
