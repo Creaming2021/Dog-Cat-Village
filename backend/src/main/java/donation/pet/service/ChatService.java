@@ -225,7 +225,7 @@ public class ChatService {
         notices.put("oppName", oppName);
         simpMessagingTemplate.convertAndSend("/notice/" + oppId, notices);
         insertMessage(message);
-        simpMessagingTemplate.convertAndSend("/message/" + roomId + "/" + oppId, message);
+        simpMessagingTemplate.convertAndSend("/message/" + roomId, message);
     }
 
     /*
