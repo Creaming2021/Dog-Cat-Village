@@ -226,10 +226,7 @@ public class ChatService {
         simpMessagingTemplate.convertAndSend("/notice/" + oppId, notices);
         insertMessage(message); // 메시지 저장
 
-        // 프론트와 상의해보기 !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // oppId를 붙이지 않을 경우,
-        // oppId를 붙일 경우,
-        simpMessagingTemplate.convertAndSend("/message/" + roomId + "/" + oppId, message);
+        simpMessagingTemplate.convertAndSend("/message/" + roomId, message);
 
     }
 
