@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatRoomInfoDto {
-    private String roomId;
-    private Long oppId;
-    private String oppName;
-    private String recentMsg;
+public class ChatNoticeResetDto {
+    private String myId;
+    private String oppId;
 }

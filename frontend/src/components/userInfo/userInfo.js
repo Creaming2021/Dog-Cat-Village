@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { ImageLarge } from '../common/common';
 import styles from './userInfo.module.css';
 import UserInfoEdit from './userInfoEdit';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserInfo } from '../../modules/consumer';
 
 const UserInfo = ({ userTypeBoolean }) => {
   const [editState, setEditState] = useState(false);
+  const memberInfo = useSelector((state) => state.member.memberInfo);
+  const consumerInfo = useSelector((state) => state.consumer);
+  const dispatch = useDispatch();
 
   useEffect(()=> {
-
-  },[])
+    dispatch(getUserInfo(memberInfo.id));
+    console.log(consumerInfo);
+  },[]);
 
   const changeEditState = () => {
     setEditState(true);

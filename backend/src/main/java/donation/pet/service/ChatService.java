@@ -12,12 +12,10 @@ import donation.pet.exception.FunctionWithException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.ModelMap;
 
 import java.util.*;
 import java.util.function.Function;
@@ -98,25 +96,25 @@ public class ChatService {
     /*
      * 채팅방 목록 가져오기
      * */
-    public ChatListResponseDto getRoomList(String memberId) throws JsonProcessingException {
+    public List<ChatRoomInfoDto> getRoomList(String memberId) throws JsonProcessingException {
 
         Set<String> keys = redisTemplate.keys("roomInfo:" + memberId + ":*");
         if (keys == null) {
-            return new ChatListResponseDto(new ArrayList<>());
+            return new ArrayList<ChatRoomInfoDto>();
         }
 
         valOps = redisTemplate.opsForValue();
 
-        List<ChatRoomInfoDto> chatRoomInfoDtoList = keys.stream()
+        return keys.stream()
                 .map(key -> valOps.get(key))
                 .map(wrapper(roomInfoStr -> objectMapper.readValue(roomInfoStr, RoomInfo.class)))
                 .map(wrapper(roomInfo -> ChatRoomInfoDto.builder()
                         .recentMsg(getRecentMessage(roomInfo.getRoomId())) // 채팅창 목록에서 보여주는 마지막 메시지
+                        .oppId(roomInfo.getOppId())
                         .oppName(roomInfo.getOppName())
                         .roomId(roomInfo.getRoomId())
+                        .oppId(roomInfo.getOppId())
                         .build())).collect(Collectors.toList());
-
-        return new ChatListResponseDto(chatRoomInfoDtoList);
 
 //        List<ChatRoomInfoDto> roomList = new ArrayList<>();
 //        for (String oppId : keys) {
@@ -191,21 +189,20 @@ public class ChatService {
     /*
     * 메시지 모두 가져오기
     * */
-    public ChatMessageListDto getMessageList(int startNum, int endNum, String roomId, String myId, String oppId) throws JsonProcessingException {
+    public ChatDetailDto getMessageList(int startNum, int endNum, String roomId, String myId, String oppId) throws JsonProcessingException {
 
-        // id 받고나서 알림 초기화하기
-        valOps = redisTemplate.opsForValue();
-        String key = "notice:" + myId + ":" + oppId;
-        valOps.set(key, "0");
-    
+        Member member = memberRepository.findById(Long.parseLong(oppId))
+                .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));
+
         // 메시지 반환
         String roomStr = "message:" + roomId;
-        List<ChatMessageDto> collect = redisTemplate.opsForList().range(roomStr, startNum, endNum).stream()
+        List<ChatMessageDto> collect = Objects.requireNonNull(redisTemplate.opsForList().range(roomStr, startNum, endNum)).stream()
                 .map(wrapper(s -> objectMapper.readValue(s, ChatMessageDto.class)))
                 .collect(Collectors.toList());
 
         log.info("메시지 반환");
-        return new ChatMessageListDto(collect);
+        return new ChatDetailDto(roomId, myId, oppId, member.getName(), collect);
+
     }
 
     /*
@@ -227,8 +224,13 @@ public class ChatService {
         Map<String, String> notices = new HashMap<>();
         notices.put("oppName", oppName);
         simpMessagingTemplate.convertAndSend("/notice/" + oppId, notices);
-        insertMessage(message);
+        insertMessage(message); // 메시지 저장
+
+        // 프론트와 상의해보기 !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // oppId를 붙이지 않을 경우,
+        // oppId를 붙일 경우,
         simpMessagingTemplate.convertAndSend("/message/" + roomId + "/" + oppId, message);
+
     }
 
     /*

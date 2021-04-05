@@ -13,11 +13,9 @@ import ContributionChart from '../chart/contributionChart';
 
 const MyPage = (props) => {
   
-  // const [userType, setUserType] = useState('user');
   const [userTypeBoolean, setUserTypeBoolean] = useState(true);
   const [isReady, setIsReady] = useState(false);
   const memberInfo = useSelector((state) => state.member.memberInfo);
-
 
   useEffect(() => {
     if (memberInfo.data && memberInfo.data.memberRole === 'SHELTER') {
@@ -42,7 +40,7 @@ const MyPage = (props) => {
                 <UserInfo userTypeBoolean={userTypeBoolean} />
               </div>
               <div className={styles['wallet-box']}>
-                <Wallet userTypeBoolean={userTypeBoolean} />
+                {/* <Wallet userTypeBoolean={userTypeBoolean} /> */}
               </div>
             </div>
             <div className={styles['donation-list-box']}>
@@ -51,7 +49,7 @@ const MyPage = (props) => {
             <div className={styles['etc-boxes']}>
               {
                 userTypeBoolean 
-                ? <DonatedShelterList /> 
+                ? <DonatedShelterListContainer /> 
                 : <>
                     <ContributionChart />
                     <AdoptedAnimalsChart />
