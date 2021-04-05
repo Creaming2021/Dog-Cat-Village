@@ -4,7 +4,7 @@ import * as AdoptAction from '../modules/adopt';
 import AdoptDetail from "../components/adopt/adoptDetail/adoptDetail";
 import AdoptList from "../components/adopt/adoptList/adoptList";
 import { Search } from "../components/common/common";
-import { AdoptDetailType, AdoptListType } from "../interface/adopt";
+import { AdoptListType } from "../interface/adopt";
 import { RootState } from "../modules";
 
 const AdoptContainer = () => {
