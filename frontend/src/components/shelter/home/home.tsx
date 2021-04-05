@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./home.module.css";
 import commons from "../../common/common.module.css";
 import {
@@ -68,8 +68,49 @@ const ReadyStreaming = ({}: ReadyStreamingProps) => {
     alert("방송시작");
   };
 
+  const [imgUrl, setImgUrl] = useState('');
+
+  const handleChangeImg = (event: any) => {
+    setImgUrl(URL.createObjectURL(event.target.files[0]));
+  };
+  const inputRef = useRef<any>();
+  const back_img_ref = useRef<any>();
+
+  const onButtonClick = (event: any) => {
+    event.preventDefault();
+    inputRef.current.click();
+  }
+
   return (
     <div className={styles.streaming}>
+       {imgUrl
+        ? (
+            <>
+              <section className={styles.thumnail} ref={back_img_ref}>
+                <img src={imgUrl}></img>
+              </section>
+            </>
+          )
+        : (
+            <section className={styles.thumnail}>
+              <input
+                ref={inputRef}
+                className={styles['img-input-tag']}
+                type="file"
+                name="imageUrl"
+                onChange={handleChangeImg}
+              />
+              <button 
+                className={commons['bg-green']}
+                onClick={onButtonClick}>
+                <div className={styles.download_icon}>
+                  다운로드 아이콘
+                </div>
+              이미지 넣기
+              </button>
+          </section>
+        )
+      }
       <input
         className={commons["input-title"]}
         placeholder="오늘의 스트리밍 제목을 입력하세요."
@@ -77,7 +118,7 @@ const ReadyStreaming = ({}: ReadyStreamingProps) => {
       <textarea
         className={commons["input-content"]}
         placeholder="오늘의 스트리밍 내용을 입력하세요."
-      />
+        />
       <ButtonLarge
         content="스트리밍 시작하기"
         onClick={onClick}
