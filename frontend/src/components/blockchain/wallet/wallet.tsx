@@ -11,7 +11,7 @@ import Withraw from '../withraw/withraw';
 type WalletProps = {
   wallet: WalletType,
   memberRole: string,
-  onSubmitCharge: () => void,
+  onSubmitCharge: (amount: string) => void,
   onSubmigWithdraw: () => void,
 }
 
@@ -25,14 +25,24 @@ const Wallet = ({ wallet, memberRole, onSubmitCharge, onSubmigWithdraw }: Wallet
   }
 
   const [ myWallet, setMyWallet ] = useState<myWalletType>({
-    address: wallet.address,
-    addressShort: wallet.address.substring(0, 7),
+    address: '',
+    addressShort: '',
     coin: 0
   });
 
   useEffect(() => {
     getTokenBalance();
   }, []);
+  
+  useEffect(() => {
+    if(wallet){
+      setMyWallet({
+        address: wallet.address,
+        addressShort: wallet.address.substring(0, 7),
+        coin: 0
+      });
+    }
+  }, [wallet]);
 
   const getTokenBalance = () => {
     BlockChainAPI.getTokenBalance(myWallet.address)

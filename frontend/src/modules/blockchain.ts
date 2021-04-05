@@ -26,6 +26,11 @@ const GET_TRANSACTION_LIST = 'blockchain/GET_TRANSACTION_LIST';
 const GET_TRANSACTION_LIST_SUCCESS = 'blockchain/GET_TRANSACTION_LIST_SUCCESS';
 const GET_TRANSACTION_LIST_ERROR = 'blockchain/GET_TRANSACTION_LIST_ERROR';
 
+// 지갑 충전하기 액션 타입
+const CHARGE_COIN = 'blockchain/CHARGE_COIN';
+const CHARGE_COIN_SUCCESS = 'blockchain/CHARGE_COIN_SUCCESS';
+const CHARGE_COIN_ERROR = 'blockchain/CHARGE_COIN_ERROR';
+
 // 지갑 정보 조회 액션 객체 생성함수
 export const getWalletInfoAsync = createAsyncAction( 
   GET_WALLET_INFO, 
@@ -54,11 +59,19 @@ export const getTransactionListAsync = createAsyncAction(
   GET_TRANSACTION_LIST_ERROR 
 )<string, TransactionListType[], AxiosError>();
 
+// 지갑 충전하기 액션 객체 생성함수
+export const chargeCoinAsync = createAsyncAction( 
+  CHARGE_COIN, 
+  CHARGE_COIN_SUCCESS, 
+  CHARGE_COIN_ERROR 
+)<string, any, AxiosError>();
+
 // saga
 const getWalletInfoSaga = createAsyncSaga(getWalletInfoAsync, BlockchainAPI.getWalletInfo);
 const setWalletInfoSaga = createAsyncSaga(setWalletInfoAsync, BlockchainAPI.setWalletInfo);
 const changeIdToAddressSaga = createAsyncSaga(changeIdToAddressAsync, BlockchainAPI.changeIdToAddress);
 const getTransactionListSaga = createAsyncSaga(getTransactionListAsync, BlockchainAPI.getTransactionList);
+const chargeCoinSaga = createAsyncSaga(chargeCoinAsync, BlockchainAPI.chargeCoin);
 
 // blockchain saga 생성
 export function* blockchainSaga() {
@@ -66,6 +79,7 @@ export function* blockchainSaga() {
   yield takeEvery(SET_WALLET_INFO, changeIdToAddressSaga);
   yield takeEvery(SET_WALLET_INFO, setWalletInfoSaga);
   yield takeEvery(GET_TRANSACTION_LIST, getTransactionListSaga);
+  yield takeEvery(CHARGE_COIN, chargeCoinSaga);
 }
 
 // blockchain actions 객체 모음
@@ -73,7 +87,8 @@ const actions = {
   getWalletInfoAsync,
   changeIdToAddressAsync,
   setWalletInfoAsync,
-  getTransactionListAsync
+  getTransactionListAsync,
+  chargeCoinAsync
 };
 
 // blockchain actions type 저장
@@ -95,6 +110,11 @@ type BlockchainState = {
     loading: boolean;
     data: TransactionAddressType | null;
     error: Error | null;
+  },
+  chargedCoin : {
+    loading: boolean;
+    data: any | null;
+    error: Error | null;
   }
 }
 
@@ -103,6 +123,7 @@ const initialState: BlockchainState = {
   walletInfo: asyncState.initial(),
   transactionList: asyncState.initial(),
   changeTransaction: asyncState.initial(),
+  chargedCoin: asyncState.initial(),
 }
 
 // 지갑 정보 조회 요청 리듀서
@@ -133,12 +154,20 @@ const getTransactionListReducer = createReducer<BlockchainState, BlockchainActio
   createAsyncReducer(getTransactionListAsync, "transactionList")
 );
 
+// 지갑 충전하기 요청 리듀서
+const chargeCoinReducer = createReducer<BlockchainState, BlockchainAction>(initialState)
+.handleAction(
+  transformToArray(chargeCoinAsync),
+  createAsyncReducer(chargeCoinAsync, "chargedCoin")
+);
+
 // reducer 함수
 const blockchain = createReducer<BlockchainState, BlockchainAction>(initialState, {
   ...getWalletInfoReducer.handlers,
   ...setWalletInfoReducer.handlers,
   ...changeIdToAddressReducer.handlers,
   ...getTransactionListReducer.handlers,
+  ...chargeCoinReducer.handlers,
 });
 
 export default blockchain;

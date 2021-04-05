@@ -4,8 +4,8 @@ import styles from './myPage.module.css';
 import DonatedShelterListContainer from '../../containers/donatedShelterListContainer';
 import DonationList from '../donationList/donationList';
 import UserInfo from '../userInfo/userInfo';
-import Wallet from '../blockchain/wallet/wallet';
 import Nav from '../nav/nav';
+import WalletContainer from '../../containers/walletContainer';
 
 
 const MyPage = () => {
@@ -31,7 +31,7 @@ const MyPage = () => {
             <UserInfo userTypeBoolean={userTypeBoolean} />
           </div>
           <div className={styles['wallet-container']}>
-            <Wallet className={styles.wallet} />
+            <WalletContainer className={styles.wallet} />
           </div>
         </div>
         <div className={styles['donation-list-container']}>

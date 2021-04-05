@@ -15,7 +15,8 @@ function App() {
   return (
     <div className={styles.app}>
       <Switch>
-        <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/>
+        {/* <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/> */}
+        <ProtectedRouteConsumer path="/user" Component={MyPage} exact/>
         <ProtectedRouteShelter path="/main" Component={SubMain} exact/>
         {/* <ProtectedRouteAdmin path="/admin" Component={Admin} exact/> */}
         <Route path="/profile" component={MyPage} exact/>

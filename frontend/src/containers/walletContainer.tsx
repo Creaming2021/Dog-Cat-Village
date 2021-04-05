@@ -11,7 +11,8 @@ const WalletContainer = () => {
 
   useEffect(() => {
     getWalletInfo();
-  }, []);
+    console.log("여기");
+  }, [member.data]);
 
   const getWalletInfo = () => {
     if( member.data ){
@@ -19,8 +20,9 @@ const WalletContainer = () => {
     }
   }
 
-  const onSubmitCharge = () => {
+  const onSubmitCharge = (amount: string) => {
     alert("충전요청!");
+    dispatch(BlockchainActions.chargeCoinAsync.request(amount));
   }
 
   const onSubmigWithdraw = () => {
