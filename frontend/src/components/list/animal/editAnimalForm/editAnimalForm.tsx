@@ -26,7 +26,7 @@ const EditAnimalForm = ({
 }: EditAnimalFormProps) => {
   const initialState: AnimalInputType = {
     id: animal ? animal.id : -1,
-    imageUrl: animal ? animal.imageUrl : "",
+    profileImage: animal ? animal.profileImage : "",
     name: animal ? animal.name : "",
     breed: animal ? animal.breed : "",
     weight: animal ? animal.weight : "",
@@ -103,7 +103,7 @@ const EditAnimalForm = ({
     if (e.target.files) {
       setInput({
         ...input,
-        imageUrl: URL.createObjectURL(e.target.files[0]),
+        profileImage: URL.createObjectURL(e.target.files[0]),
       });
     }
   };
@@ -114,7 +114,7 @@ const EditAnimalForm = ({
         <tr>
           <td rowSpan={9}>
             <img
-              src={input.imageUrl}
+              src={input.profileImage}
               alt="파일을 업로드하세요"
               className={styles.image}
             />

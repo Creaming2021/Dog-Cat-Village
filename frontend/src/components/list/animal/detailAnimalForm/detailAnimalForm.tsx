@@ -25,7 +25,7 @@ const DetailAnimalForm = ({
   const {
     id,
     age,
-    imageUrl,
+    profileImage,
     name,
     breed,
     weight,
@@ -45,7 +45,7 @@ const DetailAnimalForm = ({
           <tr>
             <td>
               <img
-                src={imageUrl}
+                src={profileImage}
                 alt="파일을 업로드하세요"
                 className={styles.image}
               />
