@@ -10,6 +10,7 @@ import ErrorAlert, { ProtectedRouteConsumer, ProtectedRouteShelter, ProtectedRou
 import PasswordContainer from './containers/passwordContainer';
 import ConfirmSignUp from './components/submain/confirmSignUp/confirmSignUp';
 import Main from '../src/components/shelter/main/main';
+import ShelterListContainer from './containers/shelterListContainer';
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         {/* <ProtectedRouteAdmin path="/admin" Component={Admin} exact/> */}
         <Route path="/profile" component={MyPage} exact/>
         {/* <Route path="/shelter/streaming" component={Streaming} exact/> */}
-        <ProtectedRouteConsumer path="/shelter" Component={shelterListPage} exact/>
+        <ProtectedRouteConsumer path="/shelter" Component={ShelterListContainer} exact/>
         <ProtectedRouteConsumer path="/streaming" Component={StreamingListPage} exact/>
         {/* <ProtectedRouteConsumer path="/pet" Component={Pet} exact/> */}
         <Route path="/members/signup/:result" component={ConfirmSignUp} exact/>
