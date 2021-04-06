@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './adoptedAnimalsChart.module.css';
 import { Bar } from 'react-chartjs-2';
-import { basic } from '../../service/instance';
+import { basic, security } from '../../service/instance';
 
 
 
@@ -12,18 +12,32 @@ const AdoptedAnimalsChart = () => {
 
   useEffect(() => {
     setYear(new Date(Date.now()).getFullYear());
-    basic.get(`/adopts/years/${year}/count`)
+
+    security.get(`/adopts/years/${year}/count`,{
+      'headers': {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+      }
+    })
       .then(res => {
         setMonthlyAdoption(res.data.monthlyAdoption);
       });
-    basic.get(`/adopts/years/${year - 1}/count`)
+
+    security.get(`/adopts/years/${year - 1}/count`, {
+      'headers': {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+      }
+    })
       .then(res => {
         setLastMonthlyAdoption(res.data.monthlyAdoption);
       });
   }, []);
 
   const decreaseYear = () => {
-    basic.get(`/adopts/years/${year - 2}/count`)
+    security.get(`/adopts/years/${year - 2}/count`, {
+      'headers': {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+      }
+    })
       .then(res => {
         setMonthlyAdoption(lastMonthlyAdoption);
         setLastMonthlyAdoption(res.data.monthlyAdoption);
@@ -33,7 +47,11 @@ const AdoptedAnimalsChart = () => {
   };
 
   const increaseYear = () => {
-    basic.get(`/adopts/years/${year + 1}/count`)
+    security.get(`/adopts/years/${year + 1}/count`, {
+      'headers': {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+      }
+    })
       .then(res => {
         setLastMonthlyAdoption(monthlyAdoption);
         setMonthlyAdoption(res.data.monthlyAdoption);
