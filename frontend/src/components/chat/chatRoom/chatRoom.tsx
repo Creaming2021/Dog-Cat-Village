@@ -44,27 +44,26 @@ const ChatRoom = ({ selectedChat, onSubmitSendMessage, message, onChange, subscr
 	return (
 		<div className={styles['chat-room-container']}>
 			{ selectedChat.messageList.length === 0
-			? <div>채팅방을 열어주세요.</div>
-			:	<>
+			? <div className={styles.comment}>대화를 시작해보세요.</div>
+			:
 				<div className={styles['message-container']}>
 					{selectedChat.messageList.map((message, index) => 
 						<Message key={index} message={message}/>
 						)}
 				</div>
-				<div>
-					<input 
-						className={styles.input}
-						name="msg" 
-						value={message} 
-						onChange={onChange}
-						onKeyDown={onKeyDown}/>
-					<FontAwesomeIcon 
-						className={styles.icon}
-						icon={faArrowCircleUp}
-						onClick={onSubmitSendMessage} />
-				</div>
-				</>
 			}
+			<div>
+				<input 
+					className={styles.input}
+					name="msg" 
+					value={message} 
+					onChange={onChange}
+					onKeyDown={onKeyDown}/>
+				<FontAwesomeIcon 
+					className={styles.icon}
+					icon={faArrowCircleUp}
+					onClick={onSubmitSendMessage} />
+			</div>
 		</div>
 	);
 }

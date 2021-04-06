@@ -9,10 +9,19 @@ import Donation from "../donation/donation";
 import Home from "../home/home";
 import styles from "./main.module.css";
 import ChattingContainer from "../../../containers/chattingContainer";
+import { ModalMedium } from "../../common/common";
+import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 const Main = () => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
-  const [category, setCategory] = useState<string>("home");
+  const [ category, setCategory ] = useState<string>("home");
+  const [ chatting, setChatting ] = useState(false);
+
+  const onClickChat = () => {
+    setChatting(!chatting);
+  }
 
   const onChangeCategory = (category: string): void => {
     setCategory(category);
@@ -31,11 +40,19 @@ const Main = () => {
     <div className={styles["sub-main-container"]}>
       <Nav role={member.data?.memberRole || ""} />
       <div className={styles["sub-main-box"]}>
-        <ShelterContainer onChangeCategory={onChangeCategory}/>
+        <ShelterContainer onChangeCategory={onChangeCategory} onClickChat={onClickChat}/>
         {category === "home" && <Home type="shelter" streaming={streaming} />}
         {category === "animal" && <PetListContainer/>}
-        {category === "chatting" && 
-          <div className={styles['chatting-container']}><ChattingContainer /></div>}
+        {category === "chatting" && member.data?.memberRole === "SHELTER" &&
+          <div className={styles['chatting-container']}><ChattingContainer listSet={true}/></div>}
+        {chatting && member.data?.memberRole === "CONSUMER" &&
+          <ModalMedium>
+            <FontAwesomeIcon 
+              icon={faTimesCircle} 
+              className={styles['chat-close-icon']}
+              onClick={onClickChat}/>
+            <ChattingContainer listSet={false}/>
+          </ModalMedium>}  
         {category === "donation" && <Donation />}
         {category === "adopt" && <AdoptContainer/>}
       </div>

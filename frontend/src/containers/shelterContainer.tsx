@@ -7,9 +7,10 @@ import * as MemberActions from "../modules/member";
 
 type ShelterContainerProps = {
   onChangeCategory: (category: string) => void,
+  onClickChat: () => void,
 }
 
-const ShelterContainer = ({ onChangeCategory }: ShelterContainerProps) => {
+const ShelterContainer = ({ onChangeCategory, onClickChat }: ShelterContainerProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
   const shelter = useSelector((state: RootState) => state.member.shelterInfo);
   const profile = useSelector((state: RootState) => state.member.profileInfo);
@@ -46,7 +47,8 @@ const ShelterContainer = ({ onChangeCategory }: ShelterContainerProps) => {
           }
         }
         onChangeCategory={onChangeCategory} 
-        onSubmitModify={ModifyShelterInfo}/>
+        onSubmitModify={ModifyShelterInfo}
+        onClickChat={onClickChat}/>
       )
     }
       {/* {member.data !== null && shelter.data !== null && !profile.data && (

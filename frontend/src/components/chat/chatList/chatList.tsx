@@ -33,7 +33,7 @@ const ChatList = ({ chatList, onClick } : ChatListProps) => {
 	return (
 		<div className={styles['chat-list-container']}>
 			{ chatList.length === 0 
-			? <div>채팅방 목록이 없습니다.</div>
+			? <div className={styles.comment}>채팅방 목록이 없습니다.</div>
 			: chatList.map((chat) => 
 				<ChatItem 
 					key={chat.roomId}

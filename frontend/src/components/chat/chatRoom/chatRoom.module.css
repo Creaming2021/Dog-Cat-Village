@@ -8,6 +8,15 @@
 	float: left;
 }
 
+.chat-room-container .comment {
+	width: 100%;
+	height: 100%;	
+	text-align: center;
+	margin-top: 100%;
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
 .message-container{
 	width: 100%;
 	height: 90%;

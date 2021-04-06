@@ -55,9 +55,10 @@ type MainCategoryProps = {
   shelter: ShelterInfoType,
   profile: ProfileInfoType,
   onSubmitModify: (modifyInput: ModifyShelterInfoType) => void,
+  onClickChat: () => void,
 };
 
-const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModify }: MainCategoryProps) => {
+const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModify, onClickChat }: MainCategoryProps) => {
   const initialState = {
     siteUrl: shelter?.siteUrl || '',
     introduce: shelter?.introduce ||'',
@@ -119,7 +120,7 @@ const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModi
         <ButtonMedium
           content="1:1 채팅"
           value="chatting"
-          onClick={onClick}
+          onClick={member.memberRole === "SHELTER" ? onClick : onClickChat}
           buttonColor="bg-green"
         />
         { member.memberRole === "SHELTER" &&

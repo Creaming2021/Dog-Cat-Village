@@ -14,7 +14,11 @@ type MessageState = {
   send: boolean,
 }
 
-const ChattingContainer = () => {
+type ChattingContainerProps = {
+  listSet: boolean,
+}
+
+const ChattingContainer = ({ listSet }: ChattingContainerProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
   const chatList = useSelector((state: RootState) => state.chat.chatList);
   const selectedChat = useSelector((state: RootState) => state.chat.selectedChat);
@@ -82,10 +86,8 @@ const ChattingContainer = () => {
 
     if (stompClient !== null) {
       stompClient.disconnect();
-      console.log(Stomp.over(socket));
       setStompClient(Stomp.over(socket));
     } else {
-      console.log(Stomp.over(socket));
       setStompClient(Stomp.over(socket));
     }
   };
@@ -134,28 +136,16 @@ const ChattingContainer = () => {
 
   // 메세지 전송
   const sendMessage = () => {
-    console.log("메시지 전송!");
     stompClient.send("/app/receive", {}, JSON.stringify(message.message));
-
-    // addMessageList({
-    //   date: message.message.date.toString(),
-    //   msg: message.message.msg,
-    //   myId: message.message.myId,
-    //   oppName: message.message.oppName,
-    //   roomId: message.message.roomId,
-    //   oppId: message.message.oppId,
-    // });
 
     setMessage({ message: initialMessage, send: false});
   };
 
   // 서버 메시지 end point 구독
   const subscribeChattingRoom = () => {
-    console.log("구독 함수");
     stompClient.subscribe(
       `/message/${selectedChat.data?.roomId}`,
       (res: any) => {
-        console.log("응답", JSON.parse(res.body));
         const data = JSON.parse(res.body);
         addMessageList({
           date: data.date,
@@ -201,7 +191,7 @@ const ChattingContainer = () => {
 
   return (
     <div className={styles['chatting-container']}>
-      { member.data?.memberRole === 'SHELTER' &&
+      { listSet &&
         <ChatList 
           chatList={chatList.data || []}
           onClick={onClickChattingRoom}/>

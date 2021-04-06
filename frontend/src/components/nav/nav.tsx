@@ -49,7 +49,6 @@ const Nav = ({ role }: NavProps) => {
       <div className={styles.bar}>
         <div onClick={() => history.push('/main')}>메인 페이지</div>
         <div onClick={() => history.push('/profile')}>마이 페이지</div>
-        <div onClick={onClickChat}>채팅</div>
         <div onClick={onClickLogOut}>로그아웃</div>
       </div> 
     }
@@ -68,19 +67,13 @@ const Nav = ({ role }: NavProps) => {
       </div>
       </>
     }
-    { role === "ADMIN" &&
-      <div className={styles.bar}>
-        <div>관리자 네브바 수정할 예정</div>
-        <div onClick={onClickLogOut}>로그아웃</div>
-      </div>
-    }
     { chatting &&
       <ModalLarge>
         <FontAwesomeIcon 
           icon={faTimesCircle} 
           className={styles['chat-close-icon']}
           onClick={onClickChat}/>
-        <ChattingContainer/>
+        <ChattingContainer listSet={true}/>
       </ModalLarge>
     }
   </div>);
