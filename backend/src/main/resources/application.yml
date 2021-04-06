@@ -60,4 +60,4 @@ my-app:
   admin-password: ssafy
   client-id: ssafy
   client-secret: ssafy
-  server-url: http://loocalhost:8080
+  server-url: https://j4b106.p.ssafy.io
