@@ -88,8 +88,7 @@ const Pet = ({ role, petList, selectedPet, shelterId,
   }, [petList]);
 
   const onSearch = (): void => {
-    console.log(searchInput);
-    if(searchInput.name === "shelter"){
+    if(searchInput.name === "shelter") {
       setResultPetList(
         petList 
         ? petList.filter(pet => 
@@ -97,7 +96,7 @@ const Pet = ({ role, petList, selectedPet, shelterId,
             && pet.shelterName?.includes(searchInput.keyword))
         : []
       );
-    }else if(searchInput.name === "pet"){
+    }else if(searchInput.name === "pet") {
       setResultPetList(
         petList 
         ? petList.filter(pet => 
@@ -174,15 +173,14 @@ const Pet = ({ role, petList, selectedPet, shelterId,
           placeholder="동물 이름"
           inputSize="input-medium"
           />
+        {role === "SHELTER" && (
+          <ButtonSmall
+            content="동물 등록"
+            onClick={onOpenRegister}
+            buttonColor="bg-green"
+          />
+        )}
       </div>
-
-      {role === "SHELTER" && (
-        <ButtonSmall
-          content="동물 등록"
-          onClick={onOpenRegister}
-          buttonColor="bg-green"
-        />
-      )}
 
       <div className={styles["pet-list"]}>
         <PetList 
