@@ -234,7 +234,7 @@ const checkNameReducer = createReducer<MemberState, MemberAction>(initialState, 
     ...state,
     checkName: asyncState.load()
   }),
-  [CHECK_NAME_SUCCESS]: (state, action) => ({
+  [CHECK_NAME_SUCCESS]: (state) => ({
     ...state,
     checkName: {
       loading: false,
@@ -267,14 +267,14 @@ const getShelterInfoReducer = createReducer<MemberState, MemberAction>(initialSt
 .handleAction(
   transformToArray(getShelterInfoAsync),
   createAsyncReducer(getShelterInfoAsync, "shelterInfo")
-)
+);
 
 // 보호소 메인 정보 수정 리듀서
 const modifyShelterInfoReducer = createReducer<MemberState, MemberAction>(initialState)
 .handleAction(
   transformToArray(modifyShelterInfoAsync),
   createAsyncReducer(modifyShelterInfoAsync, "shelterInfo")
-)
+);
 
 const member = createReducer<MemberState, MemberAction>(initialState, {
   ...signInReducer.handlers,
@@ -285,7 +285,7 @@ const member = createReducer<MemberState, MemberAction>(initialState, {
   ...setPWReducer.handlers,
   ...deleteAccountReducer.handlers,
   ...getShelterInfoReducer.handlers,
-  ...modifyShelterInfoReducer.handlers
+  ...modifyShelterInfoReducer.handlers,
 });
 
 export default member;
