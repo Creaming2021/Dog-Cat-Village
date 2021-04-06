@@ -9,7 +9,7 @@ import { ModalLarge } from "../common/common";
 import ChattingContainer from "../../containers/chattingContainer";
 
 type NavProps = {
-  role: String;
+  role: string;
 };
 
 const Nav = ({ role }: NavProps) => {

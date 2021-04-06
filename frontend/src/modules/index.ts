@@ -5,6 +5,8 @@ import blockchain, { blockchainSaga } from './blockchain';
 import pet, { petSaga } from './pet';
 import adopt, { adoptSaga } from './adopt';
 import { all } from 'redux-saga/effects';
+import { consumer } from './consumer';
+import { shelter } from './shelter';
 
 // 여러 리듀서를 합쳐서 rootReducer에 선언
 const rootReducer = combineReducers({
@@ -13,6 +15,8 @@ const rootReducer = combineReducers({
   pet,
   blockchain,
   adopt,
+  consumer,
+  shelter,
 });
 
 export default rootReducer;
