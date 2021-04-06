@@ -85,7 +85,7 @@ const DonationDataList = [
 
 const DonationList = () => {
   const [moreBtnState, setMoreBtnState] = useState(false);
-  const [values, setValues] = useState({ first: 'all', input: '' });
+  const [values, setValues] = useState({ type: 'all', input: '' });
 
   const controlMoreBtn = () => {
     setMoreBtnState(!moreBtnState);
@@ -97,7 +97,7 @@ const DonationList = () => {
       <div className={styles['donation-container']}>
         <div className={styles['search-container']}>
           <Search 
-            selectList={[{name: 'first', options: [
+            selectList={[{name: 'type', options: [
               { value: "all", option: "모두" },
               { value: "charge", option: "충전" },
               { value: "donate", option: "기부" }
