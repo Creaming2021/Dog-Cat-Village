@@ -25,8 +25,6 @@ public class Shelter extends Member {
 
     private String siteUrl;
 
-    @Lob
-    @Column(name = "shelter_introduce")
     private String introduce;
 
     @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, orphanRemoval = true)
