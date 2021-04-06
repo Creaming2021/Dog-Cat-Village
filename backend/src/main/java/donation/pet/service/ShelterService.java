@@ -14,6 +14,7 @@ import donation.pet.exception.BaseException;
 import donation.pet.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,6 +37,7 @@ public class ShelterService {
     private final PetRepository petRepository;
     private final ModelMapper modelMapper;
     private final S3Service s3Service;
+    private final PasswordEncoder passwordEncoder;
 
     public ShelterListResponseDto getAllShelters() {
         List<ShelterResponseDto> shelterResponseDtos = shelterRepository.findAll().stream()
@@ -58,13 +60,23 @@ public class ShelterService {
         Shelter shelter = shelterRepository.findById(shelterId)
                 .orElseThrow(() -> new BaseException(ErrorCode.SHELTER_NOT_EXIST));
 
-        // 패스워드 암호화 상태와 비교
         // 해당 보호소의 이름과 dto 의 이름이 같으면 그냥 넘긴다. 다르면 다른 보호소의 이름과 동일한지 체크한다
         if (!shelter.getName().equals(dto.getName()) && checkShelterName(dto.getName())) {
             throw new BaseException(ErrorCode.NAME_DUPLICATION);
         }
-        shelter.updateShelter(dto);
-        shelterRepository.save(shelter);
+
+        // [패스워드 암호화 상태와 비교]
+        // 새 비밀번호가 없다면 비밀번호 체크는 필요없다.
+        if (dto.getNewPassword() == null) {
+            shelter.updateShelter(dto, shelter.getPassword());
+        } else if(!passwordEncoder.matches(dto.getCurrentPassword(), shelter.getPassword())) {
+            // 새 비밀번호가 있는데 기존 비밀번호 안맞는 경우
+            throw new BaseException(ErrorCode.PASSWORD_NOT_CORRECT);
+        } else {
+            // 비밀번호 정상 변경
+            shelter.updateShelter(dto, passwordEncoder.encode(dto.getNewPassword()));
+        }
+
         return modelMapper.map(shelter, ShelterResponseDto.class);
     }
 
