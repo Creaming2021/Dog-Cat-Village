@@ -31,7 +31,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
                     .mvcMatchers(HttpMethod.GET, "/pets/**", "/shelters/**")
                         .hasAnyAuthority("ROLE_CONSUMER", "ROLE_SHELTER")
-                    .antMatchers("/adopts/**", "/consumers/**", "/kakao-pay/**")
+                    .antMatchers("/consumers/**")
                         .hasAnyAuthority("ROLE_CONSUMER")
 
 
@@ -41,7 +41,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                     .antMatchers("/exchange/admin/**")
                         .hasAnyAuthority("ROLE_ADMIN")
 
-                // "/blockchain/**", "/chats/**"
+                // "/blockchain/**", "/chats/**", "/kakao-pay/**", "/adopts/**"
                     .anyRequest()
                         .authenticated()
                     .and()
