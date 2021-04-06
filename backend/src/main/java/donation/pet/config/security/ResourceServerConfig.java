@@ -30,7 +30,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         .permitAll()
 
                     .mvcMatchers(HttpMethod.GET, "/pets/**", "/shelters/**")
-                        .hasAnyAuthority("ROLE_CONSUMER")
+                        .hasAnyAuthority("ROLE_CONSUMER", "ROLE_SHELTER")
                     .antMatchers("/adopts/**", "/consumers/**", "/kakao-pay/**")
                         .hasAnyAuthority("ROLE_CONSUMER")
 
