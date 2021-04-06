@@ -8,7 +8,7 @@ import styles from './userInfoEdit.module.css';
 import * as MemberActions from "../../modules/member";
 
 
-const UserInfoEdit = (props) => {
+const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState }) => {
   const [imgUrl, setImgUrl] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [password1, setPassword1] = useState('');
@@ -18,7 +18,6 @@ const UserInfoEdit = (props) => {
   const [editPhoneNumber2, setEditPhoneNumber2] = useState('');
   const [editPhoneNumber3, setEditPhoneNumber3] = useState('');
   const dispatch = useDispatch();
-  const memberInfo = useSelector((state) => state.member.memberInfo);
   const memberCheck = useSelector((state) => state.member.checkName);
   const consumerInfo = useSelector((state) => state.consumer);
   const shelterInfo = useSelector((state) => state.shelter);
@@ -28,7 +27,7 @@ const UserInfoEdit = (props) => {
     setImgUrl(URL.createObjectURL(event.target.files[0]));
     const formData = new FormData();
     formData.append('file', event.target.files[0])
-    if (props.userTypeBoolean) {
+    if (userTypeBoolean) {
       dispatch(postUserProfileImg({
         id: memberInfo.data.memberId,
         formData
@@ -49,7 +48,7 @@ const UserInfoEdit = (props) => {
   };
 
   const changeEditState = () => {
-    props.setEditState(false);
+    setEditState(false);
   };
 
   const submitUserInfo = () => {
@@ -70,7 +69,7 @@ const UserInfoEdit = (props) => {
       phoneNumber
     };
     console.log(data);
-    if (props.userTypeBoolean) {
+    if (userTypeBoolean) {
       dispatch(putUserInfo(data));
     } else {
       dispatch(putShelterInfo(data));
@@ -97,8 +96,8 @@ const UserInfoEdit = (props) => {
   return (
     <div className={styles['user-info-edit']}>
       <div className={styles['user-info-img']}>
-        <ImageSmall src={imgUrl || props.userTypeBoolean ? consumerInfo.profileImage : shelterInfo.profileImage} alt={'fakeimgdata'} />
-        <label htmlFor="img-file" className={`${styles['user-img-edit-btn']} ${!props.userTypeBoolean && styles['blue-btn']}`}>
+        <ImageSmall src={imgUrl || userTypeBoolean ? consumerInfo.profileImage : shelterInfo.profileImage} alt={'fakeimgdata'} />
+        <label htmlFor="img-file" className={`${styles['user-img-edit-btn']} ${!userTypeBoolean && styles['blue-btn']}`}>
           프로필 이미지 편집
         </label>
         <input 
@@ -109,25 +108,25 @@ const UserInfoEdit = (props) => {
       <input 
         type="password" 
         placeholder="CURRENT PW" 
-        className={`${styles['user-input-form']} ${styles['current-pw']} ${!props.userTypeBoolean && styles['blue-line']}`}
+        className={`${styles['user-input-form']} ${styles['current-pw']} ${!userTypeBoolean && styles['blue-line']}`}
         onChange={(e) => {setCurrentPassword(e.target.value);}}
       />
       <input 
         type="password" 
         placeholder="NEW PW" 
-        className={`${styles['user-input-form']} ${styles['new-pw']} ${!props.userTypeBoolean && styles['blue-line']} ${password1 !== password2 && styles['error-line']} `} 
+        className={`${styles['user-input-form']} ${styles['new-pw']} ${!userTypeBoolean && styles['blue-line']} ${password1 !== password2 && styles['error-line']} `} 
         onChange={(e) => {setPassword1(e.target.value);}} 
       />
       <input 
         type="password" 
         placeholder="PW CONFIRM" 
-        className={`${styles['user-input-form']} ${styles['new-pw-confirm']} ${!props.userTypeBoolean && styles['blue-line']} ${password1 !== password2 && styles['error-line']}`} 
+        className={`${styles['user-input-form']} ${styles['new-pw-confirm']} ${!userTypeBoolean && styles['blue-line']} ${password1 !== password2 && styles['error-line']}`} 
         onChange={(e) => {setPassword2(e.target.value);}} 
       />
       {
         password1 !== password2 && <div className={styles['pw-confirm-error-message']}>비밀번호가 일치하지 않습니다.</div>
       }
-      {props.userTypeBoolean && 
+      {userTypeBoolean && 
         <div className={styles['nickname-container']}>
           <input 
             type="text" 
@@ -141,27 +140,27 @@ const UserInfoEdit = (props) => {
         <input 
           type="text" 
           maxLength="3" 
-          className={`${styles['user-input-form']} ${styles.phonenumber1} ${!props.userTypeBoolean && styles['blue-line']}`} 
+          className={`${styles['user-input-form']} ${styles.phonenumber1} ${!userTypeBoolean && styles['blue-line']}`} 
           onChange={(e) => {phoneNumberHandler(e, setEditPhoneNumber1)}}
         /> 
         <div className={styles['phonenumber-dash']}>-</div>
         <input 
           type="text" 
           maxLength="4" 
-          className={`${styles['user-input-form']} ${styles.phonenumber2} ${!props.userTypeBoolean && styles['blue-line']}`} 
+          className={`${styles['user-input-form']} ${styles.phonenumber2} ${!userTypeBoolean && styles['blue-line']}`} 
           onChange={(e) => {phoneNumberHandler(e, setEditPhoneNumber2)}}          
         />
         <div className={styles['phonenumber-dash']}>-</div>
         <input 
           type="text" 
           maxLength="4" 
-          className={`${styles['user-input-form']} ${styles.phonenumber2} ${!props.userTypeBoolean && styles['blue-line']}`} 
+          className={`${styles['user-input-form']} ${styles.phonenumber2} ${!userTypeBoolean && styles['blue-line']}`} 
           onChange={(e) => {phoneNumberHandler(e, setEditPhoneNumber3)}}
         />
       </div>
       <div className={styles['edit-btns']}>
-        <button className={`${styles['edit-cancel-btn']} ${!props.userTypeBoolean && styles['blue-btn']}`} onClick={changeEditState}>수정취소</button>
-        <button className={`${styles['edit-confirm-btn']} ${!props.userTypeBoolean && styles['blue-btn']}`} onClick={submitUserInfo}>수정완료</button>
+        <button className={`${styles['edit-cancel-btn']} ${!userTypeBoolean && styles['blue-btn']}`} onClick={changeEditState}>수정취소</button>
+        <button className={`${styles['edit-confirm-btn']} ${!userTypeBoolean && styles['blue-btn']}`} onClick={submitUserInfo}>수정완료</button>
       </div>
     </div>
   );

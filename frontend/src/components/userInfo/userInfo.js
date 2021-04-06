@@ -7,9 +7,8 @@ import { getUserInfo } from '../../modules/consumer';
 import { getShelterInfo } from '../../modules/shelter';
 
 
-const UserInfo = ({ userTypeBoolean }) => {
+const UserInfo = ({ userTypeBoolean, memberInfo }) => {
   const [editState, setEditState] = useState(false);
-  const memberInfo = useSelector((state) => state.member.memberInfo);
   const consumerInfo = useSelector((state) => state.consumer);
   const shelterInfo = useSelector((state) => state.shelter);
   const dispatch = useDispatch();
@@ -40,7 +39,7 @@ const UserInfo = ({ userTypeBoolean }) => {
     <>
       {
         editState 
-        ? <UserInfoEdit setEditState={setEditState} userTypeBoolean={userTypeBoolean}/>
+        ? <UserInfoEdit setEditState={setEditState} userTypeBoolean={userTypeBoolean} memberInfo={memberInfo} />
         : <div className={styles['user-info']}>
             <div className={styles['user-img-box']}>
               <ImageLarge src={userTypeBoolean ? consumerInfo.profileImage : shelterInfo.profileImage} alt={"fakeimgdata"} />

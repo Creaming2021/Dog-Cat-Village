@@ -11,11 +11,10 @@ import AdoptedAnimalsChart from '../chart/adoptedAnimalsChart';
 import ContributionChart from '../chart/contributionChart';
 
 
-const MyPage = (props) => {
+const MyPage = ({ memberInfo }) => {
   
   const [userTypeBoolean, setUserTypeBoolean] = useState(true);
   const [isReady, setIsReady] = useState(false);
-  const memberInfo = useSelector((state) => state.member.memberInfo);
 
   useEffect(() => {
     if (memberInfo.data && memberInfo.data.memberRole === 'SHELTER') {
@@ -37,7 +36,7 @@ const MyPage = (props) => {
           <div className={styles['main-container']}>
             <div className={styles['left-container']}>
               <div className={styles['user-info-box']}>
-                <UserInfo userTypeBoolean={userTypeBoolean} />
+                <UserInfo userTypeBoolean={userTypeBoolean} memberInfo={memberInfo}/>
               </div>
               <div className={styles['wallet-box']}>
                 {/* <Wallet userTypeBoolean={userTypeBoolean} /> */}
