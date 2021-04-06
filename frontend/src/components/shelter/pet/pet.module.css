@@ -1,9 +1,9 @@
-.animal-container {
+.pet-container {
   width: fit-content;
   height: fit-content;
 }
 
-.animal-list {
+.pet-list {
   display: block;
   height: 800px;
 
@@ -12,6 +12,6 @@
   scrollbar-width: none;
 }
 
-.animal-list::-webkit-scrollbar {
+.pet-list::-webkit-scrollbar {
   display: none;
 }

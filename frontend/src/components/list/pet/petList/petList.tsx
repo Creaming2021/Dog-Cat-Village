@@ -60,7 +60,7 @@ const PetCard = ({
 type PetListProps = {
   petList: PetListType[] | null;
   selectedPet: PetDetailType | null;
-  shelterId: number;
+  shelterId?: number;
   onGetPet: (id: number) => void;
   onModifyPet: (petInputType : PetInputType) => void;
   onDeletePet: (id: number) => void;
@@ -152,7 +152,7 @@ const PetList = ({ petList, selectedPet, shelterId, onGetPet, onModifyPet, onDel
           />
         </ModalMedium>
       )) ||
-        (mode === "MODIFY" && (
+        (mode === "MODIFY" && shelterId && (
           <ModalMedium>
             <EditPetForm
               type="modify"

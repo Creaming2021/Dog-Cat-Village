@@ -6,7 +6,7 @@ import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type DetailPetFormProps = {
-  memberShelterId: number;
+  memberShelterId?: number;
   pet: PetDetailType;
   onClose: () => void;
   onSubmit: () => void;

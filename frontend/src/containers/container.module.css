@@ -4,3 +4,9 @@
 	height: 100%;
 	padding: 40px;
 }
+
+.pet-list-container{
+	width: 80%;
+	height: 100%;
+	margin: auto;
+}

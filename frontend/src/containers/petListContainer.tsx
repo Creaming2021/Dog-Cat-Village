@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Nav from '../components/nav/nav';
 import Pet from "../components/shelter/pet/pet";
 import * as PetActions from '../modules/pet';
 import { RootState } from "../modules";
 import { PetEditType, PetProfileImage } from "../interface/pet";
+import styles from './container.module.css';
 
 const PetListContainer = () => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
@@ -62,9 +64,10 @@ const PetListContainer = () => {
     }
   }, []);
 
-  return (<>
-    { shelter.data && 
-      <Pet
+  return (
+  <div className={styles['pet-list-container']}>
+    { shelter.data
+    ? <Pet
         role={member.data?.memberRole}
         petList={petList.data}
         selectedPet={selectedPet.data}
@@ -75,8 +78,21 @@ const PetListContainer = () => {
         onDeletePet={onDeletePet}
         onSetProfileImage={onSetProfileImage}
         onSetInitialSelectedPet={onSetInitialSelectedPet}/>
+    : <>
+        <Nav role={member.data?.memberRole || ''}/>
+        <Pet
+          role={member.data?.memberRole}
+          petList={petList.data}
+          selectedPet={selectedPet.data}
+          onRegisterPet={onRegisterPet}
+          onGetPet={onGetPet}
+          onModifyPet={onModifyPet}
+          onDeletePet={onDeletePet}
+          onSetProfileImage={onSetProfileImage}
+          onSetInitialSelectedPet={onSetInitialSelectedPet}/>
+      </>
     }
- </>);
+ </div>);
 };
 
 export default PetListContainer;
