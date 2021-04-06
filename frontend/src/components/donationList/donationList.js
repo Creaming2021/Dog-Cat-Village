@@ -83,9 +83,9 @@ const DonationDataList = [
 ]
 
 
-const DonationList = () => {
+const DonationList = ({userTypeBoolean}) => {
   const [moreBtnState, setMoreBtnState] = useState(false);
-  const [values, setValues] = useState({ first: 'all', input: '' });
+  const [values, setValues] = useState({ type: 'all', input: '' });
 
   const controlMoreBtn = () => {
     setMoreBtnState(!moreBtnState);
@@ -97,7 +97,7 @@ const DonationList = () => {
       <div className={styles['donation-container']}>
         <div className={styles['search-container']}>
           <Search 
-            selectList={[{name: 'first', options: [
+            selectList={[{name: 'type', options: [
               { value: "all", option: "모두" },
               { value: "charge", option: "충전" },
               { value: "donate", option: "기부" }
@@ -122,9 +122,9 @@ const DonationList = () => {
         </div>
         <div className={styles['main-container']}>
           <div className={styles['date-filter']}>
-            <button className={styles['left-btn']}>◀</button>
+            <button className={`${styles['left-btn']} ${!userTypeBoolean && styles['blue-btn']}`}>◀</button>
             <p className={styles.date}>2021.03</p>
-            <button className={styles['right-btn']}>▶</button>
+            <button className={`${styles['right-btn']} ${!userTypeBoolean && styles['blue-btn']}`}>▶</button>
           </div>
           <div className={ moreBtnState === true ? `${styles['list-container']} ${styles['list-container-active']}` : styles['list-container']}>
             {
@@ -140,7 +140,7 @@ const DonationList = () => {
           </div>
           <hr className={styles['list-line-last']}/>
           <div className={styles['more-btn-container']}>
-            <button className={styles['more-btn']} onClick={controlMoreBtn}>+ 더보기</button>
+            <button className={`${styles['more-btn']} ${!userTypeBoolean && styles['blue-btn']}`} onClick={controlMoreBtn}>+ 더보기</button>
           </div>
         </div>
       </div>

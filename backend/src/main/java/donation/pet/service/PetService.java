@@ -35,16 +35,18 @@ public class PetService {
 
     public List<PetSimpleDto> getPetAll() {
         return petRepository.findSimplePets().stream()
+                .map(Pet::changeToDto)
                 .map(pet -> modelMapper.map(pet, PetSimpleDto.class))
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public void insertPet(PetRequestDto dto) {
+    public Long insertPet(PetRequestDto dto) {
         Shelter shelter = shelterRepository.findById(dto.getShelterId())
                 .orElseThrow(() -> new BaseException(ErrorCode.SHELTER_NOT_EXIST));
         Pet pet = Pet.createPet(dto, shelter);
         petRepository.save(pet);
+        return pet.getId();
     }
 
     public PetDto getPetById(Long petId) {

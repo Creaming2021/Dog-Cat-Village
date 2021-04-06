@@ -15,13 +15,14 @@ import java.io.IOException;
 @Slf4j
 @CrossOrigin(origins = "*")
 @RestController
+@RequestMapping("/kakao-pay")
 @RequiredArgsConstructor
 public class KakaoPayController {
 
     private final KakaoPayService kakaoPayService;
 
 
-    @GetMapping("/kakao-pay")
+    @GetMapping
     public ResponseEntity<AddressDto> kakaoPay(@RequestParam("amount") int amount,
                                                HttpServletResponse response) throws IOException {
         log.info("kakaoPay post.. amount: {}", amount);
@@ -32,7 +33,7 @@ public class KakaoPayController {
         return ResponseEntity.status(HttpStatus.OK).body(new AddressDto(result));
     }
 
-    @GetMapping("/kakao-pay/success/{kakaopayId}")
+    @GetMapping("/success/{kakaopayId}")
     public void kakaoPaySuccess(@PathVariable("kakaopayId") Long kakaopayId,
                                           HttpServletResponse response,
                                                                @RequestParam("pg_token") String pg_token) throws IOException {
@@ -45,13 +46,13 @@ public class KakaoPayController {
         response.sendRedirect("https://j4b106.p.ssafy.io/profile/" + result.getQuantity());
     }
 
-    @GetMapping("kakao-pay/cancel")
+    @GetMapping("/cancel")
     public void kakaoPayCancel(HttpServletResponse response) throws IOException {
         log.info("kakaoPayCancel get .....");
         response.sendRedirect("https://j4b106.p.ssafy.io");
     }
 
-    @GetMapping("kakao-pay/fail")
+    @GetMapping("/fail")
     public void kakaoPayFail(HttpServletResponse response) throws IOException {
         log.info("kakaoPayFail get .....");
         response.sendRedirect("https://j4b106.p.ssafy.io");

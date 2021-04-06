@@ -10,12 +10,13 @@ import createSagaMiddleware from 'redux-saga';
 import rootReducer, { rootSaga } from './modules/index';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { BrowserRouter } from 'react-router-dom';
+import thunk from 'redux-thunk';
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   rootReducer, 
-  composeWithDevTools(applyMiddleware(sagaMiddleware)),
+  composeWithDevTools(applyMiddleware(sagaMiddleware, thunk)),
 );
 
 sagaMiddleware.run(rootSaga);

@@ -51,7 +51,6 @@ public class MemberController {
         log.info("(Get) authenticateEmail - {}", token);
         memberService.checkEmailToken(token);
         RedirectView redirectView = new RedirectView();
-        // todo 링크나오면 바꾸기
         redirectView.setUrl(appProperties.getServerUrl() + "/signup/success");
         return redirectView;
     }
@@ -82,7 +81,6 @@ public class MemberController {
         log.info("(Get) makeChangeLink - {}", token);
         memberService.makeChangeLink(token);
         RedirectView redirectView = new RedirectView();
-        // todo 링크 나오면 수정
         redirectView.setUrl(appProperties.getServerUrl() + "/members/password/" + token);
         return redirectView;
     }
@@ -97,15 +95,10 @@ public class MemberController {
     }
 
     @ApiOperation("회원 탈퇴")
-    @DeleteMapping("")
-    public ResponseEntity<Void> deleteMember(@CurrentUser Member member) {
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity<Void> deleteMember(@PathVariable("memberId") Long memberId, @CurrentUser Member member) {
         log.info("(Delete) deleteMember - {}", member.getEmail());
-        memberService.deleteMember(member);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<Void> test() {
+        memberService.deleteMember(memberId, member);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
