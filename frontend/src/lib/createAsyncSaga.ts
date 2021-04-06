@@ -36,6 +36,8 @@ export default function createAsyncSaga<T1, P1, T2, P2, T3, P3>(
       // 요청 성공시 핸들러에 보내기
       if(action.type === "member/SIGN_IN"){
         handleAuthResponse(result);
+        
+        getAccessToken();
       } else{
         handleResponse(result);
       }
@@ -48,8 +50,6 @@ export default function createAsyncSaga<T1, P1, T2, P2, T3, P3>(
         handleError(e);
       }else {
         handleSecurityError(e);
-        // 리프레쉬 토큰으로 다시 요청 던지는 액션 부르기
-        console.log("리프레쉬 토큰 요청");
         getAccessToken();
       }
       yield put(asyncActionCreator.failure(e));
