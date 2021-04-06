@@ -14,4 +14,5 @@ public class ConsumerResponseDto {
     private String phoneNumber;
     private String contractAddress;
     private String profileImage;
+
 }
