@@ -111,6 +111,9 @@ const Pet = ({ role, petList, selectedPet, shelterId,
     if(registerPetInfo.profileImage){
       onRegisterPet(registerPetInfo);
       onCloseRegister();
+    } else if (registerPet) {
+      onModifyPet(registerPetInfo);
+      onCloseRegister();
     }
   }, [registerPetInfo]);
 
@@ -128,12 +131,12 @@ const Pet = ({ role, petList, selectedPet, shelterId,
       sex: input.sex,
       neuter: input.neuter,
       shelterId: input.shelterId,
-    })
+    });
   }
 
   const onSumbitModify = (input: PetInputType): void => {
     setRegisterPetInfo({
-      id: -1,
+      id: input.id,
       profileImage: input.profileImage,
       name: input.name,
       breed: input.breed,
@@ -145,7 +148,7 @@ const Pet = ({ role, petList, selectedPet, shelterId,
       sex: input.sex,
       neuter: input.neuter,
       shelterId: input.shelterId,
-    })
+    });
   }
 
   const onChange = (

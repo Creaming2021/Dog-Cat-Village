@@ -102,7 +102,7 @@ const DetailPetForm = ({
                     <td>{condition}</td>
                   </tr>
                   <tr>
-                    <td colSpan={2}>
+                    <td colSpan={2} className={styles['modal-button']}>
                       {shelterId === memberShelterId ? (
                         <>
                           <ButtonSmall
