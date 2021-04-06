@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import styles from './App.module.css';
 import MemberContainer from './containers/memberContainer';
-import MyPage from './components/myPage/myPage';
+import ProfileContainer from './containers/profileContainer';
 import StreamingListPage from './components/streamingListPage/streamingListPage';
 import UserMainPage from './components/userMainPage/userMainPage';
 import shelterListPage from './components/shelterListPage/shelterListPage';
@@ -19,7 +19,7 @@ function App() {
         <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/>
         <ProtectedRouteShelter path="/main" Component={Main} exact/>
         {/* <ProtectedRouteAdmin path="/admin" Component={Admin} exact/> */}
-        <Route path="/profile" component={MyPage} exact/>
+        <Route path="/profile" component={ProfileContainer} exact/>
         {/* <Route path="/shelter/streaming" component={Streaming} exact/> */}
         <ProtectedRouteConsumer path="/shelter" Component={ShelterListContainer} exact/>
         <ProtectedRouteConsumer path="/streaming" Component={StreamingListPage} exact/>

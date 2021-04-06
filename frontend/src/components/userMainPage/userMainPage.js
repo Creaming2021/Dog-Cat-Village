@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import styles from './userMainPage.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVideo, faCoins,  faDog } from '@fortawesome/free-solid-svg-icons';
-// import client from '../../service/client';
-import client from 'axios';
 import Nav from '../nav/nav';
-client.defaults.baseURL = 'https://j4b106.p.ssafy.io/api/';
+import { security } from '../../service/instance';
+
+
 
 const coin = [0,0,0]
 
@@ -53,7 +53,11 @@ const UserMainPage = (props) => {
   const [animalCount, setAnimalCount] = useState([]);
 
   useEffect(() => {
-    client.get('/adopts/today/count')
+    security.get('/adopts/today/count', {
+      'headers': {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+      }
+    })
       .then((res) => {
         const count = String(res.data.todayAdoptedPetCount);
         setAnimalCount(count.split(''));

@@ -50,6 +50,10 @@ button {
   color: #ffce00;
 }
 
+.blue-color {
+  color: #16a8eb;
+}
+
 .coin-btns {
   display: flex;
   justify-content: center;
@@ -82,4 +86,8 @@ button {
 
 .coin-withdraw-btn:hover {
   color: #ffce00;
+}
+
+.blue-btn:hover {
+  color: #16a8eb;
 }
