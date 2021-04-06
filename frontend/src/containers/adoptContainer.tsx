@@ -6,6 +6,7 @@ import AdoptList from "../components/adopt/adoptList/adoptList";
 import { Search } from "../components/common/common";
 import { AdoptListType } from "../interface/adopt";
 import { RootState } from "../modules";
+import styles from './container.module.css';
 
 const AdoptContainer = () => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
@@ -117,7 +118,7 @@ const AdoptContainer = () => {
   ];
 
   return (
-    <>
+    <div className={styles['adopt-container']}>
       {member.data && 
         (selectedAdopt.data?.id ? (
           <AdoptDetail
@@ -145,7 +146,7 @@ const AdoptContainer = () => {
             />
           </>
         ))}
-    </>
+    </div>
   );
 };
 
