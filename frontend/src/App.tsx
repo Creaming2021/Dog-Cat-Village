@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import styles from './App.module.css';
 import MemberContainer from './containers/memberContainer';
-import MyPage from './components/myPage/myPage';
+import ProfileContainer from './containers/profileContainer';
 import StreamingListPage from './components/streamingListPage/streamingListPage';
 import UserMainPage from './components/userMainPage/userMainPage';
-import shelterListPage from './components/shelterListPage/shelterListPage';
 import ErrorAlert, { ProtectedRouteConsumer, ProtectedRouteShelter, ProtectedRouteAdmin, ProtectedRouteToken } from './components/error/errorAlert';
 import PasswordContainer from './containers/passwordContainer';
 import ConfirmSignUp from './components/submain/confirmSignUp/confirmSignUp';
 import Main from '../src/components/shelter/main/main';
 import PetListContainer from './containers/petListContainer';
+import ShelterListContainer from './containers/shelterListContainer';
 
 function App() {
   return (
@@ -19,9 +19,9 @@ function App() {
         <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/>
         <ProtectedRouteShelter path="/main" Component={Main} exact/>
         {/* <ProtectedRouteAdmin path="/admin" Component={Admin} exact/> */}
-        <Route path="/profile" component={MyPage} exact/>
+        <Route path="/profile" component={ProfileContainer} exact/>
         {/* <Route path="/shelter/streaming" component={Streaming} exact/> */}
-        <ProtectedRouteConsumer path="/shelter" Component={shelterListPage} exact/>
+        <ProtectedRouteConsumer path="/shelter" Component={ShelterListContainer} exact/>
         <ProtectedRouteConsumer path="/streaming" Component={StreamingListPage} exact/>
         <ProtectedRouteConsumer path="/pet" Component={PetListContainer} exact/>
         <Route path="/members/signup/:result" component={ConfirmSignUp} exact/>

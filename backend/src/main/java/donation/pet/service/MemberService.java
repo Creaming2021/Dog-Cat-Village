@@ -134,6 +134,7 @@ public class MemberService implements UserDetailsService {
         member.updatePassword(passwordEncoder.encode(dto.getPassword()));
     }
 
+    @Transactional
     public void deleteMember(Long memberId, Member oauthMember) {
         if (oauthMember == null) {
             throw new BaseException(ErrorCode.MEMBER_NOT_FOUND);

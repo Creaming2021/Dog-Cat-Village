@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 public class PetDto {
 
     private Long shelterId;
+    private String shelterName;
 
     private Long id;
     private String name;

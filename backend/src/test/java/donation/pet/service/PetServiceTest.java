@@ -3,10 +3,12 @@ package donation.pet.service;
 import donation.pet.domain.etc.Sex;
 import donation.pet.domain.member.shelter.Shelter;
 import donation.pet.domain.member.shelter.ShelterRepository;
+import donation.pet.domain.pet.BreedType;
 import donation.pet.domain.pet.Neuter;
 import donation.pet.domain.pet.Pet;
 import donation.pet.domain.pet.PetRepository;
 import donation.pet.dto.pet.PetRequestDto;
+import donation.pet.dto.pet.PetSimpleDto;
 import donation.pet.exception.BaseException;
 import donation.pet.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +17,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,17 +40,23 @@ class PetServiceTest {
     @Autowired
     ModelMapper modelMapper;
 
-//    @BeforeEach
-//    public void before() {
+    @BeforeEach
+    public void before() {
 //        Shelter shelter = Shelter.builder().name("보호소").build();
-//        for (int i = 0; i < 10; i++) {
-//            PetRequestDto dto = new PetRequestDto();
-//            dto.setName("호랑이" + i);
-//            Pet pet = Pet.createPet(dto, shelter);
-//            petRepository.save(pet);
-//        }
-//        shelterRepository.save(shelter);
-//    }
+        Shelter shelter = shelterRepository.findById(3L)
+                .orElseThrow(() -> new BaseException(ErrorCode.SHELTER_NOT_EXIST));
+        for (int i = 0; i < 10; i++) {
+            PetRequestDto dto = PetRequestDto.builder()
+                    .shelterId(shelter.getId())
+                    .name("쿠로").breed("웰시코기").weight(13.4f)
+                    .birthday("20180207")
+                    .breedType(BreedType.DOG).personality("식탐이 강함").condition("돼지")
+                    .sex(Sex.MALE).neuter(Neuter.YES).build();
+            Pet pet = Pet.createPet(dto, shelter);
+            petRepository.save(pet);
+        }
+        shelterRepository.save(shelter);
+    }
 
     @Test
     public void 전체출력() {

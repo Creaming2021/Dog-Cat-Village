@@ -32,5 +32,5 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - ./redis/redis.conf:/etc/redis/redis.conf
-    command: [ "redis-server", "/etc/redis/redis.conf" ]
+      - ./redis/redis.conf:/data/etc/redis/redis.conf
+    command: [ "redis-server", "/data/etc/redis/redis.conf" ]
