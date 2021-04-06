@@ -12,11 +12,10 @@ import {
   ChatListType,
   ChatRoomType,
   ChatType,
-  MessageListType,
+  MessageType,
   NoticeListType,
   SelectedChatType,
 } from "../interface/chat";
-import ChatList from "../components/chat/chatList/chatList";
 
 // 채팅방 생성 액션 타입
 const CREATE_CHAT = "chat/CREATE_CHAT";
@@ -82,11 +81,11 @@ export const getChatDetailAsync = createAsyncAction(
 )<ChatRoomType, AxiosResponse<SelectedChatType>, AxiosError>();
 
 // 대화 채팅 대화 리스트에 추가 액션 객체 생성함수
-export const addMessageList = ( message: MessageListType) => (
-  { 
+export const addMessageList = ( message: MessageType) => {
+  return { 
     type: ADD_MESSAGE_LIST,
     payload: message,
-  });
+  }};
 
 //saga
 const createChatSaga = createAsyncSaga(createChatAsync, ChatAPI.createChat);
@@ -128,11 +127,6 @@ type ChatState = {
     data: ChatListType[] | null;
     error: Error | null;
   };
-  messageList: {
-    loading: boolean;
-    data: MessageListType[] | null;
-    error: Error | null;
-  };
   noticeList: {
     loading: boolean;
     data: NoticeListType[] | null;
@@ -144,7 +138,6 @@ type ChatState = {
 const initialState: ChatState = {
   selectedChat: asyncState.initial(),
   chatList: asyncState.initial(),
-  messageList: asyncState.initial(),
   noticeList: asyncState.initial(),
 };
 
@@ -185,13 +178,26 @@ const getChatDetailReducer = createReducer<ChatState, ChatAction>(initialState)
 
 // 대화 채팅 대화 리스트에 추가 reducer 생성
 const addMessageListReducer = createReducer(initialState, {
-  [ADD_MESSAGE_LIST]: (state, action) => ({
-    ...state,
-    messageList: {
-      ...state.messageList,
-      data: state.messageList.data?.concat(action.payload) || []
+  [ADD_MESSAGE_LIST]: (state, action) => {
+    
+    if(state.selectedChat.data){
+      return {
+        ...state,
+        selectedChat: {
+          loading: false,
+          data: {
+            ...state.selectedChat.data,
+            messageList: state.selectedChat.data.messageList.concat(action.payload)
+          },
+          error: null
+        }
+      }
+    } else {
+      return {
+        ...state,
+      }
     }
-  })
+  }
 });
 
 // chat reducer 생성

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./nav.module.css";
-import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { faUserCircle, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
@@ -30,7 +30,7 @@ const Nav = ({ role }: NavProps) => {
   }
 
   const onClickChat = () => {
-    setChatting(true);
+    setChatting(!chatting);
   }
 
   const onClickLogOut = () => {
@@ -76,6 +76,10 @@ const Nav = ({ role }: NavProps) => {
     }
     { chatting &&
       <ModalLarge>
+        <FontAwesomeIcon 
+          icon={faTimesCircle} 
+          className={styles['chat-close-icon']}
+          onClick={onClickChat}/>
         <ChattingContainer/>
       </ModalLarge>
     }

@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { MessageListType, SelectedChatType } from '../../../interface/chat';
+import { MessageType, SelectedChatType } from '../../../interface/chat';
 import styles from './chatRoom.module.css';
 import { faArrowCircleUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type messageProps = {
-	message: MessageListType
+	message: MessageType
 }
 
 const Message = ({ message }: messageProps) => {
@@ -25,16 +25,21 @@ type ChatRoomProps = {
 	selectedChat: SelectedChatType,
 	onSubmitSendMessage: () => void,
 	message: string,
-	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+	subscribeChattingRoom: () => void,
 }
 
-const ChatRoom = ({ selectedChat, onSubmitSendMessage, message, onChange }: ChatRoomProps) => {
+const ChatRoom = ({ selectedChat, onSubmitSendMessage, message, onChange, subscribeChattingRoom }: ChatRoomProps) => {
 	
 	const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.nativeEvent.key === "Enter") {
       onSubmitSendMessage();
     }
-  }
+  };
+
+	useEffect(() => {
+		subscribeChattingRoom();
+	}, []);
 	
 	return (
 		<div className={styles['chat-room-container']}>

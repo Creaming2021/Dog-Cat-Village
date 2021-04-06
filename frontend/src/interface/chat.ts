@@ -23,19 +23,12 @@ export interface ChatListType {
   roomId: string;
 }
 
-export interface MessageListType {
-  date: string;
-  msg: string;
-  myId: number;
-  oppName: string;
-}
-
 export interface SelectedChatType {
   myId: number;
   oppId: number;
   roomId: string;
   oppName: string;
-  messageList: MessageListType[];
+  messageList: MessageType[];
 }
 
 export interface MessageType {
@@ -43,6 +36,6 @@ export interface MessageType {
   myId: number;
   oppId: number;
   msg: string;
-  date: Date;
+  date: string;
   oppName: string;
 }

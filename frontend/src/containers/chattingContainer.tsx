@@ -1,11 +1,10 @@
-import { send } from "node:process";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Sockjs from "sockjs-client";
 import Stomp from "stompjs";
 import ChatList from "../components/chat/chatList/chatList";
 import ChatRoom from "../components/chat/chatRoom/chatRoom";
-import { MessageListType, MessageType, SelectedChatType } from "../interface/chat";
+import { MessageType } from "../interface/chat";
 import { RootState } from "../modules";
 import * as ChatAction from '../modules/chat';
 import styles from './container.module.css';
@@ -27,7 +26,7 @@ const ChattingContainer = () => {
     oppId: selectedChat.data?.oppId || -1,
     oppName: selectedChat.data?.oppName || '',
     msg: '',
-    date: new Date(),
+    date: '',
   }
 
   const [loading, setLoading] = useState(false);
@@ -65,7 +64,6 @@ const ChattingContainer = () => {
         message: initialMessage,
         send: false,
       });
-      subscribeChattingRoom();
     }
   }, [selectedChat]);
 
@@ -128,7 +126,7 @@ const ChattingContainer = () => {
       ...message,
       message: {
         ...message.message,
-        date: kr_curr,
+        date: kr_curr.toString(),
       },
       send: true,
     });
@@ -139,40 +137,40 @@ const ChattingContainer = () => {
     console.log("메시지 전송!");
     stompClient.send("/app/receive", {}, JSON.stringify(message.message));
 
-    dispatch(ChatAction.addMessageList({
-      date: message.message.date.toString(),
-      msg: message.message.msg,
-      myId: message.message.myId,
-      oppName: message.message.oppName,
-    }));
-
-    addMessageList({
-      date: message.message.date.toString(),
-      msg: message.message.msg,
-      myId: message.message.myId,
-      oppName: message.message.oppName,
-    });
+    // addMessageList({
+    //   date: message.message.date.toString(),
+    //   msg: message.message.msg,
+    //   myId: message.message.myId,
+    //   oppName: message.message.oppName,
+    //   roomId: message.message.roomId,
+    //   oppId: message.message.oppId,
+    // });
 
     setMessage({ message: initialMessage, send: false});
   };
 
   // 서버 메시지 end point 구독
   const subscribeChattingRoom = () => {
+    console.log("구독 함수");
     stompClient.subscribe(
       `/message/${selectedChat.data?.roomId}`,
       (res: any) => {
+        console.log("응답", JSON.parse(res.body));
+        const data = JSON.parse(res.body);
         addMessageList({
-          date: res.body.date,
-          msg: res.body.msg,
-          myId: res.body.myId,
-          oppName: res.body.oppName
+          date: data.date,
+          msg: data.msg,
+          myId: data.myId,
+          oppName: data.oppName,
+          roomId: data.roomId,
+          oppId: data.oppId,
         });
       }
     );
   }
 
   // 채팅방 메세지 리스트에 추가 하는 액션
-  const addMessageList = (newMessage: MessageListType) => {
+  const addMessageList = (newMessage: MessageType) => {
     dispatch(ChatAction.addMessageList(newMessage));
   }
 
@@ -213,7 +211,8 @@ const ChattingContainer = () => {
           selectedChat={selectedChat.data}
           onSubmitSendMessage={onSubmitSendMessage}
           message={message.message.msg}
-          onChange={onChange}/>
+          onChange={onChange}
+          subscribeChattingRoom={subscribeChattingRoom}/>
       }
     </div>
   );
