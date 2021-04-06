@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserInfo, postUserProfileImg, putUserInfo } from '../../modules/consumer';
 import { getShelterInfo, postShelterProfileImg, putShelterInfo } from '../../modules/shelter';
-import member from '../../modules/member';
 import { ImageSmall } from '../common/common';
 import styles from './userInfoEdit.module.css';
 import * as MemberActions from "../../modules/member";
@@ -34,16 +33,6 @@ const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState, consumerInfo,
       setEditPhoneNumber2(shelterInfo.phoneNumber.slice(3,7));
       setEditPhoneNumber3(shelterInfo.phoneNumber.slice(7,11));
     }
-    dispatch(putShelterInfo({
-      id: 3,
-      data: {
-        currentPassword: 'ssafy',
-        name: 'editNickname',
-        newPassword: 'ssafy123!',
-        phoneNumber: '01012344567',
-        introduce: 'ㅎ2'
-      }
-    }));
   },[]);
 
   const handleChangeImg = (event) => {
@@ -88,29 +77,32 @@ const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState, consumerInfo,
         id: memberInfo.data.memberId,
         data: {
           currentPassword,
-          name: 'editNickname',
+          name: editNickname,
           newPassword: password1,
           phoneNumber,
           introduce: shelterInfo.introduce
         }
       }));
     }
-    const formData = new FormData();
-    formData.append('file', imgFile)
-    
-    if (userTypeBoolean) {
-      dispatch(postUserProfileImg({
-        id: memberInfo.data.memberId,
-        formData
-      }));
-      dispatch(getUserInfo(memberInfo.data.memberId));
-    } else {
-      dispatch(postShelterProfileImg({
-        id: memberInfo.data.memberId,
-        formData
-      }));
-      dispatch(getShelterInfo(memberInfo.data.memberId));
+
+    if (imgFile) {
+      console.log(imgFile);
+      const formData = new FormData();
+      formData.append('file', imgFile)
+      if (userTypeBoolean) {
+        dispatch(postUserProfileImg({
+          id: memberInfo.data.memberId,
+          formData,
+        }));
+      } else {
+        dispatch(postShelterProfileImg({
+          id: memberInfo.data.memberId,
+          formData,
+        }));
+      }
     }
+    setImgFile(null);
+    setImgUrl('');
     setEditState(false);
   };
 

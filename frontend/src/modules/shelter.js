@@ -31,8 +31,12 @@ export const putShelterInfo = ({id, data}) => async dispatch => {
 };
 
 export const postShelterProfileImg = (data) => async dispatch => {
-  console.log(data);
-  const response = await image.post(`/shelters/${data.id}/image`, data.formData, {
+  await image.post(`/shelters/${data.id}/image`, data.formData, {
+    'headers': {
+      'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+    }
+  });
+  const response = await security.get(`/shelters/${data.id}/profile`, {
     'headers': {
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
     }
@@ -40,6 +44,7 @@ export const postShelterProfileImg = (data) => async dispatch => {
   console.log(response);
   dispatch ({
     type: POST_SHELTER_PROFILE_IMG,
+    payload: response.data
   });
 };
 
@@ -68,7 +73,10 @@ export const shelter = (state=initialState, action) => {
       };
     
     case POST_SHELTER_PROFILE_IMG:
-      return state;
+      return {
+        ...state,
+        ...action.payload
+      };
 
     default:
       return state;

@@ -33,14 +33,21 @@ export const putUserInfo = ({id, data}) => async dispatch => {
 
 export const postUserProfileImg = (data) => async dispatch => {
   console.log(data);
-  const response = await image.post(`/consumers/${data.id}/image`, data.formData, {
+  await image.post(`/consumers/${data.id}/image`, data.formData, {
     'headers': {
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
     }
   });
+  const response = await security.get(`/consumers/${data.id}`,{
+    'headers': {
+      'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+    }
+  });
+
   console.log(response);
   dispatch ({
     type: POST_CONSUMER_PROFILE_IMG,
+    payload: response.data,
   });
 };
 
@@ -69,7 +76,10 @@ export const consumer = (state=initialState, action) => {
       };
     
     case POST_CONSUMER_PROFILE_IMG:
-      return state;
+      return {
+        ...state,
+        ...action.payload
+      };
 
     default:
       return state;
