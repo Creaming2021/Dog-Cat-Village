@@ -44,8 +44,7 @@ const SetPassword = ({
 
   const onSubmitSetPassword = () => {
     if(validatePW() && passwordConfirm.valid) {
-      alert("요청");
-      //setPassword();
+      setPassword();
     }
   };
 

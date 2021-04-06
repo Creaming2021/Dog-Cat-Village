@@ -16,8 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static donation.pet.service.S3Service.CLOUD_FRONT_DOMAIN_NAME;
 
 @Service
 @RequiredArgsConstructor
@@ -28,12 +31,12 @@ public class PetService {
     private final PetRepository petRepository;
     private final ShelterRepository shelterRepository;
     private final ModelMapper modelMapper;
+    private final S3Service s3Service;
 
-    public PetResponseListDto getPetAll() {
-        List<PetSimpleDto> simpleDtos = petRepository.findSimplePets().stream()
+    public List<PetSimpleDto> getPetAll() {
+        return petRepository.findSimplePets().stream()
                 .map(pet -> modelMapper.map(pet, PetSimpleDto.class))
                 .collect(Collectors.toList());
-        return new PetResponseListDto(simpleDtos);
     }
 
     @Transactional
@@ -67,11 +70,11 @@ public class PetService {
     }
 
     @Transactional
-    public void updatePetImage(Long petId, MultipartFile file) {
+    public void saveProfileImage(Long petId, MultipartFile file) throws IOException {
         Pet pet = petRepository.findById(petId)
                 .orElseThrow(() -> new BaseException(ErrorCode.PET_NOT_EXIST));
         // 파일 처리
-        String fileName = "";
-        pet.changeProfileImage(fileName);
+        pet.updateProfileImage("https://" + CLOUD_FRONT_DOMAIN_NAME + "/" + s3Service.uploadFile(file));
+        petRepository.save(pet);
     }
 }

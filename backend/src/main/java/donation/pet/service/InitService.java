@@ -26,7 +26,7 @@ public class InitService {
     }
 
     public void signup(Shelter shelter) {
-        if (consumerRepository.findByEmail(shelter.getEmail()).isEmpty()) {
+        if (shelterRepository.findByEmail(shelter.getEmail()).isEmpty()) {
             shelter.updatePassword(passwordEncoder.encode(shelter.getPassword()));
             shelterRepository.save(shelter);
         }

@@ -19,12 +19,11 @@ public class PetRequestDto {
     private Long shelterId;
 
     private String name;
-    private String profileImage;
     private Sex sex;
     private Float weight;
     private BreedType breedType;
     private String breed;
-    private LocalDateTime birthday;
+    private String birthday;
     private String personality;
     private Neuter neuter;
     private String condition;

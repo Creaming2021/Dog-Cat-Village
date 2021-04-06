@@ -35,4 +35,8 @@ public class Consumer extends Member {
         this.setPassword(password);
         this.setPhoneNumber(phoneNumber);
     }
+
+    public void updateProfileImage(String profileImage) {
+        setProfileImage(profileImage);
+    }
 }
