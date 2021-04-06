@@ -226,10 +226,7 @@ public class ChatService {
         simpMessagingTemplate.convertAndSend("/notice/" + oppId, notices);
         insertMessage(message); // 메시지 저장
 
-        // 프론트와 상의해보기 !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // oppId를 붙이지 않을 경우,
-        // oppId를 붙일 경우,
-        simpMessagingTemplate.convertAndSend("/message/" + roomId + "/" + oppId, message);
+        simpMessagingTemplate.convertAndSend("/message/" + roomId, message);
 
     }
 
@@ -242,7 +239,7 @@ public class ChatService {
         log.info("key:{}", key);
         log.info("messages:{}", message.getMsg());
         String strMsg = objectMapper.writeValueAsString(message);
-        listOps.leftPush(key, strMsg);
+        listOps.rightPush(key, strMsg);
     }
 
     // 람다식 내 try catch 문을 없애기 위한 방법

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./nav.module.css";
-import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { faUserCircle, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import * as MemberAction from '../../modules/member';
+import { ModalLarge } from "../common/common";
+import ChattingContainer from "../../containers/chattingContainer";
 
 type NavProps = {
   role: String;
@@ -13,6 +15,7 @@ type NavProps = {
 const Nav = ({ role }: NavProps) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const [ chatting, setChatting ] = useState(false);
   
   const onClickLogo = () => {
     if(role === 'CONSUMER') {
@@ -27,7 +30,7 @@ const Nav = ({ role }: NavProps) => {
   }
 
   const onClickChat = () => {
-    alert("채팅창 열기");
+    setChatting(!chatting);
   }
 
   const onClickLogOut = () => {
@@ -64,11 +67,14 @@ const Nav = ({ role }: NavProps) => {
       </div>
       </>
     }
-    { role === "ADMIN" &&
-      <div className={styles.bar}>
-        <div>관리자 네브바 수정할 예정</div>
-        <div onClick={onClickLogOut}>로그아웃</div>
-      </div>
+    { chatting &&
+      <ModalLarge>
+        <FontAwesomeIcon 
+          icon={faTimesCircle} 
+          className={styles['chat-close-icon']}
+          onClick={onClickChat}/>
+        <ChattingContainer listSet={true}/>
+      </ModalLarge>
     }
   </div>);
 };

@@ -46,6 +46,8 @@ public enum ErrorCode {
     // Exchange
     EXCHANGE_NOT_EXIST(HttpStatus.NOT_FOUND, "06000", "존재하지 않는 환전신청서입니다."),
 
+    // Kakaopay
+    KAKAOPAY_NOT_EXIST(HttpStatus.NOT_FOUND, "07000", "존재하지 않는 결제 아이디입니다."),
 
 
     // 서버 에러
