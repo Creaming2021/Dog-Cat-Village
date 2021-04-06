@@ -1,5 +1,5 @@
 .pet-list-container {
-  display: block;
+  display: inline-block;
 }
 
 .pet-card-container {
