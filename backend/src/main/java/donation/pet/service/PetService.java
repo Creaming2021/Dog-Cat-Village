@@ -35,6 +35,7 @@ public class PetService {
 
     public List<PetSimpleDto> getPetAll() {
         return petRepository.findSimplePets().stream()
+                .map(Pet::changeToDto)
                 .map(pet -> modelMapper.map(pet, PetSimpleDto.class))
                 .collect(Collectors.toList());
     }
