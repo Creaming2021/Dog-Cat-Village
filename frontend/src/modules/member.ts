@@ -209,9 +209,11 @@ const signInReducer = createReducer<MemberState, MemberAction>(initialState, {
 
 // 로그아웃 요청 리듀서
 const signOutReducer = createReducer(initialState, {
-  [SIGN_OUT]: () => ({
+  [SIGN_OUT]: () => {
+    localStorage.clear();
+    return {
     ...initialState,
-  })
+  }}
 });
 
 // 회원 가입 요청 리듀서

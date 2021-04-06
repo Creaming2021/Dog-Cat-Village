@@ -1,6 +1,7 @@
 import { call, put } from "redux-saga/effects";
 import { AsyncActionCreatorBuilder, PayloadAction } from "typesafe-actions";
 import { handleAuthResponse, handleError, handleResponse, handleSecurityError } from "../service/instance";
+import { getAccessToken } from "../service/token";
 
 /* 
   유틸함수의 재사용성을 높이기 위하여 함수의 파라미터는 언제나 하나의 값을 사용하도록 하고,
@@ -49,6 +50,7 @@ export default function createAsyncSaga<T1, P1, T2, P2, T3, P3>(
         handleSecurityError(e);
         // 리프레쉬 토큰으로 다시 요청 던지는 액션 부르기
         console.log("리프레쉬 토큰 요청");
+        getAccessToken();
       }
       yield put(asyncActionCreator.failure(e));
     }
