@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ChatRoomInfoDto {
     private String roomId;
+    private Long oppId;
     private String oppName;
     private String recentMsg;
 }

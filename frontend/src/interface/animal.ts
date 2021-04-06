@@ -1,7 +1,7 @@
 export interface AnimalBasicType {
   id: number;
   name: string;
-  imageUrl: string;
+  profileImage: string;
   sex: string;
   breedType: string;
 }

@@ -13,26 +13,18 @@ axios.defaults.validateStatus = (status) => status >= 200 && status < 300;
 // 로그인 이외의 모든 요청 성공 시
 export const handleResponse = (response: any) => {
   console.log("로그인 요청 이외의 성공 핸들러");
-  console.log(response && response.data);
-  console.log(response && response.status);
-  console.log(response && response.statusText);
-  console.log(response && response.headers);
-  console.log(response && response.config);
+  console.log(response);
   return response;
 };
 
 // 로그인 요청 성공 시
 export const handleAuthResponse = (response: any) => {
   console.log("로그인 요청 성공 핸들러");
-  console.log(response.data);
-  console.log(response.status);
-  console.log(response.statusText);
-  console.log(response.headers);
-  console.log(response.config);
+  console.log(response);
 
   // 토큰 저장
-  localStorage.setItem('access_token', response.data.access_token);
-  localStorage.setItem('refresh_token', response.data.refresh_token);
+  localStorage.setItem('access_token', response.access_token);
+  localStorage.setItem('refresh_token', response.refresh_token);
 
   return response;
 };
@@ -101,6 +93,20 @@ export const security = axios.create({
 
 // 사용 시 필수 데이터
 // security.get<응답 객체 인터페이스>('url', {
+//   'headers': {
+//     'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+//   }
+// });
+
+// 이미지 관련 요청 (auth, token 둘 다)
+export const image = axios.create({
+  headers: {
+    'Content-Type': 'multipart/data-form',
+  },
+});
+
+// 사용 시 필수 데이터
+// image.get<응답 객체 인터페이스>('url', {
 //   'headers': {
 //     'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
 //   }

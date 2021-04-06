@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ShelterMainResponseDto {
     private Long id;
-    private String name;
     private String siteUrl;
     private String introduce;
-    private String phoneNumber;
 }
