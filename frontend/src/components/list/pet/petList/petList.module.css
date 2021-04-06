@@ -1,8 +1,8 @@
-.animal-list-container {
-  display: block;
+.pet-list-container {
+  display: inline-block;
 }
 
-.animal-card-container {
+.pet-card-container {
   display: inline-block;
   position: relative;
   width: fit-content;
@@ -11,7 +11,7 @@
   margin: 5px 10px 0px 10px;
 }
 
-.animal-card-container img {
+.pet-card-container img {
   display: block;
   width: 260px;
   height: auto;
@@ -19,7 +19,7 @@
   background-color: yellow;
 }
 
-.animal-card-container:hover .card-hover {
+.pet-card-container:hover .card-hover {
   visibility: visible;
   cursor: pointer;
 }

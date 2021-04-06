@@ -53,7 +53,7 @@ export function createAsyncReducer<S, AC extends AnyAsyncActionCreator, K extend
       case success:
         return {
           ...state,
-          [key]: asyncState.success(action.payload.data)
+          [key]: asyncState.success(action.payload)
         };
       case failure:
         return {
