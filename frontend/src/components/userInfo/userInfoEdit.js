@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserInfo, postUserProfileImg, putUserInfo } from '../../modules/consumer';
 import { getShelterInfo, postShelterProfileImg, putShelterInfo } from '../../modules/shelter';
@@ -8,8 +8,9 @@ import styles from './userInfoEdit.module.css';
 import * as MemberActions from "../../modules/member";
 
 
-const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState }) => {
+const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState, consumerInfo, setProfileImg }) => {
   const [imgUrl, setImgUrl] = useState('');
+  const [imgFile, setImgFile] = useState(null);
   const [currentPassword, setCurrentPassword] = useState('');
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
@@ -19,32 +20,36 @@ const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState }) => {
   const [editPhoneNumber3, setEditPhoneNumber3] = useState('');
   const dispatch = useDispatch();
   const memberCheck = useSelector((state) => state.member.checkName);
-  const consumerInfo = useSelector((state) => state.consumer);
+  // const consumerInfo = useSelector((state) => state.consumer);
   const shelterInfo = useSelector((state) => state.shelter);
 
+  useEffect(() => {
+    setEditNickname(userTypeBoolean ? consumerInfo.name : shelterInfo.name);
+    if (userTypeBoolean && consumerInfo.phoneNumber) {
+      setEditPhoneNumber1(consumerInfo.phoneNumber.slice(0,3));
+      setEditPhoneNumber2(consumerInfo.phoneNumber.slice(3,7));
+      setEditPhoneNumber3(consumerInfo.phoneNumber.slice(7,11));
+    } else if (!userTypeBoolean && shelterInfo.phoneNumber) {
+      setEditPhoneNumber1(shelterInfo.phoneNumber.slice(0,3));
+      setEditPhoneNumber2(shelterInfo.phoneNumber.slice(3,7));
+      setEditPhoneNumber3(shelterInfo.phoneNumber.slice(7,11));
+    }
+    dispatch(putShelterInfo({
+      id: 3,
+      data: {
+        currentPassword: 'ssafy',
+        name: 'editNickname',
+        newPassword: 'ssafy123!',
+        phoneNumber: '01012344567',
+        introduce: 'ㅎ2'
+      }
+    }));
+  },[]);
 
   const handleChangeImg = (event) => {
     setImgUrl(URL.createObjectURL(event.target.files[0]));
-    const formData = new FormData();
-    formData.append('file', event.target.files[0])
-    if (userTypeBoolean) {
-      dispatch(postUserProfileImg({
-        id: memberInfo.data.memberId,
-        formData
-      }));
-      if (memberInfo.data) { 
-        dispatch(getUserInfo(memberInfo.data.memberId));
-      }
-    } else {
-      console.log(shelterInfo.data);
-      dispatch(postShelterProfileImg({
-        id: memberInfo.data.memberId,
-        formData
-      }));
-      if (memberInfo.data) { 
-        dispatch(getShelterInfo(memberInfo.data.memberId));
-      }
-    }
+    setImgFile(event.target.files[0]);
+    setProfileImg(URL.createObjectURL(event.target.files[0]));
   };
 
   const changeEditState = () => {
@@ -64,20 +69,49 @@ const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState }) => {
 
     const data = {
       currentPassword,
-      newPassword : password1,
-      name : editNickname,
-      phoneNumber
+      name: editNickname,
+      newPassword: password1,
+      phoneNumber,
     };
+
     console.log(data);
+
+    if (!memberInfo.data) return;
+
     if (userTypeBoolean) {
-      dispatch(putUserInfo(data));
+      dispatch(putUserInfo({
+        id: memberInfo.data.memberId,
+        data        
+      }));
     } else {
-      dispatch(putShelterInfo(data));
+      dispatch(putShelterInfo({
+        id: memberInfo.data.memberId,
+        data: {
+          currentPassword,
+          name: 'editNickname',
+          newPassword: password1,
+          phoneNumber,
+          introduce: shelterInfo.introduce
+        }
+      }));
     }
+    const formData = new FormData();
+    formData.append('file', imgFile)
     
-    if (memberInfo.data) { 
+    if (userTypeBoolean) {
+      dispatch(postUserProfileImg({
+        id: memberInfo.data.memberId,
+        formData
+      }));
       dispatch(getUserInfo(memberInfo.data.memberId));
+    } else {
+      dispatch(postShelterProfileImg({
+        id: memberInfo.data.memberId,
+        formData
+      }));
+      dispatch(getShelterInfo(memberInfo.data.memberId));
     }
+    setEditState(false);
   };
 
   const phoneNumberHandler = (e, setNumber) => {
@@ -89,14 +123,13 @@ const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState }) => {
   const duplicateCheck = () => {
     if (editNickname) {
       dispatch(MemberActions.checkNameAsync.request(editNickname));
-      console.log(memberCheck);
     }
   }
 
   return (
     <div className={styles['user-info-edit']}>
       <div className={styles['user-info-img']}>
-        <ImageSmall src={imgUrl || userTypeBoolean ? consumerInfo.profileImage : shelterInfo.profileImage} alt={'fakeimgdata'} />
+        <ImageSmall src={imgUrl || (userTypeBoolean ? consumerInfo.profileImage : shelterInfo.profileImage) } alt={'fakeimgdata'} />
         <label htmlFor="img-file" className={`${styles['user-img-edit-btn']} ${!userTypeBoolean && styles['blue-btn']}`}>
           프로필 이미지 편집
         </label>
@@ -131,6 +164,7 @@ const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState }) => {
           <input 
             type="text" 
             className={`${styles['user-input-form']} ${styles.nickname}`}
+            value={editNickname}
             onChange={(e) => {setEditNickname(e.target.value);}}
           />
           <button className={`${styles['nickname-check']} ${memberCheck.data && styles['disable-btn']}`} onClick={duplicateCheck}>중복체크</button>
@@ -139,16 +173,18 @@ const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState }) => {
       <div className={styles.phonenumber}>
         <input 
           type="text" 
-          maxLength="3" 
+          maxLength="3"
           className={`${styles['user-input-form']} ${styles.phonenumber1} ${!userTypeBoolean && styles['blue-line']}`} 
           onChange={(e) => {phoneNumberHandler(e, setEditPhoneNumber1)}}
+          value={editPhoneNumber1}
         /> 
         <div className={styles['phonenumber-dash']}>-</div>
         <input 
           type="text" 
           maxLength="4" 
           className={`${styles['user-input-form']} ${styles.phonenumber2} ${!userTypeBoolean && styles['blue-line']}`} 
-          onChange={(e) => {phoneNumberHandler(e, setEditPhoneNumber2)}}          
+          onChange={(e) => {phoneNumberHandler(e, setEditPhoneNumber2)}}
+          value={editPhoneNumber2}
         />
         <div className={styles['phonenumber-dash']}>-</div>
         <input 
@@ -156,6 +192,7 @@ const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState }) => {
           maxLength="4" 
           className={`${styles['user-input-form']} ${styles.phonenumber2} ${!userTypeBoolean && styles['blue-line']}`} 
           onChange={(e) => {phoneNumberHandler(e, setEditPhoneNumber3)}}
+          value={editPhoneNumber3}
         />
       </div>
       <div className={styles['edit-btns']}>

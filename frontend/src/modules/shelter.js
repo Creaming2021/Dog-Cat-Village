@@ -1,4 +1,4 @@
-import { basic, image } from '../service/instance';
+import { basic, image, security } from '../service/instance';
 
 
 const GET_SHELTER_INFO = "consumer/GET_SHELTER_INFO";
@@ -7,15 +7,23 @@ const POST_SHELTER_PROFILE_IMG = "consumer/POST_SHELTER_PROFILE_IMG";
 
 
 export const getShelterInfo = (id) => async dispatch => {
-  const response = await basic.get(`/shelters/${id}/profile`);
+  const response = await security.get(`/shelters/${id}/profile`, {
+    'headers': {
+      'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+    }
+  });
   dispatch({
     type: GET_SHELTER_INFO,
     payload: response.data,
   });
 };
 
-export const putShelterInfo = (data) => async dispatch => {
-  const response = await basic.put(`/shelters/${data.id}/profile`, data);
+export const putShelterInfo = ({id, data}) => async dispatch => {
+  const response = await security.put(`/shelters/${id}/profile`, data, {
+    'headers': {
+      'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+    }
+  });
   dispatch({
     type: PUT_SHELTER_INFO,
     payload: response.data,
@@ -24,7 +32,11 @@ export const putShelterInfo = (data) => async dispatch => {
 
 export const postShelterProfileImg = (data) => async dispatch => {
   console.log(data);
-  const response = await image.post(`/shelters/${data.id}/image`, data.formData);
+  const response = await image.post(`/shelters/${data.id}/image`, data.formData, {
+    'headers': {
+      'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+    }
+  });
   console.log(response);
   dispatch ({
     type: POST_SHELTER_PROFILE_IMG,
