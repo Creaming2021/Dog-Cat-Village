@@ -134,9 +134,12 @@ public class MemberService implements UserDetailsService {
         member.updatePassword(passwordEncoder.encode(dto.getPassword()));
     }
 
-    public void deleteMember(Member oauthMember) {
+    @Transactional
+    public void deleteMember(Long memberId, Member oauthMember) {
         if (oauthMember == null) {
             throw new BaseException(ErrorCode.MEMBER_NOT_FOUND);
+        } else if (!memberId.equals(oauthMember.getId())) {
+            throw new BaseException(ErrorCode.MEMBER_NOT_ALLOWED);
         }
         Member member = memberRepository.findById(oauthMember.getId())
                 .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));

@@ -239,7 +239,7 @@ public class ChatService {
         log.info("key:{}", key);
         log.info("messages:{}", message.getMsg());
         String strMsg = objectMapper.writeValueAsString(message);
-        listOps.leftPush(key, strMsg);
+        listOps.rightPush(key, strMsg);
     }
 
     // 람다식 내 try catch 문을 없애기 위한 방법

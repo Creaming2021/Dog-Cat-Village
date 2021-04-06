@@ -45,3 +45,15 @@
 .icon:hover{
   cursor: pointer;
 }
+
+.chat-close-icon{
+  font-size: 2.5rem;
+  float: right;
+  color: #999999; 
+  margin: 10px 10px 0px 0px;
+}
+
+.chat-close-icon:hover{
+  cursor: pointer;
+  color: red;
+}

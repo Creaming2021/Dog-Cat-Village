@@ -29,9 +29,9 @@ public class PetController {
 
     @ApiOperation("반려동물 저장")
     @PostMapping
-    public ResponseEntity<Void> insertPet(@RequestBody PetRequestDto dto) {
-        petService.insertPet(dto);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<Long> insertPet(@RequestBody PetRequestDto dto) {
+        Long result = petService.insertPet(dto);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation("해당 반려 동물 조회")

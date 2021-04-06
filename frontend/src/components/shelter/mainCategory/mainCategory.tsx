@@ -55,13 +55,14 @@ type MainCategoryProps = {
   shelter: ShelterInfoType,
   profile: ProfileInfoType,
   onSubmitModify: (modifyInput: ModifyShelterInfoType) => void,
+  onClickChat: () => void,
 };
 
-const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModify }: MainCategoryProps) => {
+const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModify, onClickChat }: MainCategoryProps) => {
   const initialState = {
-    siteUrl: shelter.siteUrl || '',
-    introduce: shelter.introduce ||'',
-    shelterId: member.memberId,
+    siteUrl: shelter?.siteUrl || '',
+    introduce: shelter?.introduce ||'',
+    shelterId: member?.memberId,
   };
   
   const [ modify, setModify ] = useState<boolean>(false);
@@ -99,7 +100,7 @@ const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModi
       <div className={styles.top}>
         <ImageLarge src={profile.profileImage} alt={profile.name} />
         <div className={styles.title}>{profile.name}</div>
-        <div className={styles.site}>{shelter.siteUrl}</div>
+        <div className={styles.site}>{shelter?.siteUrl}</div>
         <div className={styles.info}>{profile.phoneNumber}</div>
         <div className={styles.info}>{profile.email}</div>
       </div>
@@ -119,7 +120,7 @@ const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModi
         <ButtonMedium
           content="1:1 채팅"
           value="chatting"
-          onClick={onClick}
+          onClick={member.memberRole === "SHELTER" ? onClick : onClickChat}
           buttonColor="bg-green"
         />
         { member.memberRole === "SHELTER" &&
@@ -144,7 +145,7 @@ const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModi
             icon={faPencilAlt}
             onClick={onClickModify}
           />
-          <div className={styles.introduction}>{shelter.introduce}</div>
+          <div className={styles.introduction}>{shelter?.introduce}</div>
         </div>
       </div>
     </div>
