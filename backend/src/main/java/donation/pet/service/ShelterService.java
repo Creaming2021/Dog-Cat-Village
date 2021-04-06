@@ -5,9 +5,9 @@ import donation.pet.domain.adopt.AdoptRepository;
 import donation.pet.domain.member.consumer.ConsumerRepository;
 import donation.pet.domain.member.shelter.Shelter;
 import donation.pet.domain.member.shelter.ShelterRepository;
+import donation.pet.domain.pet.Pet;
 import donation.pet.domain.pet.PetRepository;
 import donation.pet.dto.adopt.*;
-import donation.pet.dto.pet.PetResponseListDto;
 import donation.pet.dto.pet.PetSimpleDto;
 import donation.pet.dto.shelter.*;
 import donation.pet.exception.BaseException;
@@ -112,13 +112,13 @@ public class ShelterService {
 
 
     // 특정 보호소 동물 리스트
-    public PetResponseListDto getPetsByShelterId(Long shelterId){
+    public List<PetSimpleDto> getPetsByShelterId(Long shelterId){
         Shelter shelter = shelterRepository.findById(shelterId)
                 .orElseThrow(() -> new BaseException(ErrorCode.SHELTER_NOT_EXIST));
-        List<PetSimpleDto> petResponseDtos = shelter.getPets().stream()
+        return shelter.getPets().stream()
+                .map(Pet::changeToDto)
                 .map(pet -> modelMapper.map(pet, PetSimpleDto.class))
                 .collect(Collectors.toList());
-        return new PetResponseListDto(petResponseDtos);
     }
 
     @Transactional
