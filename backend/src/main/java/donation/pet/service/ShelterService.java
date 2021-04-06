@@ -59,8 +59,8 @@ public class ShelterService {
                 .orElseThrow(() -> new BaseException(ErrorCode.SHELTER_NOT_EXIST));
 
         // 패스워드 암호화 상태와 비교
-
-        if (checkShelterName(dto.getName())) {
+        // 해당 보호소의 이름과 dto 의 이름이 같으면 그냥 넘긴다. 다르면 다른 보호소의 이름과 동일한지 체크한다
+        if (!shelter.getName().equals(dto.getName()) && checkShelterName(dto.getName())) {
             throw new BaseException(ErrorCode.NAME_DUPLICATION);
         }
         shelter.updateShelter(dto);
