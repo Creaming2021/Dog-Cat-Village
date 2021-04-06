@@ -1,65 +1,80 @@
-import { AxiosError, AxiosResponse } from "axios"; 
-import { ActionType, createAsyncAction, createReducer } from "typesafe-actions"; 
-import { asyncState, createAsyncReducer, transformToArray } from "../lib/reducerUtils";
-import { takeEvery } from 'redux-saga/effects';
+import { AxiosError, AxiosResponse } from "axios";
+import { ActionType, createAsyncAction, createReducer } from "typesafe-actions";
+import {
+  asyncState,
+  createAsyncReducer,
+  transformToArray,
+} from "../lib/reducerUtils";
+import { takeEvery } from "redux-saga/effects";
 import createAsyncSaga from "../lib/createAsyncSaga";
-import * as MemberAPI from '../service/member';
-import { SignInResponseType, SignInInputType, SignUpInputType, SetPasswordRequestType } from "../interface/member";
+import * as MemberAPI from "../service/member";
+import {
+  SignInResponseType,
+  SignInInputType,
+  SignUpInputType,
+  SetPasswordRequestType,
+} from "../interface/member";
 import { ModifyShelterInfoType, ShelterInfoType } from "../interface/shelter";
 import * as ShelterAPI from "../service/shelter";
 import { ProfileInfoType } from "../interface/consumer";
 
+// 토큰 정보 저장 액션 타입
+const SET_MEMBER_INFO = "member/SET_MEMBER_INFO";
+
 // 로그인 요청 액션 타입
-const SIGN_IN = 'member/SIGN_IN';
-const SIGN_IN_SUCCESS = 'member/SIGN_IN_SUCCESS';
-const SIGN_IN_ERROR = 'member/SIGN_IN_ERROR';
+const SIGN_IN = "member/SIGN_IN";
+const SIGN_IN_SUCCESS = "member/SIGN_IN_SUCCESS";
+const SIGN_IN_ERROR = "member/SIGN_IN_ERROR";
 
 // 로그아웃 요청 액션 타입
-const SIGN_OUT = 'member/SIGN_OUT';
+const SIGN_OUT = "member/SIGN_OUT";
 
 // 회원 가입 요청 액션 타입
-const SIGN_UP = 'member/SIGN_UP';
-const SIGN_UP_SUCCESS = 'member/SIGN_UP_SUCCESS';
-const SIGN_UP_ERROR = 'member/SIGN_UP_ERROR';
+const SIGN_UP = "member/SIGN_UP";
+const SIGN_UP_SUCCESS = "member/SIGN_UP_SUCCESS";
+const SIGN_UP_ERROR = "member/SIGN_UP_ERROR";
 
 // 비밀번호 찾기 요청 액션 타입
-const FIND_PW = 'member/FIND_PW';
-const FIND_PW_SUCCESS = 'member/FIND_PW_SUCCESS';
-const FIND_PW_ERROR = 'member/FIND_PW_ERROR';
+const FIND_PW = "member/FIND_PW";
+const FIND_PW_SUCCESS = "member/FIND_PW_SUCCESS";
+const FIND_PW_ERROR = "member/FIND_PW_ERROR";
 
 // 닉네임 중복확인 요청 액션 타입
-const CHECK_NAME = 'member/CHECK_NAME';
-const CHECK_NAME_SUCCESS = 'member/CHECK_NAME_SUCCESS';
-const CHECK_NAME_ERROR = 'member/CHECK_NAME_ERROR';
+const CHECK_NAME = "member/CHECK_NAME";
+const CHECK_NAME_SUCCESS = "member/CHECK_NAME_SUCCESS";
+const CHECK_NAME_ERROR = "member/CHECK_NAME_ERROR";
 
 // 비밀번호 설정 액션 타입
-const SET_PW = 'member/SET_PW';
-const SET_PW_SUCCESS = 'member/SET_PW_SUCCESS';
-const SET_PW_ERROR = 'member/SET_PW_ERROR';
+const SET_PW = "member/SET_PW";
+const SET_PW_SUCCESS = "member/SET_PW_SUCCESS";
+const SET_PW_ERROR = "member/SET_PW_ERROR";
 
 // 회원 탈퇴 요청 액션 타입
-const DELETE_ACCOUNT = 'member/DELETE_ACCOUNT';
-const DELETE_ACCOUNT_SUCCESS = 'member/DELETE_ACCOUNT_SUCCESS';
-const DELETE_ACCOUNT_ERROR = 'member/DELETE_ACCOUNT_ERROR';
+const DELETE_ACCOUNT = "member/DELETE_ACCOUNT";
+const DELETE_ACCOUNT_SUCCESS = "member/DELETE_ACCOUNT_SUCCESS";
+const DELETE_ACCOUNT_ERROR = "member/DELETE_ACCOUNT_ERROR";
 
 // 보호소 메인 정보 조회
-const GET_SHELTER_INFO = 'shelter/GET_SHELTER_INFO';
-const GET_SHELTER_INFO_SUCCESS = 'shelter/GET_SHELTER_INFO_SUCCESS';
-const GET_SHELTER_INFO_ERROR = 'shelter/GET_SHELTER_INFO_ERROR';
+const GET_SHELTER_INFO = "shelter/GET_SHELTER_INFO";
+const GET_SHELTER_INFO_SUCCESS = "shelter/GET_SHELTER_INFO_SUCCESS";
+const GET_SHELTER_INFO_ERROR = "shelter/GET_SHELTER_INFO_ERROR";
 
 // 보호소 메인 정보 수정
-const MODIFY_SHELTER_INFO = 'shelter/MODIFY_SELTER_INFO';
-const MODIFY_SHELTER_INFO_SUCCESS = 'shelter/MODIFY_SELTER_INFO_SUCCESS';
-const MODIFY_SHELTER_INFO_ERROR = 'shelter/MODIFY_SELTER_INFO_ERROR';
+const MODIFY_SHELTER_INFO = "shelter/MODIFY_SELTER_INFO";
+const MODIFY_SHELTER_INFO_SUCCESS = "shelter/MODIFY_SELTER_INFO_SUCCESS";
+const MODIFY_SHELTER_INFO_ERROR = "shelter/MODIFY_SELTER_INFO_ERROR";
 
 // const GET_ACCOUNT = 'member/GET_ACCOUNT';
 // const MODIFY_ACCOUNT = 'member/MODIFY_ACCOUNT';
 
+// 토큰 정보 저장 액션 객체 생성함수
+export const setMemberInfo = () => ({ type: SET_MEMBER_INFO });
+
 // 로그인 요청 액션 객체 생성함수
-export const signInAsync = createAsyncAction( 
-  SIGN_IN, 
-  SIGN_IN_SUCCESS, 
-  SIGN_IN_ERROR 
+export const signInAsync = createAsyncAction(
+  SIGN_IN,
+  SIGN_IN_SUCCESS,
+  SIGN_IN_ERROR
 )<SignInInputType, SignInResponseType, AxiosError>();
 
 // 로그아웃 요청 액션 객체 생성함수
@@ -120,9 +135,18 @@ const signUpSaga = createAsyncSaga(signUpAsync, MemberAPI.signUp);
 const findPWSaga = createAsyncSaga(findPWAsync, MemberAPI.findPW);
 const checkNameSaga = createAsyncSaga(checkNameAsync, MemberAPI.checkName);
 const setPWSaga = createAsyncSaga(setPWAsync, MemberAPI.setPW);
-const deleteAccountSaga = createAsyncSaga(deleteAccountAsync, MemberAPI.deleteAccount);
-const getShelterInfoSaga = createAsyncSaga(getShelterInfoAsync, ShelterAPI.getShelterInfo);
-const modifyShelterInfoSaga = createAsyncSaga(modifyShelterInfoAsync, ShelterAPI.modifyShelterInfo);
+const deleteAccountSaga = createAsyncSaga(
+  deleteAccountAsync,
+  MemberAPI.deleteAccount
+);
+const getShelterInfoSaga = createAsyncSaga(
+  getShelterInfoAsync,
+  ShelterAPI.getShelterInfo
+);
+const modifyShelterInfoSaga = createAsyncSaga(
+  modifyShelterInfoAsync,
+  ShelterAPI.modifyShelterInfo
+);
 
 // 멤버 saga 생성
 export function* memberSaga() {
@@ -137,7 +161,7 @@ export function* memberSaga() {
 }
 
 // 멤버 actions 객체 모음
-const actions = { 
+const actions = {
   signInAsync,
   signUpAsync,
   findPWAsync,
@@ -149,30 +173,30 @@ const actions = {
 };
 
 // 멤버 actions type 저장
-type MemberAction = ActionType<typeof actions> 
+type MemberAction = ActionType<typeof actions>;
 
 // 멤버 state 선언
 type MemberState = {
   memberInfo: {
-    loading: boolean; 
-    data: SignInResponseType | null; 
-    error: Error | null; 
-  },
+    loading: boolean;
+    data: SignInResponseType | null;
+    error: Error | null;
+  };
   checkName: {
-    loading: boolean; 
-    data: boolean | null; 
-    error: Error | null; 
-  },
+    loading: boolean;
+    data: boolean | null;
+    error: Error | null;
+  };
   shelterInfo: {
     loading: boolean;
     data: ShelterInfoType | null;
     error: Error | null;
-  },
+  };
   profileInfo: {
     loading: boolean;
     data: ProfileInfoType | null;
     error: Error | null;
-  }
+  };
 };
 
 // 멤버 state 초기 상태
@@ -183,100 +207,140 @@ const initialState: MemberState = {
   profileInfo: asyncState.initial(),
 };
 
+// 토큰 정보 저장 요청 리듀서
+const setMemberInfoReducer = createReducer(initialState, {
+  [SET_MEMBER_INFO]: ( state ) => {
+
+    let memberRole: string = localStorage.getItem('memberRole') || '';
+    let memberId: string = localStorage.getItem('memberId') || '0';
+
+    return {
+      ...state,
+      memberInfo: {
+        loading: false,
+        error: null,
+        data: {
+          logIn: true,
+          memberRole: memberRole,
+          memberId: +memberId,
+        },
+      },
+    };
+  },
+});
+
 // 로그인 요청 리듀서
 const signInReducer = createReducer<MemberState, MemberAction>(initialState, {
-  [SIGN_IN]: state => ({
+  [SIGN_IN]: (state) => ({
     ...state,
-    memberInfo: asyncState.load()
+    memberInfo: asyncState.load(),
   }),
-  [SIGN_IN_SUCCESS]: (state, action) => ({
-    ...state,
-    memberInfo: {
-      loading: false,
-      error: null,
-      data: {
-        logIn: true,
-        memberRole: action.payload.memberRole,
-        memberId: action.payload.memberId,
-      }
-    }
-  }),
+  [SIGN_IN_SUCCESS]: (state, action) => {
+    localStorage.setItem("memberId", action.payload.memberRole);
+    localStorage.setItem("memberRole", action.payload.memberId.toString());
+
+    return {
+      ...state,
+      memberInfo: {
+        loading: false,
+        error: null,
+        data: {
+          logIn: true,
+          memberRole: action.payload.memberRole,
+          memberId: action.payload.memberId,
+        },
+      },
+    };
+  },
   [SIGN_IN_ERROR]: (state, action) => ({
     ...state,
-    memberInfo: asyncState.error(action.payload)
-  })
+    memberInfo: asyncState.error(action.payload),
+  }),
 });
 
 // 로그아웃 요청 리듀서
 const signOutReducer = createReducer(initialState, {
-  [SIGN_OUT]: () => ({
-    ...initialState,
-  })
+  [SIGN_OUT]: () => {
+    localStorage.clear();
+    return {
+      ...initialState,
+    };
+  },
 });
 
 // 회원 가입 요청 리듀서
-const signUpReducer = createReducer<MemberState, MemberAction>(initialState)
-.handleAction(
+const signUpReducer = createReducer<MemberState, MemberAction>(
+  initialState
+).handleAction(
   transformToArray(signUpAsync),
   createAsyncReducer(signUpAsync, "memberInfo")
 );
 
 // 비밀번호 찾기 요청 리듀서
-const findPWReducer = createReducer<MemberState, MemberAction>(initialState)
-.handleAction(
+const findPWReducer = createReducer<MemberState, MemberAction>(
+  initialState
+).handleAction(
   transformToArray(findPWAsync),
   createAsyncReducer(findPWAsync, "memberInfo")
 );
 
 // 닉네임 중복확인 요청 리듀서
-const checkNameReducer = createReducer<MemberState, MemberAction>(initialState, {
-  [CHECK_NAME]: state => ({
-    ...state,
-    checkName: asyncState.load()
-  }),
-  [CHECK_NAME_SUCCESS]: (state) => ({
-    ...state,
-    checkName: {
-      loading: false,
-      error: null,
-      data: true
-    }
-  }),
-  [CHECK_NAME_ERROR]: (state, action) => ({
-    ...state,
-    checkName: asyncState.error(action.payload)
-  })
-});
+const checkNameReducer = createReducer<MemberState, MemberAction>(
+  initialState,
+  {
+    [CHECK_NAME]: (state) => ({
+      ...state,
+      checkName: asyncState.load(),
+    }),
+    [CHECK_NAME_SUCCESS]: (state) => ({
+      ...state,
+      checkName: {
+        loading: false,
+        error: null,
+        data: true,
+      },
+    }),
+    [CHECK_NAME_ERROR]: (state, action) => ({
+      ...state,
+      checkName: asyncState.error(action.payload),
+    }),
+  }
+);
 
 // 비밀번호 설정 리듀서
-const setPWReducer = createReducer<MemberState, MemberAction>(initialState)
-.handleAction(
+const setPWReducer = createReducer<MemberState, MemberAction>(
+  initialState
+).handleAction(
   transformToArray(setPWAsync),
   createAsyncReducer(setPWAsync, "memberInfo")
 );
 
 // 회원 탈퇴 요청 리듀서
-const deleteAccountReducer = createReducer<MemberState, MemberAction>(initialState)
-.handleAction(
+const deleteAccountReducer = createReducer<MemberState, MemberAction>(
+  initialState
+).handleAction(
   transformToArray(deleteAccountAsync),
   createAsyncReducer(deleteAccountAsync, "memberInfo")
 );
 
 // 보호소 메인 정보 조회 리듀서
-const getShelterInfoReducer = createReducer<MemberState, MemberAction>(initialState)
-.handleAction(
+const getShelterInfoReducer = createReducer<MemberState, MemberAction>(
+  initialState
+).handleAction(
   transformToArray(getShelterInfoAsync),
   createAsyncReducer(getShelterInfoAsync, "shelterInfo")
 );
 
 // 보호소 메인 정보 수정 리듀서
-const modifyShelterInfoReducer = createReducer<MemberState, MemberAction>(initialState)
-.handleAction(
+const modifyShelterInfoReducer = createReducer<MemberState, MemberAction>(
+  initialState
+).handleAction(
   transformToArray(modifyShelterInfoAsync),
   createAsyncReducer(modifyShelterInfoAsync, "shelterInfo")
 );
 
 const member = createReducer<MemberState, MemberAction>(initialState, {
+  ...setMemberInfoReducer.handlers,
   ...signInReducer.handlers,
   ...signOutReducer.handlers,
   ...signUpReducer.handlers,
