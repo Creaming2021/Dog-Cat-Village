@@ -1,5 +1,5 @@
 // 해당 유저 정보 가져오기
-import { basic, image } from '../service/instance';
+import { basic, image, security } from '../service/instance';
 
 
 const GET_CONSUMER_INFO = "consumer/GET_CONSUMER_INFO";
@@ -7,7 +7,7 @@ const PUT_CONSUMER_INFO = "consumer/PUT_CONSUMER_INFO";
 const POST_CONSUMER_PROFILE_IMG = "consumer/POST_CONSUMER_PROFILE_IMG";
 
 export const getUserInfo = (id) => async dispatch => {
-  const response = await basic.get(`/consumers/${id}`);
+  const response = await security.get(`/consumers/${id}`);
   dispatch({
     type: GET_CONSUMER_INFO,
     payload: response.data,
