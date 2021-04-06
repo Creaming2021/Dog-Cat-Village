@@ -35,6 +35,7 @@ public class PetService {
 
     public List<PetSimpleDto> getPetAll() {
         return petRepository.findSimplePets().stream()
+                .filter(pet -> pet.getAdoptStatus() != AdoptStatus.DELETE)
                 .map(Pet::changeToDto)
                 .map(pet -> modelMapper.map(pet, PetSimpleDto.class))
                 .collect(Collectors.toList());
