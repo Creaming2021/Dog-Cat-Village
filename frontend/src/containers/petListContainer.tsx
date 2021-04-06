@@ -65,7 +65,8 @@ const PetListContainer = () => {
   }, []);
 
   return (
-  <div className={styles['pet-list-container']}>
+  <div className={`${styles['pet-list-container']}
+                   ${member.data?.memberRole === 'CONSUMER' && styles.consumer}`}>
     { shelter.data
     ? <Pet
         role={member.data?.memberRole}
