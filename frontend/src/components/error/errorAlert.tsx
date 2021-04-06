@@ -1,10 +1,24 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import MemberContainer from "../../containers/memberContainer";
 import { RootState } from "../../modules";
+import { setMemberInfo } from "../../modules/member";
 import { ButtonMedium, ModalSmall } from "../common/common";
 import styles from "./errorAlert.module.css";
+
+const TokenCheck = () => {
+  const dispatch = useDispatch();
+
+  const token = localStorage.getItem('access_token');
+
+  if(token){
+    // dispatch(setMemberInfo());
+    return true;
+  } else{
+    return false;
+  }
+}
 
 type ProtectedRouteProps = {
   Component: () => JSX.Element;
@@ -16,7 +30,7 @@ export const ProtectedRouteAdmin = ({ Component }: ProtectedRouteProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
 
   return (
-    member.data?.memberRole === 'ADMIN'
+    TokenCheck() && member.data?.memberRole === 'ADMIN'
     ? <Component />
     : <ErrorAlert message="잘못된 요청 입니다."/>
   );
@@ -26,7 +40,7 @@ export const ProtectedRouteShelter = ({ Component }: ProtectedRouteProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
 
   return (
-    member.data?.memberRole === 'SHELTER'
+    TokenCheck() && member.data?.memberRole === 'SHELTER'
     ? <Component />
     : <ErrorAlert message="잘못된 요청 입니다."/>
   );
@@ -36,25 +50,23 @@ export const ProtectedRouteConsumer = ({ Component }: ProtectedRouteProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
 
   return (
-    member.data?.memberRole === 'CONSUMER'
+    TokenCheck() && member.data?.memberRole === 'CONSUMER'
     ? <Component />
     : <ErrorAlert message="잘못된 요청 입니다."/>
   );
 };
 
 export const ProtectedRouteToken = ({ Component }: ProtectedRouteProps) => {
-  // 토큰 추출
-  // 토큰 유효하면 각 role에 맞춰서 보내기
-
   return (
-    <MemberContainer/> // 지금은 일단 서브메인 화면 띄우기
+    TokenCheck() 
+    ? <Component />
+    : <MemberContainer/> // 지금은 일단 서브메인 화면 띄우기
   );
 };
 
 type ErrorAlertProps = {
   message: string;
 }
-
 
 const ErrorAlert = ({ message }: ErrorAlertProps) => {
   const history = useHistory();
