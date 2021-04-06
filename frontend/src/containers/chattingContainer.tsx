@@ -5,9 +5,10 @@ import Sockjs from "sockjs-client";
 import Stomp from "stompjs";
 import ChatList from "../components/chat/chatList/chatList";
 import ChatRoom from "../components/chat/chatRoom/chatRoom";
-import { MessageType } from "../interface/chat";
+import { MessageListType, MessageType, SelectedChatType } from "../interface/chat";
 import { RootState } from "../modules";
 import * as ChatAction from '../modules/chat';
+import styles from './container.module.css';
 
 type MessageState = {
   message: MessageType,
@@ -34,7 +35,7 @@ const ChattingContainer = () => {
   const [message, setMessage] = useState<MessageState>({ message: initialMessage, send: false});
 
   // 메세지 입력 수정
-  const onChange = (e: any) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setMessage({
@@ -64,7 +65,7 @@ const ChattingContainer = () => {
         message: initialMessage,
         send: false,
       });
-      // subscribeChattingRoom();
+      subscribeChattingRoom();
     }
   }, [selectedChat]);
 
@@ -136,17 +137,43 @@ const ChattingContainer = () => {
   // 메세지 전송
   const sendMessage = () => {
     console.log("메시지 전송!");
-    stompClient.send("/app/receive", {}, JSON.stringify(message));
+    stompClient.send("/app/receive", {}, JSON.stringify(message.message));
+
+    dispatch(ChatAction.addMessageList({
+      date: message.message.date.toString(),
+      msg: message.message.msg,
+      myId: message.message.myId,
+      oppName: message.message.oppName,
+    }));
+
+    addMessageList({
+      date: message.message.date.toString(),
+      msg: message.message.msg,
+      myId: message.message.myId,
+      oppName: message.message.oppName,
+    });
+
+    setMessage({ message: initialMessage, send: false});
   };
 
   // 서버 메시지 end point 구독
   const subscribeChattingRoom = () => {
     stompClient.subscribe(
-      `/message/${selectedChat.data}/${member.data?.memberId}`,
+      `/message/${selectedChat.data?.roomId}`,
       (res: any) => {
-        console.log("구독으로 받은 메시지들이 body에 담겨온다. ", res.body);
+        addMessageList({
+          date: res.body.date,
+          msg: res.body.msg,
+          myId: res.body.myId,
+          oppName: res.body.oppName
+        });
       }
     );
+  }
+
+  // 채팅방 메세지 리스트에 추가 하는 액션
+  const addMessageList = (newMessage: MessageListType) => {
+    dispatch(ChatAction.addMessageList(newMessage));
   }
 
   // 채팅방 하나 클릭
@@ -172,21 +199,22 @@ const ChattingContainer = () => {
       myId : member.data?.memberId || -1, 
       oppId : oppId,
     }));
-  }
+  };
 
   return (
-    <div className="App">
+    <div className={styles['chatting-container']}>
       { member.data?.memberRole === 'SHELTER' &&
         <ChatList 
           chatList={chatList.data || []}
           onClick={onClickChattingRoom}/>
-      }
+      }      
       { selectedChat.data !== null &&
         <ChatRoom
-          selectedChat={selectedChat.data}/>
+          selectedChat={selectedChat.data}
+          onSubmitSendMessage={onSubmitSendMessage}
+          message={message.message.msg}
+          onChange={onChange}/>
       }
-      <button onClick={onSubmitSendMessage}>메시지 전송</button>
-      <input name="msg" value={message.message.msg} onChange={onChange}/>
     </div>
   );
 };

@@ -16,6 +16,7 @@ import {
   NoticeListType,
   SelectedChatType,
 } from "../interface/chat";
+import ChatList from "../components/chat/chatList/chatList";
 
 // 채팅방 생성 액션 타입
 const CREATE_CHAT = "chat/CREATE_CHAT";
@@ -41,6 +42,9 @@ const GET_CHAT_LIST_ERROR = "chat/GET_CHAT_LIST_ERROR";
 const GET_CHAT_DETAIL = "chat/GET_CHAT_DETAIL";
 const GET_CHAT_DETAIL_SUCCESS = "chat/GET_CHAT_DETAIL_SUCCESS";
 const GET_CHAT_DETAIL_ERROR = "chat/GET_CHAT_DETAIL_ERROR";
+
+// 대화 채팅 대화 리스트에 추가 액션 타입
+const ADD_MESSAGE_LIST = 'chat/ADD_MESSAGE_LIST';
 
 // 채팅방 생성 액션 객체 생성함수
 export const createChatAsync = createAsyncAction(
@@ -76,6 +80,13 @@ export const getChatDetailAsync = createAsyncAction(
   GET_CHAT_DETAIL_SUCCESS,
   GET_CHAT_DETAIL_ERROR
 )<ChatRoomType, AxiosResponse<SelectedChatType>, AxiosError>();
+
+// 대화 채팅 대화 리스트에 추가 액션 객체 생성함수
+export const addMessageList = ( message: MessageListType) => (
+  { 
+    type: ADD_MESSAGE_LIST,
+    payload: message,
+  });
 
 //saga
 const createChatSaga = createAsyncSaga(createChatAsync, ChatAPI.createChat);
@@ -172,6 +183,17 @@ const getChatDetailReducer = createReducer<ChatState, ChatAction>(initialState)
   createAsyncReducer(getChatDetailAsync, "selectedChat")
 );
 
+// 대화 채팅 대화 리스트에 추가 reducer 생성
+const addMessageListReducer = createReducer(initialState, {
+  [ADD_MESSAGE_LIST]: (state, action) => ({
+    ...state,
+    messageList: {
+      ...state.messageList,
+      data: state.messageList.data?.concat(action.payload) || []
+    }
+  })
+});
+
 // chat reducer 생성
 const chat = createReducer<ChatState, ChatAction>(initialState, {
   ...createChatReducer.handlers,
@@ -179,6 +201,7 @@ const chat = createReducer<ChatState, ChatAction>(initialState, {
   ...getNoticeListReducer.handlers,
   ...getChatListReducer.handlers,
   ...getChatDetailReducer.handlers,
+  ...addMessageListReducer.handlers,
 });
 
 export default chat;
