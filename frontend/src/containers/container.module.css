@@ -11,3 +11,12 @@
 	height: 100%;
 	margin: auto;
 }
+
+.shelter {
+	width: 70%;
+}
+
+.consumer{
+	width: 100%;
+	padding: 20px;
+}

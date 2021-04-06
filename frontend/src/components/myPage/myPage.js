@@ -31,7 +31,7 @@ const MyPage = () => {
             <UserInfo userTypeBoolean={userTypeBoolean} />
           </div>
           <div className={styles['wallet-container']}>
-            <Wallet className={styles.wallet} />
+            {/* <Wallet className={styles.wallet} /> */}
           </div>
         </div>
         <div className={styles['donation-list-container']}>

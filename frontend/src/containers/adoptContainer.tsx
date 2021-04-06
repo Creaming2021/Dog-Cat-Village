@@ -118,7 +118,10 @@ const AdoptContainer = () => {
   ];
 
   return (
-    <div className={styles['adopt-container']}>
+    <div className={ `${styles['adopt-container']}  
+                    ${member.data?.memberRole === 'SHELTER' 
+                      ? styles['shelter']
+                      : styles['consumer']}` }>
       {member.data && 
         (selectedAdopt.data?.id ? (
           <AdoptDetail
@@ -127,8 +130,9 @@ const AdoptContainer = () => {
             goToBack={goToBack}
             onSubmit={onSubmit}
           />
-        ) : (
+        ) : ( 
           <>
+            { member.data.memberRole === 'SHELTER' &&
             <Search
               selectList={selectList}
               selectValue={[searchInput.adopt, searchInput.type]}
@@ -139,6 +143,7 @@ const AdoptContainer = () => {
               placeholder="검색어"
               inputSize="input-medium"
             />
+            }
             <AdoptList
               adoptList={resultAdoptList}
               role={member.data?.memberRole}
