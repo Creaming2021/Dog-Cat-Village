@@ -58,9 +58,10 @@ public class Shelter extends Member {
         return monthlyAdoption;
     }
 
-    public void updateShelter(ShelterUpdateRequestDto dto) {
+    public void updateShelter(ShelterUpdateRequestDto dto, String password) {
         introduce = dto.getIntroduce();
         setPhoneNumber(dto.getPhoneNumber());
+        setPassword(password);
         setName(dto.getName());
     }
 

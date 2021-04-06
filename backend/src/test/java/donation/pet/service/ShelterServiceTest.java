@@ -13,6 +13,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -33,6 +34,8 @@ class ShelterServiceTest {
     ShelterService shelterService;
     @Autowired
     ShelterRepository shelterRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Test
     public void 보호소_입양수_연도별_월별_정렬() throws Exception {
@@ -83,7 +86,9 @@ class ShelterServiceTest {
         Shelter shelter1 = Shelter.builder()
                 .name("테스트주식회사").build();
         Shelter shelter2 = Shelter.builder()
-                .name("짝퉁").build();
+                .name("짝퉁")
+                .password(passwordEncoder.encode("헬로"))
+                .build();
         shelterRepository.save(shelter1);
         shelterRepository.save(shelter2);
 
@@ -92,6 +97,8 @@ class ShelterServiceTest {
                 .name("짝퉁")
                 .introduce("테스트")
                 .phoneNumber("2222")
+                .currentPassword("쿠로")
+                .newPassword("홀로")
                 .build();
 
         // when
