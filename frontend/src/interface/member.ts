@@ -7,15 +7,26 @@ export interface SignUpInputType {
   phoneNumber1: string;
   phoneNumber2: string;
   phoneNumber3: string;
-  role: string;
+  memberRole: string;
+}
+
+export interface SignUpRequestType {
+  emailId: string;
+  emailSite: string;
+  name: string;
+  password: string;
+  passwordConfirm: string;
+  phoneNumber: string;
+  memberRole: string;
 }
 
 export interface SignInInputType {
   username: string;
   password: string;
+  memberRole: string;
 }
 
-export interface ModfiyInputType {
+export interface ModifyInputType {
   email: string;
   name: string;
   imageUrl: string;
@@ -29,9 +40,12 @@ export interface SignUpResponseType {
 }
 
 export interface SignInResponseType {
-  email?: string;
-  name?: string;
-  phone?: string;
-  role: string;
+  memberId: number;
+  memberRole: string;
   logIn: boolean;
+}
+
+export interface SetPasswordRequestType {
+  token: string;
+  password: string;
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import rootReducer, { RootState } from "../modules/index";
+import { RootState } from "../modules/index";
 import { useSelector, useDispatch } from "react-redux";
 import * as MemberActions from "../modules/member";
 import { SignInInputType, SignUpInputType } from "../interface/member";
@@ -9,8 +9,8 @@ import FindPassword from "../components/submain/findPassword/findPassword";
 import SignIn from "../components/submain/signIn/signIn";
 import SignUp from "../components/submain/signUp/signUp";
 import { useHistory } from "react-router-dom";
-import { handleAuthResponse, handleError, handleResponse } from "../service/instance";
-import { AxiosError, AxiosResponse } from "axios";
+import * as Blockchain from '../service/blockchainAPI';
+import * as BlockchainActions from '../modules/blockchain';
 
 const MemberContainer = () => {
   const history = useHistory();
@@ -41,24 +41,26 @@ const MemberContainer = () => {
 
   // store에 있는 state와 dispatch 가져오는 작업
   const member = useSelector((state: RootState) => state.member.memberInfo);
+  const duplicated = useSelector((state: RootState) => state.member.checkName);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (member.data && member.data.logIn) {
-      if(member.data.role === "ADMIN") history.push(`/admin`);
-      else if(member.data.role === "CONSUMER") history.push(`/user`);
-      else if(member.data.role === "SHELTER") history.push(`/main`);
+    if (member.data?.logIn) {
+      if(member.data.memberRole === "ADMIN") history.push(`/admin`);
+      else if(member.data.memberRole === "CONSUMER") history.push(`/user`);
+      else if(member.data.memberRole === "SHELTER") history.push(`/main`);
     }
   }, [member]);
 
   useEffect(() => {
-    setSignUpInput({...signUpInput, role: type});
+    setSignUpInput({...signUpInput, memberRole: type});
   }, [type]);
 
   // 로그인
   const initialSignInInput: SignInInputType = {
     username: "",
     password: "",
+    memberRole: "",
   };
 
   const initialSignUpInputType: SignUpInputType = {
@@ -70,7 +72,7 @@ const MemberContainer = () => {
     phoneNumber1: "",
     phoneNumber2: "",
     phoneNumber3: "",
-    role: '',
+    memberRole: '',
   };
 
   const initialFindPasswordInput: string = "";
@@ -90,52 +92,61 @@ const MemberContainer = () => {
   }, [view]);
 
   // 로그인 정보 데이터 수정
-  const onChangeSignIn = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeSignIn = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
 
     setSignInInput({
       ...signInInput,
       [name]: value,
+      memberRole: type,
     });
   };
 
   // 회원가입 정보 데이터 수정
-  const onChangeSignUp = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeSignUp = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
 
     setSignUpInput({
       ...signUpInput,
       [name]: value,
-      role: type,
+      memberRole: type,
     });
   };
 
   // 이메일 정보 데이터 수정
-  const onChangeFindPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeFindPassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target;
     setEmail(value);
   };
 
   /* api 요청을 보낼 함수 */
   // 로그인 요청
-  const signIn = () => {
+  const signIn = (): void => {
     dispatch(MemberActions.signInAsync.request(signInInput));
   };
 
   // 회원가입 요청
-  const signUp = () => {
-    // dispatch(UserAction.signUp(signUpInput));
+  const signUp = (): void => {
+    dispatch(MemberActions.signUpAsync.request(signUpInput));
+    
+    const newAccount = Blockchain.createAccount();
+    dispatch(BlockchainActions.setWalletInfoAsync.request({
+	    address: newAccount.address,
+	    privateKey: newAccount.privateKey
+    }));
+    
+    history.push('/');
   };
 
   // 비밀번호찾기 요청
-  const findPW = () => {
-    // dispatch(UserAction.findPW(email));
+  const findPW = (): void => {
+    dispatch(MemberActions.findPWAsync.request(email));
+    history.push('/');
   };
 
   //닉네임 중복 확인 요청
-  const checkName = ():boolean => {
-    // dispatch(UserAction.checkName(signUpInput.name));
-    return true;
+  const checkName = (): void => {
+    dispatch(MemberActions.checkNameAsync.request(signUpInput.name));
   };
 
   return (
@@ -161,6 +172,7 @@ const MemberContainer = () => {
           onChangeSignUp={onChangeSignUp}
           signUp={signUp}
           checkName={checkName}
+          duplicated={duplicated.data || null}
         />
       )}
       {view === "findPassword" && (

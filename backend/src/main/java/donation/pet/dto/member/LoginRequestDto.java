@@ -1,5 +1,6 @@
 package donation.pet.dto.member;
 
+import donation.pet.domain.member.MemberRole;
 import lombok.*;
 
 @Builder
@@ -8,8 +9,8 @@ import lombok.*;
 @Getter
 public class LoginRequestDto {
 
-    private String clientId;
-    private String clientSecret;
-    private String email;
+    private String username;
     private String password;
+    private String grant_type;
+    private String memberRole;
 }

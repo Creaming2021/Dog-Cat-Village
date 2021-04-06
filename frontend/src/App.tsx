@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import styles from './App.module.css';
-import SubMain from './components/user/main/subMain/subMain';
 import MemberContainer from './containers/memberContainer';
 import MyPage from './components/myPage/myPage';
 import StreamingListPage from './components/streamingListPage/streamingListPage';
@@ -14,13 +13,14 @@ import Live from './components/live/live';
 import ErrorAlert, { ProtectedRouteConsumer, ProtectedRouteShelter, ProtectedRouteAdmin, ProtectedRouteToken } from './components/error/errorAlert';
 import PasswordContainer from './containers/passwordContainer';
 import ConfirmSignUp from './components/submain/confirmSignUp/confirmSignUp';
+import Main from '../src/components/shelter/main/main';
 
 function App() {
   return (
     <div className={styles.app}>
       <Switch>
         <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/>
-        <ProtectedRouteShelter path="/main" Component={SubMain} exact/>
+        <ProtectedRouteShelter path="/main" Component={Main} exact/>
         {/* <ProtectedRouteAdmin path="/admin" Component={Admin} exact/> */}
         <Route path="/profile" component={MyPage} exact/>
         {/* <Route path="/shelter/streaming" component={Streaming} exact/> */}
@@ -33,8 +33,8 @@ function App() {
 
 
         {/* <ProtectedRouteConsumer path="/pet" Component={Pet} exact/> */}
-        <Route path="/signup/:result" component={ConfirmSignUp} exact/>
-        <Route path="/password/:auth" component={PasswordContainer} exact/>
+        <Route path="/members/signup/:result" component={ConfirmSignUp} exact/>
+        <Route path="/members/password/:auth" component={PasswordContainer} exact/>
         <ProtectedRouteToken path="/" Component={MemberContainer} exact/>
         <Route>
           <ErrorAlert message="잘못된 요청 입니다."/>

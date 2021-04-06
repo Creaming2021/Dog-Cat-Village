@@ -7,7 +7,8 @@ import lombok.Data;
 public class ConsumerUpdateRequestDto {
 
     private String name;
-    private String password;
+    private String currentPassword;
+    private String newPassword;
     private String phoneNumber;
 
 }

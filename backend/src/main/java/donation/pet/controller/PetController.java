@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
@@ -19,9 +22,9 @@ public class PetController {
 
     @ApiOperation("반려동물 전체 조회")
     @GetMapping
-    public ResponseEntity<PetResponseListDto> getAllPets() {
-        PetResponseListDto petResponseListDto = petService.getPetAll();
-        return ResponseEntity.status(HttpStatus.OK).body(petResponseListDto);
+    public ResponseEntity<List<PetSimpleDto>> getAllPets() {
+        List<PetSimpleDto> result = petService.getPetAll();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation("반려동물 저장")
@@ -55,8 +58,8 @@ public class PetController {
     @ApiOperation("반려 동물 이미지 삽입")
     @PostMapping("/{petId}/image")
     public ResponseEntity<Void> updatePetImage(@PathVariable("petId") Long petId,
-                                               @RequestBody MultipartFile file) {
-        petService.updatePetImage(petId, file);
+                                               @RequestBody MultipartFile file) throws IOException {
+        petService.saveProfileImage(petId, file);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
