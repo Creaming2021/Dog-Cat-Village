@@ -63,7 +63,7 @@ const UserMainPage = (props) => {
         setAnimalCount(count.split(''));
       })
       .catch((err) => {
-        console.log(err.response);
+        // console.log(err.response);
         // alert(error.message)
       })
   }, [])

@@ -18,7 +18,7 @@ const ShelterListPage = ({ shelterList }) => {
   },[shelterList]);
 
   const searchHandler = () => {
-    console.log(searchKeyword);
+    // console.log(searchKeyword);
     setFilteredList(shelterList.filter(data => data.name.includes(searchKeyword)));
   };
 
