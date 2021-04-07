@@ -20,7 +20,7 @@ function App() {
     <div className={styles.app}>
       <Switch>
         <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/>
-        <ProtectedRouteShelter path="/shelter/:shelterId" Component={Main} exact/>
+        <ProtectedRouteShelter path="/shelter" Component={Main} exact/>
         {/* <ProtectedRouteAdmin path="/admin" Component={Admin} exact/> */}
 
         <Route path="/profile" component={ProfileContainer} exact/>
