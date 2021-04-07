@@ -35,6 +35,7 @@ pipeline {
             steps {
                 // sh 'cd signaling'
                 // sh 'gradle bootRun --stacktrace'
+                sh 'cd signaling'
                 sh 'pwd'
                 sh 'ls -la'
             }
