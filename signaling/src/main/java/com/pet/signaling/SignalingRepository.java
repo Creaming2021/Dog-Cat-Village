@@ -2,7 +2,6 @@ package com.pet.signaling;
 
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -14,11 +13,11 @@ public class SignalingRepository {
 
     // <SessionId, MemberId> => 강제 종료 시 확인하기 위한 HashMap
     // 세션과 id 매핑
-    private final ConcurrentHashMap<String, Long> sessionMapping = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Long> sessionIdMap = new ConcurrentHashMap<>();
     ////////////////////////////////////////////////////////////////////////////
 
-    // 사용자가 현재 접속중이 ShelterId (사용자 id, 보호소 id)
-    private final ConcurrentHashMap<Long, Long> idMapping = new ConcurrentHashMap<>();
+    // ConsumerId : ShelterId
+    private final ConcurrentHashMap<Long, Long> consumerShelterMap = new ConcurrentHashMap<>();
 
     // 방 전체 불러오기
     public ConcurrentHashMap<Long, Room> getRooms() {
@@ -32,7 +31,7 @@ public class SignalingRepository {
 
     // 방 불러오기
     public Room findRoom(String sessionId) {
-        Long shelterId = idMapping.get(sessionId);
+        Long shelterId = consumerShelterMap.get(sessionId);
         if (shelterId == null) {
             return null;
         }
@@ -43,12 +42,12 @@ public class SignalingRepository {
     public void addRoom(String sessionId, Room room) {
         rooms.put(room.getShelterSession().getMemberId(), room);
         // 매핑하기
-        sessionMapping.put(sessionId, room.getShelterSession().getMemberId());
+        sessionIdMap.put(sessionId, room.getShelterSession().getMemberId());
     }
 
     // 사용자 접속중인 방 가져오기
     public Room findConsumerJoinRoom(Long consumerId) {
-        Long shelterId = idMapping.get(consumerId);
+        Long shelterId = consumerShelterMap.get(consumerId);
         if (shelterId == null) {
             return null;
         }
@@ -56,8 +55,8 @@ public class SignalingRepository {
     }
 
     public Room findConsumerJoinRoom(String sessionId) {
-        Long consumerId = sessionMapping.get(sessionId);
-        Long shelterId = idMapping.get(consumerId);
+        Long consumerId = sessionIdMap.get(sessionId);
+        Long shelterId = consumerShelterMap.get(consumerId);
         if (shelterId == null) {
             return null;
         }
@@ -70,17 +69,17 @@ public class SignalingRepository {
                 .put(consumerSession.getMemberId(), consumerSession);
 
         // 매핑하기
-        sessionMapping.put(consumerSession.getSession().getId(), consumerSession.getMemberId());
+        sessionIdMap.put(consumerSession.getSession().getId(), consumerSession.getMemberId());
 
         // 접속중인 방 매핑
-        idMapping.put(consumerSession.getMemberId(), shelterSession.getMemberId());
+        consumerShelterMap.put(consumerSession.getMemberId(), shelterSession.getMemberId());
     }
 
     public void deleteConsumer(String sessionId) {
-        Long consumerId = sessionMapping.get(sessionId);
-        Long shelterId = idMapping.get(consumerId);
-        idMapping.remove(consumerId);
-        sessionMapping.remove(sessionId);
+        Long consumerId = sessionIdMap.get(sessionId);
+        Long shelterId = consumerShelterMap.get(consumerId);
+        consumerShelterMap.remove(consumerId);
+        sessionIdMap.remove(sessionId);
         rooms.get(shelterId).getConsumers().remove(consumerId);
     }
 }

@@ -168,6 +168,7 @@ public class SignalingHandler extends TextWebSocketHandler {
     // 방이 있는지 확인
     Room room = signalingRepository.findRoom(shelterId);
 
+    // 방이 없으면
     if (room == null || room.getShelterSession().getWebRtcEndpoint() == null) {
       JsonObject response = new JsonObject();
       response.addProperty("id", "consumerResponse");
@@ -176,11 +177,11 @@ public class SignalingHandler extends TextWebSocketHandler {
               "No active sender now. Become sender or . Try again later ...");
       session.sendMessage(new TextMessage(response.toString()));
 
-    } else {  // 에러 처리
+    } else {  // 방이 있으면
       // Consumer가 방송을 보고있는지 확인
       Room joinRoom = signalingRepository.findConsumerJoinRoom(consumerId);
 
-      // 다른 방송을 보고 있으면
+      // 다른 방송을 보고 있으면 에러 메세지 보내기
       if (joinRoom != null) {
         JsonObject response = new JsonObject();
         response.addProperty("id", "consumerResponse");
@@ -192,11 +193,13 @@ public class SignalingHandler extends TextWebSocketHandler {
       }
 
       UserSession shelterSession = room.getShelterSession();
+
       UserSession consumerSession = new UserSession(session);
       consumerSession.setMemberId(consumerId);
 
       WebRtcEndpoint nextWebRtc = new WebRtcEndpoint
               .Builder(shelterSession.getWebRtcEndpoint().getMediaPipeline()).build();
+
       nextWebRtc.addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>() {
         @Override
         public void onEvent(IceCandidateFoundEvent event) {
