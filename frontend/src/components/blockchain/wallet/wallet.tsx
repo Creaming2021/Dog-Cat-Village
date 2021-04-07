@@ -4,13 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import * as BlockChainAPI from '../../../service/blockchainAPI';
 import { WalletType } from '../../../interface/blockchain';
-import { ModalMedium, ModalSmall } from '../../common/common';
+import { ModalSmall } from '../../common/common';
 import Charge from '../charge/charge';
 import Withraw from '../withraw/withraw';
 
 type WalletProps = {
-  wallet: WalletType,
-  memberRole: string,
+  wallet: WalletType | null,
+  memberRole: string | undefined,
   onSubmitCharge: (amount: string) => void,
   onSubmigWithdraw: () => void,
 }
@@ -37,11 +37,11 @@ const Wallet = ({ wallet, memberRole, onSubmitCharge, onSubmigWithdraw }: Wallet
   }, [myWallet.address]);
   
   useEffect(() => {
-    if(wallet.contractAddress !== ''){
+    if(wallet && wallet.contractAddress !== ''){
       setMyWallet({
+        ...myWallet,
         address: wallet.contractAddress,
         addressShort: wallet.contractAddress.substring(0, 7),
-        coin: 0
       });
     }
   }, [wallet]);

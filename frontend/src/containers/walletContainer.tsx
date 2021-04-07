@@ -10,6 +10,7 @@ const WalletContainer = () => {
   const dispatch = useDispatch(); 
 
   useEffect(() => {
+    console.log("여기는 몇번이냥아ㅏㅇ");
     getWalletInfo();
   }, []);
 
@@ -29,14 +30,13 @@ const WalletContainer = () => {
   }
 
   return (<>
-  { wallet.data && member.data &&
     <Wallet 
       wallet={wallet.data}
-      memberRole={member.data.memberRole}
+      memberRole={member.data?.memberRole}
       onSubmitCharge={onSubmitCharge}
       onSubmigWithdraw={onSubmigWithdraw}
     />
-  }</>);
+  </>);
 };
 
 export default WalletContainer;
