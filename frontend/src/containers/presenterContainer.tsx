@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import ReadyStreaming from '../components/shelter/readyStreaming/readyStreaming';
+import ReadyStreaming from '../components/shelter/streaming/readyStreaming';
 import { RootState } from '../modules';
 
 const PresenterContainer = () => {
@@ -9,7 +9,11 @@ const PresenterContainer = () => {
 
 	return (
 	<>
-		<ReadyStreaming member={member.data}/>
+		{ member.data && 
+			<ReadyStreaming 
+				member={member.data} 
+				shelterId={member.data?.memberId} 
+				roomName="방제"/>}
 	</>
 	);
 };

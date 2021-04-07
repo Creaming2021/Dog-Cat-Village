@@ -21,18 +21,19 @@ function App() {
   return (
     <div className={styles.app}>
       <Switch>
+        <Route path="/streaming/:shelterId/:memberId" component={UserStreamingPage} exact/>
+        <Route path="/shelter/:id" component={Main} exact/>
+        <ProtectedRouteConsumer path="/shelter" Component={ShelterListContainer} exact/>
+        
         <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/>
         <ProtectedRouteShelter path="/main" Component={Main} exact/>
 
         <Route path="/profile" component={ProfileContainer} exact/>
 
-        <Route path="/shelter/:id" component={Main} exact/>
-        <ProtectedRouteConsumer path="/shelter" Component={ShelterListContainer} exact/>
 
         {/* <ProtectedRouteConsumer path="/streaming" Component={StreamingListPage} exact/> */}
         {/* <Route path="/streaming" component={StreamingListPage} exact/> */}
 
-        <Route path="/user/streaming" component={UserStreamingPage} exact/>
 
         <ProtectedRouteConsumer path="/pet" Component={PetListContainer} exact/>
 

@@ -5,19 +5,26 @@ import { ImageSmall } from '../common/common';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle, faBone, faPaw, faFish } from '@fortawesome/free-solid-svg-icons';
 import kurentoUtils from 'kurento-utils';
+import pingpong from '../shelter/streaming/pingpong';
 
-const UserStreamingPage = () => {
+const UserStreamingPage = ({ match }) => {
+
+  const shelterId = match.params.shelterId;
+  const memberId = match.params.memberId;
 
   var ws = new WebSocket("wss://j4b106.p.ssafy.io/live");
   var webRtcPeer;
   var video;
 
   window.onload = function() {
-    
     video = document.getElementById('video');
     viewer();
     // presenter();
     // disableStopButton();
+
+    if(ws.extensions !== null){
+      pingpong(ws);
+    }
   }
 
   window.onbeforeunload = function() {
@@ -29,9 +36,9 @@ const UserStreamingPage = () => {
     console.info('Received message: ' + message.data);
 
     switch (parsedMessage.id) {
-    case 'presenterResponse':
-      presenterResponse(parsedMessage);
-      break;
+    // case 'presenterResponse':
+    //   presenterResponse(parsedMessage);
+    //   break;
     case 'viewerResponse':
       viewerResponse(parsedMessage);
       break;
@@ -49,18 +56,18 @@ const UserStreamingPage = () => {
     }
   }
 
-  function presenterResponse(message) {
-    if (message.response != 'accepted') {
-      var errorMsg = message.message ? message.message : 'Unknow error';
-      console.info('Call not accepted for the following reason: ' + errorMsg);
-      dispose();
-    } else {
-      webRtcPeer.processAnswer(message.sdpAnswer, function(error) {
-        if (error)
-          return console.error(error);
-      });
-    }
-  }
+  // function presenterResponse(message) {
+  //   if (message.response != 'accepted') {
+  //     var errorMsg = message.message ? message.message : 'Unknow error';
+  //     console.info('Call not accepted for the following reason: ' + errorMsg);
+  //     dispose();
+  //   } else {
+  //     webRtcPeer.processAnswer(message.sdpAnswer, function(error) {
+  //       if (error)
+  //         return console.error(error);
+  //     });
+  //   }
+  // }
 
   function viewerResponse(message) {
     if (message.response != 'accepted') {
@@ -75,39 +82,39 @@ const UserStreamingPage = () => {
     }
   }
 
-  function presenter() {
-    if (!webRtcPeer) {
-      // showSpinner(video);
+  // function presenter() {
+  //   if (!webRtcPeer) {
+  //     // showSpinner(video);
 
-      var options = {
-        localVideo : video,
-        onicecandidate : onIceCandidate
-      }
+  //     var options = {
+  //       localVideo : video,
+  //       onicecandidate : onIceCandidate
+  //     }
 
-      webRtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options,
-          function(error) {
-            if (error) {
-              return console.error(error);
-            }
-            webRtcPeer.generateOffer(onOfferPresenter);
-          });
+  //     webRtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options,
+  //         function(error) {
+  //           if (error) {
+  //             return console.error(error);
+  //           }
+  //           webRtcPeer.generateOffer(onOfferPresenter);
+  //         });
 
-      // enableStopButton();
-    }
-  }
+  //     // enableStopButton();
+  //   }
+  // }
 
-  function onOfferPresenter(error, offerSdp) {
-    if (error)
-      return console.error('Error generating the offer');
-    // console.info('Invoking SDP offer callback function ' + location.host);
-    var message = {
-      id: 'shelter',
-      sdpOffer: offerSdp,
-      shelterId: 3, // 보호소 아이디
-      roomName: '방송 이름', // 방송 이름, 없으면 introduce
-    }
-    sendMessage(message);
-  }
+  // function onOfferPresenter(error, offerSdp) {
+  //   if (error)
+  //     return console.error('Error generating the offer');
+  //   // console.info('Invoking SDP offer callback function ' + location.host);
+  //   var message = {
+  //     id: 'shelter',
+  //     sdpOffer: offerSdp,
+  //     shelterId: 3, // 보호소 아이디
+  //     roomName: '방송 이름', // 방송 이름, 없으면 introduce
+  //   }
+  //   sendMessage(message);
+  // }
 
   function viewer() {
     if (!webRtcPeer) {
@@ -130,7 +137,7 @@ const UserStreamingPage = () => {
     }
   }
 
-  function onOfferViewer(error, offerSdp, shelterId, consumerId) {
+  function onOfferViewer(error, offerSdp) {
     if (error)
       return console.error('Error generating the offer');
     // console.info('Invoking SDP offer callback function ' + location.host);
@@ -138,7 +145,7 @@ const UserStreamingPage = () => {
       id : 'consumer',
       sdpOffer : offerSdp,
       shelterId : shelterId, // 방 아이디 ( 프레젠터 )
-      consumerId: consumerId // 유저 아이디 ( 뷰어 )
+      consumerId: memberId // 유저 아이디 ( 뷰어 )
     }
     sendMessage(message);
   }
@@ -161,7 +168,7 @@ const UserStreamingPage = () => {
     }
     // hideSpinner(video);
 
-    // disableStopButton();
+    // disableStopButton();ws
   }
 
   function sendMessage(message) {
@@ -180,7 +187,7 @@ const UserStreamingPage = () => {
           {/*  쿠렌토화면 넣어야함  */}
           <video id="video" muted autoPlay controls height="100%" width="1300px"/>
         </div>
-        <div className={styles['streaming-info-container']}>
+        {/* <div className={styles['streaming-info-container']}>
           <div className={styles['shelter-img']}>
             <ImageSmall/>
           </div>
@@ -203,7 +210,7 @@ const UserStreamingPage = () => {
             <FontAwesomeIcon icon={faPaw} className={styles['paw-icon']} />
             <FontAwesomeIcon icon={faFish} className={styles['fish-icon']} />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
