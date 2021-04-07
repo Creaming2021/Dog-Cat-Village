@@ -3,8 +3,6 @@ package com.pet.signaling;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.kurento.client.*;
 import org.kurento.jsonrpc.JsonUtils;
 import org.slf4j.Logger;
@@ -37,9 +35,6 @@ public class SignalingHandler extends TextWebSocketHandler {
   @Autowired
   private KurentoClient kurento;
 
-  private MediaPipeline pipeline;
-  private UserSession shelterUserSession;
-
   @Override
   public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
     JsonObject jsonMessage = gson.fromJson(message.getPayload(), JsonObject.class);
@@ -49,8 +44,8 @@ public class SignalingHandler extends TextWebSocketHandler {
       case "shelter":
         try {
           log.info("shelterId : {}, roomName : {}", jsonMessage.get("shelterId"), jsonMessage.get("roomName"));
-          log.info("!!!!!!!!!!!! {}", jsonMessage.get("shelterId").getClass());
-//          shelter(session, jsonMessage);
+          log.info("!!!!!!!!!!!! {}", jsonMessage.get("shelterId").getAsLong());
+          shelter(session, jsonMessage);
         } catch (Throwable t) {
 //          handleErrorResponse(t, session, "shelterResponse");
         }
@@ -101,57 +96,67 @@ public class SignalingHandler extends TextWebSocketHandler {
 //    session.sendMessage(new TextMessage(response.toString()));
 //  }
 
-//  private synchronized void shelter(final WebSocketSession session, JsonObject jsonMessage)
-//          throws IOException {
-//
-//    signalingRepository.getRoom();
-//    if (shelterUserSession == null) {
-//      shelterUserSession = new UserSession(session);
-//
-//      pipeline = kurento.createMediaPipeline();
-//      shelterUserSession.setWebRtcEndpoint(new WebRtcEndpoint.Builder(pipeline).build());
-//
-//      WebRtcEndpoint shelterWebRtc = shelterUserSession.getWebRtcEndpoint();
-//
-//      shelterWebRtc.addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>() {
-//
-//        @Override
-//        public void onEvent(IceCandidateFoundEvent event) {
-//          JsonObject response = new JsonObject();
-//          response.addProperty("id", "iceCandidate");
-//          response.add("candidate", JsonUtils.toJsonObject(event.getCandidate()));
-//          try {
-//            synchronized (session) {
-//              session.sendMessage(new TextMessage(response.toString()));
-//            }
-//          } catch (IOException e) {
-//            log.debug(e.getMessage());
-//          }
-//        }
-//      });
-//
-//      String sdpOffer = jsonMessage.getAsJsonPrimitive("sdpOffer").getAsString();
-//      String sdpAnswer = shelterWebRtc.processOffer(sdpOffer);
-//
-//      JsonObject response = new JsonObject();
-//      response.addProperty("id", "shelterResponse");
-//      response.addProperty("response", "accepted");
-//      response.addProperty("sdpAnswer", sdpAnswer);
-//
-//      synchronized (session) {
-//        shelterUserSession.sendMessage(response);
-//      }
-//      shelterWebRtc.gatherCandidates();
-//
-//    } else {
-//      JsonObject response = new JsonObject();
-//      response.addProperty("id", "shelterResponse");
-//      response.addProperty("response", "rejected");
-//      response.addProperty("message",
-//              "Another user is currently acting as sender. Try again later ...");
-//      session.sendMessage(new TextMessage(response.toString()));
-//    }
-//  }
+  private synchronized void shelter(final WebSocketSession session, JsonObject jsonMessage)
+          throws IOException {
+
+    long shelterId = jsonMessage.get("shelterId").getAsLong();
+    String roomName = jsonMessage.get("roomName").getAsString();
+
+    Room room = signalingRepository.findRoom(shelterId);
+    // 방이 없으므로 방 생성 가능
+    if (room == null) {
+      UserSession shelterUserSession = new UserSession(session);
+      MediaPipeline pipeline = kurento.createMediaPipeline();
+      shelterUserSession.setWebRtcEndpoint(new WebRtcEndpoint.Builder(pipeline).build());
+
+      WebRtcEndpoint shelterWebRtc = shelterUserSession.getWebRtcEndpoint();
+      shelterWebRtc.addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>() {
+        @Override
+        public void onEvent(IceCandidateFoundEvent event) {
+          JsonObject response = new JsonObject();
+          response.addProperty("id", "iceCandidate");
+          response.add("candidate", JsonUtils.toJsonObject(event.getCandidate()));
+          try {
+            synchronized (session) {
+              session.sendMessage(new TextMessage(response.toString()));
+            }
+          } catch (IOException e) {
+            log.debug(e.getMessage());
+          }
+        }
+      });
+
+      String sdpOffer = jsonMessage.getAsJsonPrimitive("sdpOffer").getAsString();
+      String sdpAnswer = shelterWebRtc.processOffer(sdpOffer);
+
+      JsonObject response = new JsonObject();
+      response.addProperty("id", "shelterResponse");
+      response.addProperty("response", "accepted");
+      response.addProperty("sdpAnswer", sdpAnswer);
+
+      synchronized (session) {
+        shelterUserSession.sendMessage(response);
+      }
+      shelterWebRtc.gatherCandidates();
+
+      // 방 만들기
+      signalingRepository.addRoom(session.getId() , shelterId, new Room(shelterUserSession, roomName));
+
+      ConcurrentHashMap<Long, Room> rooms = signalingRepository.getRooms();
+      log.info("====================== ROOM INFO ======================");
+      for (Room r : rooms.values()) {
+        log.info("SessionID = {}, RoomName = {}" , r.getShelterSession().getSession().getId(), r.getRoomName());
+      }
+
+    } else {
+      JsonObject response = new JsonObject();
+      response.addProperty("id", "shelterResponse");
+      response.addProperty("response", "rejected");
+      response.addProperty("message",
+              "Another user is currently acting as sender. Try again later ...");
+      session.sendMessage(new TextMessage(response.toString()));
+    }
+  }
 //
 //  private synchronized void consumer(final WebSocketSession session, JsonObject jsonMessage)
 //          throws IOException {
