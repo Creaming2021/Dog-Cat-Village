@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -34,16 +35,17 @@ public class KakaoPayController {
     }
 
     @GetMapping("/success/{kakaopayId}")
-    public void kakaoPaySuccess(@PathVariable("kakaopayId") Long kakaopayId,
-                                          HttpServletResponse response,
-                                                               @RequestParam("pg_token") String pg_token) throws IOException {
+    public RedirectView kakaoPaySuccess(@PathVariable("kakaopayId") Long kakaopayId,
+                                        HttpServletResponse response,
+                                        @RequestParam("pg_token") String pg_token) throws IOException {
         log.info("kakaoPaySuccess get............................................");
         log.info("kakaoPaySuccess kakaopayId : " + kakaopayId);
         log.info("kakaoPaySuccess pg_token : " + pg_token);
         KakaoPayApprovalDto result = kakaoPayService.kakaoPayInfo(kakaopayId, pg_token);
 
 //        return ResponseEntity.status(HttpStatus.OK).body(result.getQuantity());
-        response.sendRedirect("https://j4b106.p.ssafy.io/profile/" + result.getQuantity());
+//        response.sendRedirect("https://j4b106.p.ssafy.io/profile/" + result.getQuantity());
+        return new RedirectView("https://j4b106.p.ssafy.io/blockchain/" + result.getQuantity());
     }
 
     @GetMapping("/cancel")
