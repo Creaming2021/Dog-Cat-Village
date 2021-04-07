@@ -6,7 +6,7 @@ import { faCoins, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 const ShelterListItem = ({data}) => {
   
   useEffect(() => {
-    console.log(data);
+    // console.log(data);
   });
 
   return (
