@@ -24,7 +24,7 @@ function App() {
 
         <Route path="/profile" component={ProfileContainer} exact/>
 
-        <ProtectedRouteConsumer path="/shelter/:id" Component={Main} exact/>
+        <Route path="/shelter/:id" component={Main} exact/>
         <ProtectedRouteConsumer path="/shelter" Component={ShelterListContainer} exact/>
 
         {/* <ProtectedRouteConsumer path="/streaming" Component={StreamingListPage} exact/> */}
