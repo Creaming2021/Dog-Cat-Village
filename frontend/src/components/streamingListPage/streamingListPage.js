@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './streamingListPage.module.css';
 import StreamingListItem from './streamingListItem';
 import { Search } from '../common/common';
+import Nav from '../nav/nav';
 
 
 const streamingList = [
@@ -58,11 +59,9 @@ const streamingList = [
 const StreamingListPage = () => {
   const [values, setValues] = useState({ first: 'shelterName', input: ''});
   return (
-    <>
-      <div>
-        {/* 로고 */}
-        {/*  네브바 */}
-        {/* 마이페이지 아이콘  */}
+    <div className={styles['streaming-list-container']}>
+      <div className={styles['upper-container']}>
+        <Nav role={'CONSUMER'} />
       </div>
       <div className={styles['search-container']}>
         <Search
@@ -94,7 +93,7 @@ const StreamingListPage = () => {
           })
         }
       </div>
-    </>
+    </div>
   );
 };
 
