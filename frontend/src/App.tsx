@@ -6,9 +6,6 @@ import ProfileContainer from './containers/profileContainer';
 import StreamingListPage from './components/streamingListPage/streamingListPage';
 import UserMainPage from './components/userMainPage/userMainPage';
 import UserStreamingPage from './components/userStreamingPage/userStreamingPage';
-
-import Live from './components/live/live';
-
 import ErrorAlert, { ProtectedRouteConsumer, ProtectedRouteShelter, ProtectedRouteAdmin, ProtectedRouteToken } from './components/error/errorAlert';
 import PasswordContainer from './containers/passwordContainer';
 import ConfirmSignUp from './components/submain/confirmSignUp/confirmSignUp';
@@ -33,11 +30,8 @@ function App() {
 
         <Route path="/user/streaming" component={UserStreamingPage} exact/>
 
-
         {/* <ProtectedRouteConsumer path="/pet" Component={Pet} exact/> */}
-
-        
-
+  
         <ProtectedRouteConsumer path="/pet" Component={PetListContainer} exact/>
         <Route path="/members/signup/:result" component={ConfirmSignUp} exact/>
         <Route path="/members/password/:auth" component={PasswordContainer} exact/>

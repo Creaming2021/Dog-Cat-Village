@@ -1,10 +1,26 @@
-.upper-box {
-  height: 10vh;
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+.user-streaming-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.upper-container {
+  width: 100%;
+  margin: 0.5em;
 }
 
 .main-box {
   background-color: #f3fbe4;
-  height: 90vh;
+  width: 100%;
+  height: 92vh;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,6 +31,7 @@
   width: 1300px;
   height: 85vh;
   border: 2px solid #788e6e;
+  background-color: white;
 }
 
 .streaming-info-container {

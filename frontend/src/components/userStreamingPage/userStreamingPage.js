@@ -1,14 +1,15 @@
 import React from 'react';
 import styles from './userStreamingPage.module.css';
+import Nav from '../nav/nav';
 import { ImageSmall } from '../common/common';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle, faBone, faPaw, faFish } from '@fortawesome/free-solid-svg-icons';
 
 const UserStreamingPage = () => {
   return(
-    <>
-      <div className={styles['upper-box']}>
-        {/* 로고, 네브바  마이페이지?*/}         
+    <div className={styles['user-streaming-container']}>
+      <div className={styles['upper-container']}>
+        <Nav role={'CONSUMER'} />        
       </div>
       <div className={styles['main-box']}>
         <div className={styles['streaming-container']}>
@@ -39,7 +40,7 @@ const UserStreamingPage = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
