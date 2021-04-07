@@ -37,7 +37,7 @@ const AdoptList = ({ adoptList, role, onClick }: AdoptListProps) => {
           <tr>
             <th>No</th>
             <th>Animal Name</th>
-            {role === "shelter" && <th>User Name</th>}
+            {role === "SHELTER" && <th>User Name</th>}
             <th>Date</th>
           </tr>
         </thead>

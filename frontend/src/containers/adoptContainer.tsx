@@ -6,6 +6,7 @@ import AdoptList from "../components/adopt/adoptList/adoptList";
 import { Search } from "../components/common/common";
 import { AdoptListType } from "../interface/adopt";
 import { RootState } from "../modules";
+import styles from './container.module.css';
 
 const AdoptContainer = () => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
@@ -117,7 +118,10 @@ const AdoptContainer = () => {
   ];
 
   return (
-    <>
+    <div className={ `${styles['adopt-container']}  
+                    ${member.data?.memberRole === 'SHELTER' 
+                      ? styles['shelter-adopt']
+                      : styles['consumer-adopt']}` }>
       {member.data && 
         (selectedAdopt.data?.id ? (
           <AdoptDetail
@@ -126,8 +130,9 @@ const AdoptContainer = () => {
             goToBack={goToBack}
             onSubmit={onSubmit}
           />
-        ) : (
+        ) : ( 
           <>
+            { member.data.memberRole === 'SHELTER' &&
             <Search
               selectList={selectList}
               selectValue={[searchInput.adopt, searchInput.type]}
@@ -138,6 +143,7 @@ const AdoptContainer = () => {
               placeholder="검색어"
               inputSize="input-medium"
             />
+            }
             <AdoptList
               adoptList={resultAdoptList}
               role={member.data?.memberRole}
@@ -145,7 +151,7 @@ const AdoptContainer = () => {
             />
           </>
         ))}
-    </>
+    </div>
   );
 };
 
