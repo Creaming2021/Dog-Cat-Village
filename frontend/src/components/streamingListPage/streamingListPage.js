@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './streamingListPage.module.css';
 import StreamingListItem from './streamingListItem';
+import { Search } from '../common/common';
+import Nav from '../nav/nav';
 
 
 const streamingList = [
@@ -55,15 +57,30 @@ const streamingList = [
 ]
 
 const StreamingListPage = () => {
+  const [values, setValues] = useState({ first: 'shelterName', input: ''});
   return (
-    <>
-      <div>
-        {/* 로고 */}
-        {/*  네브바 */}
-        {/* 마이페이지 아이콘  */}
+    <div className={styles['streaming-list-container']}>
+      <div className={styles['upper-container']}>
+        <Nav role={'CONSUMER'} />
       </div>
-      <div>
-        {/* 검색 기능 */}
+      <div className={styles['search-container']}>
+        <Search
+          selectList={[{ name: 'type', options: [
+            { value: "shelterName", option: "보호소 이름"}
+          ]
+          }]}
+          selectValue={values.first}
+          inputValue={values.input}
+          inputName={'keyword'}
+          onSearch={() => {
+
+          }}
+          onChange={(e) => {
+
+          }}
+          placeholder={'검색어'}
+          inputSize={'input-medium'}
+        />
       </div>
       <div className={styles['main-container']}>
         {
@@ -76,7 +93,7 @@ const StreamingListPage = () => {
           })
         }
       </div>
-    </>
+    </div>
   );
 };
 
