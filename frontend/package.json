@@ -73,6 +73,7 @@
     ]
   },
   "devDependencies": {
+    "@types/kurento-utils": "^6.7.1",
     "@types/react-router-dom": "^5.1.7",
     "@types/stompjs": "^2.3.4",
     "redux-devtools-extension": "^2.13.2"
