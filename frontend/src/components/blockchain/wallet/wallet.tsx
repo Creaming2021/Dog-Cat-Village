@@ -13,11 +13,11 @@ type WalletProps = {
   memberRole: string | undefined,
   onSubmitCharge: (amount: string) => void,
   onSubmigWithdraw: () => void,
+  modal: string,
+  setModal: (modal: string) => void,
 }
 
-const Wallet = ({ wallet, memberRole, onSubmitCharge, onSubmigWithdraw }: WalletProps ) => {
-  const [ modal, setModal ] = useState<string>('');
-
+const Wallet = ({ wallet, memberRole, onSubmitCharge, onSubmigWithdraw, modal, setModal }: WalletProps ) => {
   type myWalletType = {
     address: string,
     addressShort: string,
