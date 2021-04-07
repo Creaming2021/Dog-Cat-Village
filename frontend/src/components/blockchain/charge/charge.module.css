@@ -2,11 +2,11 @@
 	flex-direction: column;
 	display: flex;
 	align-items: center;
-	padding: 100px;
+	padding: 80px;
 }
 
 .charge-container input {
-	margin: 100px;
+	margin-bottom: 50px;
 }
 
 .charge-container button {

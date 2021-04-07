@@ -19,9 +19,8 @@ const DonatedShelterListContainer = () => {
 
   useEffect(() => {
     if(transactionList.data){
-      setFilteredTransactionList(
-        transactionList.data.filter(transaction => transaction.fromId == member.data?.memberId)
-      )
+      // const result = transactionList.data.filter(transaction => transaction.fromId == member.data?.memberId);
+      setFilteredTransactionList({ ...transactionList.data });
     }
   }, [transactionList]);
 

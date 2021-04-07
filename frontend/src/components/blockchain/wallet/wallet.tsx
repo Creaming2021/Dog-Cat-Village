@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import * as BlockChainAPI from '../../../service/blockchainAPI';
 import { WalletType } from '../../../interface/blockchain';
-import { ModalMedium } from '../../common/common';
+import { ModalMedium, ModalSmall } from '../../common/common';
 import Charge from '../charge/charge';
 import Withraw from '../withraw/withraw';
 
@@ -78,30 +78,16 @@ const Wallet = ({ wallet, memberRole, onSubmitCharge, onSubmigWithdraw }: Wallet
           { memberRole === "CONSUMER" && 
             <>
               <button className={styles['coin-charge-btn']} onClick={onClickCharge}>충전하기</button> 
-              <div className={styles['division-line']}>ㅣ</div>
-              <button className={styles['coin-withdraw-btn']} onClick={onClickWithdraw}>출금하기</button>
-            </>
-          }
-          { memberRole === "SHELTER" && 
-            <>
-              <button className={styles['coin-withdraw-btn']} onClick={onClickWithdraw}>환전하기</button>
             </>
           }
         </div>
       </div>
       { modal === "charge" && 
-        <ModalMedium>
+        <ModalSmall>
           <Charge
             onSubmitCharge={onSubmitCharge}
             onClose={onClose}/>
-        </ModalMedium>
-      }
-      { modal === "widthraw" && 
-        <ModalMedium>
-          <Withraw
-            onSubmigWithdraw={onSubmigWithdraw}
-            onClose={onClose}/>
-        </ModalMedium>
+        </ModalSmall>
       }
     </>
   );

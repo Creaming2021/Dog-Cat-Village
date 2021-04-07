@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux';
 import styles from './myPage.module.css';
 
 import DonatedShelterListContainer from '../../containers/donatedShelterListContainer';
-import DonationList from '../donationList/donationList';
 import UserInfo from '../userInfo/userInfo';
 import Nav from '../nav/nav';
 import WalletContainer from '../../containers/walletContainer';
 import AdoptedAnimalsChart from '../chart/adoptedAnimalsChart';
 import ContributionChart from '../chart/contributionChart';
+import DonatorContainer from '../../containers/donatorContainer';
 
 
 const MyPage = ({ memberInfo }) => {
@@ -43,7 +43,7 @@ const MyPage = ({ memberInfo }) => {
               </div>
             </div>
             <div className={styles['donation-list-box']}>
-              <DonationList userTypeBoolean={userTypeBoolean} />
+              <DonatorContainer userTypeBoolean={userTypeBoolean} />
             </div>
             <div className={styles['etc-boxes']}>
               {

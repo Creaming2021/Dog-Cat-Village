@@ -25,3 +25,11 @@ export interface TransactionAddressType {
 	consumerPrivateKet: string;
 	shelterAddress: string;
 }
+
+export interface TranscationFilteredListType{
+	id: number,
+	img: string,
+	amount: number,
+	transaction: string,
+	date: string
+}
