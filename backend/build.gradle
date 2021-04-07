@@ -57,9 +57,6 @@ dependencies {
 	dependencies {
 		annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 	}
-
-	implementation group: 'org.kurento', name: 'kurento-client', version: '6.15.0'
-	implementation group: 'org.kurento', name: 'kurento-utils-js', version: '6.15.0'
 }
 
 test {

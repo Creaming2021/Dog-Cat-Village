@@ -145,6 +145,10 @@
   text-align: center;
 }
 
+.card img {
+  margin-bottom: 20px;
+}
+
 .card:hover .card-hover {
   visibility: visible;
 }

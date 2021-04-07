@@ -3,7 +3,7 @@ package donation.pet.controller;
 import donation.pet.dto.adopt.AdoptListResponseDto;
 import donation.pet.dto.adopt.AdoptResponseDto;
 import donation.pet.dto.adopt.AdoptStatusDto;
-import donation.pet.dto.pet.PetResponseListDto;
+import donation.pet.dto.pet.PetSimpleDto;
 import donation.pet.dto.shelter.*;
 import donation.pet.service.ShelterService;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -101,8 +102,8 @@ public class ShelterController {
 
     @ApiOperation("특정 보호소 동물 리스트")
     @GetMapping("/{shelterId}/pets")
-    public ResponseEntity<PetResponseListDto> getPetsByShelterId(@PathVariable("shelterId") Long shelterId) {
-        PetResponseListDto result = shelterService.getPetsByShelterId(shelterId);
+    public ResponseEntity<List<PetSimpleDto>> getPetsByShelterId(@PathVariable("shelterId") Long shelterId) {
+        List<PetSimpleDto> result = shelterService.getPetsByShelterId(shelterId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

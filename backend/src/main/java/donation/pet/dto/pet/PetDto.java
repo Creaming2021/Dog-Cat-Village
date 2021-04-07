@@ -16,12 +16,13 @@ import java.time.LocalDateTime;
 public class PetDto {
 
     private Long shelterId;
+    private String shelterName;
 
     private Long id;
     private String name;
     private String breed;
     private String profileImage;
-    private LocalDateTime birthday;
+    private String birthday;
     private String age;
     private Float weight;
     private BreedType breedType;

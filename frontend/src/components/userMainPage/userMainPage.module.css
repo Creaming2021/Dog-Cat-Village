@@ -4,11 +4,11 @@
 }
 
 .upper-part {
-  height: 100px;
+  height: 7vh;
 }
 
 .main-part {
-  height: 500px;
+  height: 61vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -76,6 +76,7 @@
 .lower-part {
   display: flex;
   text-align: center;
+  height: 32vh;
 }
 
 .vod-container,
@@ -86,7 +87,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 337px;
+  /* height: 337px; */
   cursor: pointer;
 }
 

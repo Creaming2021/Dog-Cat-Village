@@ -1,0 +1,16 @@
+.chatting-container {
+  background-color: #F3FBE4;
+  width: 100%;
+  height: 100%;
+  padding: 40px;
+}
+
+.pet-list-container {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+
+.consumer {
+  width: 90%;
+}
