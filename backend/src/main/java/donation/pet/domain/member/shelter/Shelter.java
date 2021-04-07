@@ -25,8 +25,6 @@ public class Shelter extends Member {
 
     private String siteUrl;
 
-    @Lob
-    @Column(name = "shelter_introduce")
     private String introduce;
 
     @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -41,8 +39,8 @@ public class Shelter extends Member {
     @Builder
     public Shelter(Long id, String name, String email, String password, String phoneNumber,
                    String accept, String contractAddress, String profileImage, String tempLink,
-                   LocalDateTime tempLinkDate, Set<MemberRole> roles, String introduce) {
-        super(id, name, email, password, phoneNumber, accept, contractAddress, profileImage, tempLink, tempLinkDate, roles);
+                   LocalDateTime tempLinkDate, Set<MemberRole> roles, String introduce, String privateKey) {
+        super(id, name, email, password, phoneNumber, accept, contractAddress, profileImage, tempLink, tempLinkDate, roles, privateKey);
         this.introduce = introduce;
     }
 
@@ -60,14 +58,15 @@ public class Shelter extends Member {
         return monthlyAdoption;
     }
 
-    public void updateShelter(ShelterUpdateRequestDto dto) {
+    public void updateShelter(ShelterUpdateRequestDto dto, String password) {
         introduce = dto.getIntroduce();
         setPhoneNumber(dto.getPhoneNumber());
+        setPassword(password);
         setName(dto.getName());
     }
 
-    public void updateProfileImage(String fileName) {
-        setProfileImage(fileName);
+    public void updateProfileImage(String profileImage) {
+        setProfileImage(profileImage);
     }
 
     public void updateMainShelter(ShelterMainRequestDto dto){

@@ -21,21 +21,19 @@ public class ConnectOauth {
         this.appProperties = appProperties;
     }
 
-    public LoginResponseDto loginCheck(LoginRequestDto dto) {
+    public LoginResponseDto loginCheck(String authorization, LoginRequestDto dto) {
 
         String url = appProperties.getServerUrl() + "/api/oauth/token";
 
-        String credentials = dto.getClientId() + ":" + dto.getClientSecret();
-        String basicAuth = new String(Base64.encodeBase64(credentials.getBytes()));
-
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Authorization", "Basic " + basicAuth);
+        httpHeaders.add("Authorization", authorization);
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-        parameters.add("grant_type", "password");
-        parameters.add("username", dto.getEmail());
+        parameters.add("grant_type", dto.getGrant_type());
+        parameters.add("username", dto.getUsername());
         parameters.add("password", dto.getPassword());
+        System.out.println(dto.getGrant_type() + " " +  dto.getUsername() + " " + dto.getPassword());
 
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity httpEntity = new HttpEntity(parameters, httpHeaders);

@@ -26,13 +26,17 @@ public class Consumer extends Member {
     @Builder
     public Consumer(Long id, String name, String email, String password, String phoneNumber,
                     String accept, String contractAddress, String profileImage, String tempLink,
-                    LocalDateTime tempLinkDate, Set<MemberRole> roles) {
-        super(id, name, email, password, phoneNumber, accept, contractAddress, profileImage, tempLink, tempLinkDate, roles);
+                    LocalDateTime tempLinkDate, Set<MemberRole> roles, String privateKey) {
+        super(id, name, email, password, phoneNumber, accept, contractAddress, profileImage, tempLink, tempLinkDate, roles, privateKey);
     }
 
     public void updateConsumer(String name, String password, String phoneNumber) {
         this.setName(name);
         this.setPassword(password);
         this.setPhoneNumber(phoneNumber);
+    }
+
+    public void updateProfileImage(String profileImage) {
+        setProfileImage(profileImage);
     }
 }

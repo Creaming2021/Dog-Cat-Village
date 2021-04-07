@@ -55,7 +55,6 @@ public class Adopt extends BaseTimeEntity {
     private Sex sex;
     private String age;
     private String address;
-    @Lob
     private String description;
     private String day;
     private String time;

@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import donation.pet.domain.member.shelter.Shelter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -38,16 +39,13 @@ public class Pet extends BaseTimeEntity {
 
     private String profileImage;
 
-    private LocalDateTime birthday;
-    // 어떻게 들어갈지는 모르겠다 ...
+    private String birthday;
 
     private Float weight;
 
-    @Lob
     @Column(name = "pet_personality")
     private String personality;
 
-    @Lob
     @Column(name = "pet_condition")
     private String condition;
 
@@ -84,7 +82,6 @@ public class Pet extends BaseTimeEntity {
 
     public void changeForm(PetRequestDto dto) {
         name = dto.getName();
-        profileImage = dto.getProfileImage();
         sex = dto.getSex();
         weight = dto.getWeight();
         breedType = dto.getBreedType();
@@ -108,21 +105,23 @@ public class Pet extends BaseTimeEntity {
     }
 
     public String calculateAge() {
-        LocalDateTime from = getBirthday();
-        LocalDateTime to = LocalDateTime.now();
+        int birthYear = Integer.parseInt(getBirthday().substring(0, 4));
+        int birthMonth = Integer.parseInt(getBirthday().substring(4, 6));
+        int birthDayOfMonth = Integer.parseInt(getBirthday().substring(6, 8));
+        LocalDate birthday = LocalDate.of(birthYear, birthMonth, birthDayOfMonth);
 
-        long years = ChronoUnit.YEARS.between(from, to);
-        if (years < 1L) {
-            long months = ChronoUnit.MONTHS.between(from, to);
-            if (months < 1L) {
-                return ChronoUnit.DAYS.between(from, to) + "일";
-            }
-            return months + "개월";
+        long days = ChronoUnit.DAYS.between(birthday, LocalDate.now());
+
+        if (days / 365 > 0) {
+            return days / 365 + "살";
+        } else if (days / 30 > 0) {
+            return days / 30 + "개월";
+        } else {
+            return days + "일";
         }
-        return years + "살";
     }
 
-    public void changeProfileImage(String profileImage) {
+    public void updateProfileImage(String profileImage) {
         this.profileImage = profileImage;
     }
 }

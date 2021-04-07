@@ -35,8 +35,7 @@ const FindPassword = ({
 
   const onSubmitFindPassword = () => {
     if(inputState) {
-      alert("요청");
-      //findPW();
+      findPW();
     }
   };
 
@@ -52,7 +51,7 @@ const FindPassword = ({
   return (
     <div
       className={`${styles["find-password"]} 
-                  ${type === "user"
+                  ${type === "CONSUMER"
                     ? commons["bg-gradient-yellow-green"]
                     : commons["bg-gradient-green-blue"]}`}>
       <div className={`${commons["box-white"]} ${styles.box}`}>
@@ -60,7 +59,7 @@ const FindPassword = ({
           className={`${styles['btn-text']}
                       ${commons["btn-text"]} 
                       ${commons["text-left"]}
-                      ${type === "user"
+                      ${type === "CONSUMER"
                         ? commons["text-yellow"]
                         : commons["text-blue"]}`}
           onClick={() => goToLogIn(type)}>
@@ -69,7 +68,7 @@ const FindPassword = ({
           className={`${styles['btn-text']}
                       ${commons["btn-text"]} 
                       ${commons["text-right"]}
-                      ${type === "user"
+                      ${type === "CONSUMER"
                         ? commons["text-yellow"]
                         : commons["text-blue"]}`}
           onClick={() => goToJoin(type)}>
@@ -81,7 +80,7 @@ const FindPassword = ({
           <input
             className={`${commons["input-large"]} 
                         ${styles.input}
-                        ${type === "user"
+                        ${type === "CONSUMER"
                           ? commons["border-yellow"]
                           : commons["border-blue"]}`}
             type="email"
@@ -96,7 +95,7 @@ const FindPassword = ({
         <ButtonLarge
             content="FIND PW"
             onClick={onSubmitFindPassword}
-            buttonColor={type === "user" ? "bg-yellow" : "bg-blue"}/>
+            buttonColor={type === "CONSUMER" ? "bg-yellow" : "bg-blue"}/>
       </div>
     </div>
   );

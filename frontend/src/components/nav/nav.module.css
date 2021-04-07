@@ -4,4 +4,56 @@
   height: 60px;
   background-color: transparent;
   border: 1px red;
+  text-align: center;
+  padding: 10px 12px 10px 12px;
+  float: left;
+}
+
+.logo{
+  width: 40px;
+  height: 40px;
+  float: left;
+}
+
+.logo:hover{
+  cursor: pointer;
+}
+
+.bar{
+  margin: 10px auto 0px auto;
+  width: fit-content;
+}
+
+.bar div{
+  display: inline;
+  margin: 0 20px 0 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #5E5E5E;
+}
+
+.bar div:hover{
+  cursor: pointer;
+}
+
+.icon{
+  font-size: 2.5rem;
+  float: right;
+  color: #999999; 
+}
+
+.icon:hover{
+  cursor: pointer;
+}
+
+.chat-close-icon{
+  font-size: 2.5rem;
+  float: right;
+  color: #999999; 
+  margin: 10px 10px 0px 0px;
+}
+
+.chat-close-icon:hover{
+  cursor: pointer;
+  color: red;
 }

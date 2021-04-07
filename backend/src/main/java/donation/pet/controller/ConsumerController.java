@@ -4,9 +4,7 @@ import donation.pet.dto.adopt.AdoptListResponseDto;
 import donation.pet.dto.adopt.AdoptRequestDto;
 import donation.pet.dto.adopt.AdoptResponseDto;
 import donation.pet.dto.consumer.ConsumerResponseDto;
-import donation.pet.dto.consumer.ConsumerSignupRequestDto;
 import donation.pet.dto.consumer.ConsumerUpdateRequestDto;
-import donation.pet.dto.member.DuplRequestDto;
 import donation.pet.service.ConsumerService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +38,7 @@ public class ConsumerController {
     public ResponseEntity<ConsumerResponseDto> updateConsumer(@PathVariable("consumerId") Long consumerId,
                                                               @RequestBody ConsumerUpdateRequestDto dto) {
         ConsumerResponseDto result = consumerService.updateConsumer(consumerId, dto);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation("해당 유저 프로필 이미지 등록")

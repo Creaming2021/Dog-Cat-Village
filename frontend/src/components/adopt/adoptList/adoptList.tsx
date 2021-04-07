@@ -4,32 +4,32 @@ import { AdoptListType } from "../../../interface/adopt";
 
 type AdoptListFormProps = {
   adopt: AdoptListType;
-  type: string;
+  role: string;
   onClick: (adoptId: number) => void;
 };
 
-const AdoptListForm = ({ adopt, type, onClick }: AdoptListFormProps) => {
-  const { adoptId, petName, userName, createdAt, acceptStatus } = adopt;
+const AdoptListForm = ({ adopt, role, onClick }: AdoptListFormProps) => {
+  const { id, petName, name, createdDate, acceptStatus } = adopt;
 
   return (
-    <tr onClick={() => onClick(adoptId)}>
-      <td>{adoptId}</td>
+    <tr onClick={() => onClick(id)}>
+      <td>{id}</td>
       <td>
         {acceptStatus}/{petName}
       </td>
-      {type === "shelter" && <td>{userName}</td>}
-      <td>{createdAt}</td>
+      {role === "shelter" && <td>{name}</td>}
+      <td>{createdDate}</td>
     </tr>
   );
 };
 
 type AdoptListProps = {
   adoptList: AdoptListType[];
-  type: string;
+  role: string;
   onClick: (adoptId: number) => void;
 };
 
-const AdoptList = ({ adoptList, type, onClick }: AdoptListProps) => {
+const AdoptList = ({ adoptList, role, onClick }: AdoptListProps) => {
   return (
     <>
       <table className={styles["adopt-list-container"]}>
@@ -37,16 +37,18 @@ const AdoptList = ({ adoptList, type, onClick }: AdoptListProps) => {
           <tr>
             <th>No</th>
             <th>Animal Name</th>
-            {type === "shelter" && <th>User Name</th>}
+            {role === "shelter" && <th>User Name</th>}
             <th>Date</th>
           </tr>
         </thead>
         <tbody>
-          {adoptList.map((adopt) => (
+          {( !adoptList || adoptList.length === 0) 
+          ? <tr><td colSpan={4}>입양 신청 게시물이 없습니다.</td></tr>
+          : adoptList.map((adopt) => (
             <AdoptListForm
-              key={adopt.adoptId}
+              key={adopt.id}
               adopt={adopt}
-              type={type}
+              role={role}
               onClick={onClick}
             />
           ))}

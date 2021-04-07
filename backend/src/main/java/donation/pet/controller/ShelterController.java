@@ -1,10 +1,9 @@
 package donation.pet.controller;
 
-import donation.pet.domain.member.shelter.ShelterRepository;
 import donation.pet.dto.adopt.AdoptListResponseDto;
 import donation.pet.dto.adopt.AdoptResponseDto;
 import donation.pet.dto.adopt.AdoptStatusDto;
-import donation.pet.dto.pet.PetResponseListDto;
+import donation.pet.dto.pet.PetSimpleDto;
 import donation.pet.dto.shelter.*;
 import donation.pet.service.ShelterService;
 import io.swagger.annotations.ApiOperation;
@@ -14,8 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/shelters")
 public class ShelterController {
 
@@ -68,9 +71,9 @@ public class ShelterController {
     @ApiOperation("보호소 유저 프로필 이미지 등록")
     @PostMapping("/{shelterId}/image")
     public ResponseEntity<ShelterResponseDto> insertShelterImage(@PathVariable("shelterId") Long shelterId,
-                                                                 @RequestParam MultipartFile file) {
-        ShelterResponseDto result = shelterService.insertShelterImage(shelterId, file);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+                                                                 @RequestParam MultipartFile file) throws IOException {
+        shelterService.saveShelterImage(shelterId, file);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @ApiOperation("특정 보호소에 들어온 입양 신청 리스트 요청")
@@ -99,8 +102,8 @@ public class ShelterController {
 
     @ApiOperation("특정 보호소 동물 리스트")
     @GetMapping("/{shelterId}/pets")
-    public ResponseEntity<PetResponseListDto> getPetsByShelterId(@PathVariable("shelterId") Long shelterId) {
-        PetResponseListDto result = shelterService.getPetsByShelterId(shelterId);
+    public ResponseEntity<List<PetSimpleDto>> getPetsByShelterId(@PathVariable("shelterId") Long shelterId) {
+        List<PetSimpleDto> result = shelterService.getPetsByShelterId(shelterId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

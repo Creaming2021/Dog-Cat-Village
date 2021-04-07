@@ -29,11 +29,11 @@ type MainProps = {
 
 const Main = ({ goToLogIn }: MainProps) => {
   const goToLogInUser = (): void => {
-    goToLogIn("user");
+    goToLogIn("CONSUMER");
   };
 
   const goToLogInCenter = (): void => {
-    goToLogIn("center");
+    goToLogIn("SHELTER");
   };
 
   return (

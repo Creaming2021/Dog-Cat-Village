@@ -3,7 +3,6 @@ package donation.pet.service;
 import donation.pet.domain.adopt.Adopt;
 import donation.pet.domain.adopt.AdoptRepository;
 import donation.pet.domain.member.MemberRepository;
-import donation.pet.domain.member.MemberRole;
 import donation.pet.domain.member.consumer.Consumer;
 import donation.pet.domain.member.consumer.ConsumerRepository;
 import donation.pet.domain.member.shelter.Shelter;
@@ -15,9 +14,7 @@ import donation.pet.dto.adopt.AdoptRequestDto;
 import donation.pet.dto.adopt.AdoptResponseDto;
 import donation.pet.dto.adopt.AdoptSimpleDto;
 import donation.pet.dto.consumer.ConsumerResponseDto;
-import donation.pet.dto.consumer.ConsumerSignupRequestDto;
 import donation.pet.dto.consumer.ConsumerUpdateRequestDto;
-import donation.pet.dto.member.DuplRequestDto;
 import donation.pet.exception.BaseException;
 import donation.pet.exception.ErrorCode;
 import donation.pet.util.MailUtil;
@@ -28,9 +25,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
+
+import static donation.pet.service.S3Service.CLOUD_FRONT_DOMAIN_NAME;
 
 @Service
 @Transactional(readOnly = true)
@@ -45,6 +44,7 @@ public class ConsumerService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final MailUtil mailUtil;
+    private final S3Service s3Service;
 
     public ConsumerResponseDto getConsumer(Long consumerId) {
         Consumer consumer = consumerRepository.findById(consumerId)
@@ -56,16 +56,21 @@ public class ConsumerService {
     public ConsumerResponseDto updateConsumer(Long consumerId, ConsumerUpdateRequestDto dto) {
         Consumer consumer = consumerRepository.findById(consumerId)
                 .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_NOT_EXIST));
-        consumer.updateConsumer(dto.getName(), dto.getPassword(), dto.getPhoneNumber());
-        return modelMapper.map(consumer, ConsumerResponseDto.class);
+
+        if(!passwordEncoder.matches(dto.getCurrentPassword(), consumer.getPassword())) {
+            throw new BaseException(ErrorCode.PASSWORD_NOT_CORRECT);
+        }
+        consumer.updateConsumer(dto.getName(), passwordEncoder.encode(dto.getNewPassword()), dto.getPhoneNumber());
+        Consumer result = consumerRepository.save(consumer);
+        return modelMapper.map(result, ConsumerResponseDto.class);
     }
 
     @Transactional
-    public void saveProfileImage(Long consumerId, MultipartFile file) {
+    public void saveProfileImage(Long consumerId, MultipartFile file) throws IOException {
         Consumer consumer = consumerRepository.findById(consumerId)
                 .orElseThrow(() -> new BaseException(ErrorCode.CONSUMER_NOT_EXIST));
-
-        // file 등록 예정
+        consumer.updateProfileImage("https://" + CLOUD_FRONT_DOMAIN_NAME + "/" + s3Service.uploadFile(file));
+        consumerRepository.save(consumer);
     }
 
     public AdoptListResponseDto getAdoptsByConsumer(Long consumerId) {

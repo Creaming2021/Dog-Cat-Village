@@ -4,7 +4,7 @@ import styles from './wallet.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 
-const Wallet = () => {
+const Wallet = ({userTypeBoolean}) => {
   const [ myWallet, setMyWallet ] = useState({
     address: '0x553e6f207305C348188DA38E58A1C28d77A66271',
     addressShort: '0x553e6f',
@@ -27,13 +27,13 @@ const Wallet = () => {
       <h1 className={styles['wallet-title']}>내 지갑</h1>
       <div className={styles.hashnumber}>{myWallet.address}</div>
       <div className={styles['coin-container']}>
-        <FontAwesomeIcon icon={faCoins} className={styles['coin-icon']} />
-        <div className={styles.coin}>{myWallet.coin}</div>
+        <FontAwesomeIcon icon={faCoins} className={`${styles['coin-icon']} ${!userTypeBoolean && styles['blue-color']}`} />
+        <div className={`${styles.coin} ${!userTypeBoolean && styles['blue-color']}`}>{myWallet.coin}</div>
       </div>
       <div className={styles['coin-btns']}>
-        <button className={styles['coin-charge-btn']}>충전하기</button> 
+        <button className={`${styles['coin-charge-btn']} ${!userTypeBoolean && styles['blue-btn']}`} >충전하기</button> 
         <div className={styles['division-line']}>ㅣ</div>
-        <button className={styles['coin-withdraw-btn']}>출금하기</button>
+        <button className={`${styles['coin-withdraw-btn']} ${!userTypeBoolean && styles['blue-btn']}`}>출금하기</button>
       </div>
     </div>
   );
