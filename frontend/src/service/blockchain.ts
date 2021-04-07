@@ -18,19 +18,21 @@ export const changeIdToAddress = async ( { consumerId, shelterId }: TransactionA
     {
       'headers': {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-      'params': { consumerId, shelterId },
-    }
-  });
+    },
+    'params': { consumerId, shelterId },
+  });  
   return response.data;
 }
 
 // 지갑 정보 등록
 export const setWalletInfo = async ( walletInfo: WalletType ) => {
-  const response = await security.post<undefined>('blockchain/address', {
-    'headers': {
-      'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-    },
+  const response = await security.post<undefined>(
+    'blockchain/address',
     walletInfo,
+    {
+      'headers': {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+    }
   });
   return response.data;
 }

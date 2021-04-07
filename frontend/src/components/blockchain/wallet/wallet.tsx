@@ -67,7 +67,7 @@ const Wallet = ({ wallet, memberRole, onSubmitCharge, onSubmigWithdraw }: Wallet
     <>
       <div className={styles.wallet}>
         <h1 className={styles['wallet-title']}>내 지갑</h1>
-        <div className={styles.hashnumber}>{myWallet.address}</div>
+        <div className={styles.hashnumber}>{myWallet.addressShort}</div>
         <div className={styles['coin-container']}>
           <FontAwesomeIcon icon={faCoins} className={styles['coin-icon']} />
           <div className={styles.coin}>{myWallet.coin}</div>
