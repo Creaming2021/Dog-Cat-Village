@@ -32,7 +32,7 @@ pipeline {
         stage('Signaling Build') {
             steps {
                 sh 'cd signaling'
-                sh './gradlew bootRun'
+                sh 'gradle bootRun'
             }
         }
         stage('Deploy') {
