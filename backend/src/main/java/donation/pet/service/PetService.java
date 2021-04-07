@@ -57,11 +57,11 @@ public class PetService {
     }
 
     @Transactional
-    public PetDto updatePetById(Long petId, PetRequestDto dto) {
+    public PetUpdateResponseDto updatePetById(Long petId, PetRequestDto dto) {
         Pet pet = petRepository.findById(petId)
                 .orElseThrow(() -> new BaseException(ErrorCode.PET_NOT_EXIST));
         pet.changeForm(dto);
-        return pet.changeToDto();
+        return pet.changeToPetUpdateDto();
     }
 
     @Transactional
@@ -73,11 +73,12 @@ public class PetService {
     }
 
     @Transactional
-    public void saveProfileImage(Long petId, MultipartFile file) throws IOException {
+    public PetImageResponseDto saveProfileImage(Long petId, MultipartFile file) throws IOException {
         Pet pet = petRepository.findById(petId)
                 .orElseThrow(() -> new BaseException(ErrorCode.PET_NOT_EXIST));
         // 파일 처리
         pet.updateProfileImage("https://" + CLOUD_FRONT_DOMAIN_NAME + "/" + s3Service.uploadFile(file));
         petRepository.save(pet);
+        return new PetImageResponseDto(pet.getProfileImage());
     }
 }
