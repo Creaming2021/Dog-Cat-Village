@@ -14,13 +14,13 @@ type PetProps = {
   onGetPet: (id: number) => void;
   onModifyPet: (petEditType : PetEditType) => void;
   onDeletePet: (id: number) => void;
-  onSetProfileImage: (profileImage: PetProfileImage) => void;
   onSetInitialSelectedPet: () => void;
+  onSetProfileImage?: (profileImage: PetProfileImage) => void, 
 };
 
 const Pet = ({ role, petList, selectedPet, shelterId,
             onRegisterPet, onGetPet, 
-            onModifyPet, onDeletePet, onSetProfileImage, onSetInitialSelectedPet }: PetProps) => {
+            onModifyPet, onDeletePet, onSetInitialSelectedPet, onSetProfileImage }: PetProps) => {
               
   const initialState: PetEditType = {
     id: -1,
@@ -41,7 +41,7 @@ const Pet = ({ role, petList, selectedPet, shelterId,
   const [searchInput, setSearchInput] = useState({
     keyword: "",
     type: "",
-    name: "shelter",
+    name: "pet",
   });
   const [registerPet, setRegisterPet] = useState(false);
   const [registerPetInfo, setRegisterPetInfo] = useState(initialState);
@@ -109,6 +109,9 @@ const Pet = ({ role, petList, selectedPet, shelterId,
 
   useEffect(() => {
     if(registerPetInfo.profileImage){
+      onCloseRegister();
+      onModifyPet(registerPetInfo);
+    } else if (registerPet) {
       onRegisterPet(registerPetInfo);
       onCloseRegister();
     } else if (registerPet) {
@@ -117,10 +120,14 @@ const Pet = ({ role, petList, selectedPet, shelterId,
     }
   }, [registerPetInfo]);
 
+  useEffect(() => {
+    console.log(resultPetList, searchInput);
+  }, [resultPetList]);
+
   const onSubmitRegister = (input: PetInputType): void => {
     setRegisterPetInfo({
       id: -1,
-      profileImage: input.profileImage,
+      profileImage: '',
       name: input.name,
       breed: input.breed,
       weight: input.weight,
@@ -131,6 +138,7 @@ const Pet = ({ role, petList, selectedPet, shelterId,
       sex: input.sex,
       neuter: input.neuter,
       shelterId: input.shelterId,
+      file: input.file || undefined,
     });
   }
 
@@ -148,6 +156,7 @@ const Pet = ({ role, petList, selectedPet, shelterId,
       sex: input.sex,
       neuter: input.neuter,
       shelterId: input.shelterId,
+      file: input.file || undefined,
     });
   }
 
@@ -193,7 +202,8 @@ const Pet = ({ role, petList, selectedPet, shelterId,
           onGetPet={onGetPet}
           onModifyPet={onSumbitModify}
           onDeletePet={onDeletePet}
-          onSetInitialSelectedPet={onSetInitialSelectedPet}/>
+          onSetInitialSelectedPet={onSetInitialSelectedPet}
+          onSetProfileImage={onSetProfileImage || undefined}/>
       </div>
 
       {registerPet && shelterId && (

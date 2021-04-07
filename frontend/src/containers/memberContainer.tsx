@@ -48,7 +48,7 @@ const MemberContainer = () => {
     if (member.data?.logIn) {
       if(member.data.memberRole === "ADMIN") history.push(`/admin`);
       else if(member.data.memberRole === "CONSUMER") history.push(`/user`);
-      else if(member.data.memberRole === "SHELTER") history.push(`/main`);
+      else if(member.data.memberRole === "SHELTER") history.push(`/shelter/${member.data.memberId}`);
     }
   }, [member]);
 
@@ -151,7 +151,7 @@ const MemberContainer = () => {
 
   return (
     <>
-      <Nav role="MEMBER" />
+      <Nav role="MEMBER" memberId={member.data?.memberId || -1} />
       {view === "main" && <Main goToLogIn={goToLogIn} />}
       {view === "logIn" && (
         <SignIn
