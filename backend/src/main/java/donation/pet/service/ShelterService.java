@@ -5,6 +5,7 @@ import donation.pet.domain.adopt.AdoptRepository;
 import donation.pet.domain.member.consumer.ConsumerRepository;
 import donation.pet.domain.member.shelter.Shelter;
 import donation.pet.domain.member.shelter.ShelterRepository;
+import donation.pet.domain.pet.AdoptStatus;
 import donation.pet.domain.pet.Pet;
 import donation.pet.domain.pet.PetRepository;
 import donation.pet.dto.adopt.*;
@@ -128,6 +129,7 @@ public class ShelterService {
         Shelter shelter = shelterRepository.findById(shelterId)
                 .orElseThrow(() -> new BaseException(ErrorCode.SHELTER_NOT_EXIST));
         return shelter.getPets().stream()
+                .filter(pet -> pet.getAdoptStatus() != AdoptStatus.DELETE)
                 .map(Pet::changeToDto)
                 .map(pet -> modelMapper.map(pet, PetSimpleDto.class))
                 .collect(Collectors.toList());

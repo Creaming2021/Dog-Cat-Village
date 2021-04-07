@@ -27,14 +27,17 @@ function App() {
         <Route path="/profile" component={ProfileContainer} exact/>
         {/* <Route path="/shelter/streaming" component={Streaming} exact/> */}
         <ProtectedRouteConsumer path="/shelter" Component={ShelterListContainer} exact/>
+
         <ProtectedRouteConsumer path="/streaming" Component={StreamingListPage} exact/>
+        <Route path="/streaming" component={StreamingListPage} exact/>
+
         <Route path="/user/streaming" component={UserStreamingPage} exact/>
-        
-        <Route path="/user/streaming" component={UserStreamingPage} exact/>
-        <Route path="/user/live" component={Live} exact/>
 
 
         {/* <ProtectedRouteConsumer path="/pet" Component={Pet} exact/> */}
+
+        
+
         <ProtectedRouteConsumer path="/pet" Component={PetListContainer} exact/>
         <Route path="/members/signup/:result" component={ConfirmSignUp} exact/>
         <Route path="/members/password/:auth" component={PasswordContainer} exact/>
