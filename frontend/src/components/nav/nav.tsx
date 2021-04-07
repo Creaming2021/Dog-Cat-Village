@@ -61,7 +61,7 @@ const Nav = ({ role, memberId }: NavProps) => {
       <div className={styles.bar}>
         <div onClick={() => history.push('/user')}>홈</div>
         <div onClick={() => history.push('/shelter')}>보호소</div>
-        <div onClick={() => history.push('/streaming')}>스트리밍</div>
+        {/* <div onClick={() => history.push('/streaming')}>스트리밍</div> */}
         <div onClick={() => history.push('/pet')}>동물</div>
         <div onClick={onClickChat}>채팅</div>
         <div onClick={onClickLogOut}>로그아웃</div>
