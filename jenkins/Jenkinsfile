@@ -33,8 +33,9 @@ pipeline {
         }
         stage('Signaling Build') {
             steps {
-                sh 'cd signaling'
-                sh 'gradle bootRun --stacktrace'
+                // sh 'cd signaling'
+                // sh 'gradle bootRun --stacktrace'
+                sh 'pwd'
             }
         }
         stage('Deploy') {
