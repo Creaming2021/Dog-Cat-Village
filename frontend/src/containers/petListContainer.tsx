@@ -89,7 +89,6 @@ const PetListContainer = () => {
           onGetPet={onGetPet}
           onModifyPet={onModifyPet}
           onDeletePet={onDeletePet}
-          onSetProfileImage={onSetProfileImage}
           onSetInitialSelectedPet={onSetInitialSelectedPet}/>
       </>
     }

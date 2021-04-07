@@ -201,7 +201,7 @@ const setProfileImageReducer = createReducer<PetState, PetAction>(initialState)
 
 // 선택된 동물 지우는 액션 reducer 생성
 const setInitialSelectedPetReducer = createReducer(initialState, {
-  [SET_INITIAL_SELECTED_PET]: (state, action) => ({
+  [SET_INITIAL_SELECTED_PET]: (state) => ({
     ...state,
     selectedPet: {
       ...initialState.selectedPet,

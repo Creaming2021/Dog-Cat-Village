@@ -13,6 +13,7 @@ export interface PetExtraType {
   neuter: string;
   condition: string;
   shelterId: number;
+  file?: File;
 }
 
 export interface PetListType extends PetBasicType {

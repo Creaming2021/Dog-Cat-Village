@@ -7,7 +7,7 @@ import {
 } from "../../../common/common";
 import styles from "./editPetForm.module.css";
 import commons from "../../../common/common.module.css";
-import { PetInputType } from "../../../../interface/pet";
+import { PetInputType, PetProfileImage } from "../../../../interface/pet";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -18,6 +18,7 @@ type EditAnimalFormProps = {
   onCancle: () => void;
   onRegister?: (input: PetInputType) => void;
   onModify?: (petInputType : PetInputType) => void;
+  onRegisterImage?: (input: PetProfileImage) => void;
 };
 
 const EditAnimalForm = ({
@@ -27,6 +28,7 @@ const EditAnimalForm = ({
   onRegister,
   onModify,
   onCancle,
+  onRegisterImage
 }: EditAnimalFormProps) => {
   const initialState: PetInputType = {
     id: pet ? pet.id : -1,
@@ -43,10 +45,13 @@ const EditAnimalForm = ({
     sex: pet ? pet.sex : "",
     neuter: pet ? pet.neuter : "",
     shelterId: pet? pet.shelterId: shelterId,
+    file: undefined,
   };
 
   const [input, setInput] = useState<PetInputType>(initialState);
   const [birthday, setBirthday] = useState<selectType[]>([]);
+  const [imageUrl, setImageUrl] = useState<string>('');
+
 
   const typeList: selectType = {
     name: "breedType",
@@ -108,8 +113,9 @@ const EditAnimalForm = ({
     if (e.target.files) {
       setInput({
         ...input,
-        profileImage: URL.createObjectURL(e.target.files[0]),
+        file: e.target.files[0]
       });
+      setImageUrl(URL.createObjectURL(e.target.files[0]));
     }
   };
 
@@ -117,11 +123,21 @@ const EditAnimalForm = ({
   const back_img_ref = useRef<any>();
 
   const onSubmitRegister = () => {
-    if(onRegister) onRegister(input);
+    if(onRegister) {
+      onRegister(input);
+    }
   }
 
   const onSubmitModify = () => {
-    if(onModify) onModify(input);
+    if(onModify) {
+      onModify(input);
+      if(onRegisterImage && input.file){
+        onRegisterImage({
+          file: input.file,
+          petId: pet?.id || -1,
+        });
+      }
+    }
   }
   
   const onButtonClick = (event: any) => {
@@ -136,7 +152,7 @@ const EditAnimalForm = ({
           <td rowSpan={8}>
             <div className={styles['image-box']}>
               <section className={styles.image} ref={back_img_ref}>
-                <img className={styles.image} src={input.profileImage}></img>
+                <img className={styles.image} src={imageUrl || input.profileImage}></img>
               </section>
               <section className={styles['image-upload']}>
                 <input
