@@ -131,7 +131,7 @@ const MemberContainer = () => {
     
     const newAccount = Blockchain.createAccount();
     dispatch(BlockchainActions.setWalletInfoAsync.request({
-	    address: newAccount.address,
+	    contractAddress: newAccount.address,
 	    privateKey: newAccount.privateKey
     }));
     

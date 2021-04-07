@@ -12,6 +12,7 @@ import ConfirmSignUp from './components/submain/confirmSignUp/confirmSignUp';
 import Main from '../src/components/shelter/main/main';
 import PetListContainer from './containers/petListContainer';
 import ShelterListContainer from './containers/shelterListContainer';
+import MyPage from './components/myPage/myPage';
 
 
 function App() {

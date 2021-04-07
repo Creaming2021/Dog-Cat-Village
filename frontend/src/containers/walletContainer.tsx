@@ -19,8 +19,9 @@ const WalletContainer = () => {
     }
   }
 
-  const onSubmitCharge = () => {
+  const onSubmitCharge = (amount: string) => {
     alert("충전요청!");
+    dispatch(BlockchainActions.chargeCoinAsync.request(amount));
   }
 
   const onSubmigWithdraw = () => {

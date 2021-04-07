@@ -11,7 +11,7 @@ import Withraw from '../withraw/withraw';
 type WalletProps = {
   wallet: WalletType,
   memberRole: string,
-  onSubmitCharge: () => void,
+  onSubmitCharge: (amount: string) => void,
   onSubmigWithdraw: () => void,
 }
 
@@ -25,14 +25,26 @@ const Wallet = ({ wallet, memberRole, onSubmitCharge, onSubmigWithdraw }: Wallet
   }
 
   const [ myWallet, setMyWallet ] = useState<myWalletType>({
-    address: wallet.address,
-    addressShort: wallet.address.substring(0, 7),
+    address: '',
+    addressShort: '',
     coin: 0
   });
 
   useEffect(() => {
-    getTokenBalance();
-  }, []);
+    if(myWallet.address !== ''){
+      getTokenBalance();
+    }
+  }, [myWallet.address]);
+  
+  useEffect(() => {
+    if(wallet.contractAddress !== ''){
+      setMyWallet({
+        address: wallet.contractAddress,
+        addressShort: wallet.contractAddress.substring(0, 7),
+        coin: 0
+      });
+    }
+  }, [wallet]);
 
   const getTokenBalance = () => {
     BlockChainAPI.getTokenBalance(myWallet.address)
@@ -57,7 +69,7 @@ const Wallet = ({ wallet, memberRole, onSubmitCharge, onSubmigWithdraw }: Wallet
     <>
       <div className={styles.wallet}>
         <h1 className={styles['wallet-title']}>내 지갑</h1>
-        <div className={styles.hashnumber}>{myWallet.address}</div>
+        <div className={styles.hashnumber}>{myWallet.addressShort}</div>
         <div className={styles['coin-container']}>
           <FontAwesomeIcon icon={faCoins} className={styles['coin-icon']} />
           <div className={styles.coin}>{myWallet.coin}</div>
