@@ -36,6 +36,7 @@ pipeline {
                 // sh 'cd signaling'
                 // sh 'gradle bootRun --stacktrace'
                 sh 'pwd'
+                sh 'ls -la'
             }
         }
         stage('Deploy') {
