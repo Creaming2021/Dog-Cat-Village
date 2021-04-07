@@ -192,11 +192,6 @@ type MemberState = {
     data: ShelterInfoType | null;
     error: Error | null;
   };
-  profileInfo: {
-    loading: boolean;
-    data: ProfileInfoType | null;
-    error: Error | null;
-  };
 };
 
 // 멤버 state 초기 상태
@@ -204,7 +199,6 @@ const initialState: MemberState = {
   memberInfo: asyncState.initial(),
   checkName: asyncState.initial(),
   shelterInfo: asyncState.initial(),
-  profileInfo: asyncState.initial(),
 };
 
 // 토큰 정보 저장 요청 리듀서
@@ -235,11 +229,7 @@ const signInReducer = createReducer<MemberState, MemberAction>(initialState, {
     ...state,
     memberInfo: asyncState.load(),
   }),
-  [SIGN_IN_SUCCESS]: (state, action) => {
-    localStorage.setItem("memberId", action.payload.memberRole);
-    localStorage.setItem("memberRole", action.payload.memberId.toString());
-
-    return {
+  [SIGN_IN_SUCCESS]: (state, action) => ({
       ...state,
       memberInfo: {
         loading: false,
@@ -250,8 +240,8 @@ const signInReducer = createReducer<MemberState, MemberAction>(initialState, {
           memberId: action.payload.memberId,
         },
       },
-    };
-  },
+    }
+  ),
   [SIGN_IN_ERROR]: (state, action) => ({
     ...state,
     memberInfo: asyncState.error(action.payload),

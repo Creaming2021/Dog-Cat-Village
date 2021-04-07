@@ -22,7 +22,7 @@ const Nav = ({ role, memberId }: NavProps) => {
     if(role === 'CONSUMER') {
       history.push('/user');
     } else if(role === 'SHELTER'){
-      history.push(`/shelter/${memberId}`);
+      history.push(`/main`);
     } else if(role === 'ADMIN'){
       history.push('/admin');
     } else if(role === 'MEMBER'){

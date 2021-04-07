@@ -55,7 +55,8 @@ const initialState = {
   monthlyAdoption: [],
   name: "",
   phoneNumber: "",
-  profileImage: ""
+  profileImage: "",
+  siteUrl: '',
 }
 
 export const shelter = (state=initialState, action) => {
