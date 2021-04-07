@@ -36,6 +36,7 @@ pipeline {
             steps {
                 // sh 'cd signaling && '
                 // sh 'gradle bootRun --stacktrace'
+                sh 'cd ~'
                 sh 'pwd'
                 dir('/var/jenkins_home/workspace/B106/signaling') {
                     sh './gradlew bootRun --stacktrace'
