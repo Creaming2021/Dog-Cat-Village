@@ -33,3 +33,8 @@ export interface TranscationFilteredListType{
 	transaction: string,
 	date: string
 }
+
+// export interface FinishChargeType {
+// 	kakaopay: string,
+// 	pg_token: string,
+// }

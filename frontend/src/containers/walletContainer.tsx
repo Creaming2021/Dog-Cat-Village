@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Wallet from "../components/blockchain/wallet/wallet";
 import { RootState } from "../modules";
+import * as Blockchain from '../service/blockchainAPI';
 import * as BlockchainActions from '../modules/blockchain';
 
 const WalletContainer = () => {
@@ -23,6 +24,7 @@ const WalletContainer = () => {
 
   const onSubmitCharge = (amount: string) => {
     dispatch(BlockchainActions.chargeCoinAsync.request(amount));
+    Blockchain.sendTransaction(wallet.data?.contractAddress, amount);
     setModal('');
   }
 

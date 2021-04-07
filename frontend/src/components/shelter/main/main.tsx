@@ -17,15 +17,17 @@ export type MainProps = {
   match? : any;
 }
 
-const Main = () => {
+const Main = ({ match }: MainProps ) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
   const [ category, setCategory ] = useState<string>("home");
   const [ chatting, setChatting ] = useState(false);
 
   useEffect(() => {
-    // if(match.params.id) {
-    //   alert("있어요");
-    // }
+    if(isNaN(match.params.id)){
+      console.log("숫자임");
+    }else{
+      console.log("숫자 아님");
+    }
   }, []);
 
   const onClickChat = () => {

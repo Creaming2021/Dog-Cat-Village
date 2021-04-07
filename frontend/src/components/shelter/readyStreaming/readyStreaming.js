@@ -85,15 +85,15 @@ const ReadyStreaming = ({ member }) => {
       }
     }
 
-    function onOfferPresenter(error, offerSdp) {
+    function onOfferPresenter(error, offerSdp, shelterId, roomName) {
       if (error)
         return console.error('Error generating the offer');
       // console.info('Invoking SDP offer callback function ' + location.host);
       var message = {
         id: 'shelter',
         sdpOffer: offerSdp,
-        shelterId: 3, // 보호소 아이디
-        roomName: '방송 이름', // 방송 이름, 없으면 introduce
+        shelterId: shelterId, // 보호소 아이디
+        roomName: roomName, // 방송 이름, 없으면 introduce
       }
       sendMessage(message);
     }

@@ -130,15 +130,15 @@ const UserStreamingPage = () => {
     }
   }
 
-  function onOfferViewer(error, offerSdp) {
+  function onOfferViewer(error, offerSdp, shelterId, consumerId) {
     if (error)
       return console.error('Error generating the offer');
     // console.info('Invoking SDP offer callback function ' + location.host);
     var message = {
       id : 'consumer',
       sdpOffer : offerSdp,
-      shelterId : 3, // 방 아이디
-      consumerId: 2 // 유저 아이디
+      shelterId : shelterId, // 방 아이디 ( 프레젠터 )
+      consumerId: consumerId // 유저 아이디 ( 뷰어 )
     }
     sendMessage(message);
   }

@@ -13,6 +13,8 @@ import Main from '../src/components/shelter/main/main';
 import PetListContainer from './containers/petListContainer';
 import ShelterListContainer from './containers/shelterListContainer';
 import MyPage from './components/myPage/myPage';
+import ConsumerEnter from './components/submain/consumer/consumerEnter';
+import ChargeFinish from './components/blockchain/chargeFinish/chargeFinish';
 
 
 function App() {
@@ -36,6 +38,9 @@ function App() {
 
         <Route path="/members/signup/:result" component={ConfirmSignUp} exact/>
         <Route path="/members/password/:auth" component={PasswordContainer} exact/>
+
+        {/* <Route path="/blockchain:token" component={ChargeFinish}/>/ */}
+        { /* https://j4b106.p.ssafy.io/blockchain?pg_token=234ad479fb1863f54c00 */}
         
         <ProtectedRouteToken path="/" Component={MemberContainer} exact/>
         <Route>
