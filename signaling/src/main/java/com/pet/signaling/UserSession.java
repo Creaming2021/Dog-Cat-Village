@@ -18,6 +18,7 @@
 package com.pet.signaling;
 
 import com.google.gson.JsonObject;
+import lombok.Data;
 import org.kurento.client.IceCandidate;
 import org.kurento.client.WebRtcEndpoint;
 import org.slf4j.Logger;
@@ -33,6 +34,7 @@ import java.io.IOException;
  * @author Boni Garcia (bgarcia@gsyc.es)
  * @since 5.0.0
  */
+@Data
 public class UserSession {
 
   private static final Logger log = LoggerFactory.getLogger(UserSession.class);

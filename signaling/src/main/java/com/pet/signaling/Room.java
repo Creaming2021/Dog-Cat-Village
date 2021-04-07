@@ -1,11 +1,12 @@
 package com.pet.signaling;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-@Getter
+@Data
 public class Room {
 
     private UserSession shelterSession;

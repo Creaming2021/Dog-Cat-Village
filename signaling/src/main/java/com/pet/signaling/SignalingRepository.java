@@ -55,6 +55,15 @@ public class SignalingRepository {
         return rooms.get(shelterId);
     }
 
+    public Room findConsumerJoinRoom(String sessionId) {
+        Long consumerId = sessionMapping.get(sessionId);
+        Long shelterId = idMapping.get(consumerId);
+        if (shelterId == null) {
+            return null;
+        }
+        return rooms.get(shelterId);
+    }
+
     public void addConsumer(UserSession shelterSession, UserSession consumerSession) {
         // room에 추가하기
         rooms.get(shelterSession.getMemberId()).getConsumers()
@@ -65,5 +74,13 @@ public class SignalingRepository {
 
         // 접속중인 방 매핑
         idMapping.put(consumerSession.getMemberId(), shelterSession.getMemberId());
+    }
+
+    public void deleteConsumer(String sessionId) {
+        Long consumerId = sessionMapping.get(sessionId);
+        Long shelterId = idMapping.get(consumerId);
+        idMapping.remove(consumerId);
+        sessionMapping.remove(sessionId);
+        rooms.get(shelterId).getConsumers().remove(consumerId);
     }
 }

@@ -43,7 +43,6 @@ public class SignalingHandler extends TextWebSocketHandler {
     switch (jsonMessage.get("id").getAsString()) {
       case "shelter":
         try {
-          log.info("shelterId : {}, roomName : {}", jsonMessage.get("shelterId"), jsonMessage.get("roomName"));
           shelter(session, jsonMessage);
         } catch (Throwable t) {
           handleErrorResponse(t, session, "shelterResponse");
@@ -51,34 +50,34 @@ public class SignalingHandler extends TextWebSocketHandler {
         break;
       case "consumer":
         try {
-          log.info("shelterId : {}, consumerId : {}", jsonMessage.get("shelterId"), jsonMessage.get("consumerId"));
           consumer(session, jsonMessage);
         } catch (Throwable t) {
           handleErrorResponse(t, session, "consumerResponse");
         }
         break;
-//      case "onIceCandidate": {
-//        JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
-//
-//        UserSession user = null;
-//        if (shelterUserSession != null) {
-//          if (shelterUserSession.getSession() == session) {
-//            user = shelterUserSession;
-//          } else {
-//            user = consumers.get(session.getId());
-//          }
-//        }
-//        if (user != null) {
-//          IceCandidate cand =
-//                  new IceCandidate(candidate.get("candidate").getAsString(), candidate.get("sdpMid")
-//                          .getAsString(), candidate.get("sdpMLineIndex").getAsInt());
-//          user.addCandidate(cand);
-//        }
-//        break;
-//      }
-//      case "stop":
-//        stop(session);
-//        break;
+      case "onIceCandidate": {
+        JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
+
+        UserSession user = null;
+        Room room = signalingRepository.findRoom(session.getId());
+        if (room != null) {
+          if (room.getShelterSession().getSession() == session) {
+            user = room.getShelterSession();
+          } else {
+            user = signalingRepository.findConsumerJoinRoom(session.getId()).getConsumers().get(session.getId());
+          }
+        }
+        if (user != null) {
+          IceCandidate cand =
+                  new IceCandidate(candidate.get("candidate").getAsString(), candidate.get("sdpMid")
+                          .getAsString(), candidate.get("sdpMLineIndex").getAsInt());
+          user.addCandidate(cand);
+        }
+        break;
+      }
+      case "stop":
+        stop(session);
+        break;
       default:
         break;
     }
@@ -143,10 +142,12 @@ public class SignalingHandler extends TextWebSocketHandler {
       signalingRepository.addRoom(session.getId() , new Room(shelterSession, roomName));
 
       ConcurrentHashMap<Long, Room> rooms = signalingRepository.getRooms();
-      log.info("================== ROOM LIST ==================");
+      log.info("============================ ROOM LIST ============================");
       for (Room r : rooms.values()) {
-        log.info("SessionID = {}, RoomName = {}" , r.getShelterSession().getSession().getId(), r.getRoomName());
+        log.info("SessionID = {}, RoomName = {}, ShelterId = {}" ,
+                r.getShelterSession().getSession().getId(), r.getRoomName(), shelterId);
       }
+      log.info("===================================================================");
 
     } else {
       JsonObject response = new JsonObject();
@@ -229,34 +230,45 @@ public class SignalingHandler extends TextWebSocketHandler {
 
       // 저장하기
       signalingRepository.addConsumer(shelterSession, consumerSession);
-      log.info("======= {} ======", room.getRoomName());
+      log.info("=================== {} ===================", room.getRoomName());
       for (UserSession userSession : room.getConsumers().values()) {
         log.info("SessionID = {}, ConsumerId = {}" , userSession.getSession().getId(), userSession.getMemberId());
       }
+      log.info("===================================================================");
     }
   }
 
   private synchronized void stop(WebSocketSession session) throws IOException {
-//    String sessionId = session.getId();
-//    if (shelterUserSession != null && shelterUserSession.getSession().getId().equals(sessionId)) {
-//      for (UserSession consumer : consumers.values()) {
-//        JsonObject response = new JsonObject();
-//        response.addProperty("id", "stopCommunication");
-//        consumer.sendMessage(response);
-//      }
-//
-//      log.info("Releasing media pipeline");
-//      if (pipeline != null) {
-//        pipeline.release();
-//      }
-//      pipeline = null;
-//      shelterUserSession = null;
-//    } else if (consumers.containsKey(sessionId)) {
-//      if (consumers.get(sessionId).getWebRtcEndpoint() != null) {
-//        consumers.get(sessionId).getWebRtcEndpoint().release();
-//      }
-//      consumers.remove(sessionId);
-//    }
+    String sessionId = session.getId();
+
+    Room room = signalingRepository.findRoom(sessionId);
+    // consumer 인 경우
+    if (room == null) {
+      Room joinRoom = signalingRepository.findConsumerJoinRoom(sessionId);
+      if (joinRoom != null) {
+        log.info("================== 퇴실 ====================");
+        log.info("sessionid : {}", session.getId());
+        signalingRepository.deleteConsumer(sessionId);
+        log.info("============================================");
+      }
+    } else  {  // shelter 인 경우
+      log.info("============ {}, ({}) 방 파괴 =============", room.getRoomName(), room.getShelterSession().getMemberId());
+      for(UserSession consumer : room.getConsumers().values()) {
+        log.info("시청자 : {} / {}", consumer.getSession().getId(), consumer.getMemberId());
+        JsonObject response = new JsonObject();
+        response.addProperty("id", "stopCommunication");
+        consumer.sendMessage(response);
+        signalingRepository.deleteConsumer(consumer.getSession().getId());
+      }
+      log.info("======================================================");
+      log.info("Releasing media pipeline");
+      MediaPipeline mediaPipeline = room.getShelterSession().getWebRtcEndpoint().getMediaPipeline();
+      if (mediaPipeline != null) {
+        mediaPipeline.release();
+      }
+      mediaPipeline = null;
+      room.setShelterSession(null);
+    }
   }
 
   @Override
