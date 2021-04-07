@@ -51,8 +51,8 @@ const ModifyShelterInfo = ({ input, onSubmit, onClose, onChangeInput }: ModifySh
 
 type MainCategoryProps = {
   onChangeCategory: (category: string) => void;
-  member: SignInResponseType,
-  shelter: ShelterInfoType,
+  member: SignInResponseType | null,
+  shelter: ShelterInfoType | null,
   profile: ProfileInfoType,
   onSubmitModify: (modifyInput: ModifyShelterInfoType) => void,
   onClickChat: () => void,
@@ -62,7 +62,7 @@ const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModi
   const initialState = {
     siteUrl: shelter?.siteUrl || '',
     introduce: shelter?.introduce ||'',
-    shelterId: member?.memberId,
+    shelterId: member?.memberId || -1,
   };
   
   const [ modify, setModify ] = useState<boolean>(false);
@@ -120,10 +120,10 @@ const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModi
         <ButtonMedium
           content="1:1 채팅"
           value="chatting"
-          onClick={member.memberRole === "SHELTER" ? onClick : onClickChat}
+          onClick={member?.memberRole === "SHELTER" ? onClick : onClickChat}
           buttonColor="bg-green"
         />
-        { member.memberRole === "SHELTER" &&
+        { member?.memberRole === "SHELTER" &&
           <ButtonMedium
             content="입양 신청"
             value="adopt"
@@ -131,7 +131,7 @@ const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModi
             buttonColor="bg-green"
             />
         }
-        { member.memberRole === "CONSUMER" &&
+        { member?.memberRole === "CONSUMER" &&
           <ButtonMedium
             content="후원하기 "
             value="donation"
