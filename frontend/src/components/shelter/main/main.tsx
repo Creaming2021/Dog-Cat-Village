@@ -17,14 +17,16 @@ export type MainProps = {
   match? : any;
 }
 
-const Main = () => {
+const Main = ({ match }: MainProps ) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
   const [ category, setCategory ] = useState<string>("home");
   const [ chatting, setChatting ] = useState(false);
 
   useEffect(() => {
-    // if(match.params.id) {
-    //   alert("있어요");
+    // if(isNaN(match.params.id)){
+    //   console.log("숫자임");
+    // }else{
+    //   console.log("숫자 아님");
     // }
   }, []);
 
@@ -36,15 +38,6 @@ const Main = () => {
     setCategory(category);
   };
 
-  const streaming = {
-    onAir: true,
-    title: "3월 24일 방송입니다.",
-    video: "",
-    content: "날이 참 좋네요~ 여러분 많이 보러오세요!",
-    viewers: 1234,
-    totalCoin: 10354,
-  };
-
   return (
     <div className={styles["sub-main-container"]}>
       <Nav role={member.data?.memberRole || ""} memberId={member.data?.memberId || -1} />
@@ -52,7 +45,9 @@ const Main = () => {
         <ShelterContainer onChangeCategory={onChangeCategory} onClickChat={onClickChat}/>
 
         {category === "home" && 
-          <Home type={member.data?.memberRole || ''} streaming={streaming} />}
+          <Home type={member.data?.memberRole || ''} 
+            shelterId={match?.params.id}
+            memberId={member.data?.memberId}/>}
 
         {category === "animal" && 
           <PetListContainer/>}

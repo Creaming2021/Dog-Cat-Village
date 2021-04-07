@@ -8,7 +8,7 @@ import UserMainPage from "../userMainPage/userMainPage";
 import styles from "./errorAlert.module.css";
 
 type ProtectedRouteProps = {
-  Component: () => JSX.Element;
+  Component: ({}: any) => JSX.Element;
   path: string;
   exact: boolean;
 }

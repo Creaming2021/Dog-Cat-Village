@@ -3,12 +3,13 @@ import styles from "../home/home.module.css";
 import { ButtonLarge, ImageSmall } from "../../common/common";
 import { SignInResponseType } from "../../../interface/member";
 import kurentoUtils from 'kurento-utils';
+import pingpong from "./pingpong";
 
 // type ReadyStreamingProps = {
 // 	member: SignInResponseType | null,
 // };
 
-const ReadyStreaming = ({ member }) => {
+const ReadyStreaming = ({ member, shelterId, roomName }) => {
 
   var ws;
   var webRtcPeer;
@@ -18,7 +19,11 @@ const ReadyStreaming = ({ member }) => {
 		// alert(`방송 시작 처리하시면 됩니다. memberId = ${member?.memberId}`);
 
     ws = new WebSocket("wss://j4b106.p.ssafy.io/live");
-      
+    
+    if(ws.extensions !== null){
+      pingpong(ws);
+    }
+
     video = document.getElementById('video');
     // viewer();
     presenter();
@@ -34,7 +39,7 @@ const ReadyStreaming = ({ member }) => {
       console.info('Received message: ' + message.data);
 
       switch (parsedMessage.id) {
-      case 'presenterResponse':
+      case 'shelterResponse':
         presenterResponse(parsedMessage);
         break;
       case 'iceCandidate':
@@ -92,8 +97,8 @@ const ReadyStreaming = ({ member }) => {
       var message = {
         id: 'shelter',
         sdpOffer: offerSdp,
-        shelterId: member.memberId, // 보호소 아이디
-        roomName: '방송 이름', // 방송 이름, 없으면 introduce
+        shelterId: shelterId, // 보호소 아이디
+        roomName: roomName, // 방송 이름, 없으면 introduce
       }
       sendMessage(message);
     }

@@ -7,8 +7,12 @@ import {
   faCoins,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ImageSmall } from "../../common/common";
+import { ButtonLarge, ImageSmall } from "../../common/common";
 import PresenterContainer from "../../../containers/presenterContainer";
+import UserStreamingPage from "../../userStreamingPage/userStreamingPage";
+import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../modules";
 
 type OnAirStreamingProps = {
   onAir: boolean;
@@ -124,18 +128,12 @@ const DonationCard = ({ id, nickname, imageUrl, coin }: DonationCardProps) => {
 };
 
 type HomeProps = {
-  type: string;
-  streaming: {
-    onAir: boolean;
-    title: string;
-    video: string;
-    content?: string;
-    viewers?: number;
-    totalCoin?: number;
-  };
+  type: string,
+  shelterId: string,
+  memberId: number | undefined,
 };
 
-const Home = ({ type, streaming }: HomeProps) => {
+const Home = ({ type, shelterId, memberId }: HomeProps) => {
   const userList: DonationCardProps[] = [
     { id: 1, nickname: "첫번째", imageUrl: "", coin: 1234 },
     { id: 2, nickname: "두번째", imageUrl: "", coin: 1 },
@@ -145,25 +143,20 @@ const Home = ({ type, streaming }: HomeProps) => {
     { id: 6, nickname: "여섯번째", imageUrl: "", coin: 123456 },
     { id: 7, nickname: "일곱번째", imageUrl: "", coin: 1234567 },
   ];
+  const history = useHistory();
 
-  const { onAir, title, video, content, viewers, totalCoin } = streaming;
-
+  const onClick = () => {
+    history.push(`/streaming/${shelterId}/${memberId}`)
+  }
+  
   return (
     <>
-      {type === "CONSUMER" &&
-        (onAir ? (
-          <OnAirStreaming
-            onAir={onAir}
-            title={title}
-            video={video}
-            content={content}
-            viewers={viewers}
-            totalCoin={totalCoin}
-          />
-        ) : (
-          <OnAirStreaming onAir={onAir} title="현재 스트리밍 중이 아닙니다." />
-        ))}
-      {type === "SHELTER" && <PresenterContainer />}
+      { type === "CONSUMER" && 
+        <ButtonLarge 
+          content="방송 보기" 
+          onClick={onClick} 
+          buttonColor="bg-blue"/> }
+      { type === "SHELTER" && <PresenterContainer />}
       <Donation userList={userList} />
     </>
   );
