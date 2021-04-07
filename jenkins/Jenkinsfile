@@ -29,6 +29,13 @@ pipeline {
                 }
             }
         }
+        stage('Signaling Build') {
+            steps {
+                sh 'cd signaling'
+                sh 'chmod +x ./gradlew'
+                sh './gradlew bootRun'
+            }
+        }
         stage('Deploy') {
             steps {
                 sh 'docker-compose up -d'
