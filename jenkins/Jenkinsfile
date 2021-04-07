@@ -37,7 +37,7 @@ pipeline {
                 // sh 'gradle bootRun --stacktrace'
                 sh 'pwd'
                 dir('/var/jenkins_home/workspace/B106/signaling') {
-                    sh 'gradle bootRun --stacktrace'
+                    sh './gradlew bootRun --stacktrace'
                 }
                 sh 'pwd'
                 sh 'ls -la'
