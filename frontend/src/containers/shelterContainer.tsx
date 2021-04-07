@@ -13,7 +13,7 @@ type ShelterContainerProps = {
 const ShelterContainer = ({ onChangeCategory, onClickChat }: ShelterContainerProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
   const shelter = useSelector((state: RootState) => state.member.shelterInfo);
-  const profile = useSelector((state: RootState) => state.member.profileInfo);
+  const profile = useSelector((state: RootState) => state.shelter);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const ShelterContainer = ({ onChangeCategory, onClickChat }: ShelterContainerPro
 
   return (
     <>
-    { member.data !== null && shelter.data !== null && !profile.data && (
+    {/* { member.data !== null && shelter.data !== null && !profile && (
       <MainCategory 
         member={member.data} 
         shelter={shelter.data} 
@@ -50,22 +50,17 @@ const ShelterContainer = ({ onChangeCategory, onClickChat }: ShelterContainerPro
         onSubmitModify={ModifyShelterInfo}
         onClickChat={onClickChat}/>
       )
-    }
-      {/* {member.data !== null && shelter.data !== null && !profile.data && (
-        <SubMain
-          member={member.data}
-          shelter={shelter.data}
-          profile={
-            profile.data || {
-              profileImage: "https://static.remove.bg/remove-bg-web/71dbdf11b48cb655eefe2f609ad67295258ae141/assets/start-0e837dcc57769db2306d8d659f53555feb500b3c5d456879b9c843d1872e7baa.jpg",
-              name: "이름",
-              phoneNumber: "번호",
-              email: "메일",
-            }
-          }
-          onSubmitModify={ModifyShelterInfo}
-        />
-      )} */}
+    } */}
+
+    {member.data !== null && shelter.data !== null && !profile && (
+      <MainCategory
+        member={member.data}
+        shelter={shelter.data}
+        profile={profile}
+        onChangeCategory={onChangeCategory} 
+        onSubmitModify={ModifyShelterInfo}
+        onClickChat={onClickChat}/>
+    )}
     </>
   );
 };

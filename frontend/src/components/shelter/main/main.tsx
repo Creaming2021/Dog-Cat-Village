@@ -41,7 +41,7 @@ const Main = () => {
       <Nav role={member.data?.memberRole || ""} memberId={member.data?.memberId || -1} />
       <div className={styles["sub-main-box"]}>
         <ShelterContainer onChangeCategory={onChangeCategory} onClickChat={onClickChat}/>
-        {category === "home" && <Home type="shelter" streaming={streaming} />}
+        {category === "home" && <Home type={member.data?.memberRole || ''} streaming={streaming} />}
         {category === "animal" && <PetListContainer/>}
         {category === "chatting" && member.data?.memberRole === "SHELTER" &&
           <div className={styles['chatting-container']}><ChattingContainer listSet={true}/></div>}

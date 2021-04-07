@@ -20,20 +20,18 @@ function App() {
     <div className={styles.app}>
       <Switch>
         <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/>
-        <ProtectedRouteShelter path="/shelter" Component={Main} exact/>
-        {/* <ProtectedRouteAdmin path="/admin" Component={Admin} exact/> */}
+        <ProtectedRouteShelter path="/main" Component={Main} exact/>
 
         <Route path="/profile" component={ProfileContainer} exact/>
 
         {/* <Route path="/shelter/streaming" component={Streaming} exact/> */}
-        {/* <ProtectedRouteConsumer path="/shelter" Component={ShelterListContainer} exact/> */}
+        <ProtectedRouteConsumer path="/shelter" Component={ShelterListContainer} exact/>
 
         {/* <ProtectedRouteConsumer path="/streaming" Component={StreamingListPage} exact/> */}
         <Route path="/streaming" component={StreamingListPage} exact/>
 
         <Route path="/user/streaming" component={UserStreamingPage} exact/>
 
-        {/* <ProtectedRouteConsumer path="/pet" Component={Pet} exact/> */}
         <ProtectedRouteConsumer path="/pet" Component={PetListContainer} exact/>
 
         <Route path="/members/signup/:result" component={ConfirmSignUp} exact/>

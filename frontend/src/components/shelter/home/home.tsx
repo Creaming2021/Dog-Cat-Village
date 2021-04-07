@@ -65,7 +65,7 @@ type ReadyStreamingProps = {};
 
 const ReadyStreaming = ({}: ReadyStreamingProps) => {
   const onClick = () => {
-    alert("방송시작");
+    // 
   };
 
   const [imgUrl, setImgUrl] = useState('');
@@ -83,40 +83,6 @@ const ReadyStreaming = ({}: ReadyStreamingProps) => {
 
   return (
     <div className={styles.streaming}>
-       {imgUrl
-        ? (
-            <>
-              <section className={styles.thumnail} ref={back_img_ref}>
-                <img src={imgUrl}></img>
-              </section>
-            </>
-          )
-        : (
-            <section className={styles.thumnail}>
-              <input
-                ref={inputRef}
-                className={styles['img-input-tag']}
-                type="file"
-                name="imageUrl"
-                onChange={handleChangeImg}
-              />
-              <button onClick={onButtonClick}>
-                <div className={styles.download_icon}>
-                  다운로드 아이콘
-                </div>
-              이미지 넣기
-              </button>
-          </section>
-        )
-      }
-      <input
-        className={commons["input-title"]}
-        placeholder="오늘의 스트리밍 제목을 입력하세요."
-      />
-      <textarea
-        className={commons["input-content"]}
-        placeholder="오늘의 스트리밍 내용을 입력하세요."
-        />
       <ButtonLarge
         content="스트리밍 시작하기"
         onClick={onClick}
@@ -213,7 +179,7 @@ const Home = ({ type, streaming }: HomeProps) => {
 
   return (
     <>
-      {type === "user" &&
+      {type === "CONSUMER" &&
         (onAir ? (
           <OnAirStreaming
             onAir={onAir}
@@ -226,7 +192,7 @@ const Home = ({ type, streaming }: HomeProps) => {
         ) : (
           <OnAirStreaming onAir={onAir} title="현재 스트리밍 중이 아닙니다." />
         ))}
-      {type === "shelter" && <ReadyStreaming />}
+      {type === "SHELTER" && <ReadyStreaming />}
       <Donation userList={userList} />
     </>
   );

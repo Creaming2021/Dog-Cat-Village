@@ -48,7 +48,7 @@ const MemberContainer = () => {
     if (member.data?.logIn) {
       if(member.data.memberRole === "ADMIN") history.push(`/admin`);
       else if(member.data.memberRole === "CONSUMER") history.push(`/user`);
-      else if(member.data.memberRole === "SHELTER") history.push(`/shelter`);
+      else if(member.data.memberRole === "SHELTER") history.push(`/main`);
     }
   }, [member]);
 
