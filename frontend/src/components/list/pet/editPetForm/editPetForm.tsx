@@ -39,7 +39,7 @@ const EditAnimalForm = ({
     year: pet ? pet.year : "생년",
     month: pet ? pet.month : "월",
     date: pet ? pet.date : "일",
-    breedType: pet ? pet.breedType : "dog",
+    breedType: pet ? pet.breedType : "DOG",
     personality: pet ? pet.personality : "",
     condition: pet ? pet.condition : "",
     sex: pet ? pet.sex : "",
@@ -56,9 +56,9 @@ const EditAnimalForm = ({
   const typeList: selectType = {
     name: "breedType",
     options: [
-      { value: "dog", option: "개" },
-      { value: "cat", option: "고양이" },
-      { value: "etc", option: "기타" },
+      { value: "DOG", option: "개" },
+      { value: "CAT", option: "고양이" },
+      { value: "ETC", option: "기타" },
     ],
   };
 
@@ -102,6 +102,8 @@ const EditAnimalForm = ({
       | React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = e.target;
+    
+    console.log(e);
 
     setInput({
       ...input,
@@ -130,13 +132,13 @@ const EditAnimalForm = ({
 
   const onSubmitModify = () => {
     if(onModify) {
-      onModify(input);
       if(onRegisterImage && input.file){
         onRegisterImage({
           file: input.file,
           petId: pet?.id || -1,
         });
       }
+      onModify(input);
     }
   }
   
@@ -154,20 +156,22 @@ const EditAnimalForm = ({
               <section className={styles.image} ref={back_img_ref}>
                 <img className={styles.image} src={imageUrl || input.profileImage}></img>
               </section>
-              <section className={styles['image-upload']}>
-                <input
-                  ref={inputRef}
-                  className={styles['img-input-tag']}
-                  type="file"
-                  name="imageUrl"
-                  onChange={onChangeImage}
-                  />
-                <button 
-                  className={`${styles['image-upload-btn']} ${commons['bg-blue']}`} 
-                  onClick={onButtonClick}>
-                    <FontAwesomeIcon icon={faUpload} className={styles.icon}/> 이미지 넣기
-                </button>
-              </section>
+              { type === "modify" && 
+                <section className={styles['image-upload']}>
+                  <input
+                    ref={inputRef}
+                    className={styles['img-input-tag']}
+                    type="file"
+                    name="imageUrl"
+                    onChange={onChangeImage}
+                    />
+                  <button 
+                    className={`${styles['image-upload-btn']} ${commons['bg-blue']}`} 
+                    onClick={onButtonClick}>
+                      <FontAwesomeIcon icon={faUpload} className={styles.icon}/> 이미지 넣기
+                  </button>
+                </section>
+              }
             </div>
           </td>
           <td>

@@ -34,7 +34,10 @@ const PetCard = ({
       onClick={onClick}
       className={styles["pet-card-container"]}
     >
-      <img src={profileImage} />
+      <img src={profileImage}/>
+      { profileImage === null &&
+        <div className={styles.ready}>사진 준비 중</div>
+      }
       <div id={id.toString()} className={styles["card-hover"]}>
         <div id={id.toString()} className={styles.info}>
           <div id={id.toString()} className={styles.name}>

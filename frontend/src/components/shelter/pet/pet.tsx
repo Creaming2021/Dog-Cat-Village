@@ -41,7 +41,7 @@ const Pet = ({ role, petList, selectedPet, shelterId,
   const [searchInput, setSearchInput] = useState({
     keyword: "",
     type: "",
-    name: "shelter",
+    name: "pet",
   });
   const [registerPet, setRegisterPet] = useState(false);
   const [registerPetInfo, setRegisterPetInfo] = useState(initialState);
@@ -116,6 +116,10 @@ const Pet = ({ role, petList, selectedPet, shelterId,
       onCloseRegister();
     }
   }, [registerPetInfo]);
+
+  useEffect(() => {
+    console.log(resultPetList, searchInput);
+  }, [resultPetList]);
 
   const onSubmitRegister = (input: PetInputType): void => {
     setRegisterPetInfo({

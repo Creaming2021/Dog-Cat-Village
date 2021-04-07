@@ -2,7 +2,9 @@ import {
   PetDetailType,
   PetEditType,
   PetListType,
+  PetModifyResponseType,
   PetProfileImage,
+  PetProfileImageResponse,
 } from "../interface/pet";
 import { image, security } from "./instance";
 
@@ -62,7 +64,7 @@ export const getPet = async (id: number) => {
 
 // 반려동물 정보 수정
 export const modifyPet = async (petInfo: PetEditType) => {
-  const response = await security.put<PetDetailType>(
+  const response = await security.put<PetModifyResponseType>(
     `pets/${petInfo.id}`,
     {
       birthday: petInfo.birthday,
@@ -100,7 +102,7 @@ export const setProfileImage = async (profileImage: PetProfileImage) => {
   var imageFile = new FormData();
   imageFile.append('file', profileImage.file);
 
-  const response = await image.post<undefined>(
+  const response = await image.post<PetProfileImageResponse>(
     `pets/${profileImage.petId}/image`,
     imageFile,
     {

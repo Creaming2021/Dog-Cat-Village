@@ -42,3 +42,22 @@ export interface PetProfileImage {
   file: File;
   petId: number;
 }
+
+export interface PetProfileImageResponse {
+  profileImage: string;
+}
+
+export interface PetModifyResponseType {
+  id: number;
+  name: string;
+  sex: string;
+  breedType: string;
+  weight: string;
+  breed: string;
+  personality: string;
+  neuter: string;
+  condition: string;
+  shelterId: number;
+  birthday: string;
+  age: string;
+}

@@ -4,7 +4,9 @@ import { asyncState, createAsyncReducer, transformToArray } from "../lib/reducer
 import { takeEvery } from 'redux-saga/effects';
 import createAsyncSaga from "../lib/createAsyncSaga";
 import * as PetAPI from '../service/pet';
-import { PetDetailType, PetEditType, PetListType, PetProfileImage } from "../interface/pet";
+import { PetDetailType, PetEditType, PetListType, PetModifyResponseType, PetProfileImage, PetProfileImageResponse } from "../interface/pet";
+import { put } from "typed-redux-saga";
+import { useDispatch } from "react-redux";
 
 // 반려동물 전체 조회 요청 액션 타입
 const GET_PET_LIST = 'pet/GET_PET_LIST';
@@ -37,7 +39,7 @@ const DELETE_PET_SUCCESS = 'pet/DELETE_PET_SUCCESS';
 const DELETE_PET_ERROR = 'pet/DELETE_PET_ERROR';
 
 // 반려 동물 이미지 삽입 액션 타입
-const SET_PROFILE_IMAGE = 'pet/SET_PROFILE_IMAGE = ';
+const SET_PROFILE_IMAGE = 'pet/SET_PROFILE_IMAGE';
 const SET_PROFILE_IMAGE_SUCCESS = 'pet/SET_PROFILE_IMAGE_SUCCESS';
 const SET_PROFILE_IMAGE_ERROR = 'pet/SET_PROFILE_IMAGE_ERROR';
 
@@ -77,7 +79,7 @@ export const modifyPetAsync = createAsyncAction(
   MODIFY_PET,
   MODIFY_PET_SUCCESS,
   MODIFY_PET_ERROR
-)<PetEditType, PetDetailType, AxiosError>();
+)<PetEditType, PetModifyResponseType, AxiosError>();
 
 // 반려 동물 삭제 액션 객체 생성함수
 export const deletePetAsync = createAsyncAction(
@@ -91,7 +93,7 @@ export const setProfileImageAsync = createAsyncAction(
   SET_PROFILE_IMAGE,
   SET_PROFILE_IMAGE_SUCCESS,
   SET_PROFILE_IMAGE_ERROR
-)<PetProfileImage, any, AxiosError>();
+)<PetProfileImage, PetProfileImageResponse, AxiosError>();
 
 // 선택된 동물 지우는 액션 객체 생성함수
 export const setInitialSelectedPet = () => ({ type: SET_INITIAL_SELECTED_PET });
@@ -141,6 +143,11 @@ type PetState = {
     loading: boolean;
     data: PetDetailType | null;
     error: Error | null;
+  },
+  changeImage: {
+    loading: boolean;
+    data: boolean | null;
+    error: Error | null;
   }
 }
 
@@ -148,6 +155,7 @@ type PetState = {
 const initialState: PetState = {
   petList: asyncState.initial(),
   selectedPet: asyncState.initial(),
+  changeImage: asyncState.initial(),
 }
 
 // 반려 동물 전체 조회 reducer 생성
@@ -179,11 +187,43 @@ const getPetReducer = createReducer<PetState, PetAction>(initialState)
 )
 
 // 반려 동물 수정 reducer 생성
-const modifyPetReducer = createReducer<PetState, PetAction>(initialState)
-.handleAction(
-  transformToArray(modifyPetAsync),
-  createAsyncReducer(modifyPetAsync, 'selectedPet')
-)
+// const modifyPetReducer = createReducer<PetState, PetAction>(initialState)
+// .handleAction(
+//   transformToArray(modifyPetAsync),
+//   createAsyncReducer(modifyPetAsync, 'selectedPet')
+// )
+const modifyPetReducer = createReducer<PetState, PetAction>(initialState, {
+  [MODIFY_PET]: (state) => ({
+    ...state,
+    selectedPet: asyncState.load(),
+  }),
+  [MODIFY_PET_SUCCESS]: (state, action) => ({
+    ...state,
+    selectedPet: {
+      loading: false,
+      error: null,
+      data: {
+        id: action.payload.id,
+        age: action.payload.age,
+        name: action.payload.name,
+        sex:  action.payload.sex,
+        breedType: action.payload.breedType,
+        weight: action.payload.weight,
+        breed: action.payload.breed,
+        personality: action.payload.personality,
+        neuter: action.payload.neuter,
+        condition: action.payload.condition,
+        shelterId: action.payload.shelterId ,
+        birthday: action.payload.birthday,
+        profileImage: state.selectedPet.data?.profileImage || '',
+      }
+    }
+  }),
+  [MODIFY_PET_ERROR]: (state, action) => ({
+    ...state,
+    selectedPet: asyncState.error(action.payload),
+  }),
+});
 
 // 반려 동물 삭제 reducer 생성
 const deletePetReducer = createReducer<PetState, PetAction>(initialState)
@@ -193,11 +233,43 @@ const deletePetReducer = createReducer<PetState, PetAction>(initialState)
 )
 
 // 반려 동물 이미지 삽입 reducer 생성
-const setProfileImageReducer = createReducer<PetState, PetAction>(initialState)
-.handleAction(
-  transformToArray(setProfileImageAsync),
-  createAsyncReducer(setProfileImageAsync, 'petList')
-)
+// const setProfileImageReducer = createReducer<PetState, PetAction>(initialState)
+// .handleAction(
+//   transformToArray(setProfileImageAsync),
+//   createAsyncReducer(setProfileImageAsync, 'changeImage')
+// )
+const setProfileImageReducer = createReducer<PetState, PetAction>(initialState, {
+  [SET_PROFILE_IMAGE]: (state) => ({
+    ...state,
+    selectedPet: asyncState.load(),
+  }),
+  [SET_PROFILE_IMAGE_SUCCESS]: (state, action) => ({
+    ...state,
+    selectedPet: {
+      loading: false,
+      error: null,
+      data: {
+        id: state.selectedPet.data?.id || -1,
+        age: state.selectedPet.data?.age || '',
+        name: state.selectedPet.data?.name || '',
+        sex: state.selectedPet.data?.sex || '',
+        breedType: state.selectedPet.data?.breedType || '',
+        weight: state.selectedPet.data?.weight || '',
+        breed: state.selectedPet.data?.breed || '',
+        personality: state.selectedPet.data?.personality || '',
+        neuter: state.selectedPet.data?.neuter || '',
+        condition: state.selectedPet.data?.condition || '',
+        shelterId: state.selectedPet.data?.shelterId || -1,
+        birthday: state.selectedPet.data?.birthday || '',
+        profileImage: action.payload.profileImage,
+      }
+    }
+  }),
+  [SET_PROFILE_IMAGE_ERROR]: (state, action) => ({
+    ...state,
+    selectedPet: asyncState.error(action.payload),
+  }),
+});
 
 // 선택된 동물 지우는 액션 reducer 생성
 const setInitialSelectedPetReducer = createReducer(initialState, {
