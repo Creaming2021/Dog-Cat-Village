@@ -16,9 +16,9 @@ const todayTotalDonation = () => {
     <div className={styles['main-part']}>
       <h1 className={styles['main-text']}>오늘 기부된 총 금액</h1>
       {
-        coin.map(number => {
+        coin.map((number, index) => {
           return (
-            <div className={`${styles['number-box']} ${styles.yellow}`}>
+            <div className={`${styles['number-box']} ${styles.yellow}`} key={`donated-${number}-${index}`}>
               <h1 className={styles['number-text']}>{number}</h1>
             </div>
           );
@@ -34,9 +34,9 @@ const todayAdoptedAnimalCount = (animalCount) => {
     <div className={styles['main-part']}>
       <h1 className={styles['main-text']}>오늘 입양된 동물 수</h1>
       {
-        animalCount.map(number => {
+        animalCount.map((number, index) => {
           return (
-            <div className={`${styles['number-box']} ${styles.blue}`}>
+            <div className={`${styles['number-box']} ${styles.blue}`} key={`adopted-${number}-${index}`}>
               <h1 className={styles['number-text']}>{number}</h1>
             </div>
           );
