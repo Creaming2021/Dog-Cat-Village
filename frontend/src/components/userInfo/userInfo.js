@@ -17,9 +17,9 @@ const UserInfo = ({ userTypeBoolean, memberInfo }) => {
   const dispatch = useDispatch();
 
   useEffect(()=> {
-    console.log(memberInfo);
-    console.log(consumerInfo);
-    console.log(shelterInfo);
+    // console.log(memberInfo);
+    // console.log(consumerInfo);
+    // console.log(shelterInfo);
     if (memberInfo.data) {
       if (userTypeBoolean) {
         dispatch(getUserInfo(memberInfo.data.memberId));
@@ -41,7 +41,9 @@ const UserInfo = ({ userTypeBoolean, memberInfo }) => {
           'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
         }
       })
-      .then((response) => {console.log(response)})
+      .then((response) => {
+        // console.log(response)
+      })
     }
   }
   

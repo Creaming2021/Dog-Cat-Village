@@ -63,7 +63,7 @@ const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState, consumerInfo,
       phoneNumber,
     };
 
-    console.log(data);
+    // console.log(data);
 
     if (!memberInfo.data) return;
 
@@ -86,7 +86,7 @@ const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState, consumerInfo,
     }
 
     if (imgFile) {
-      console.log(imgFile);
+      // console.log(imgFile);
       const formData = new FormData();
       formData.append('file', imgFile)
       if (userTypeBoolean) {
