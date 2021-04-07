@@ -145,7 +145,7 @@ public class SignalingHandler extends TextWebSocketHandler {
       log.info("============================ ROOM LIST ============================");
       for (Room r : rooms.values()) {
         log.info("SessionID = {}, RoomName = {}, ShelterId = {}" ,
-                r.getShelterSession().getSession().getId(), r.getRoomName(), shelterId);
+                r.getShelterSession().getSession().getId(), r.getRoomName(), r.getShelterSession().getMemberId());
       }
       log.info("===================================================================");
 
