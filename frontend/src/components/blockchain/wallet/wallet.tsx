@@ -31,11 +31,13 @@ const Wallet = ({ wallet, memberRole, onSubmitCharge, onSubmigWithdraw }: Wallet
   });
 
   useEffect(() => {
-    getTokenBalance();
-  }, []);
+    if(myWallet.address !== ''){
+      getTokenBalance();
+    }
+  }, [myWallet.address]);
   
   useEffect(() => {
-    if(wallet){
+    if(wallet.contractAddress !== ''){
       setMyWallet({
         address: wallet.contractAddress,
         addressShort: wallet.contractAddress.substring(0, 7),

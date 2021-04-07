@@ -4,7 +4,6 @@ import DonatedShelterList from "../components/donatedShelterList/donatedShelterL
 import { TransactionListType } from "../interface/blockchain";
 import { RootState } from "../modules";
 import * as BlockchainActions from "../modules/blockchain";
-import member from "../modules/member";
 
 const DonatedShelterListContainer = () => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
