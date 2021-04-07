@@ -92,7 +92,7 @@ const ReadyStreaming = ({ member }) => {
       var message = {
         id: 'shelter',
         sdpOffer: offerSdp,
-        shelterId: 3, // 보호소 아이디
+        shelterId: member.memberId, // 보호소 아이디
         roomName: '방송 이름', // 방송 이름, 없으면 introduce
       }
       sendMessage(message);
