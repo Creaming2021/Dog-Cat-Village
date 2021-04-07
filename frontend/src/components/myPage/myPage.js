@@ -5,8 +5,8 @@ import styles from './myPage.module.css';
 import DonatedShelterListContainer from '../../containers/donatedShelterListContainer';
 import DonationList from '../donationList/donationList';
 import UserInfo from '../userInfo/userInfo';
-import Wallet from '../blockchain/wallet/wallet';
 import Nav from '../nav/nav';
+import WalletContainer from '../../containers/walletContainer';
 import AdoptedAnimalsChart from '../chart/adoptedAnimalsChart';
 import ContributionChart from '../chart/contributionChart';
 
@@ -39,7 +39,7 @@ const MyPage = ({ memberInfo }) => {
                 <UserInfo userTypeBoolean={userTypeBoolean} memberInfo={memberInfo}/>
               </div>
               <div className={styles['wallet-box']}>
-                {/* <Wallet userTypeBoolean={userTypeBoolean} /> */}
+                <WalletContainer className={styles.wallet} />
               </div>
             </div>
             <div className={styles['donation-list-box']}>

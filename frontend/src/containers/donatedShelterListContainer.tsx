@@ -4,7 +4,6 @@ import DonatedShelterList from "../components/donatedShelterList/donatedShelterL
 import { TransactionListType } from "../interface/blockchain";
 import { RootState } from "../modules";
 import * as BlockchainActions from "../modules/blockchain";
-import member from "../modules/member";
 
 const DonatedShelterListContainer = () => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
@@ -21,14 +20,14 @@ const DonatedShelterListContainer = () => {
   useEffect(() => {
     if(transactionList.data){
       setFilteredTransactionList(
-        transactionList.data?.filter(transaction => transaction.fromId == member.data?.memberId)
+        transactionList.data.filter(transaction => transaction.fromId == member.data?.memberId)
       )
     }
   }, [transactionList]);
 
   const getTransactionList = () => {
     if(wallet.data){
-      dispatch(BlockchainActions.getTransactionListAsync.request(wallet.data.address));
+      dispatch(BlockchainActions.getTransactionListAsync.request(wallet.data.contractAddress));
     }
   };
 
