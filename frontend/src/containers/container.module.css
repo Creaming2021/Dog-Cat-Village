@@ -1,24 +1,24 @@
-.chatting-container{
-	background-color: #F3FBE4;
-	width: 100%;
-	height: 100%;
-	padding: 40px;
+.chatting-container {
+  background-color: #F3FBE4;
+  width: 100%;
+  height: 100%;
+  padding: 40px;
 }
 
-.adopt-container{
-	display: inline-block;
-	width: 70%;
-	height: 100%;
-	margin: auto;
+.adopt-container {
+  display: inline-block;
+  width: 70%;
+  height: 100%;
+  margin: auto;
 }
 
 .shelter-adopt {
-	width: 70%;
+  width: 70%;
 }
 
-.consumer-adopt{
-	width: 100%;
-	padding: 20px;
+.consumer-adopt {
+  width: 100%;
+  padding: 20px;
 }
 
 .chatting-container {
