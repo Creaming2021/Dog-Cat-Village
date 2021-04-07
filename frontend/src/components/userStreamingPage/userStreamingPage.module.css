@@ -28,10 +28,13 @@
 }
 
 .streaming-container {
-  width: 1300px;
-  height: 85vh;
+  width: fit-content;
+  height: 80vh;
   border: 2px solid #788e6e;
-  background-color: white;
+}
+
+.streaming-container video {
+  background-color: black;
 }
 
 .streaming-info-container {
