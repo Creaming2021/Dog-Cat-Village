@@ -49,6 +49,7 @@ public class SignalingHandler extends TextWebSocketHandler {
       case "shelter":
         try {
           log.info("shelterId : {}, roomName : {}", jsonMessage.get("shelterId"), jsonMessage.get("roomName"));
+          log.info("!!!!!!!!!!!! {}", jsonMessage.get("shelterId").getClass());
 //          shelter(session, jsonMessage);
         } catch (Throwable t) {
 //          handleErrorResponse(t, session, "shelterResponse");
@@ -102,6 +103,8 @@ public class SignalingHandler extends TextWebSocketHandler {
 
 //  private synchronized void shelter(final WebSocketSession session, JsonObject jsonMessage)
 //          throws IOException {
+//
+//    signalingRepository.getRoom();
 //    if (shelterUserSession == null) {
 //      shelterUserSession = new UserSession(session);
 //
