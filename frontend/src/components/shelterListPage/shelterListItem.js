@@ -3,14 +3,15 @@ import styles from './shelterListItem.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
-const ShelterListItem = ({data}) => {
+const ShelterListItem = ({ data, onClick }) => {
   
   useEffect(() => {
     // console.log(data);
   });
 
   return (
-    <div className={styles['shelter-container']}>
+    <div className={styles['shelter-container']}
+      onClick={() => onClick(data.id)}>
       <div className={styles['img-container']}>
         <img src={data.profileImage} className={styles['shelter-img']}/>
         <div className={styles['shelter-intro-container']}>

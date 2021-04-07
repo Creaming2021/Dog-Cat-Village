@@ -4,20 +4,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import * as BlockChainAPI from '../../../service/blockchainAPI';
 import { WalletType } from '../../../interface/blockchain';
-import { ModalMedium } from '../../common/common';
+import { ModalSmall } from '../../common/common';
 import Charge from '../charge/charge';
 import Withraw from '../withraw/withraw';
 
 type WalletProps = {
-  wallet: WalletType,
-  memberRole: string,
+  wallet: WalletType | null,
+  memberRole: string | undefined,
   onSubmitCharge: (amount: string) => void,
   onSubmigWithdraw: () => void,
+  modal: string,
+  setModal: (modal: string) => void,
 }
 
-const Wallet = ({ wallet, memberRole, onSubmitCharge, onSubmigWithdraw }: WalletProps ) => {
-  const [ modal, setModal ] = useState<string>('');
-
+const Wallet = ({ wallet, memberRole, onSubmitCharge, onSubmigWithdraw, modal, setModal }: WalletProps ) => {
   type myWalletType = {
     address: string,
     addressShort: string,
@@ -37,11 +37,11 @@ const Wallet = ({ wallet, memberRole, onSubmitCharge, onSubmigWithdraw }: Wallet
   }, [myWallet.address]);
   
   useEffect(() => {
-    if(wallet.contractAddress !== ''){
+    if(wallet && wallet.contractAddress !== ''){
       setMyWallet({
+        ...myWallet,
         address: wallet.contractAddress,
         addressShort: wallet.contractAddress.substring(0, 7),
-        coin: 0
       });
     }
   }, [wallet]);
@@ -78,30 +78,16 @@ const Wallet = ({ wallet, memberRole, onSubmitCharge, onSubmigWithdraw }: Wallet
           { memberRole === "CONSUMER" && 
             <>
               <button className={styles['coin-charge-btn']} onClick={onClickCharge}>충전하기</button> 
-              <div className={styles['division-line']}>ㅣ</div>
-              <button className={styles['coin-withdraw-btn']} onClick={onClickWithdraw}>출금하기</button>
-            </>
-          }
-          { memberRole === "SHELTER" && 
-            <>
-              <button className={styles['coin-withdraw-btn']} onClick={onClickWithdraw}>환전하기</button>
             </>
           }
         </div>
       </div>
       { modal === "charge" && 
-        <ModalMedium>
+        <ModalSmall>
           <Charge
             onSubmitCharge={onSubmitCharge}
             onClose={onClose}/>
-        </ModalMedium>
-      }
-      { modal === "widthraw" && 
-        <ModalMedium>
-          <Withraw
-            onSubmigWithdraw={onSubmigWithdraw}
-            onClose={onClose}/>
-        </ModalMedium>
+        </ModalSmall>
       }
     </>
   );

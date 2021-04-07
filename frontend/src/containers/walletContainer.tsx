@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Wallet from "../components/blockchain/wallet/wallet";
 import { RootState } from "../modules";
@@ -8,6 +8,8 @@ const WalletContainer = () => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
   const wallet = useSelector((state: RootState) => state.blockchain.walletInfo);
   const dispatch = useDispatch(); 
+
+  const [ modal, setModal ] = useState<string>('');
 
   useEffect(() => {
     getWalletInfo();
@@ -20,8 +22,8 @@ const WalletContainer = () => {
   }
 
   const onSubmitCharge = (amount: string) => {
-    alert("충전요청!");
     dispatch(BlockchainActions.chargeCoinAsync.request(amount));
+    setModal('');
   }
 
   const onSubmigWithdraw = () => {
@@ -29,14 +31,15 @@ const WalletContainer = () => {
   }
 
   return (<>
-  { wallet.data && member.data &&
     <Wallet 
       wallet={wallet.data}
-      memberRole={member.data.memberRole}
+      memberRole={member.data?.memberRole}
       onSubmitCharge={onSubmitCharge}
       onSubmigWithdraw={onSubmigWithdraw}
+      modal={modal}
+      setModal={setModal}
     />
-  }</>);
+  </>);
 };
 
 export default WalletContainer;

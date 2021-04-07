@@ -57,7 +57,7 @@ button {
 .main-container {
   position: relative;
   width: 600px;
-  height: 740px;
+  height: 780px;
   background-color: #f3f3f3;
   border-radius: 10px;
   padding: 0 20px;
@@ -132,4 +132,12 @@ button {
 
 .blue-btn:hover {
   color: #16a8eb;
+}
+
+.comment {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #686868;
+  text-align: center;
+  margin-top: 350px;
 }

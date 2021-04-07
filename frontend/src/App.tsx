@@ -24,11 +24,11 @@ function App() {
 
         <Route path="/profile" component={ProfileContainer} exact/>
 
-        {/* <Route path="/shelter/streaming" component={Streaming} exact/> */}
+        <Route path="/shelter/:id" component={Main} exact/>
         <ProtectedRouteConsumer path="/shelter" Component={ShelterListContainer} exact/>
 
         {/* <ProtectedRouteConsumer path="/streaming" Component={StreamingListPage} exact/> */}
-        <Route path="/streaming" component={StreamingListPage} exact/>
+        {/* <Route path="/streaming" component={StreamingListPage} exact/> */}
 
         <Route path="/user/streaming" component={UserStreamingPage} exact/>
 

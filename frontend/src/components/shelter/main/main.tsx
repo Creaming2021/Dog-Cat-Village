@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PetListContainer from "../../../containers/petListContainer";
 import { useSelector } from "react-redux";
 import AdoptContainer from "../../../containers/adoptContainer";
@@ -13,11 +13,20 @@ import { ModalMedium } from "../../common/common";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+export type MainProps = {
+  match? : any;
+}
 
 const Main = () => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
   const [ category, setCategory ] = useState<string>("home");
   const [ chatting, setChatting ] = useState(false);
+
+  useEffect(() => {
+    // if(match.params.id) {
+    //   alert("있어요");
+    // }
+  }, []);
 
   const onClickChat = () => {
     setChatting(!chatting);
@@ -41,10 +50,17 @@ const Main = () => {
       <Nav role={member.data?.memberRole || ""} memberId={member.data?.memberId || -1} />
       <div className={styles["sub-main-box"]}>
         <ShelterContainer onChangeCategory={onChangeCategory} onClickChat={onClickChat}/>
-        {category === "home" && <Home type={member.data?.memberRole || ''} streaming={streaming} />}
-        {category === "animal" && <PetListContainer/>}
+
+        {category === "home" && 
+          <Home type={member.data?.memberRole || ''} streaming={streaming} />}
+
+        {category === "animal" && 
+          <PetListContainer/>}
+
         {category === "chatting" && member.data?.memberRole === "SHELTER" &&
-          <div className={styles['chatting-container']}><ChattingContainer listSet={true}/></div>}
+          <div className={styles['chatting-container']}>
+            <ChattingContainer listSet={true}/></div>}
+
         {chatting && member.data?.memberRole === "CONSUMER" &&
           <ModalMedium>
             <FontAwesomeIcon 
@@ -53,7 +69,9 @@ const Main = () => {
               onClick={onClickChat}/>
             <ChattingContainer listSet={false}/>
           </ModalMedium>}  
+
         {category === "donation" && <Donation />}
+
         {category === "adopt" && <AdoptContainer/>}
       </div>
     </div>

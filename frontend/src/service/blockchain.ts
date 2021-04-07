@@ -55,4 +55,7 @@ export const chargeCoin = async ( amount: string ) => {
     },
     'params': { amount }
   });
+  console.log(`axios 요청 응답 : ${response.data}`)  
+  window.location.href = response.data.url;
+  return response.data;
 }

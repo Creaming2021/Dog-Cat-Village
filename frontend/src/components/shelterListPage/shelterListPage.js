@@ -27,9 +27,9 @@ const ShelterListPage = ({ shelterList }) => {
     options: [{ value: "shelterName", option: "보호소 이름"}]
   }];
 
-  const moveShelterMainPage = () => {
+  const moveShelterMainPage = (id) => {
     // 해당 보호소 메인페이지로 이동
-    history.push('/')
+    history.push(`/shelter/${id}`)
   };
 
 
@@ -58,9 +58,10 @@ const ShelterListPage = ({ shelterList }) => {
             return (
               <div 
                 className={styles['shelter-item-container']} 
-                key={data.email} 
-                onClick={moveShelterMainPage}>
-                  <ShelterListItem data={data} />
+                key={data.email} >
+                  <ShelterListItem 
+                    data={data}
+                    onClick={moveShelterMainPage} />
               </div>
             )
           })
