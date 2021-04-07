@@ -102,7 +102,7 @@ const DonationList = ({userTypeBoolean}) => {
               { value: "charge", option: "충전" },
               { value: "donate", option: "기부" }
             ]}]}
-            selectValue={values.first} 
+            selectValue={[values.first]} 
             inputValue={values.input}
             inputName={'shelterInput'} 
             onSearch={()=>{

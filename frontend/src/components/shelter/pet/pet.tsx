@@ -114,6 +114,9 @@ const Pet = ({ role, petList, selectedPet, shelterId,
     } else if (registerPet) {
       onRegisterPet(registerPetInfo);
       onCloseRegister();
+    } else if (registerPet) {
+      onModifyPet(registerPetInfo);
+      onCloseRegister();
     }
   }, [registerPetInfo]);
 

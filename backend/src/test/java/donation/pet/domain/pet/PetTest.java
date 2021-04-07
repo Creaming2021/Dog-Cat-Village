@@ -7,6 +7,7 @@ import donation.pet.dto.pet.PetRequestDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+//@Rollback(value = false)
 class PetTest {
 
     @Autowired
@@ -71,32 +73,75 @@ class PetTest {
         String[] dogBreeds = { "비숑 프리제", "푸들", "이탈리안 그레이하운드", "프렌치 불독", "말티즈", "말티푸", "시츄",
             "요크셔테리어", "치와와", "포메라니안", "진돗개", "래브라도 리트리버", "웰시 코기", "시바견", "삽살개", "퍼그" };
 
+        String[] dogImageNames = { "비숑", "푸들", "그레이", "불독", "말티즈", "말티푸", "시츄", "요크", "치와와", "포메", "진돗개", "리트리버", "코기", "시바", "삽살개", "퍼그" };
+
         String[] catBreeds = { "노르웨이 숲 고양이", "데본렉스", "라가머핀", "라팜", "랙돌", "러시안블루", "맹크스 고양이", "메인쿤", "아메리칸 숏 헤어", "코리안 숏 헤어" };
 
+        String[] catImageNames = {"놀숲", "데본", "라가", "라팜", "랙돌", "러시안", "맹크스", "메인쿤", "아메", "코숏" };
+
         // when
-//        List<Shelter> shelters = shelterRepository.findAll();
-//        shelters.forEach(shelter -> {
-//            // 1. 강아지
-//            for (int i = 0; i < 10; i++) {
-//                String selectedName = getRandomName(names);
-//
-//                String selectedPersonality = getRandomName(personalities);
-//
-//
-//                PetRequestDto dto = PetRequestDto.builder()
-//                        .shelterId(shelter.getId())
-//                        .name(selectedName)
-//                        .sex(Sex.MALE)
-//                        .weight(13.2f)
-//                        .birthday("20210309")
-//                        .personality(selectedPersonality)
-//                        .condition("건강함")
-//                        .neuter(Neuter.YES)
-//                        .breed("웰시 코기")
-//                        .breedType(BreedType.DOG)
-//                        .build();
-//            }
-//        });
+        List<Shelter> shelters = shelterRepository.findAll();
+        shelters.forEach(shelter -> {
+            // 1. 강아지
+            for (int i = 1; i < 10; i++) {
+                int randomNameIdx = (int) (Math.random() * names.length);
+                String selectedName = names[randomNameIdx];
+
+                int randomPersonalityIdx = (int) (Math.random() * personalities.length);
+                String selectedPersonality = personalities[randomPersonalityIdx];
+
+                int randomDogIdx = (int) (Math.random() * dogBreeds.length);
+                String dogName = dogBreeds[randomDogIdx];
+
+                PetRequestDto dto = PetRequestDto.builder()
+                        .shelterId(shelter.getId())
+                        .name(selectedName)
+                        .sex(i % 2 == 0 ? Sex.MALE : Sex.FEMALE)
+                        .weight(5f + i)
+                        .birthday("20200" + i + "03")
+                        .personality(selectedPersonality)
+                        .condition("건강함")
+                        .neuter(i % 2 == 0 ? Neuter.YES : Neuter.NO)
+                        .breed(dogName)
+                        .breedType(BreedType.DOG)
+                        .build();
+
+                Pet pet = Pet.createPet(dto, shelter);
+                String image = "https://dh5000fovb2wz.cloudfront.net/" + dogImageNames[randomDogIdx] + (int) (Math.random() * 5 + 1) + ".jpg";
+                pet.updateProfileImage(image);
+                petRepository.save(pet);
+            }
+
+            // 2. 고양이
+            for (int i = 1; i < 6; i++) {
+                int randomNameIdx = (int) (Math.random() * names.length);
+                String selectedName = names[randomNameIdx];
+
+                int randomPersonalityIdx = (int) (Math.random() * personalities.length);
+                String selectedPersonality = personalities[randomPersonalityIdx];
+
+                int randomCatIdx = (int) (Math.random() * catBreeds.length);
+                String catName = catBreeds[randomCatIdx];
+
+                PetRequestDto dto = PetRequestDto.builder()
+                        .shelterId(shelter.getId())
+                        .name(selectedName)
+                        .sex(i % 2 == 0 ? Sex.MALE : Sex.FEMALE)
+                        .weight(5f + i)
+                        .birthday("20200" + i + "07")
+                        .personality(selectedPersonality)
+                        .condition("건강함")
+                        .neuter(i % 2 == 0 ? Neuter.YES : Neuter.NO)
+                        .breed(catName)
+                        .breedType(BreedType.CAT)
+                        .build();
+
+                Pet pet = Pet.createPet(dto, shelter);
+                String image = "https://dh5000fovb2wz.cloudfront.net/" + catImageNames[randomCatIdx] + (int) (Math.random() * 5 + 1) + ".jpg";
+                pet.updateProfileImage(image);
+                petRepository.save(pet);
+            }
+        });
 
 
 

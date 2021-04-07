@@ -3,7 +3,7 @@ import styles from "./petList.module.css";
 import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ModalMedium } from "../../../common/common";
-import { PetDetailType, PetListType, PetInputType, PetEditType, PetProfileImage } from "../../../../interface/pet";
+import { PetDetailType, PetListType, PetInputType, PetProfileImage } from "../../../../interface/pet";
 import DetailPetForm from "../detailPetForm/detailPetForm";
 import EditPetForm from "../editPetForm/editPetForm";
 

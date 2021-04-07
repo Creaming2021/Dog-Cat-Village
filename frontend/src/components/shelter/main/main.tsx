@@ -38,7 +38,7 @@ const Main = () => {
 
   return (
     <div className={styles["sub-main-container"]}>
-      <Nav role={member.data?.memberRole || ""} />
+      <Nav role={member.data?.memberRole || ""} memberId={member.data?.memberId || -1} />
       <div className={styles["sub-main-box"]}>
         <ShelterContainer onChangeCategory={onChangeCategory} onClickChat={onClickChat}/>
         {category === "home" && <Home type="shelter" streaming={streaming} />}
