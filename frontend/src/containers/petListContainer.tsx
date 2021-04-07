@@ -80,7 +80,7 @@ const PetListContainer = () => {
         onSetProfileImage={onSetProfileImage}
         onSetInitialSelectedPet={onSetInitialSelectedPet}/>
     : <>
-        <Nav role={member.data?.memberRole || ''}/>
+        <Nav role={member.data?.memberRole || ''} memberId={member.data?.memberId || -1}/>
         <Pet
           role={member.data?.memberRole}
           petList={petList.data}
@@ -89,7 +89,6 @@ const PetListContainer = () => {
           onGetPet={onGetPet}
           onModifyPet={onModifyPet}
           onDeletePet={onDeletePet}
-          onSetProfileImage={onSetProfileImage}
           onSetInitialSelectedPet={onSetInitialSelectedPet}/>
       </>
     }

@@ -7,7 +7,9 @@ import donation.pet.domain.etc.BaseTimeEntity;
 import donation.pet.domain.etc.Sex;
 import donation.pet.dto.pet.PetDto;
 import donation.pet.dto.pet.PetRequestDto;
+import donation.pet.dto.pet.PetUpdateResponseDto;
 import lombok.*;
+import org.dom4j.rule.Mode;
 import org.modelmapper.ModelMapper;
 import donation.pet.domain.member.shelter.Shelter;
 
@@ -100,6 +102,13 @@ public class Pet extends BaseTimeEntity {
     public PetDto changeToDto() {
         ModelMapper modelMapper = new ModelMapper();
         PetDto dto = modelMapper.map(this, PetDto.class);
+        dto.setAge(calculateAge());
+        return dto;
+    }
+
+    public PetUpdateResponseDto changeToPetUpdateDto() {
+        ModelMapper modelMapper = new ModelMapper();
+        PetUpdateResponseDto dto = modelMapper.map(this, PetUpdateResponseDto.class);
         dto.setAge(calculateAge());
         return dto;
     }

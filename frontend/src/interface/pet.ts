@@ -13,6 +13,7 @@ export interface PetExtraType {
   neuter: string;
   condition: string;
   shelterId: number;
+  file?: File;
 }
 
 export interface PetListType extends PetBasicType {
@@ -40,4 +41,23 @@ export interface PetEditType extends PetBasicType, PetExtraType {
 export interface PetProfileImage {
   file: File;
   petId: number;
+}
+
+export interface PetProfileImageResponse {
+  profileImage: string;
+}
+
+export interface PetModifyResponseType {
+  id: number;
+  name: string;
+  sex: string;
+  breedType: string;
+  weight: string;
+  breed: string;
+  personality: string;
+  neuter: string;
+  condition: string;
+  shelterId: number;
+  birthday: string;
+  age: string;
 }

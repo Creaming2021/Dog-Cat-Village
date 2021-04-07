@@ -3,7 +3,7 @@ import styles from "./petList.module.css";
 import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ModalMedium } from "../../../common/common";
-import { PetDetailType, PetListType, PetInputType, PetEditType } from "../../../../interface/pet";
+import { PetDetailType, PetListType, PetInputType, PetProfileImage } from "../../../../interface/pet";
 import DetailPetForm from "../detailPetForm/detailPetForm";
 import EditPetForm from "../editPetForm/editPetForm";
 import AdoptRegisterContainer from "../../../../containers/adoptRegisterContainer";
@@ -35,7 +35,10 @@ const PetCard = ({
       onClick={onClick}
       className={styles["pet-card-container"]}
     >
-      <img src={profileImage} />
+      <img src={profileImage}/>
+      { profileImage === null &&
+        <div className={styles.ready}>사진 준비 중</div>
+      }
       <div id={id.toString()} className={styles["card-hover"]}>
         <div id={id.toString()} className={styles.info}>
           <div id={id.toString()} className={styles.name}>
@@ -66,9 +69,11 @@ type PetListProps = {
   onModifyPet: (petInputType : PetInputType) => void;
   onDeletePet: (id: number) => void;
   onSetInitialSelectedPet: () => void;
+  onSetProfileImage?: (profileImage: PetProfileImage) => void;
 };
 
-const PetList = ({ petList, selectedPet, shelterId, onGetPet, onModifyPet, onDeletePet, onSetInitialSelectedPet }: PetListProps) => {
+const PetList = ({ petList, selectedPet, shelterId, 
+  onGetPet, onModifyPet, onDeletePet, onSetInitialSelectedPet, onSetProfileImage }: PetListProps) => {
   const [modal, setModal] = useState(false);
   const [mode, setMode] = useState("");
   const [inputPet, setInputPet] = useState<PetInputType>();
@@ -161,6 +166,7 @@ const PetList = ({ petList, selectedPet, shelterId, onGetPet, onModifyPet, onDel
               shelterId={shelterId}
               onModify={onModify}
               onCancle={onGoToDetail}
+              onRegisterImage={onSetProfileImage}
             />
           </ModalMedium>
         )) ||
