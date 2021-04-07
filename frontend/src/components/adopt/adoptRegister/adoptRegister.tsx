@@ -3,12 +3,12 @@ import styles from "./adoptRegister.module.css";
 import { AdoptRegisterType } from "../../../interface/adopt";
 import { ButtonSmall } from "../../common/common";
 
-type AdoptFormProps = {
+type AdoptRegisterProps = {
   onSubmit: (adoptInputForm: AdoptRegisterType) => void;
   onClose: () => void;
 };
 
-const AdoptForm = ({ onSubmit, onClose }: AdoptFormProps) => {
+const AdoptRegister = ({ onSubmit, onClose }: AdoptRegisterProps) => {
   const [adoptInputForm, setAdoptInputForm] = useState<AdoptRegisterType>({
     petId: 1,
     name: "",
@@ -141,4 +141,4 @@ const AdoptForm = ({ onSubmit, onClose }: AdoptFormProps) => {
   );
 };
 
-export default AdoptForm;
+export default AdoptRegister;

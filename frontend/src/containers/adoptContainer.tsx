@@ -120,8 +120,8 @@ const AdoptContainer = () => {
   return (
     <div className={ `${styles['adopt-container']}  
                     ${member.data?.memberRole === 'SHELTER' 
-                      ? styles['shelter']
-                      : styles['consumer']}` }>
+                      ? styles['shelter-adopt']
+                      : styles['consumer-adopt']}` }>
       {member.data && 
         (selectedAdopt.data?.id ? (
           <AdoptDetail
