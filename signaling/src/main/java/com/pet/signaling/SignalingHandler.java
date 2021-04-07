@@ -26,14 +26,16 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 5.0.0
  */
 @Component
-@RequiredArgsConstructor
 public class SignalingHandler extends TextWebSocketHandler {
 
   private static final Logger log = LoggerFactory.getLogger(SignalingHandler.class);
   private static final Gson gson = new GsonBuilder().create();
 
-  private final SignalingRepository signalingRepository;
-  private final KurentoClient kurento;
+  @Autowired
+  private SignalingRepository signalingRepository;
+
+  @Autowired
+  private KurentoClient kurento;
 
   private MediaPipeline pipeline;
   private UserSession shelterUserSession;
