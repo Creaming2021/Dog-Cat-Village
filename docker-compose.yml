@@ -26,6 +26,8 @@ services:
     container_name: app_backend
     volumes:
       - ./backend:/app
+    ports:
+      - 1111:8080
   
   redis:
     image: redis:latest
