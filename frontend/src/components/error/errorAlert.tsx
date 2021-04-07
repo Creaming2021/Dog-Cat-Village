@@ -5,20 +5,9 @@ import MemberContainer from "../../containers/memberContainer";
 import { RootState } from "../../modules";
 import { setMemberInfo } from "../../modules/member";
 import { ButtonMedium, ModalSmall } from "../common/common";
+import Main from "../shelter/main/main";
+import UserMainPage from "../userMainPage/userMainPage";
 import styles from "./errorAlert.module.css";
-
-const TokenCheck = () => {
-  const dispatch = useDispatch();
-
-  const token = localStorage.getItem('access_token');
-
-  if(token){
-    // dispatch(setMemberInfo());
-    return true;
-  } else{
-    return false;
-  }
-}
 
 type ProtectedRouteProps = {
   Component: () => JSX.Element;
@@ -30,7 +19,7 @@ export const ProtectedRouteAdmin = ({ Component }: ProtectedRouteProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
 
   return (
-    TokenCheck() && member.data?.memberRole === 'ADMIN'
+    member.data?.memberRole === 'ADMIN'
     ? <Component />
     : <ErrorAlert message="잘못된 요청 입니다."/>
   );
@@ -40,7 +29,7 @@ export const ProtectedRouteShelter = ({ Component }: ProtectedRouteProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
 
   return (
-    TokenCheck() && member.data?.memberRole === 'SHELTER'
+    member.data?.memberRole === 'SHELTER'
     ? <Component />
     : <ErrorAlert message="잘못된 요청 입니다."/>
   );
@@ -50,17 +39,21 @@ export const ProtectedRouteConsumer = ({ Component }: ProtectedRouteProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
 
   return (
-    TokenCheck() && member.data?.memberRole === 'CONSUMER'
+    member.data?.memberRole === 'CONSUMER'
     ? <Component />
     : <ErrorAlert message="잘못된 요청 입니다."/>
   );
 };
 
 export const ProtectedRouteToken = ({ Component }: ProtectedRouteProps) => {
+  const member = useSelector((state: RootState) => state.member.memberInfo);
+
   return (
-    TokenCheck() 
-    ? <Component />
-    : <MemberContainer/> // 지금은 일단 서브메인 화면 띄우기
+    member.data?.memberRole === 'CONSUMER' 
+    ? <UserMainPage/>
+    : (member.data?.memberRole === 'SHELTER'
+      ? <Main/>
+      : <Component/>)
   );
 };
 
