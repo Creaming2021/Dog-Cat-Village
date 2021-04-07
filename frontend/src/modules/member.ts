@@ -18,9 +18,6 @@ import { ModifyShelterInfoType, ShelterInfoType } from "../interface/shelter";
 import * as ShelterAPI from "../service/shelter";
 import { ProfileInfoType } from "../interface/consumer";
 
-// 토큰 정보 저장 액션 타입
-const SET_MEMBER_INFO = "member/SET_MEMBER_INFO";
-
 // 로그인 요청 액션 타입
 const SIGN_IN = "member/SIGN_IN";
 const SIGN_IN_SUCCESS = "member/SIGN_IN_SUCCESS";
@@ -66,9 +63,6 @@ const MODIFY_SHELTER_INFO_ERROR = "shelter/MODIFY_SELTER_INFO_ERROR";
 
 // const GET_ACCOUNT = 'member/GET_ACCOUNT';
 // const MODIFY_ACCOUNT = 'member/MODIFY_ACCOUNT';
-
-// 토큰 정보 저장 액션 객체 생성함수
-export const setMemberInfo = () => ({ type: SET_MEMBER_INFO });
 
 // 로그인 요청 액션 객체 생성함수
 export const signInAsync = createAsyncAction(
@@ -201,28 +195,6 @@ const initialState: MemberState = {
   shelterInfo: asyncState.initial(),
 };
 
-// 토큰 정보 저장 요청 리듀서
-const setMemberInfoReducer = createReducer(initialState, {
-  [SET_MEMBER_INFO]: ( state ) => {
-
-    let memberRole: string = localStorage.getItem('memberRole') || '';
-    let memberId: string = localStorage.getItem('memberId') || '0';
-
-    return {
-      ...state,
-      memberInfo: {
-        loading: false,
-        error: null,
-        data: {
-          logIn: true,
-          memberRole: memberRole,
-          memberId: +memberId,
-        },
-      },
-    };
-  },
-});
-
 // 로그인 요청 리듀서
 const signInReducer = createReducer<MemberState, MemberAction>(initialState, {
   [SIGN_IN]: (state) => ({
@@ -330,7 +302,6 @@ const modifyShelterInfoReducer = createReducer<MemberState, MemberAction>(
 );
 
 const member = createReducer<MemberState, MemberAction>(initialState, {
-  ...setMemberInfoReducer.handlers,
   ...signInReducer.handlers,
   ...signOutReducer.handlers,
   ...signUpReducer.handlers,

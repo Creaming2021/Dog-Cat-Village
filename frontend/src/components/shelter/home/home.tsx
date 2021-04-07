@@ -7,7 +7,8 @@ import {
   faCoins,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ButtonLarge, ImageSmall } from "../../common/common";
+import { ImageSmall } from "../../common/common";
+import PresenterContainer from "../../../containers/presenterContainer";
 
 type OnAirStreamingProps = {
   onAir: boolean;
@@ -61,36 +62,6 @@ const OnAirStreaming = ({
   );
 };
 
-type ReadyStreamingProps = {};
-
-const ReadyStreaming = ({}: ReadyStreamingProps) => {
-  const onClick = () => {
-    // 
-  };
-
-  const [imgUrl, setImgUrl] = useState('');
-
-  const handleChangeImg = (event: any) => {
-    setImgUrl(URL.createObjectURL(event.target.files[0]));
-  };
-  const inputRef = useRef<any>();
-  const back_img_ref = useRef<any>();
-
-  const onButtonClick = (event: any) => {
-    event.preventDefault();
-    inputRef.current.click();
-  }
-
-  return (
-    <div className={styles.streaming}>
-      <ButtonLarge
-        content="스트리밍 시작하기"
-        onClick={onClick}
-        buttonColor="bg-white-green"
-      />
-    </div>
-  );
-};
 
 type DonationProps = {
   userList: DonationCardProps[];
@@ -192,7 +163,7 @@ const Home = ({ type, streaming }: HomeProps) => {
         ) : (
           <OnAirStreaming onAir={onAir} title="현재 스트리밍 중이 아닙니다." />
         ))}
-      {type === "SHELTER" && <ReadyStreaming />}
+      {type === "SHELTER" && <PresenterContainer />}
       <Donation userList={userList} />
     </>
   );

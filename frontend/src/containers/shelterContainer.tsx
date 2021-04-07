@@ -4,6 +4,7 @@ import MainCategory from "../components/shelter/mainCategory/mainCategory";
 import { ModifyShelterInfoType } from "../interface/shelter";
 import { RootState } from "../modules";
 import * as MemberActions from "../modules/member";
+import { getShelterInfo } from "../modules/shelter";
 
 type ShelterContainerProps = {
   onChangeCategory: (category: string) => void,
@@ -17,7 +18,9 @@ const ShelterContainer = ({ onChangeCategory, onClickChat }: ShelterContainerPro
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(member, shelter, profile);
     getMemberInfo();
+    if(member.data) dispatch(getShelterInfo(member.data?.memberId));
   }, [member]);
 
   // 보호소 메인 정보 및 유저 정보 조회

@@ -1,9 +1,7 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import MemberContainer from "../../containers/memberContainer";
 import { RootState } from "../../modules";
-import { setMemberInfo } from "../../modules/member";
 import { ButtonMedium, ModalSmall } from "../common/common";
 import Main from "../shelter/main/main";
 import UserMainPage from "../userMainPage/userMainPage";
