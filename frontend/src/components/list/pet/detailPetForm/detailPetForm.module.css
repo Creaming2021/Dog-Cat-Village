@@ -36,3 +36,15 @@
 .modal-button button{
   margin: 10px;
 }
+
+.ready {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+}
