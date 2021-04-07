@@ -64,7 +64,7 @@ public class SignalingHandler extends TextWebSocketHandler {
           if (room.getShelterSession().getSession() == session) {
             user = room.getShelterSession();
           } else {
-            user = signalingRepository.findConsumerJoinRoom(session.getId()).getConsumers().get(session.getId());
+            user = signalingRepository.findConsumer(session.getId());
           }
         }
         if (user != null) {
@@ -78,9 +78,20 @@ public class SignalingHandler extends TextWebSocketHandler {
       case "stop":
         stop(session);
         break;
+      case "pingpong":
+        pingPongResponse(session, "pingPongResponse");
+        break;
       default:
         break;
     }
+  }
+
+  private void pingPongResponse(WebSocketSession session, String responseId) throws IOException {
+    log.info("PingPongResponse");
+    JsonObject response = new JsonObject();
+    response.addProperty("id", responseId);
+    response.addProperty("response", "pingpong");
+    session.sendMessage(new TextMessage(response.toString()));
   }
 
   private void handleErrorResponse(Throwable throwable, WebSocketSession session, String responseId)
