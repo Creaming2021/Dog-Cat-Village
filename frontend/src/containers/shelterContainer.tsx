@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import SubMain from "../components/shelter/main/main";
 import MainCategory from "../components/shelter/mainCategory/mainCategory";
-import { ModifyShelterInfoType, ShelterInfoType } from "../interface/shelter";
+import { ModifyShelterInfoType } from "../interface/shelter";
 import { RootState } from "../modules";
 import * as MemberActions from "../modules/member";
 
 type ShelterContainerProps = {
   onChangeCategory: (category: string) => void,
+  onClickChat: () => void,
 }
 
-const ShelterContainer = ({ onChangeCategory }: ShelterContainerProps) => {
+const ShelterContainer = ({ onChangeCategory, onClickChat }: ShelterContainerProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
   const shelter = useSelector((state: RootState) => state.member.shelterInfo);
   const profile = useSelector((state: RootState) => state.member.profileInfo);
@@ -24,7 +24,6 @@ const ShelterContainer = ({ onChangeCategory }: ShelterContainerProps) => {
   const getMemberInfo = () => {
     if (member.data) {
       dispatch(MemberActions.getShelterInfoAsync.request(member.data.memberId));
-      //dispatch(MemberActions.getProfileInfoAsync.request(member.data.memberId));
     }
   };
 
@@ -48,8 +47,9 @@ const ShelterContainer = ({ onChangeCategory }: ShelterContainerProps) => {
           }
         }
         onChangeCategory={onChangeCategory} 
-        onSubmitModify={ModifyShelterInfo}/>
-    )
+        onSubmitModify={ModifyShelterInfo}
+        onClickChat={onClickChat}/>
+      )
     }
       {/* {member.data !== null && shelter.data !== null && !profile.data && (
         <SubMain

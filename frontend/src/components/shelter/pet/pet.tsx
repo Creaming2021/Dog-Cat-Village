@@ -9,18 +9,18 @@ type PetProps = {
   role?: string;
   petList: PetListType[] | null;
   selectedPet: PetDetailType | null;
-  shelterId: number;
+  shelterId?: number;
   onRegisterPet: ( petEditType : PetEditType ) => void;
   onGetPet: (id: number) => void;
   onModifyPet: (petEditType : PetEditType) => void;
   onDeletePet: (id: number) => void;
-  onSetProfileImage: (profileImage: PetProfileImage) => void;
   onSetInitialSelectedPet: () => void;
+  onSetProfileImage?: (profileImage: PetProfileImage) => void, 
 };
 
 const Pet = ({ role, petList, selectedPet, shelterId,
             onRegisterPet, onGetPet, 
-            onModifyPet, onDeletePet, onSetProfileImage, onSetInitialSelectedPet }: PetProps) => {
+            onModifyPet, onDeletePet, onSetInitialSelectedPet, onSetProfileImage }: PetProps) => {
               
   const initialState: PetEditType = {
     id: -1,
@@ -41,6 +41,7 @@ const Pet = ({ role, petList, selectedPet, shelterId,
   const [searchInput, setSearchInput] = useState({
     keyword: "",
     type: "",
+    name: "pet",
   });
   const [registerPet, setRegisterPet] = useState(false);
   const [registerPetInfo, setRegisterPetInfo] = useState(initialState);
@@ -53,7 +54,7 @@ const Pet = ({ role, petList, selectedPet, shelterId,
     setRegisterPet(false);
   }
 
-  const selectList = [
+  const selectListShelter = [
     {
       name: "type",
       options: [
@@ -65,26 +66,85 @@ const Pet = ({ role, petList, selectedPet, shelterId,
     },
   ];
 
+  const selectListAll = [
+    {
+      name: "name", options: [
+        { value: "shelter", option: "보호소 이름" },
+        { value: "pet", option: "동물 이름" }]
+    },
+    { 
+      name: "type",
+      options: [
+        { value: "", option: "모두" },
+        { value: "DOG", option: "개" },
+        { value: "CAT", option: "고양이" },
+        { value: "ETC", option: "기타" },
+      ],
+    }
+  ];
+
+  useEffect(() => {
+    onSearch();
+  }, [petList]);
+
   const onSearch = (): void => {
-    setResultPetList(
-      petList 
-      ? petList.filter(pet => 
-          pet.breedType.includes(searchInput.type) 
-          && pet.name.includes(searchInput.keyword))
-      : []
-    );
+    if(searchInput.name === "shelter") {
+      setResultPetList(
+        petList 
+        ? petList.filter(pet => 
+            pet.breedType.includes(searchInput.type) 
+            && pet.shelterName?.includes(searchInput.keyword))
+        : []
+      );
+    }else if(searchInput.name === "pet") {
+      setResultPetList(
+        petList 
+        ? petList.filter(pet => 
+            pet.breedType.includes(searchInput.type) 
+            && pet.name.includes(searchInput.keyword))
+        : []
+      );
+    }
   };
 
   useEffect(() => {
     if(registerPetInfo.profileImage){
+      onCloseRegister();
+      onModifyPet(registerPetInfo);
+    } else if (registerPet) {
       onRegisterPet(registerPetInfo);
+      onCloseRegister();
+    } else if (registerPet) {
+      onModifyPet(registerPetInfo);
       onCloseRegister();
     }
   }, [registerPetInfo]);
 
+  useEffect(() => {
+    console.log(resultPetList, searchInput);
+  }, [resultPetList]);
+
   const onSubmitRegister = (input: PetInputType): void => {
     setRegisterPetInfo({
       id: -1,
+      profileImage: '',
+      name: input.name,
+      breed: input.breed,
+      weight: input.weight,
+      birthday: input.year + input.month + input.date,
+      breedType: input.breedType,
+      personality: input.personality,
+      condition: input.condition,
+      sex: input.sex,
+      neuter: input.neuter,
+      shelterId: input.shelterId,
+      file: input.file || undefined,
+    });
+  }
+
+  const onSumbitModify = (input: PetInputType): void => {
+    setRegisterPetInfo({
+      id: input.id,
       profileImage: input.profileImage,
       name: input.name,
       breed: input.breed,
@@ -96,7 +156,8 @@ const Pet = ({ role, petList, selectedPet, shelterId,
       sex: input.sex,
       neuter: input.neuter,
       shelterId: input.shelterId,
-    })
+      file: input.file || undefined,
+    });
   }
 
   const onChange = (
@@ -112,25 +173,26 @@ const Pet = ({ role, petList, selectedPet, shelterId,
   };
 
   return (
-    <div className={styles["pet-container"]}>
-      <Search
-        selectList={selectList}
-        selectValue={[searchInput.type]}
-        inputName="keyword"
-        inputValue={searchInput.keyword}
-        onSearch={onSearch}
-        onChange={onChange}
-        placeholder="동물 이름"
-        inputSize="input-medium"
-      />
-
-      {role === "SHELTER" && (
-        <ButtonSmall
-          content="동물 등록"
-          onClick={onOpenRegister}
-          buttonColor="bg-green"
-        />
-      )}
+    <div className={styles['pet-container']}>
+      <div className={styles['search-box']}>
+        <Search
+          selectList={ shelterId ? selectListShelter : selectListAll}
+          selectValue={ shelterId ? [searchInput.type] : [searchInput.name, searchInput.type]}
+          inputName="keyword"
+          inputValue={searchInput.keyword}
+          onSearch={onSearch}
+          onChange={onChange}
+          placeholder="동물 이름"
+          inputSize="input-medium"
+          />
+        {role === "SHELTER" && (
+          <ButtonSmall
+            content="동물 등록"
+            onClick={onOpenRegister}
+            buttonColor="bg-green"
+          />
+        )}
+      </div>
 
       <div className={styles["pet-list"]}>
         <PetList 
@@ -138,10 +200,13 @@ const Pet = ({ role, petList, selectedPet, shelterId,
           selectedPet={selectedPet}
           shelterId={shelterId}
           onGetPet={onGetPet}
-          onSetInitialSelectedPet={onSetInitialSelectedPet}/>
+          onModifyPet={onSumbitModify}
+          onDeletePet={onDeletePet}
+          onSetInitialSelectedPet={onSetInitialSelectedPet}
+          onSetProfileImage={onSetProfileImage || undefined}/>
       </div>
 
-      {registerPet && (
+      {registerPet && shelterId && (
         <ModalMedium>
           <EditPetForm
             type="register"

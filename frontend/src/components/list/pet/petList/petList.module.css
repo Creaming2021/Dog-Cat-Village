@@ -1,25 +1,26 @@
-.animal-list-container {
-  display: block;
+.pet-list-container {
+  display: inline-block;
 }
 
-.animal-card-container {
+.pet-card-container {
   display: inline-block;
   position: relative;
-  width: fit-content;
+  width: 260px;
   height: fit-content;
   /* float: left; */
   margin: 5px 10px 0px 10px;
 }
 
-.animal-card-container img {
+.pet-card-container img {
   display: block;
-  width: 260px;
+  width: 100%;
   height: auto;
+  min-height: 150px;
   border-radius: 30px;
-  background-color: yellow;
+  background-color: rgb(204, 204, 204);
 }
 
-.animal-card-container:hover .card-hover {
+.pet-card-container:hover .card-hover {
   visibility: visible;
   cursor: pointer;
 }
@@ -65,4 +66,16 @@
 .birthday {
   font-weight: 300;
   font-size: 15px;
+}
+
+.ready {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: white;
 }

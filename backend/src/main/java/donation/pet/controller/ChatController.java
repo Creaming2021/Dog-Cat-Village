@@ -1,20 +1,18 @@
 package donation.pet.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import donation.pet.domain.chat.ChatMessage;
 import donation.pet.dto.chat.*;
 import donation.pet.service.ChatService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
@@ -43,9 +41,9 @@ public class ChatController {
     
     @ApiOperation(value = "나의 채팅방 리스트를 출력")
     @GetMapping(value = "/rooms")
-    public ResponseEntity<ChatListResponseDto> getRoomList(@RequestParam("memberId") String memberId) throws JsonProcessingException {
+    public ResponseEntity<List<ChatRoomInfoDto>> getRoomList(@RequestParam("memberId") String memberId) throws JsonProcessingException {
         // 처리하는 코드 ! get => param 변경시 진짜 유저랑 일치하는지의 여부?
-        ChatListResponseDto result = chatService.getRoomList(memberId);
+        List<ChatRoomInfoDto> result = chatService.getRoomList(memberId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
     
@@ -59,28 +57,19 @@ public class ChatController {
 
     @ApiOperation(value = "알림 0으로 초기화")
     @PutMapping(value = "/notice")
-    public ResponseEntity<Void> updateNotice(@RequestParam("myId") String myId,
-                                             @RequestParam("oppId") String oppId) {
-        chatService.updateNotice(myId, oppId);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    @ApiOperation(value = "채팅방 삭제 - 상의 후 기능 구현")
-    @DeleteMapping(value = "/rooms")
-    public ResponseEntity<Void> deleteMyRoom(@RequestParam("myId") String myId,
-                                             @RequestParam("oppId") String oppId) {
-        chatService.deleteRoom(myId, oppId);
+    public ResponseEntity<Void> updateNotice(@RequestBody ChatNoticeResetDto dto) {
+        chatService.updateNotice(dto.getMyId(), dto.getOppId());
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @ApiOperation(value = "방에 입장 => 메시지 리스트 반환")
     @GetMapping(value = "/rooms/{roomId}")
-    public ResponseEntity<ChatMessageListDto> getMessageList(@RequestParam("startNum") int startNum,
-                                                             @RequestParam("endNum") int endNum,
-                                                             @PathVariable("roomId") String roomId,
-                                                             @RequestParam("myId") String myId,
-                                                             @RequestParam("oppId") String oppId) throws JsonProcessingException {
-        ChatMessageListDto result = chatService.getMessageList(startNum, endNum, roomId, myId, oppId);
+    public ResponseEntity<ChatDetailDto> getMessageList(@RequestParam("startNum") int startNum,
+                                                        @RequestParam("endNum") int endNum,
+                                                        @PathVariable("roomId") String roomId,
+                                                        @RequestParam("myId") String myId,
+                                                        @RequestParam("oppId") String oppId) throws JsonProcessingException {
+        ChatDetailDto result = chatService.getMessageList(startNum, endNum, roomId, myId, oppId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

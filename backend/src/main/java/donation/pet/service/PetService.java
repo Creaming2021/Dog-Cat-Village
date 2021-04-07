@@ -35,16 +35,19 @@ public class PetService {
 
     public List<PetSimpleDto> getPetAll() {
         return petRepository.findSimplePets().stream()
+                .filter(pet -> pet.getAdoptStatus() != AdoptStatus.DELETE)
+                .map(Pet::changeToDto)
                 .map(pet -> modelMapper.map(pet, PetSimpleDto.class))
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public void insertPet(PetRequestDto dto) {
+    public Long insertPet(PetRequestDto dto) {
         Shelter shelter = shelterRepository.findById(dto.getShelterId())
                 .orElseThrow(() -> new BaseException(ErrorCode.SHELTER_NOT_EXIST));
         Pet pet = Pet.createPet(dto, shelter);
         petRepository.save(pet);
+        return pet.getId();
     }
 
     public PetDto getPetById(Long petId) {
@@ -54,11 +57,11 @@ public class PetService {
     }
 
     @Transactional
-    public PetDto updatePetById(Long petId, PetRequestDto dto) {
+    public PetUpdateResponseDto updatePetById(Long petId, PetRequestDto dto) {
         Pet pet = petRepository.findById(petId)
                 .orElseThrow(() -> new BaseException(ErrorCode.PET_NOT_EXIST));
         pet.changeForm(dto);
-        return pet.changeToDto();
+        return pet.changeToPetUpdateDto();
     }
 
     @Transactional
@@ -70,11 +73,12 @@ public class PetService {
     }
 
     @Transactional
-    public void saveProfileImage(Long petId, MultipartFile file) throws IOException {
+    public PetImageResponseDto saveProfileImage(Long petId, MultipartFile file) throws IOException {
         Pet pet = petRepository.findById(petId)
                 .orElseThrow(() -> new BaseException(ErrorCode.PET_NOT_EXIST));
         // 파일 처리
         pet.updateProfileImage("https://" + CLOUD_FRONT_DOMAIN_NAME + "/" + s3Service.uploadFile(file));
         petRepository.save(pet);
+        return new PetImageResponseDto(pet.getProfileImage());
     }
 }

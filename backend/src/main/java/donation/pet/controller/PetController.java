@@ -29,9 +29,9 @@ public class PetController {
 
     @ApiOperation("반려동물 저장")
     @PostMapping
-    public ResponseEntity<Void> insertPet(@RequestBody PetRequestDto dto) {
-        petService.insertPet(dto);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<Long> insertPet(@RequestBody PetRequestDto dto) {
+        Long result = petService.insertPet(dto);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @ApiOperation("해당 반려 동물 조회")
@@ -43,8 +43,8 @@ public class PetController {
 
     @ApiOperation("해당 반려 동물 수정")
     @PutMapping("/{petId}")
-    public ResponseEntity<PetDto> updatePetById(@PathVariable("petId") Long petId, @RequestBody PetRequestDto dto) {
-        PetDto result = petService.updatePetById(petId, dto);
+    public ResponseEntity<PetUpdateResponseDto> updatePetById(@PathVariable("petId") Long petId, @RequestBody PetRequestDto dto) {
+        PetUpdateResponseDto result = petService.updatePetById(petId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -57,10 +57,10 @@ public class PetController {
 
     @ApiOperation("반려 동물 이미지 삽입")
     @PostMapping("/{petId}/image")
-    public ResponseEntity<Void> updatePetImage(@PathVariable("petId") Long petId,
+    public ResponseEntity<PetImageResponseDto> updatePetImage(@PathVariable("petId") Long petId,
                                                @RequestBody MultipartFile file) throws IOException {
-        petService.saveProfileImage(petId, file);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        PetImageResponseDto dto = petService.saveProfileImage(petId, file);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(dto);
     }
 
 }

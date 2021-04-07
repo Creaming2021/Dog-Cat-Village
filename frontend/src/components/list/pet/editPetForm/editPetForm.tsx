@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   ButtonSmall,
   Select,
@@ -7,7 +7,9 @@ import {
 } from "../../../common/common";
 import styles from "./editPetForm.module.css";
 import commons from "../../../common/common.module.css";
-import { PetInputType } from "../../../../interface/pet";
+import { PetInputType, PetProfileImage } from "../../../../interface/pet";
+import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type EditAnimalFormProps = {
   type: string;
@@ -15,7 +17,8 @@ type EditAnimalFormProps = {
   shelterId: number;
   onCancle: () => void;
   onRegister?: (input: PetInputType) => void;
-  onModify?: () => void;
+  onModify?: (petInputType : PetInputType) => void;
+  onRegisterImage?: (input: PetProfileImage) => void;
 };
 
 const EditAnimalForm = ({
@@ -25,6 +28,7 @@ const EditAnimalForm = ({
   onRegister,
   onModify,
   onCancle,
+  onRegisterImage
 }: EditAnimalFormProps) => {
   const initialState: PetInputType = {
     id: pet ? pet.id : -1,
@@ -35,23 +39,26 @@ const EditAnimalForm = ({
     year: pet ? pet.year : "생년",
     month: pet ? pet.month : "월",
     date: pet ? pet.date : "일",
-    breedType: pet ? pet.breedType : "dog",
+    breedType: pet ? pet.breedType : "DOG",
     personality: pet ? pet.personality : "",
     condition: pet ? pet.condition : "",
     sex: pet ? pet.sex : "",
     neuter: pet ? pet.neuter : "",
     shelterId: pet? pet.shelterId: shelterId,
+    file: undefined,
   };
 
   const [input, setInput] = useState<PetInputType>(initialState);
   const [birthday, setBirthday] = useState<selectType[]>([]);
+  const [imageUrl, setImageUrl] = useState<string>('');
+
 
   const typeList: selectType = {
     name: "breedType",
     options: [
-      { value: "dog", option: "개" },
-      { value: "cat", option: "고양이" },
-      { value: "etc", option: "기타" },
+      { value: "DOG", option: "개" },
+      { value: "CAT", option: "고양이" },
+      { value: "ETC", option: "기타" },
     ],
   };
 
@@ -95,50 +102,78 @@ const EditAnimalForm = ({
       | React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = e.target;
+    
+    console.log(e);
 
     setInput({
       ...input,
       [name]: value,
     });
   };
-
+  
   const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setInput({
         ...input,
-        profileImage: URL.createObjectURL(e.target.files[0]),
+        file: e.target.files[0]
       });
+      setImageUrl(URL.createObjectURL(e.target.files[0]));
     }
   };
-  
+
+  const inputRef = useRef<any>();
+  const back_img_ref = useRef<any>();
+
   const onSubmitRegister = () => {
-    if(onRegister) onRegister(input);
+    if(onRegister) {
+      onRegister(input);
+    }
+  }
+
+  const onSubmitModify = () => {
+    if(onModify) {
+      if(onRegisterImage && input.file){
+        onRegisterImage({
+          file: input.file,
+          petId: pet?.id || -1,
+        });
+      }
+      onModify(input);
+    }
+  }
+  
+  const onButtonClick = (event: any) => {
+    event.preventDefault();
+    inputRef.current.click();
   }
 
   return (
-    <table className={styles["register-animal-form-container"]}>
+    <table className={styles["register-pet-form-container"]}>
       <tbody>
         <tr>
-          <td rowSpan={9}>
-            <img
-              src={input.profileImage}
-              alt="파일을 업로드하세요"
-              className={styles.image}
-            />
+          <td rowSpan={8}>
+            <div className={styles['image-box']}>
+              <section className={styles.image} ref={back_img_ref}>
+                <img className={styles.image} src={imageUrl || input.profileImage}></img>
+              </section>
+              { type === "modify" && 
+                <section className={styles['image-upload']}>
+                  <input
+                    ref={inputRef}
+                    className={styles['img-input-tag']}
+                    type="file"
+                    name="imageUrl"
+                    onChange={onChangeImage}
+                    />
+                  <button 
+                    className={`${styles['image-upload-btn']} ${commons['bg-blue']}`} 
+                    onClick={onButtonClick}>
+                      <FontAwesomeIcon icon={faUpload} className={styles.icon}/> 이미지 넣기
+                  </button>
+                </section>
+              }
+            </div>
           </td>
-          <td>
-            <label htmlFor="img-file" className={commons["btn-text"]}>
-              동물 사진 업로드
-            </label>
-            <input
-              type="file"
-              id="img-file"
-              className={styles["image-upload-tag"]}
-              onChange={onChangeImage}
-            />
-          </td>
-        </tr>
-        <tr>
           <td>
             <input
               name="name"
@@ -260,7 +295,7 @@ const EditAnimalForm = ({
         <tr>
           <td>
             {type === "register" && onRegister && (
-              <>
+              <div className={styles['modal-button']}>
                 <ButtonSmall
                   content="등록"
                   onClick={onSubmitRegister}
@@ -271,13 +306,13 @@ const EditAnimalForm = ({
                   onClick={onCancle}
                   buttonColor="bg-yellow"
                 />
-              </>
+              </div>
             )}
             {type === "modify" && onModify && (
-              <>
+              <div className={styles['modal-button']}>
                 <ButtonSmall
                   content="수정 완료"
-                  onClick={onModify}
+                  onClick={onSubmitModify}
                   buttonColor="bg-blue"
                 />
                 <ButtonSmall
@@ -285,7 +320,7 @@ const EditAnimalForm = ({
                   onClick={onCancle}
                   buttonColor="bg-yellow"
                 />
-              </>
+              </div>
             )}
           </td>
         </tr>

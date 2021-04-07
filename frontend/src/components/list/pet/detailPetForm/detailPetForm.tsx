@@ -6,12 +6,12 @@ import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type DetailPetFormProps = {
-  memberShelterId: number;
+  memberShelterId?: number;
   pet: PetDetailType;
   onClose: () => void;
   onSubmit: () => void;
   onGoToModify: () => void;
-  onDelete: () => void;
+  onDelete: (id: number) => void;
 };
 
 const DetailPetForm = ({
@@ -38,6 +38,10 @@ const DetailPetForm = ({
     shelterId,
   } = pet;
 
+  const onSubmitDelete = () => {
+    onDelete(id);
+  }
+
   return (
     <div className={styles["detail-pet-form-container"]}>
       <table>
@@ -46,9 +50,11 @@ const DetailPetForm = ({
             <td>
               <img
                 src={profileImage}
-                alt="파일을 업로드하세요"
                 className={styles.image}
               />
+              { profileImage === null &&
+                <div className={styles.ready}>사진 준비 중</div>
+              }
             </td>
             <td>
               <table>
@@ -98,7 +104,7 @@ const DetailPetForm = ({
                     <td>{condition}</td>
                   </tr>
                   <tr>
-                    <td colSpan={2}>
+                    <td colSpan={2} className={styles['modal-button']}>
                       {shelterId === memberShelterId ? (
                         <>
                           <ButtonSmall
@@ -108,7 +114,7 @@ const DetailPetForm = ({
                           />
                           <ButtonSmall
                             content="삭제"
-                            onClick={onDelete}
+                            onClick={onSubmitDelete}
                             buttonColor="bg-blue"
                           />
                         </>

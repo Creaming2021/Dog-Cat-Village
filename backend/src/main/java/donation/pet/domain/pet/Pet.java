@@ -7,11 +7,14 @@ import donation.pet.domain.etc.BaseTimeEntity;
 import donation.pet.domain.etc.Sex;
 import donation.pet.dto.pet.PetDto;
 import donation.pet.dto.pet.PetRequestDto;
+import donation.pet.dto.pet.PetUpdateResponseDto;
 import lombok.*;
+import org.dom4j.rule.Mode;
 import org.modelmapper.ModelMapper;
 import donation.pet.domain.member.shelter.Shelter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -42,11 +45,9 @@ public class Pet extends BaseTimeEntity {
 
     private Float weight;
 
-    @Lob
     @Column(name = "pet_personality")
     private String personality;
 
-    @Lob
     @Column(name = "pet_condition")
     private String condition;
 
@@ -105,19 +106,28 @@ public class Pet extends BaseTimeEntity {
         return dto;
     }
 
-    public String calculateAge() {
-        String from = getBirthday();
-        LocalDateTime to = LocalDateTime.now();
+    public PetUpdateResponseDto changeToPetUpdateDto() {
+        ModelMapper modelMapper = new ModelMapper();
+        PetUpdateResponseDto dto = modelMapper.map(this, PetUpdateResponseDto.class);
+        dto.setAge(calculateAge());
+        return dto;
+    }
 
-        int years = Integer.parseInt(from.substring(0, 4)) - to.getYear();
-        if (years < 1) {
-            int months = Math.abs(Integer.parseInt(from.substring(4,6)) - to.getMonthValue());
-            if (months < 1) {
-                return "1개월 미만";
-            }
-            return months + "개월";
+    public String calculateAge() {
+        int birthYear = Integer.parseInt(getBirthday().substring(0, 4));
+        int birthMonth = Integer.parseInt(getBirthday().substring(4, 6));
+        int birthDayOfMonth = Integer.parseInt(getBirthday().substring(6, 8));
+        LocalDate birthday = LocalDate.of(birthYear, birthMonth, birthDayOfMonth);
+
+        long days = ChronoUnit.DAYS.between(birthday, LocalDate.now());
+
+        if (days / 365 > 0) {
+            return days / 365 + "살";
+        } else if (days / 30 > 0) {
+            return days / 30 + "개월";
+        } else {
+            return days + "일";
         }
-        return years + "살";
     }
 
     public void updateProfileImage(String profileImage) {

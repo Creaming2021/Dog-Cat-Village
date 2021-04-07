@@ -3,7 +3,7 @@ import styles from "./petList.module.css";
 import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ModalMedium } from "../../../common/common";
-import { PetDetailType, PetListType, PetInputType } from "../../../../interface/pet";
+import { PetDetailType, PetListType, PetInputType, PetProfileImage } from "../../../../interface/pet";
 import DetailPetForm from "../detailPetForm/detailPetForm";
 import EditPetForm from "../editPetForm/editPetForm";
 
@@ -34,7 +34,10 @@ const PetCard = ({
       onClick={onClick}
       className={styles["pet-card-container"]}
     >
-      <img src={profileImage} />
+      <img src={profileImage}/>
+      { profileImage === null &&
+        <div className={styles.ready}>사진 준비 중</div>
+      }
       <div id={id.toString()} className={styles["card-hover"]}>
         <div id={id.toString()} className={styles.info}>
           <div id={id.toString()} className={styles.name}>
@@ -60,12 +63,16 @@ const PetCard = ({
 type PetListProps = {
   petList: PetListType[] | null;
   selectedPet: PetDetailType | null;
-  shelterId: number;
+  shelterId?: number;
   onGetPet: (id: number) => void;
+  onModifyPet: (petInputType : PetInputType) => void;
+  onDeletePet: (id: number) => void;
   onSetInitialSelectedPet: () => void;
+  onSetProfileImage?: (profileImage: PetProfileImage) => void;
 };
 
-const PetList = ({ petList, selectedPet, shelterId, onGetPet, onSetInitialSelectedPet }: PetListProps) => {
+const PetList = ({ petList, selectedPet, shelterId, 
+  onGetPet, onModifyPet, onDeletePet, onSetInitialSelectedPet, onSetProfileImage }: PetListProps) => {
   const [modal, setModal] = useState(false);
   const [mode, setMode] = useState("");
   const [inputPet, setInputPet] = useState<PetInputType>();
@@ -109,13 +116,14 @@ const PetList = ({ petList, selectedPet, shelterId, onGetPet, onSetInitialSelect
     setMode("MODIFY");
   };
 
-  const onModify = () => {
-    alert("수정 요청");
+  const onModify = (inputPet: PetInputType) => {
+    onModifyPet(inputPet);
     setMode("DETAIL");
   };
 
-  const onDelete = () => {
+  const onDelete = (id: number) => {
     if (window.confirm("정말 삭제 하시겠습니까?")) {
+      onDeletePet(id);
       setModal(false);
     }
   };
@@ -149,7 +157,7 @@ const PetList = ({ petList, selectedPet, shelterId, onGetPet, onSetInitialSelect
           />
         </ModalMedium>
       )) ||
-        (mode === "MODIFY" && (
+        (mode === "MODIFY" && shelterId && (
           <ModalMedium>
             <EditPetForm
               type="modify"
@@ -157,6 +165,7 @@ const PetList = ({ petList, selectedPet, shelterId, onGetPet, onSetInitialSelect
               shelterId={shelterId}
               onModify={onModify}
               onCancle={onGoToDetail}
+              onRegisterImage={onSetProfileImage}
             />
           </ModalMedium>
         )) ||
