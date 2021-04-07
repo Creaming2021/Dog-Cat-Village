@@ -6,6 +6,7 @@ import { ModalMedium } from "../../../common/common";
 import { PetDetailType, PetListType, PetInputType, PetProfileImage } from "../../../../interface/pet";
 import DetailPetForm from "../detailPetForm/detailPetForm";
 import EditPetForm from "../editPetForm/editPetForm";
+import AdoptRegisterContainer from "../../../../containers/adoptRegisterContainer";
 
 export type PetCardProps = {
   id: number;
@@ -169,7 +170,11 @@ const PetList = ({ petList, selectedPet, shelterId,
             />
           </ModalMedium>
         )) ||
-        (mode === "ADOPT" && <ModalMedium>입양</ModalMedium>)}
+        (mode === "ADOPT" && 
+          <ModalMedium>
+            <AdoptRegisterContainer
+              onClose={onGoToDetail}/>
+          </ModalMedium>)}
     </>
   );
 };
