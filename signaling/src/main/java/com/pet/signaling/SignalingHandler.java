@@ -44,18 +44,17 @@ public class SignalingHandler extends TextWebSocketHandler {
       case "shelter":
         try {
           log.info("shelterId : {}, roomName : {}", jsonMessage.get("shelterId"), jsonMessage.get("roomName"));
-          log.info("!!!!!!!!!!!! {}", jsonMessage.get("shelterId").getAsLong());
           shelter(session, jsonMessage);
         } catch (Throwable t) {
-//          handleErrorResponse(t, session, "shelterResponse");
+          handleErrorResponse(t, session, "shelterResponse");
         }
         break;
       case "consumer":
         try {
           log.info("shelterId : {}, consumerId : {}", jsonMessage.get("shelterId"), jsonMessage.get("consumerId"));
-//          consumer(session, jsonMessage);
+          consumer(session, jsonMessage);
         } catch (Throwable t) {
-//          handleErrorResponse(t, session, "consumerResponse");
+          handleErrorResponse(t, session, "consumerResponse");
         }
         break;
 //      case "onIceCandidate": {
@@ -85,31 +84,32 @@ public class SignalingHandler extends TextWebSocketHandler {
     }
   }
 
-//  private void handleErrorResponse(Throwable throwable, WebSocketSession session, String responseId)
-//          throws IOException {
-//    stop(session);
-//    log.error(throwable.getMessage(), throwable);
-//    JsonObject response = new JsonObject();
-//    response.addProperty("id", responseId);
-//    response.addProperty("response", "rejected");
-//    response.addProperty("message", throwable.getMessage());
-//    session.sendMessage(new TextMessage(response.toString()));
-//  }
+  private void handleErrorResponse(Throwable throwable, WebSocketSession session, String responseId)
+          throws IOException {
+    stop(session);
+    log.error(throwable.getMessage(), throwable);
+    JsonObject response = new JsonObject();
+    response.addProperty("id", responseId);
+    response.addProperty("response", "rejected");
+    response.addProperty("message", throwable.getMessage());
+    session.sendMessage(new TextMessage(response.toString()));
+  }
 
   private synchronized void shelter(final WebSocketSession session, JsonObject jsonMessage)
           throws IOException {
 
-    long shelterId = jsonMessage.get("shelterId").getAsLong();
+    Long shelterId = jsonMessage.get("shelterId").getAsLong();
     String roomName = jsonMessage.get("roomName").getAsString();
 
-    Room room = signalingRepository.findRoom(shelterId);
     // 방이 없으므로 방 생성 가능
-    if (room == null) {
-      UserSession shelterUserSession = new UserSession(session);
-      MediaPipeline pipeline = kurento.createMediaPipeline();
-      shelterUserSession.setWebRtcEndpoint(new WebRtcEndpoint.Builder(pipeline).build());
+    if (!signalingRepository.getRooms().containsKey(shelterId)) {
+      UserSession shelterSession = new UserSession(session);
+      shelterSession.setMemberId(shelterId);
 
-      WebRtcEndpoint shelterWebRtc = shelterUserSession.getWebRtcEndpoint();
+      MediaPipeline pipeline = kurento.createMediaPipeline();
+      shelterSession.setWebRtcEndpoint(new WebRtcEndpoint.Builder(pipeline).build());
+
+      WebRtcEndpoint shelterWebRtc = shelterSession.getWebRtcEndpoint();
       shelterWebRtc.addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>() {
         @Override
         public void onEvent(IceCandidateFoundEvent event) {
@@ -135,15 +135,15 @@ public class SignalingHandler extends TextWebSocketHandler {
       response.addProperty("sdpAnswer", sdpAnswer);
 
       synchronized (session) {
-        shelterUserSession.sendMessage(response);
+        shelterSession.sendMessage(response);
       }
       shelterWebRtc.gatherCandidates();
 
       // 방 만들기
-      signalingRepository.addRoom(session.getId() , shelterId, new Room(shelterUserSession, roomName));
+      signalingRepository.addRoom(session.getId() , new Room(shelterSession, roomName));
 
       ConcurrentHashMap<Long, Room> rooms = signalingRepository.getRooms();
-      log.info("====================== ROOM INFO ======================");
+      log.info("================== ROOM LIST ==================");
       for (Room r : rooms.values()) {
         log.info("SessionID = {}, RoomName = {}" , r.getShelterSession().getSession().getId(), r.getRoomName());
       }
@@ -157,66 +157,86 @@ public class SignalingHandler extends TextWebSocketHandler {
       session.sendMessage(new TextMessage(response.toString()));
     }
   }
-//
-//  private synchronized void consumer(final WebSocketSession session, JsonObject jsonMessage)
-//          throws IOException {
-//    if (shelterUserSession == null || shelterUserSession.getWebRtcEndpoint() == null) {
-//      JsonObject response = new JsonObject();
-//      response.addProperty("id", "consumerResponse");
-//      response.addProperty("response", "rejected");
-//      response.addProperty("message",
-//              "No active sender now. Become sender or . Try again later ...");
-//      session.sendMessage(new TextMessage(response.toString()));
-//    } else {
-//      if (consumers.containsKey(session.getId())) {
-//        JsonObject response = new JsonObject();
-//        response.addProperty("id", "consumerResponse");
-//        response.addProperty("response", "rejected");
-//        response.addProperty("message", "You are already viewing in this session. "
-//                + "Use a different browser to add additional consumers.");
-//        session.sendMessage(new TextMessage(response.toString()));
-//        return;
-//      }
-//      UserSession consumer = new UserSession(session);
-//      consumers.put(session.getId(), consumer);
-//
-//      WebRtcEndpoint nextWebRtc = new WebRtcEndpoint.Builder(pipeline).build();
-//
-//      nextWebRtc.addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>() {
-//
-//        @Override
-//        public void onEvent(IceCandidateFoundEvent event) {
-//          JsonObject response = new JsonObject();
-//          response.addProperty("id", "iceCandidate");
-//          response.add("candidate", JsonUtils.toJsonObject(event.getCandidate()));
-//          try {
-//            synchronized (session) {
-//              session.sendMessage(new TextMessage(response.toString()));
-//            }
-//          } catch (IOException e) {
-//            log.debug(e.getMessage());
-//          }
-//        }
-//      });
-//
-//      consumer.setWebRtcEndpoint(nextWebRtc);
-//      shelterUserSession.getWebRtcEndpoint().connect(nextWebRtc);
-//      String sdpOffer = jsonMessage.getAsJsonPrimitive("sdpOffer").getAsString();
-//      String sdpAnswer = nextWebRtc.processOffer(sdpOffer);
-//
-//      JsonObject response = new JsonObject();
-//      response.addProperty("id", "consumerResponse");
-//      response.addProperty("response", "accepted");
-//      response.addProperty("sdpAnswer", sdpAnswer);
-//
-//      synchronized (session) {
-//        consumer.sendMessage(response);
-//      }
-//      nextWebRtc.gatherCandidates();
-//    }
-//  }
-//
-//  private synchronized void stop(WebSocketSession session) throws IOException {
+
+  private synchronized void consumer(final WebSocketSession session, JsonObject jsonMessage)
+          throws IOException {
+
+    Long shelterId = jsonMessage.get("shelterId").getAsLong();
+    Long consumerId = jsonMessage.get("consumerId").getAsLong();
+
+    // 방이 있는지 확인
+    Room room = signalingRepository.findRoom(shelterId);
+
+    if (room == null || room.getShelterSession().getWebRtcEndpoint() == null) {
+      JsonObject response = new JsonObject();
+      response.addProperty("id", "consumerResponse");
+      response.addProperty("response", "rejected");
+      response.addProperty("message",
+              "No active sender now. Become sender or . Try again later ...");
+      session.sendMessage(new TextMessage(response.toString()));
+
+    } else {  // 에러 처리
+      // Consumer가 방송을 보고있는지 확인
+      Room joinRoom = signalingRepository.findConsumerJoinRoom(consumerId);
+
+      // 다른 방송을 보고 있으면
+      if (joinRoom != null) {
+        JsonObject response = new JsonObject();
+        response.addProperty("id", "consumerResponse");
+        response.addProperty("response", "rejected");
+        response.addProperty("message", "You are already viewing in this session. "
+                + "Use a different browser to add additional consumers.");
+        session.sendMessage(new TextMessage(response.toString()));
+        return;
+      }
+
+      UserSession shelterSession = room.getShelterSession();
+      UserSession consumerSession = new UserSession(session);
+      consumerSession.setMemberId(consumerId);
+
+      WebRtcEndpoint nextWebRtc = new WebRtcEndpoint
+              .Builder(shelterSession.getWebRtcEndpoint().getMediaPipeline()).build();
+      nextWebRtc.addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>() {
+        @Override
+        public void onEvent(IceCandidateFoundEvent event) {
+          JsonObject response = new JsonObject();
+          response.addProperty("id", "iceCandidate");
+          response.add("candidate", JsonUtils.toJsonObject(event.getCandidate()));
+          try {
+            synchronized (session) {
+              session.sendMessage(new TextMessage(response.toString()));
+            }
+          } catch (IOException e) {
+            log.debug(e.getMessage());
+          }
+        }
+      });
+
+      consumerSession.setWebRtcEndpoint(nextWebRtc);
+      shelterSession.getWebRtcEndpoint().connect(nextWebRtc);
+
+      String sdpOffer = jsonMessage.getAsJsonPrimitive("sdpOffer").getAsString();
+      String sdpAnswer = nextWebRtc.processOffer(sdpOffer);
+      JsonObject response = new JsonObject();
+      response.addProperty("id", "consumerResponse");
+      response.addProperty("response", "accepted");
+      response.addProperty("sdpAnswer", sdpAnswer);
+
+      synchronized (session) {
+        consumerSession.sendMessage(response);
+      }
+      nextWebRtc.gatherCandidates();
+
+      // 저장하기
+      signalingRepository.addConsumer(shelterSession, consumerSession);
+      log.info("======= {} ======", room.getRoomName());
+      for (UserSession userSession : room.getConsumers().values()) {
+        log.info("SessionID = {}, ConsumerId = {}" , userSession.getSession().getId(), userSession.getMemberId());
+      }
+    }
+  }
+
+  private synchronized void stop(WebSocketSession session) throws IOException {
 //    String sessionId = session.getId();
 //    if (shelterUserSession != null && shelterUserSession.getSession().getId().equals(sessionId)) {
 //      for (UserSession consumer : consumers.values()) {
@@ -237,12 +257,12 @@ public class SignalingHandler extends TextWebSocketHandler {
 //      }
 //      consumers.remove(sessionId);
 //    }
-//  }
+  }
 
   @Override
   public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
     log.info("Disconnect {}", session.getId());
-//    stop(session);
+    stop(session);
   }
 
 }

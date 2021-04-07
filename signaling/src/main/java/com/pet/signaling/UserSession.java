@@ -39,6 +39,15 @@ public class UserSession {
 
   private final WebSocketSession session;
   private WebRtcEndpoint webRtcEndpoint;
+  private Long memberId;
+
+  public Long getMemberId() {
+    return memberId;
+  }
+
+  public void setMemberId(Long memberId) {
+    this.memberId = memberId;
+  }
 
   public UserSession(WebSocketSession session) {
     this.session = session;
