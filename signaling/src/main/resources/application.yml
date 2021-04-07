@@ -1,10 +1,10 @@
 server:
   port: 8443
-#  ssl:
-#    key-store: classpath:keystore.jks
-#    key-store-password: kurento
-#    key-store-type: JKS
-#    key-alias: kurento-selfsigned
+  ssl:
+    key-store: classpath:keystore.jks
+    key-store-password: kurento
+    key-store-type: JKS
+    key-alias: kurento-selfsigned
 
 
 spring:
