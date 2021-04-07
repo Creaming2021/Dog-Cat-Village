@@ -17,7 +17,6 @@ const UserStreamingPage = () => {
     video = document.getElementById('video');
     viewer();
     // presenter();
-
     // disableStopButton();
   }
 
@@ -102,8 +101,10 @@ const UserStreamingPage = () => {
       return console.error('Error generating the offer');
     // console.info('Invoking SDP offer callback function ' + location.host);
     var message = {
-      id : 'presenter',
-      sdpOffer : offerSdp
+      id: 'shelter',
+      sdpOffer: offerSdp,
+      shelterId: 3, // 보호소 아이디
+      roomName: '방송 이름', // 방송 이름, 없으면 introduce
     }
     sendMessage(message);
   }
@@ -134,8 +135,10 @@ const UserStreamingPage = () => {
       return console.error('Error generating the offer');
     // console.info('Invoking SDP offer callback function ' + location.host);
     var message = {
-      id : 'viewer',
-      sdpOffer : offerSdp
+      id : 'consumer',
+      sdpOffer : offerSdp,
+      shelterId : 3, // 방 아이디
+      consumerId: 2 // 유저 아이디
     }
     sendMessage(message);
   }
