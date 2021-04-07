@@ -8,7 +8,7 @@ import kurentoUtils from 'kurento-utils';
 
 const UserStreamingPage = () => {
 
-  var ws = new WebSocket("ws://j4b106.p.ssafy.io:8443/live");
+  var ws = new WebSocket("wss://j4b106.p.ssafy.io/live");
   var webRtcPeer;
   var video;
 
