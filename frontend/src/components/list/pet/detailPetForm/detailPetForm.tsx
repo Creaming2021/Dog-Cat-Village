@@ -50,9 +50,11 @@ const DetailPetForm = ({
             <td>
               <img
                 src={profileImage}
-                alt="파일을 업로드하세요"
                 className={styles.image}
               />
+              { profileImage === null &&
+                <div className={styles.ready}>사진 준비 중</div>
+              }
             </td>
             <td>
               <table>
