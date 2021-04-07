@@ -133,6 +133,7 @@ const PetList = ({ petList, selectedPet, shelterId,
     <>
       <div className={styles["pet-list-container"]}>
         { petList && petList.map((pet: PetListType) => (
+          <div className={styles["pet-card-box"]}>
           <PetCard
             key={pet.id}
             id={pet.id}
@@ -143,6 +144,7 @@ const PetList = ({ petList, selectedPet, shelterId,
             sex={pet.sex}
             onClick={onClick}
           />
+          </div>
         ))}
       </div>
 

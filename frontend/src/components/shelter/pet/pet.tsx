@@ -174,7 +174,8 @@ const Pet = ({ role, petList, selectedPet, shelterId,
 
   return (
     <div className={styles['pet-container']}>
-      <div className={styles['search-box']}>
+      <div>
+        <div className={styles['search-box']}>
         <Search
           selectList={ shelterId ? selectListShelter : selectListAll}
           selectValue={ shelterId ? [searchInput.type] : [searchInput.name, searchInput.type]}
@@ -193,6 +194,7 @@ const Pet = ({ role, petList, selectedPet, shelterId,
           />
         )}
       </div>
+    
 
       <div className={styles["pet-list"]}>
         <PetList 
@@ -216,6 +218,7 @@ const Pet = ({ role, petList, selectedPet, shelterId,
           />
         </ModalMedium>
       )}
+      </div>
     </div>
   );
 };

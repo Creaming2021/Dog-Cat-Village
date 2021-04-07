@@ -43,7 +43,7 @@ public class KakaoPayController {
         KakaoPayApprovalDto result = kakaoPayService.kakaoPayInfo(kakaopayId, pg_token);
 
 //        return ResponseEntity.status(HttpStatus.OK).body(result.getQuantity());
-        response.sendRedirect("https://j4b106.p.ssafy.io/profile/" + result.getQuantity());
+//        response.sendRedirect("https://j4b106.p.ssafy.io/profile/" + result.getQuantity());
     }
 
     @GetMapping("/cancel")
