@@ -233,6 +233,7 @@ public class SignalingHandler extends TextWebSocketHandler {
 
   @Override
   public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+    log.info("Disconnect {}", session.getId());
 //    stop(session);
   }
 
