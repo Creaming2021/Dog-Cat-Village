@@ -24,7 +24,12 @@ const WalletContainer = () => {
 
   const onSubmitCharge = (amount: string) => {
     dispatch(BlockchainActions.chargeCoinAsync.request(amount));
-    Blockchain.sendTransaction(wallet.data?.contractAddress, amount);
+    Blockchain.sendTransaction(
+      { toAddress: wallet.data?.contractAddress, 
+        amount: amount,
+        fromAddress: '',
+        fromPrivateKey: '',
+      });
     setModal('');
   }
 

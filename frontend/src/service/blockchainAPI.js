@@ -44,7 +44,7 @@ export const getTokenBalance = async (address) => {
 };
 
 // 트랜잭션 (코인 전송) 생성하기
-export const sendTransaction = ( toAddress, amount ) => {
+export const sendTransaction = ({ toAddress, amount, fromAddress, fromPrivateKey }) => {
   const web3 = new Web3(
     new Web3.providers.HttpProvider(
       `https://ropsten.infura.io/v3/${PROJECT_ID}`
@@ -59,10 +59,10 @@ export const sendTransaction = ( toAddress, amount ) => {
 
   var Tx = require('ethereumjs-tx').Transaction;
   
-  web3.eth.getTransactionCount(MABL_ADDRESS, (err, txCount) => {
+  web3.eth.getTransactionCount(fromAddress | MABL_ADDRESS, (err, txCount) => {
     console.log("과연", txCount);
     const rawTx = {
-      from: MABL_ADDRESS,
+      from: fromAddress | MABL_ADDRESS,
       nonce: web3.utils.toHex(txCount),
       value: '0x0',
       to: CONTRACT_ADDRESS,
@@ -78,7 +78,7 @@ export const sendTransaction = ( toAddress, amount ) => {
     
     // tx 만들어 주실때 chain : ropsten 해주시고
     var tx = new Tx(rawTx, { chain: 'ropsten' });
-    const privateKeyBuffer = Buffer.from(PRIVKEY, 'hex')
+    const privateKeyBuffer = Buffer.from(fromPrivateKey | PRIVKEY, 'hex')
 
     // 트랜잭션 서명 해주시고
     tx.sign(privateKeyBuffer);

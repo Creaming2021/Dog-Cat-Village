@@ -48,7 +48,7 @@ const MemberContainer = () => {
     if (member.data?.logIn) {
       if(member.data.memberRole === "ADMIN") history.push(`/admin`);
       else if(member.data.memberRole === "CONSUMER") history.push(`/user`);
-      else if(member.data.memberRole === "SHELTER") history.push(`/main`);
+      else if(member.data.memberRole === "SHELTER") history.push(`/${member.data.memberId}`);
     }
   }, [member]);
 
@@ -128,14 +128,8 @@ const MemberContainer = () => {
   // 회원가입 요청
   const signUp = (): void => {
     dispatch(MemberActions.signUpAsync.request(signUpInput));
-    
-    const newAccount = Blockchain.createAccount();
-    dispatch(BlockchainActions.setWalletInfoAsync.request({
-	    contractAddress: newAccount.address,
-	    privateKey: newAccount.privateKey
-    }));
-    
-    history.push('/');
+    alert("인증메일을 발송했습니다.");
+    goToMain();
   };
 
   // 비밀번호찾기 요청

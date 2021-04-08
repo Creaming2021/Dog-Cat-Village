@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import * as Blockchain from '../../../service/blockchainAPI';
+import * as BlockchainActions from "../../../modules/blockchain";
 import ErrorAlert from "../../error/errorAlert";
 
 type ConfirmSignUpProps = {
@@ -7,15 +10,28 @@ type ConfirmSignUpProps = {
 
 const ConfirmSignUp = ({ match }: ConfirmSignUpProps) => {
   const [state, setState] = useState<String>('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(match.params.result);
-    if(match.params.result === 'success' || match.params.result === 'fail') {
+    console.log(match.params);
+    if(match.params.result === 'success'){
+      // setNewAccount(match.params.result);
+      setState(match.params.result);
+    } else if (match.params.result === 'fail') {
         setState(match.params.result);
     } else { 
       setState('invalid');
     }
   }, []);
+
+  const setNewAccount = (id: number) => {
+    const newAccount = Blockchain.createAccount();
+    dispatch(BlockchainActions.setWalletInfoAsync.request({
+	    contractAddress: newAccount.address,
+	    privateKey: newAccount.privateKey,
+      id: id,
+    }));
+  }
   
   return (
     <>

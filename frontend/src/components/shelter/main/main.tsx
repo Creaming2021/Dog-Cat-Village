@@ -5,16 +5,16 @@ import AdoptContainer from "../../../containers/adoptContainer";
 import ShelterContainer from "../../../containers/shelterContainer";
 import { RootState } from "../../../modules";
 import Nav from "../../nav/nav";
-import Donation from "../donation/donation";
 import Home from "../home/home";
 import styles from "./main.module.css";
 import ChattingContainer from "../../../containers/chattingContainer";
 import { ModalMedium } from "../../common/common";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DonationContainer from "../../../containers/donationContainer";
 
 export type MainProps = {
-  match? : any;
+  match : any;
 }
 
 const Main = ({ match }: MainProps ) => {
@@ -23,12 +23,10 @@ const Main = ({ match }: MainProps ) => {
   const [ category, setCategory ] = useState<string>("home");
   const [ chatting, setChatting ] = useState(false);
   const [ selectedShelterId, setSelectedShelterId ] = useState<number>(-1);
+  const [ donation, setDonation ] = useState(false);
 
   useEffect(() => {
-    console.log(match);
-    if(match && !isNaN( +match.params.id)) {
-      setSelectedShelterId(match.params.id);
-    }
+    setSelectedShelterId(+match.params.id);
   }, []);
 
   const onClickChat = () => {
@@ -38,6 +36,14 @@ const Main = ({ match }: MainProps ) => {
   const onChangeCategory = (category: string): void => {
     setCategory(category);
   };
+  
+  const onOpenDonation = () => {
+    setDonation(true);
+  }
+  
+  const onCloseDonation = () => {
+    setDonation(false);
+  }
 
   return (
     <div className={styles["sub-main-container"]}>
@@ -46,7 +52,8 @@ const Main = ({ match }: MainProps ) => {
         <ShelterContainer 
           onChangeCategory={onChangeCategory} 
           onClickChat={onClickChat}
-          selectedShelterId={selectedShelterId}/>
+          selectedShelterId={selectedShelterId}
+          onOpenDonation={onOpenDonation}/>
 
         {category === "home" && 
           <Home type={member.data?.memberRole || ''} 
@@ -66,12 +73,18 @@ const Main = ({ match }: MainProps ) => {
               icon={faTimesCircle} 
               className={styles['chat-close-icon']}
               onClick={onClickChat}/>
-            <ChattingContainer listSet={false}/>
+            <ChattingContainer listSet={false} selectedShelterId={selectedShelterId}/>
           </ModalMedium>}  
 
-        {category === "donation" && <Donation />}
+        {donation &&
+          <ModalMedium>
+            <DonationContainer 
+              onClose={onCloseDonation}
+              shelterId={+match.params.id}/>
+          </ModalMedium>
+        }
 
-        {category === "adopt" && <AdoptContainer/>}
+        { /*{category === "adopt" && <AdoptContainer/>} */}
       </div>
     </div>
   );

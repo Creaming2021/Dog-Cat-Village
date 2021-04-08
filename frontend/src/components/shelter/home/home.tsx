@@ -1,6 +1,5 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import styles from "./home.module.css";
-import commons from "../../common/common.module.css";
 import {
   faBroadcastTower,
   faUsers,
@@ -9,10 +8,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ButtonLarge, ImageSmall } from "../../common/common";
 import PresenterContainer from "../../../containers/presenterContainer";
-import UserStreamingPage from "../../userStreamingPage/userStreamingPage";
 import { useHistory } from "react-router";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../modules";
 
 type OnAirStreamingProps = {
   onAir: boolean;
@@ -137,11 +133,12 @@ const Home = ({ type, shelterId, memberId }: HomeProps) => {
   const history = useHistory();
 
   const onClick = () => {
-    history.push(`/streaming/${shelterId}/${memberId}`)
+    window.location.replace(`/streaming/${shelterId}/${memberId}`);
+    // history.push(`/streaming/${shelterId}/${memberId}`)
   }
   
   return (
-    <>
+    <div className={styles['home-container']}>
       { type === "CONSUMER" && 
         <ButtonLarge 
           content="방송 보기" 
@@ -149,7 +146,7 @@ const Home = ({ type, shelterId, memberId }: HomeProps) => {
           buttonColor="bg-blue"/> }
       { type === "SHELTER" && <PresenterContainer />}
       {/* <Donation userList={userList} /> */}
-    </>
+    </div>
   );
 };
 

@@ -1,20 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import styles from './App.module.css';
 import MemberContainer from './containers/memberContainer';
 import ProfileContainer from './containers/profileContainer';
-import StreamingListPage from './components/streamingListPage/streamingListPage';
 import UserMainPage from './components/userMainPage/userMainPage';
 import UserStreamingPage from './components/userStreamingPage/userStreamingPage';
-import ErrorAlert, { ProtectedRouteConsumer, ProtectedRouteShelter, ProtectedRouteAdmin, ProtectedRouteToken } from './components/error/errorAlert';
+import ErrorAlert, { ProtectedRouteConsumer } from './components/error/errorAlert';
 import PasswordContainer from './containers/passwordContainer';
 import ConfirmSignUp from './components/submain/confirmSignUp/confirmSignUp';
 import Main from '../src/components/shelter/main/main';
 import PetListContainer from './containers/petListContainer';
 import ShelterListContainer from './containers/shelterListContainer';
-import MyPage from './components/myPage/myPage';
-import ConsumerEnter from './components/submain/consumer/consumerEnter';
-import ChargeFinish from './components/blockchain/chargeFinish/chargeFinish';
 
 
 function App() {
@@ -25,7 +21,7 @@ function App() {
         <ProtectedRouteConsumer path="/shelter" Component={ShelterListContainer} exact/>
         
         <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/>
-        <ProtectedRouteShelter path="/main" Component={Main} exact/>
+        {/* <ProtectedRouteShelter path="/main" Component={Main} exact/> */}
 
         <Route path="/profile" component={ProfileContainer} exact/>
 
@@ -33,9 +29,9 @@ function App() {
         {/* <ProtectedRouteConsumer path="/streaming" Component={StreamingListPage} exact/> */}
         {/* <Route path="/streaming" component={StreamingListPage} exact/> */}
 
-
         <ProtectedRouteConsumer path="/pet" Component={PetListContainer} exact/>
 
+        <Route path="/signup/:result/:id" component={ConfirmSignUp} exact/>
         <Route path="/signup/:result" component={ConfirmSignUp} exact/>
         <Route path="/password/:auth" component={PasswordContainer} exact/>
 
@@ -43,7 +39,7 @@ function App() {
         { /* https://j4b106.p.ssafy.io/blockchain?pg_token=234ad479fb1863f54c00 */}
         
         <Route path="/:id" component={Main} exact/>
-        <ProtectedRouteToken path="/" Component={MemberContainer} exact/>
+        <Route path="/" component={MemberContainer} exact/>
         <Route>
           <ErrorAlert message="잘못된 요청 입니다."/>
         </Route>

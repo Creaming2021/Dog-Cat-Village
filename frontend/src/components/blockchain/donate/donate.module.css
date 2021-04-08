@@ -1,0 +1,17 @@
+.donate-container{
+	padding: 100px;
+}
+
+.donate-container .text{
+	font-size: 1.5rem;
+	font-weight: bold;
+	margin-bottom: 100px;
+}
+
+.donate-container input {
+	margin-bottom: 100px;
+}
+
+.donate-container button{
+	margin: 10px;
+}

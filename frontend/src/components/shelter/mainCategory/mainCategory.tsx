@@ -3,7 +3,7 @@ import styles from "./mainCategory.module.css";
 import commons from "../../common/common.module.css";
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ButtonMedium, ButtonSmall, ImageLarge, ModalMedium } from "../../common/common";
+import { ButtonLarge, ButtonMedium, ButtonSmall, ImageLarge, ModalMedium } from "../../common/common";
 import { SignInResponseType } from "../../../interface/member";
 import { ModifyShelterInfoType, ShelterInfoType } from "../../../interface/shelter";
 import { ProfileInfoType } from "../../../interface/consumer";
@@ -56,9 +56,11 @@ type MainCategoryProps = {
   profile: ProfileInfoType,
   onSubmitModify: (modifyInput: ModifyShelterInfoType) => void,
   onClickChat: () => void,
+  selectedShelterId: number,
+  onOpenDonation: () => void,
 };
 
-const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModify, onClickChat }: MainCategoryProps) => {
+const MainCategory = ({ onOpenDonation, onChangeCategory, member, shelter, profile, onSubmitModify, onClickChat, selectedShelterId }: MainCategoryProps) => {
   const initialState = {
     siteUrl: shelter?.siteUrl || '',
     introduce: shelter?.introduce ||'',
@@ -123,28 +125,30 @@ const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModi
           onClick={member?.memberRole === "SHELTER" ? onClick : onClickChat}
           buttonColor="bg-green"
         />
-        { member?.memberRole === "SHELTER" &&
+        {/* { member?.memberRole === "SHELTER" &&
           <ButtonMedium
             content="입양 신청"
             value="adopt"
             onClick={onClick}
             buttonColor="bg-green"
             />
-        }
+        }*/}
         { member?.memberRole === "CONSUMER" &&
           <ButtonMedium
             content="후원하기 "
             value="donation"
-            onClick={onClick}
+            onClick={onOpenDonation}
             buttonColor="bg-green"
             />
         }
         <div className={`${styles["introduction-box"]}`}>
-          <FontAwesomeIcon
-            className={`${commons["text-color"]} ${styles["btn-edit"]}`}
-            icon={faPencilAlt}
-            onClick={onClickModify}
-          />
+          { member?.memberId === selectedShelterId &&
+              <FontAwesomeIcon
+              className={`${commons["text-color"]} ${styles["btn-edit"]}`}
+              icon={faPencilAlt}
+              onClick={onClickModify}
+            />
+          }
           <div className={styles.introduction}>{shelter?.introduce}</div>
         </div>
       </div>
