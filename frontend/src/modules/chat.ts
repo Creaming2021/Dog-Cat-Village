@@ -12,6 +12,7 @@ import {
   ChatListType,
   ChatRoomType,
   ChatType,
+  CurrentRoomIdType,
   MessageType,
   NoticeListType,
   SelectedChatType,
@@ -50,35 +51,35 @@ export const createChatAsync = createAsyncAction(
   CREATE_CHAT,
   CREATE_CHAT_SUCCESS,
   CREATE_CHAT_ERROR
-)<ChatType, AxiosResponse<string>, AxiosError>();
+)<ChatType, CurrentRoomIdType, AxiosError>();
 
 // 알림 다 읽음 처리 액션 객체 생성함수
 export const resetNoticeAsync = createAsyncAction(
   RESET_NOTICE,
   RESET_NOTICE_SUCCESS,
   RESET_NOTICE_ERROR
-)<ChatType, AxiosResponse<undefined>, AxiosError>();
+)<ChatType, any, AxiosError>();
 
 // 알림 목록 조회 액션 객체 생성함수
 export const getNoticeListAsync = createAsyncAction(
   GET_NOTICE_LIST,
   GET_NOTICE_LIST_SUCCESS,
   GET_NOTICE_LIST_ERROR
-)<number, AxiosResponse<NoticeListType[]>, AxiosError>();
+)<number, NoticeListType[], AxiosError>();
 
 // 채팅방 리스트 액션 객체 생성함수
 export const getChatListAsync = createAsyncAction(
   GET_CHAT_LIST,
   GET_CHAT_LIST_SUCCESS,
   GET_CHAT_LIST_ERROR
-)<number, AxiosResponse<ChatListType[]>, AxiosError>();
+)<number, ChatListType[], AxiosError>();
 
 // 현재 채팅방 대화 조회 액션 객체 생성함수
 export const getChatDetailAsync = createAsyncAction(
   GET_CHAT_DETAIL,
   GET_CHAT_DETAIL_SUCCESS,
   GET_CHAT_DETAIL_ERROR
-)<ChatRoomType, AxiosResponse<SelectedChatType>, AxiosError>();
+)<ChatRoomType, SelectedChatType, AxiosError>();
 
 // 대화 채팅 대화 리스트에 추가 액션 객체 생성함수
 export const addMessageList = ( message: MessageType) => {
@@ -121,17 +122,22 @@ type ChatState = {
     loading: boolean;
     data: SelectedChatType | null;
     error: Error | null;
-  };
+  },
   chatList: {
     loading: boolean;
     data: ChatListType[] | null;
     error: Error | null;
-  };
+  },
   noticeList: {
     loading: boolean;
     data: NoticeListType[] | null;
     error: Error | null;
-  };
+  },
+  currentRoomId: {
+    loading: boolean;
+    data: CurrentRoomIdType | null;
+    error: Error | null;
+  }
 };
 
 // chat state 초기 상태
@@ -139,13 +145,14 @@ const initialState: ChatState = {
   selectedChat: asyncState.initial(),
   chatList: asyncState.initial(),
   noticeList: asyncState.initial(),
+  currentRoomId: asyncState.initial(),
 };
 
 // 채팅방 생성 reducer 생성
 const createChatReducer = createReducer<ChatState, ChatAction>(initialState).
 handleAction(
   transformToArray(createChatAsync),
-  createAsyncReducer(createChatAsync, "selectedChat")
+  createAsyncReducer(createChatAsync, "currentRoomId")
 );
 
 // 알림 다 읽음 처리 reducer 생성

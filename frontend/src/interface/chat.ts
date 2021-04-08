@@ -39,3 +39,7 @@ export interface MessageType {
   date: string;
   oppName: string;
 }
+
+export interface CurrentRoomIdType{
+  roomId: string;
+}

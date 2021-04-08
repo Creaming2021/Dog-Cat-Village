@@ -63,7 +63,7 @@ const Main = ({ match }: MainProps ) => {
               icon={faTimesCircle} 
               className={styles['chat-close-icon']}
               onClick={onClickChat}/>
-            <ChattingContainer listSet={false}/>
+            <ChattingContainer listSet={false} selectedShelterId={selectedShelterId}/>
           </ModalMedium>}  
 
         {/* {category === "donation" && <Donation />}
