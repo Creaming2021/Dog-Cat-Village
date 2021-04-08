@@ -58,12 +58,15 @@ public class SignalingHandler extends TextWebSocketHandler {
       case "onIceCandidate": {
         JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
 
+        UserSession shelterSession = signalingRepository.findRoom(session.getId()).getShelterSession();
         UserSession user = null;
 
-        if (signalingRepository.isShelter(session.getId())) {
-          user = signalingRepository.findRoom(session.getId()).getShelterSession();
-        } else if (signalingRepository.isConsumer(session.getId())) {
-          user = signalingRepository.findConsumer(session.getId());
+        if (shelterSession != null) {
+          if (shelterSession.getSession() == session) {
+            user = shelterSession;
+          } else if (signalingRepository.isConsumer(session.getId())) {
+            user = signalingRepository.findConsumer(session.getId());
+          }
         }
 
         if (user != null) {
