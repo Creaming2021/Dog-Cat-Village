@@ -120,10 +120,6 @@ const Pet = ({ role, petList, selectedPet, shelterId,
     }
   }, [registerPetInfo]);
 
-  useEffect(() => {
-    console.log(resultPetList, searchInput);
-  }, [resultPetList]);
-
   const onSubmitRegister = (input: PetInputType): void => {
     setRegisterPetInfo({
       id: -1,

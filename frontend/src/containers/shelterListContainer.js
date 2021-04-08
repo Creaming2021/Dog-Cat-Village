@@ -12,7 +12,7 @@ const ShelterListContainer = () => {
       }})
       .then((res) => {
         setShelterList(res.data.shelterList);
-        console.log(res);
+        // console.log(res);
       })
       .catch(() => {})
     },[]);

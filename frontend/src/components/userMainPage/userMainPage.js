@@ -51,14 +51,14 @@ const UserMainPage = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    console.log("here");
+    // console.log("here");
     security.get('/adopts/today/count', {
       'headers': {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
       }
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         const count = String(res.data.todayAdoptedPetCount);
         setAnimalCount(count.split(''));
       })
