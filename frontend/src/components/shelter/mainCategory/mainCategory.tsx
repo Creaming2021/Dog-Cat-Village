@@ -3,7 +3,7 @@ import styles from "./mainCategory.module.css";
 import commons from "../../common/common.module.css";
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ButtonMedium, ButtonSmall, ImageLarge, ModalMedium } from "../../common/common";
+import { ButtonLarge, ButtonMedium, ButtonSmall, ImageLarge, ModalMedium } from "../../common/common";
 import { SignInResponseType } from "../../../interface/member";
 import { ModifyShelterInfoType, ShelterInfoType } from "../../../interface/shelter";
 import { ProfileInfoType } from "../../../interface/consumer";
@@ -118,13 +118,13 @@ const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModi
           onClick={onClick}
           buttonColor="bg-green"
         />
-        <ButtonMedium
+        <ButtonLarge
           content="1:1 채팅"
           value="chatting"
           onClick={member?.memberRole === "SHELTER" ? onClick : onClickChat}
           buttonColor="bg-green"
         />
-        { member?.memberRole === "SHELTER" &&
+        {/* { member?.memberRole === "SHELTER" &&
           <ButtonMedium
             content="입양 신청"
             value="adopt"
@@ -139,7 +139,7 @@ const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModi
             onClick={onClick}
             buttonColor="bg-green"
             />
-        }
+        } */}
         <div className={`${styles["introduction-box"]}`}>
           { member?.memberId === selectedShelterId &&
               <FontAwesomeIcon

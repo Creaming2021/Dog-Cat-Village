@@ -66,9 +66,9 @@ const Main = ({ match }: MainProps ) => {
             <ChattingContainer listSet={false}/>
           </ModalMedium>}  
 
-        {category === "donation" && <Donation />}
+        {/* {category === "donation" && <Donation />}
 
-        {category === "adopt" && <AdoptContainer/>}
+        {category === "adopt" && <AdoptContainer/>} */}
       </div>
     </div>
   );

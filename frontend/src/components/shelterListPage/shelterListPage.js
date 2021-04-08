@@ -5,8 +5,6 @@ import { Search } from '../common/common';
 import Nav from '../nav/nav';
 import { useHistory } from 'react-router';
 
-
-
 const ShelterListPage = ({ shelterList }) => {
   const [values, setValues] = useState({ first: 'shelterName', input: '' });
   const [filteredList, setFilteredList] = useState([]);

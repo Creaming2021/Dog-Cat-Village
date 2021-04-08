@@ -1,3 +1,9 @@
+.home-container{
+  width: fit-content;
+  height: 300px;
+  margin: auto;
+}
+
 .streaming {
   width: 70%;
   height: 820px;

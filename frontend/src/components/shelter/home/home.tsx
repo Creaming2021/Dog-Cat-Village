@@ -141,7 +141,7 @@ const Home = ({ type, shelterId, memberId }: HomeProps) => {
   }
   
   return (
-    <>
+    <div className={styles['home-container']}>
       { type === "CONSUMER" && 
         <ButtonLarge 
           content="방송 보기" 
@@ -149,7 +149,7 @@ const Home = ({ type, shelterId, memberId }: HomeProps) => {
           buttonColor="bg-blue"/> }
       { type === "SHELTER" && <PresenterContainer />}
       {/* <Donation userList={userList} /> */}
-    </>
+    </div>
   );
 };
 
