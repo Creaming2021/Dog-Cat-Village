@@ -49,7 +49,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
                 // "/blockchain/**", "/chats/**", "/kakao-pay/**", "/adopts/**"
                     .anyRequest()
-                        .authenticated()
+                        .permitAll()
                     .and()
 
                 .exceptionHandling()
