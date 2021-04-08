@@ -1,67 +1,67 @@
-.main{
-    width: 100%;
-    height: 870px;
-    margin: 0px auto;
+.main {
+  width: 100%;
+  height: 100vh;
+  margin: 0px auto;
 }
 
-.box{
-    display: block;
-    width: 80%;
-    height: 500px;
-    margin: 0 auto;
-    padding-top: 100px;
+.box {
+  display: block;
+  width: 80%;
+  height: 500px;
+  margin: 0 auto;
+  padding-top: 100px;
 
-    text-align: center;
+  text-align: center;
 }
 
-.btn{
-    display: inline-block;
+.btn {
+  display: inline-block;
 
-    width: 30%;
-    min-width: 300px;
-    height: 350px;
-    border-radius: 50px;
-    background-color: white;
+  width: 30%;
+  min-width: 300px;
+  height: 350px;
+  border-radius: 50px;
+  background-color: white;
 
-    margin: 100px;
-    margin-left: 5%;
-    margin-right: 5%;
+  margin: 100px;
+  margin-left: 5%;
+  margin-right: 5%;
 
-    text-align: center;
+  text-align: center;
 }
 
-.circle{
-    width: 230px;
-    height: 230px;
-    border-radius: 50%;
+.circle {
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
 
-    margin: 0 auto;
-    margin-top: 30px;
-    margin-bottom: 25px;
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 25px;
 }
 
-.yellow{
-    background-color: #FCE274;
+.yellow {
+  background-color: #FCE274;
 }
 
-.btn:hover .yellow{
-    background-color: #FFCE00;
+.btn:hover .yellow {
+  background-color: #FFCE00;
 }
 
-.blue{
-    background-color: #B3E5FC;
+.blue {
+  background-color: #B3E5FC;
 }
 
-.btn:hover .blue{
-    background-color: #16A8EB;
+.btn:hover .blue {
+  background-color: #16A8EB;
 }
 
-.icon{
-    display: block;
+.icon {
+  display: block;
 
-    font-size: 170px;
-    color: white;
+  font-size: 170px;
+  color: white;
 
-    margin: 0 auto;
-    padding-top: 55px;
+  margin: 0 auto;
+  padding-top: 55px;
 }

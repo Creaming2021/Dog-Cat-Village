@@ -1,0 +1,60 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+.streaming-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.img-container {
+  cursor: pointer;
+  width: 440px;
+  height: 250px;
+  border-radius: 30px;
+  margin-bottom: 30px;
+}
+
+.streaming-img {
+  width: 440px;
+  height: 250px;
+  border-radius: 30px;
+}
+
+.streaming-name {
+  font-size: 22px;
+  font-weight: 900;
+  color: #292929;
+  margin-bottom: 10px;
+}
+
+.discription-inner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4em;
+}
+
+.shelter-name {
+  font-size: 18px;
+  font-weight: 900;
+  color: #365b6b;
+  margin-right: 20px;
+}
+
+.viewer-container {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  line-height: 16px;
+  margin-top: 1px;
+  color: #929388;
+}
+
+.user-icon {
+  margin-right: 5px;
+}

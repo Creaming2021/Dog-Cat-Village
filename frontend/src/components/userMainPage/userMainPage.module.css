@@ -1,0 +1,121 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+.upper-part {
+  height: 7vh;
+}
+
+.main-part {
+  height: 61vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.main-text {
+  font-size: 60px;
+  margin-right: 100px;
+  color: #5e5e5e;
+}
+
+.display {
+  animation: fadeout 10s normal forwards;
+}
+
+.displayNone {
+  display: none;
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.2;
+  }
+  35% {
+    opacity: 1;
+  }
+  65% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.number-box {
+  width: 100px;
+  height: 150px;
+  margin-right: 40px;
+  border-radius: 20px;
+}
+
+.yellow {
+  background-color: #ffce00;
+}
+
+.blue {
+  background-color: #16a8eb;
+}
+
+.number-text {
+  color: white;
+  height: 150px;
+  line-height: 150px;
+  font-size: 100px;
+  margin: 0;
+}
+
+.lower-part {
+  display: flex;
+  text-align: center;
+  height: 32vh;
+}
+
+.vod-container,
+.donate-container,
+.adopt-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* height: 337px; */
+  cursor: pointer;
+}
+
+.vod-container {
+  background-color: #fef6c7;
+}
+
+.donate-container {
+  background-color: whitesmoke;
+}
+
+.adopt-container {
+  background-color: #e7ffff;
+}
+
+.video-icon,
+.coin-icon,
+.dog-icon {
+  font-size: 100px;
+  font-weight: 900;
+  color: #595959;
+  margin-bottom: 30px;
+}
+
+.vod-text,
+.donate-text,
+.adopt-text {
+  font-size: 25px;
+  color: #939393;
+  font-weight: 900;
+}

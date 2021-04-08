@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './shelterListItem.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
-const ShelterListItem = ({data}) => {
+const ShelterListItem = ({ data, onClick }) => {
+  
+  useEffect(() => {
+    // console.log(data);
+  });
+
   return (
-    <div className={styles['shelter-container']}>
+    <div className={styles['shelter-container']}
+      onClick={() => onClick(data.id)}>
       <div className={styles['img-container']}>
-        <img src={data.img} className={styles['shelter-img']}/>
+        <img src={data.profileImage} className={styles['shelter-img']}/>
         <div className={styles['shelter-intro-container']}>
           <h4 className={styles['shelter-introduction']}>
-            {data.introduction}
+            {data.introduce}
           </h4>
         </div>
       </div>
@@ -24,7 +30,7 @@ const ShelterListItem = ({data}) => {
           <div className={styles.viewer}>{data.viewer}</div>
         </div>
       </div>
-      <h3 className={styles['shelter-name']}>{data.shelterName}</h3>
+      <h3 className={styles['shelter-name']}>{data.name}</h3>
     </div>
   );
 };
