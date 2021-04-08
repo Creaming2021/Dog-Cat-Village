@@ -277,7 +277,10 @@ public class SignalingHandler extends TextWebSocketHandler {
 
     } else if (signalingRepository.isConsumer(sessionId)) {
       UserSession consumer = signalingRepository.findConsumer(sessionId);
-      consumer.getWebRtcEndpoint().release();
+      WebRtcEndpoint webRtcEndpoint = consumer.getWebRtcEndpoint();
+      if (webRtcEndpoint != null) {
+        webRtcEndpoint = null;
+      }
       signalingRepository.deleteConsumer(sessionId);
     }
   }
