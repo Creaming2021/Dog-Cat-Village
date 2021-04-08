@@ -56,9 +56,10 @@ type MainCategoryProps = {
   profile: ProfileInfoType,
   onSubmitModify: (modifyInput: ModifyShelterInfoType) => void,
   onClickChat: () => void,
+  selectedShelterId: number,
 };
 
-const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModify, onClickChat }: MainCategoryProps) => {
+const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModify, onClickChat, selectedShelterId }: MainCategoryProps) => {
   const initialState = {
     siteUrl: shelter?.siteUrl || '',
     introduce: shelter?.introduce ||'',
@@ -140,11 +141,13 @@ const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModi
             />
         }
         <div className={`${styles["introduction-box"]}`}>
-          <FontAwesomeIcon
-            className={`${commons["text-color"]} ${styles["btn-edit"]}`}
-            icon={faPencilAlt}
-            onClick={onClickModify}
-          />
+          { member?.memberId === selectedShelterId &&
+              <FontAwesomeIcon
+              className={`${commons["text-color"]} ${styles["btn-edit"]}`}
+              icon={faPencilAlt}
+              onClick={onClickModify}
+            />
+          }
           <div className={styles.introduction}>{shelter?.introduce}</div>
         </div>
       </div>

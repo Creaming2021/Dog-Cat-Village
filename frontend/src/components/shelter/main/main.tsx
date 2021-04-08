@@ -14,7 +14,7 @@ import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export type MainProps = {
-  match? : any;
+  match : any;
 }
 
 const Main = ({ match }: MainProps ) => {
@@ -25,10 +25,7 @@ const Main = ({ match }: MainProps ) => {
   const [ selectedShelterId, setSelectedShelterId ] = useState<number>(-1);
 
   useEffect(() => {
-    console.log(match);
-    if(match && !isNaN( +match.params.id)) {
-      setSelectedShelterId(match.params.id);
-    }
+    setSelectedShelterId(+match.params.id);
   }, []);
 
   const onClickChat = () => {

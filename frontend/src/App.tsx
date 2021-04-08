@@ -6,7 +6,7 @@ import ProfileContainer from './containers/profileContainer';
 import StreamingListPage from './components/streamingListPage/streamingListPage';
 import UserMainPage from './components/userMainPage/userMainPage';
 import UserStreamingPage from './components/userStreamingPage/userStreamingPage';
-import ErrorAlert, { ProtectedRouteConsumer, ProtectedRouteShelter, ProtectedRouteAdmin, ProtectedRouteToken } from './components/error/errorAlert';
+import ErrorAlert, { ProtectedRouteConsumer, ProtectedRouteShelter, ProtectedRouteAdmin } from './components/error/errorAlert';
 import PasswordContainer from './containers/passwordContainer';
 import ConfirmSignUp from './components/submain/confirmSignUp/confirmSignUp';
 import Main from '../src/components/shelter/main/main';
@@ -25,7 +25,7 @@ function App() {
         <ProtectedRouteConsumer path="/shelter" Component={ShelterListContainer} exact/>
         
         <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/>
-        <ProtectedRouteShelter path="/main" Component={Main} exact/>
+        {/* <ProtectedRouteShelter path="/main" Component={Main} exact/> */}
 
         <Route path="/profile" component={ProfileContainer} exact/>
 
@@ -43,7 +43,7 @@ function App() {
         { /* https://j4b106.p.ssafy.io/blockchain?pg_token=234ad479fb1863f54c00 */}
         
         <Route path="/:id" component={Main} exact/>
-        <ProtectedRouteToken path="/" Component={MemberContainer} exact/>
+        <Route path="/" component={MemberContainer} exact/>
         <Route>
           <ErrorAlert message="잘못된 요청 입니다."/>
         </Route>

@@ -32,7 +32,6 @@ const ShelterListPage = ({ shelterList }) => {
     history.push(`/${id}`)
   };
 
-
   return (
     <div className={styles['shelter-list-container']}>
       <div className={styles['upper-container']}>
