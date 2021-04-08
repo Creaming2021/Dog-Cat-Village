@@ -34,14 +34,18 @@ const ChatList = ({ chatList, onClick } : ChatListProps) => {
 		<div className={styles['chat-list-container']}>
 			{ chatList.length === 0 
 			? <div className={styles.comment}>채팅방 목록이 없습니다.</div>
-			: chatList.map((chat) => 
-				<ChatItem 
-					key={chat.roomId}
-					roomId={chat.roomId}
-					oppId={chat.oppId}
-					oppName={chat.oppName}
-					recentMsg={chat.recentMsg}
-					onClick={onClick}/>)}
+			: <> {
+					[].forEach.call( chatList, (chat: ChatListType ) => {
+						<ChatItem 
+							key={chat.roomId}
+							roomId={chat.roomId}
+							oppId={chat.oppId}
+							oppName={chat.oppName}
+							recentMsg={chat.recentMsg}
+							onClick={onClick}/>
+						}
+				)};
+			</>}
 		</div>);
 }
 

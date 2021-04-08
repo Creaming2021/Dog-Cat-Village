@@ -10,36 +10,27 @@ import { getUserInfo } from "../modules/consumer";
 type ShelterContainerProps = {
   onChangeCategory: (category: string) => void,
   onClickChat: () => void,
-  selectedShelterId?: number,
+  selectedShelterId: number,
+  onOpenDonation: () => void,
 }
 
-const ShelterContainer = ({ onChangeCategory, onClickChat, selectedShelterId }: ShelterContainerProps) => {
+const ShelterContainer = ({ onChangeCategory, onClickChat, selectedShelterId, onOpenDonation }: ShelterContainerProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
   const shelter = useSelector((state: RootState) => state.member.shelterInfo);
   const profile = useSelector((state: RootState) => state.shelter);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getMemberInfo();
-  }, []);
-
-  useEffect(() => {
-    console.log(selectedShelterId);
-    if(selectedShelterId && selectedShelterId > 0) {
-      console.log("저요청?");
+    if(selectedShelterId > 0) {
+      getMemberInfo();
       dispatch(getShelterInfo(selectedShelterId));
-      dispatch(getUserInfo(selectedShelterId));
-    }else if(member.data) {
-      console.log("이요청?");
-      dispatch(getShelterInfo(member.data.memberId));
-      dispatch(getShelterInfo(member.data.memberId));
-    } 
+    }
   }, [member, selectedShelterId]);
 
   // 보호소 메인 정보 및 유저 정보 조회
   const getMemberInfo = () => {
     if (member.data) {
-      dispatch(MemberActions.getShelterInfoAsync.request(member.data.memberId));
+      dispatch(MemberActions.getShelterInfoAsync.request(selectedShelterId));
     }
   };
 
@@ -54,9 +45,11 @@ const ShelterContainer = ({ onChangeCategory, onClickChat, selectedShelterId }: 
         member={member.data}
         shelter={shelter.data}
         profile={profile}
+        selectedShelterId={selectedShelterId}
         onChangeCategory={onChangeCategory} 
         onSubmitModify={ModifyShelterInfo}
-        onClickChat={onClickChat}/>
+        onClickChat={onClickChat}
+        onOpenDonation={onOpenDonation}/>
     </>
   );
 };

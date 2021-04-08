@@ -16,12 +16,14 @@ type MessageState = {
 
 type ChattingContainerProps = {
   listSet: boolean,
+  selectedShelterId?: number,
 }
 
-const ChattingContainer = ({ listSet }: ChattingContainerProps) => {
+const ChattingContainer = ({ listSet, selectedShelterId }: ChattingContainerProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
   const chatList = useSelector((state: RootState) => state.chat.chatList);
   const selectedChat = useSelector((state: RootState) => state.chat.selectedChat);
+  const currentRoomId = useSelector((state: RootState) => state.chat.currentRoomId);
   const dispatch = useDispatch();
 
   const initialMessage = {
@@ -54,7 +56,18 @@ const ChattingContainer = ({ listSet }: ChattingContainerProps) => {
   useEffect(() => {
     createSocket();
     getChatList();
+    // 채팅 시작하기
+    if( member.data && selectedShelterId ) {
+      dispatch(ChatAction.createChatAsync.request(
+        { myId: member.data?.memberId, oppId: selectedShelterId }));
+    }
   }, []);
+
+  useEffect(() => {
+    // 채팅방 들어가기
+    if(currentRoomId.data && selectedShelterId) 
+      getChatDetail(currentRoomId.data.roomId, selectedShelterId);
+  }, [currentRoomId]);
 
   // 소켓 연결하기
   useEffect(() => {
@@ -68,6 +81,8 @@ const ChattingContainer = ({ listSet }: ChattingContainerProps) => {
         message: initialMessage,
         send: false,
       });
+    } else if(stompClient !== null) {
+      stompClient.disconnect();
     }
   }, [selectedChat]);
 
@@ -143,6 +158,10 @@ const ChattingContainer = ({ listSet }: ChattingContainerProps) => {
 
   // 서버 메시지 end point 구독
   const subscribeChattingRoom = () => {
+    if(stompClient === null) {
+      createSocket();
+    }
+
     stompClient.subscribe(
       `/message/${selectedChat.data?.roomId}`,
       (res: any) => {

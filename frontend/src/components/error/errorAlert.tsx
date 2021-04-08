@@ -43,17 +43,17 @@ export const ProtectedRouteConsumer = ({ Component }: ProtectedRouteProps) => {
   );
 };
 
-export const ProtectedRouteToken = ({ Component }: ProtectedRouteProps) => {
-  const member = useSelector((state: RootState) => state.member.memberInfo);
+// export const ProtectedRouteToken = ({ Component }: ProtectedRouteProps) => {
+//   const member = useSelector((state: RootState) => state.member.memberInfo);
 
-  return (
-    member.data?.memberRole === 'CONSUMER' 
-    ? <UserMainPage/>
-    : (member.data?.memberRole === 'SHELTER'
-      ? <Main/>
-      : <Component/>)
-  );
-};
+//   return (
+//     member.data?.memberRole === 'CONSUMER' 
+//     ? <UserMainPage/>
+//     : (member.data?.memberRole === 'SHELTER'
+//       ? <Main/>
+//       : <Component/>)
+//   );
+// };
 
 type ErrorAlertProps = {
   message: string;

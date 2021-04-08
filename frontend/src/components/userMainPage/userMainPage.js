@@ -6,13 +6,9 @@ import { faVideo, faCoins,  faDog } from '@fortawesome/free-solid-svg-icons';
 import Nav from '../nav/nav';
 import { security } from '../../service/instance';
 
-
-
 const coin = [0,0,0]
 
-
 const todayTotalDonation = () => {
-
   return (
     <div className={styles['main-part']}>
       <h1 className={styles['main-text']}>오늘 기부된 총 금액</h1>
@@ -55,12 +51,14 @@ const UserMainPage = (props) => {
   const history = useHistory();
 
   useEffect(() => {
+    console.log("here");
     security.get('/adopts/today/count', {
       'headers': {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
       }
     })
       .then((res) => {
+        console.log(res);
         const count = String(res.data.todayAdoptedPetCount);
         setAnimalCount(count.split(''));
       })
