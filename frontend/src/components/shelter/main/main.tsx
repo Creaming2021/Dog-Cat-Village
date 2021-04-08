@@ -19,15 +19,16 @@ export type MainProps = {
 
 const Main = ({ match }: MainProps ) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
+  const shelter = useSelector((state: RootState) => state.member.shelterInfo)
   const [ category, setCategory ] = useState<string>("home");
   const [ chatting, setChatting ] = useState(false);
+  const [ selectedShelterId, setSelectedShelterId ] = useState<number>(-1);
 
   useEffect(() => {
-    // if(isNaN(match.params.id)){
-    //   console.log("숫자임");
-    // }else{
-    //   console.log("숫자 아님");
-    // }
+    console.log(match);
+    if(match && !isNaN( +match.params.id)) {
+      setSelectedShelterId(match.params.id);
+    }
   }, []);
 
   const onClickChat = () => {
@@ -42,11 +43,14 @@ const Main = ({ match }: MainProps ) => {
     <div className={styles["sub-main-container"]}>
       <Nav role={member.data?.memberRole || ""} memberId={member.data?.memberId || -1} />
       <div className={styles["sub-main-box"]}>
-        <ShelterContainer onChangeCategory={onChangeCategory} onClickChat={onClickChat}/>
+        <ShelterContainer 
+          onChangeCategory={onChangeCategory} 
+          onClickChat={onClickChat}
+          selectedShelterId={selectedShelterId}/>
 
         {category === "home" && 
           <Home type={member.data?.memberRole || ''} 
-            shelterId={match?.params.id}
+            shelterId={selectedShelterId}
             memberId={member.data?.memberId}/>}
 
         {category === "animal" && 

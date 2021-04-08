@@ -22,7 +22,6 @@ function App() {
     <div className={styles.app}>
       <Switch>
         <Route path="/streaming/:shelterId/:memberId" component={UserStreamingPage} exact/>
-        <Route path="/shelter/:id" component={Main} exact/>
         <ProtectedRouteConsumer path="/shelter" Component={ShelterListContainer} exact/>
         
         <ProtectedRouteConsumer path="/user" Component={UserMainPage} exact/>
@@ -37,12 +36,13 @@ function App() {
 
         <ProtectedRouteConsumer path="/pet" Component={PetListContainer} exact/>
 
-        <Route path="/members/signup/:result" component={ConfirmSignUp} exact/>
-        <Route path="/members/password/:auth" component={PasswordContainer} exact/>
+        <Route path="/signup/:result" component={ConfirmSignUp} exact/>
+        <Route path="/password/:auth" component={PasswordContainer} exact/>
 
         {/* <Route path="/blockchain:token" component={ChargeFinish}/>/ */}
         { /* https://j4b106.p.ssafy.io/blockchain?pg_token=234ad479fb1863f54c00 */}
         
+        <Route path="/:id" component={Main} exact/>
         <ProtectedRouteToken path="/" Component={MemberContainer} exact/>
         <Route>
           <ErrorAlert message="잘못된 요청 입니다."/>

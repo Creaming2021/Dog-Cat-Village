@@ -9,6 +9,7 @@ const ConfirmSignUp = ({ match }: ConfirmSignUpProps) => {
   const [state, setState] = useState<String>('');
 
   useEffect(() => {
+    console.log(match.params.result);
     if(match.params.result === 'success' || match.params.result === 'fail') {
         setState(match.params.result);
     } else { 

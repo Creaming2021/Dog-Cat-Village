@@ -29,7 +29,7 @@ const ShelterListPage = ({ shelterList }) => {
 
   const moveShelterMainPage = (id) => {
     // 해당 보호소 메인페이지로 이동
-    history.push(`/shelter/${id}`)
+    history.push(`/${id}`)
   };
 
 
