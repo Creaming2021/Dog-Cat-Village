@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styles from './donatedShelterList.module.css';
 import DonatedShelterItem from './donatedShelterItem';
-import { TransactionListType } from '../../interface/blockchain';
+import { TransactionItemType, TransactionListType } from '../../interface/blockchain';
 import { DonatedShelterType } from '../../interface/shelter';
 import AdoptContainer from '../../containers/adoptContainer';
 
 type DonatedShelterListProps = {
-  transactionList: TransactionListType[]
+  transactionList: TransactionItemType[]
 }
 
 const DonatedShelterList = ({ transactionList }: DonatedShelterListProps) => {

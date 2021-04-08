@@ -51,6 +51,7 @@ export default function createAsyncSaga<T1, P1, T2, P2, T3, P3>(
       }else {
         handleSecurityError(e);
         // console.log("리프레쉬 토큰 요청");
+        console.log(e.errorMessage || '오류가 발생했습니다.');
         getAccessToken();
       }
       yield put(asyncActionCreator.failure(e));

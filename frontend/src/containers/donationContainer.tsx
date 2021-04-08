@@ -31,6 +31,7 @@ const DonationContainer = ({ onClose, shelterId }: DonationContainerProp) => {
 	}, [member]);
 
 	useEffect(() => {
+		console.log()
 		if(changeTransaction.data){
 			BlockchainAPI.getTokenBalance(changeTransaction.data.consumerAddress)
 			.then((res) => setBalance(res));
@@ -38,15 +39,17 @@ const DonationContainer = ({ onClose, shelterId }: DonationContainerProp) => {
 	}, [changeTransaction]);
  
 	const onDonation = (amount: number) => {
+		// 후원하기
 		if(balance < amount) {
 			alert("코인을 다시 설정해 주세요.");
 		} else {
-			BlockchainAPI.sendTransaction(
+			BlockchainAPI.donateTransaction(
 				{ toAddress: changeTransaction.data?.shelterAddress, 
 					amount: amount,
 					fromAddress: changeTransaction.data?.consumerAddress,
 					fromPrivateKey: changeTransaction.data?.consumerPrivateKey,
 				});
+			onClose();
 		}
 	}
 

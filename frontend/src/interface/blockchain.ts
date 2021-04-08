@@ -9,16 +9,20 @@ export interface setWalletType {
   id: number;
 }
 
-export interface TransactionListType {
+export interface TransactionItemType {
   contractAddress: string;
   fromId: number;
   fromName: string;
   fromProfileImage: string;
-  time: string;
+  time: any;
   toId: number;
   toName: string;
   toProfileImage: string;
   value: number;
+}
+
+export interface TransactionListType {
+  transactionList: TransactionItemType[]
 }
 
 export interface TransactionAddressRequireType {
