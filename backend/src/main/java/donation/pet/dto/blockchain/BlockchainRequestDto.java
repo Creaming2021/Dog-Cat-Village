@@ -8,6 +8,7 @@ import lombok.*;
 @Data
 public class BlockchainRequestDto {
 
-    private String address;
+    private Long id;
+    private String contractAddress;
     private String privateKey;
 }

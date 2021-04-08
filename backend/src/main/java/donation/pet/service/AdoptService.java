@@ -24,7 +24,12 @@ public class AdoptService {
     private final ModelMapper modelMapper;
 
     public AdoptTodayDto getTodayAdoption() {
-        int count = (int) adoptRepository.countByAcceptStatusAndStatusDate(AcceptStatus.ACCEPTED, LocalDate.now());
+        int count = (int) adoptRepository.findAll().stream()
+                .filter(adopt -> adopt.getAcceptStatus() == AcceptStatus.ACCEPTED)
+                .filter(adopt -> adopt.getStatusDate().equals(LocalDate.now()))
+                .count();
+
+//        int count = (int) adoptRepository.countByAcceptStatusAndStatusDate(AcceptStatus.ACCEPTED, LocalDate.now());
         return new AdoptTodayDto(count);
     }
 

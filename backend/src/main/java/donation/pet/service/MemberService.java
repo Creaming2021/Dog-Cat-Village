@@ -71,10 +71,11 @@ public class MemberService implements UserDetailsService {
 
     // 이메일 인증
     @Transactional
-    public void checkEmailToken(String token) {
+    public Long checkEmailToken(String token) {
         Member member = memberRepository.findByAccept(token)
                 .orElseThrow(() -> new RedirectException(RedirectCode.WRONG_EMAIL_CHECK));
         member.updateAccept("true");
+        return member.getId();
     }
 
     // 로그인

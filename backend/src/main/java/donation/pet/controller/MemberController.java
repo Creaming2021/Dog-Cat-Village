@@ -49,9 +49,9 @@ public class MemberController {
     @GetMapping("/auth/{token}")
     public RedirectView authenticateEmail(@PathVariable("token") String token) {
         log.info("(Get) authenticateEmail - {}", token);
-        memberService.checkEmailToken(token);
+        Long result = memberService.checkEmailToken(token);
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl(appProperties.getServerUrl() + "/signup/success");
+        redirectView.setUrl(appProperties.getServerUrl() + "/signup/success/" + result);
         return redirectView;
     }
 

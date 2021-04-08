@@ -24,9 +24,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-                .httpBasic().disable()
-                .cors().configurationSource(corsConfigurationSource())
-                .and()
+//                .cors().configurationSource(corsConfigurationSource())
+//                .and()
                 .csrf().disable()
                 .anonymous()
                     .and()
@@ -50,7 +49,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
                 // "/blockchain/**", "/chats/**", "/kakao-pay/**", "/adopts/**"
                     .anyRequest()
-                        .authenticated()
+                        .permitAll()
                     .and()
 
                 .exceptionHandling()

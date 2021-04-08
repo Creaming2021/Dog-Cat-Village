@@ -59,7 +59,9 @@ public class Member {
 
     // 계정 주소 및 비밀키 저장
     public void createContractAddress(String contractAddress, String privateKey) {
-        this.contractAddress = contractAddress;
-        this.privateKey = privateKey;
+        if (this.contractAddress == null && this.privateKey == null) {
+            this.contractAddress = contractAddress;
+            this.privateKey = privateKey;
+        }
     }
 }

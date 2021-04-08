@@ -34,9 +34,8 @@ public class BlockchainController {
     }
 
     @PostMapping("/address")
-    public ResponseEntity<Void> insertAddress(@RequestBody BlockchainRequestDto dto,
-                                        @CurrentUser Member member) {
-        blockchainService.insertAddress(member.getId(), dto);
+    public ResponseEntity<Void> insertAddress(@RequestBody BlockchainRequestDto dto) {
+        blockchainService.insertAddress(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
