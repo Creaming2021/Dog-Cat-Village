@@ -93,6 +93,9 @@
   </ul>
 </details>
 
+## Data Flow 
+![flow](./documents/images/flow.PNG)
+
 ## 주요 기능
 ### 개인 유저 Profile
 - 회원 정보 RUD
