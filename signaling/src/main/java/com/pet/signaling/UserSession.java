@@ -51,8 +51,9 @@ public class UserSession {
     this.memberId = memberId;
   }
 
-  public UserSession(WebSocketSession session) {
+  public UserSession(WebSocketSession session, Long memberId) {
     this.session = session;
+    this.memberId = memberId;
   }
 
   public WebSocketSession getSession() {
