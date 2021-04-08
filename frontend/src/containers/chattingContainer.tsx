@@ -27,10 +27,10 @@ const ChattingContainer = ({ listSet, selectedShelterId }: ChattingContainerProp
   const dispatch = useDispatch();
 
   const initialMessage = {
-    roomId: selectedChat.data?.roomId || '',
-    myId: selectedChat.data?.myId || -1,
-    oppId: selectedChat.data?.oppId || -1,
-    oppName: selectedChat.data?.oppName || '',
+    roomId: '',
+    myId: -1,
+    oppId: -1,
+    oppName: '',
     msg: '',
     date: '',
   }
@@ -38,6 +38,7 @@ const ChattingContainer = ({ listSet, selectedShelterId }: ChattingContainerProp
   const [loading, setLoading] = useState(false);
   const [stompClient, setStompClient] = useState<any>(null);
   const [message, setMessage] = useState<MessageState>({ message: initialMessage, send: false});
+  const [subscribeState, setSubScribeState] = useState<boolean>(false);
 
   // 메세지 입력 수정
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +57,7 @@ const ChattingContainer = ({ listSet, selectedShelterId }: ChattingContainerProp
   useEffect(() => {
     createSocket();
     getChatList();
+
     // 채팅 시작하기
     if( member.data && selectedShelterId ) {
       dispatch(ChatAction.createChatAsync.request(
@@ -90,13 +92,19 @@ const ChattingContainer = ({ listSet, selectedShelterId }: ChattingContainerProp
   useEffect(() => {
     if(message.send){
       sendMessage();
+
+      setMessage({
+        message: initialMessage,
+        send: false,
+      });
     }
-  }, [message]);
+  }, [message.send]);
 
   // 소켓 객체 생성
   const createSocket = () => {
     const serverUrl = "https://j4b106.p.ssafy.io/api/ws";
     let socket = new Sockjs(serverUrl);
+
     console.log("sockjs가 준 socket", socket);
 
     if (loading) {
@@ -106,6 +114,7 @@ const ChattingContainer = ({ listSet, selectedShelterId }: ChattingContainerProp
     } else {
       setStompClient(Stomp.over(socket));
     }
+    setSubScribeState(true);
   };
 
   // 소켓 연결
@@ -157,26 +166,30 @@ const ChattingContainer = ({ listSet, selectedShelterId }: ChattingContainerProp
     setMessage({ message: initialMessage, send: false});
   };
 
+  useEffect(() => {
+    if(stompClient && subscribeState){
+      stompClient.subscribe(
+        `/message/${selectedChat.data?.roomId}`,
+        (res: any) => {
+          const data = JSON.parse(res.body);
+          addMessageList({
+            date: data.date,
+            msg: data.msg,
+            myId: data.myId,
+            oppName: data.oppName,
+            roomId: data.roomId,
+            oppId: data.oppId,
+          });
+        }
+      );
+    }
+  }, [stompClient, subscribeState]);
+
   // 서버 메시지 end point 구독
   const subscribeChattingRoom = () => {
     if(stompClient === null) {
       createSocket();
     }
-
-    stompClient.subscribe(
-      `/message/${selectedChat.data?.roomId}`,
-      (res: any) => {
-        const data = JSON.parse(res.body);
-        addMessageList({
-          date: data.date,
-          msg: data.msg,
-          myId: data.myId,
-          oppName: data.oppName,
-          roomId: data.roomId,
-          oppId: data.oppId,
-        });
-      }
-    );
   }
 
   // 채팅방 메세지 리스트에 추가 하는 액션
@@ -216,13 +229,16 @@ const ChattingContainer = ({ listSet, selectedShelterId }: ChattingContainerProp
           chatList={chatList.data || []}
           onClick={onClickChattingRoom}/>
       }      
-      { selectedChat.data !== null &&
-        <ChatRoom
+      { selectedChat.data 
+      ? <ChatRoom
           selectedChat={selectedChat.data}
           onSubmitSendMessage={onSubmitSendMessage}
           message={message.message.msg}
           onChange={onChange}
           subscribeChattingRoom={subscribeChattingRoom}/>
+      : <div>
+        채팅방을 클릭하세요
+      </div>
       }
     </div>
   );
