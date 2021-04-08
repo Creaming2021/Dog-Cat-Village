@@ -44,7 +44,6 @@ public class MemberService implements UserDetailsService {
     public final ConnectOauth connectOauth;
 
     // 회원가입
-    @Async
     @Transactional
     public void signup(MemberSignupRequestDto dto) {
         String encodePassword = passwordEncoder.encode(dto.getPassword());
