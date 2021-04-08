@@ -50,7 +50,7 @@ const MyPage = ({ memberInfo }) => {
                 userTypeBoolean 
                 ? <DonatedShelterListContainer /> 
                 : <>
-                    <ContributionChart />
+                    {/* <ContributionChart /> */}
                     <AdoptedAnimalsChart />
                   </>
               }    

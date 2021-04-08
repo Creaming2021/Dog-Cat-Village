@@ -134,15 +134,6 @@ type HomeProps = {
 };
 
 const Home = ({ type, shelterId, memberId }: HomeProps) => {
-  const userList: DonationCardProps[] = [
-    { id: 1, nickname: "첫번째", imageUrl: "", coin: 1234 },
-    { id: 2, nickname: "두번째", imageUrl: "", coin: 1 },
-    { id: 3, nickname: "세번째", imageUrl: "", coin: 12 },
-    { id: 4, nickname: "네번째", imageUrl: "", coin: 123 },
-    { id: 5, nickname: "다섯번째", imageUrl: "", coin: 12345 },
-    { id: 6, nickname: "여섯번째", imageUrl: "", coin: 123456 },
-    { id: 7, nickname: "일곱번째", imageUrl: "", coin: 1234567 },
-  ];
   const history = useHistory();
 
   const onClick = () => {
@@ -157,7 +148,7 @@ const Home = ({ type, shelterId, memberId }: HomeProps) => {
           onClick={onClick} 
           buttonColor="bg-blue"/> }
       { type === "SHELTER" && <PresenterContainer />}
-      <Donation userList={userList} />
+      {/* <Donation userList={userList} /> */}
     </>
   );
 };

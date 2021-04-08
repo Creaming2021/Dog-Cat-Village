@@ -3,8 +3,6 @@ import styles from './adoptedAnimalsChart.module.css';
 import { Bar } from 'react-chartjs-2';
 import { basic, security } from '../../service/instance';
 
-
-
 const AdoptedAnimalsChart = () => {
   const [year, setYear] = useState(2021);
   const [monthlyAdoption, setMonthlyAdoption] = useState([]);

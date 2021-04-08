@@ -10,12 +10,14 @@ import pingpong from "./pingpong";
 // };
 
 const ReadyStreaming = ({ member, shelterId, roomName }) => {
+  const [start, setStart] = useState(false);
 
   var ws;
   var webRtcPeer;
   var video;
 
   const onClick = () => {
+    setStart(!start);
 		// alert(`방송 시작 처리하시면 됩니다. memberId = ${member?.memberId}`);
 
     ws = new WebSocket("wss://j4b106.p.ssafy.io/live");
@@ -134,17 +136,25 @@ const ReadyStreaming = ({ member, shelterId, roomName }) => {
   const close = () => {
     dispose();
     ws.close();
+    setStart(!start);
   }
 
   return (
     <div className={styles.streaming}>
-      <ButtonLarge
-        content="스트리밍 시작하기"
-        onClick={onClick}
+      <video id="video" muted autoPlay controls/>
+      { start 
+      ? <ButtonLarge
+        content="방송 진행중"
+        // onClick={close}
+        onClick={() => {}}
         buttonColor="bg-white-green"
       />
-      <button onClick={close} >끄자</button>
-      <video id="video" muted autoPlay controls height="100%" width="100%"/>
+      : <ButtonLarge
+          content="스트리밍 시작하기"
+          onClick={onClick}
+          buttonColor="bg-white-green"
+        />
+      }
     </div>
   );
 };
