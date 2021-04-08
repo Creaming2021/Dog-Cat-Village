@@ -13,17 +13,13 @@ const DonationList = ({ sendDataList, receiveDataList, userTypeBoolean }) => {
   }, [sendDataList, receiveDataList]);
 
   useEffect(() => {
-    console.log(donationDataList);
+    // console.log(donationDataList);
     setChangeArray(Array.from(donationDataList));
   }, [donationDataList]);
 
-  useEffect(() => {
-    console.log(changeArray);
-  }, [changeArray]);
-
   const controlMoreBtn = () => {
     setMoreBtnState(!moreBtnState);
-    console.log(moreBtnState);
+    // console.log(moreBtnState);
   };
 
   return (

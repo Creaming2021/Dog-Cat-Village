@@ -17,7 +17,7 @@ export const createAccount = () => {
   );
 
   const newAccount = web3.eth.accounts.create("test");
-  console.log("생성된 계정", newAccount); // address, privateKey
+  // console.log("생성된 계정", newAccount); // address, privateKey
   return newAccount;
 };
 
@@ -38,7 +38,7 @@ export const getTokenBalance = async (address) => {
       tokenBalance = result / 100000;
   });
 
-  console.log(address, tokenBalance);
+  // console.log(address, tokenBalance);
 
   return tokenBalance;
 };
@@ -54,7 +54,6 @@ export const sendTransaction = ({ toAddress }) => {
   var Tx = require('ethereumjs-tx').Transaction;
 
   web3.eth.getTransactionCount(MABL_ADDRESS, (err, txCount) => {
-    console.log("과연", txCount);
     const rawTx = {
       nonce: web3.utils.toHex(txCount),
       value: '0x2386f26fc10000',
@@ -63,7 +62,7 @@ export const sendTransaction = ({ toAddress }) => {
       gasPrice: web3.utils.toHex(web3.utils.toWei('20', 'gwei')),
     };
     
-    console.log('data : ', rawTx.data);
+    // console.log('data : ', rawTx.data);
     
     // tx 만들어 주실때 chain : ropsten 해주시고
     var tx = new Tx(rawTx, { chain: 'ropsten' });
@@ -72,11 +71,11 @@ export const sendTransaction = ({ toAddress }) => {
     // 트랜잭션 서명 해주시고
     tx.sign(privateKeyBuffer);
     if (tx.verifySignature()) {
-      console.log('서명 완료!');
-      console.log(
-        '서명에서 추적한 발신자 주소: ',
-        tx.getSenderAddress().toString('hex')
-      );
+      // console.log('서명 완료!');
+      // console.log(
+      //   '서명에서 추적한 발신자 주소: ',
+      //   tx.getSenderAddress().toString('hex')
+      // );
     }
 
     const serializedTx = tx.serialize();
@@ -87,13 +86,13 @@ export const sendTransaction = ({ toAddress }) => {
     web3.eth
       .sendSignedTransaction(raw)
       .once('transactionHash', (hash) => {
-        console.info(
-          'transactionHash',
-          'https://ropsten.etherscan.io/tx/' + hash
-        );
+        // console.info(
+        //   'transactionHash',
+        //   'https://ropsten.etherscan.io/tx/' + hash
+        // );
       })
       .once('receipt', (receipt) => {
-        console.info('receipt', receipt);
+        // console.info('receipt', receipt);
       })
       .on('error', console.error);
   });
@@ -129,7 +128,7 @@ export const chargeTransaction = ({ toAddress, amount }) => {
       .encodeABI(),
     };
     
-    console.log('data : ', rawTx.data);
+    // console.log('data : ', rawTx.data);
     
     // tx 만들어 주실때 chain : ropsten 해주시고
     var tx = new Tx(rawTx, { chain: 'ropsten' });
@@ -138,11 +137,11 @@ export const chargeTransaction = ({ toAddress, amount }) => {
     // 트랜잭션 서명 해주시고
     tx.sign(privateKeyBuffer);
     if (tx.verifySignature()) {
-      console.log('서명 완료!');
-      console.log(
-        '서명에서 추적한 발신자 주소: ',
-        tx.getSenderAddress().toString('hex')
-      );
+      // console.log('서명 완료!');
+      // console.log(
+      //   '서명에서 추적한 발신자 주소: ',
+      //   tx.getSenderAddress().toString('hex')
+      // );
     }
 
     const serializedTx = tx.serialize();
@@ -153,13 +152,13 @@ export const chargeTransaction = ({ toAddress, amount }) => {
     web3.eth
       .sendSignedTransaction(raw)
       .once('transactionHash', (hash) => {
-        console.info(
-          'transactionHash',
-          'https://ropsten.etherscan.io/tx/' + hash
-        );
+        // console.info(
+        //   'transactionHash',
+        //   'https://ropsten.etherscan.io/tx/' + hash
+        // );
       })
       .once('receipt', (receipt) => {
-        console.info('receipt', receipt);
+        // console.info('receipt', receipt);
       })
       .on('error', console.error);
   });
@@ -195,7 +194,7 @@ export const donateTransaction = ({ toAddress, amount, fromAddress, fromPrivateK
       .encodeABI(),
     };
     
-    console.log('data : ', rawTx.data);
+    // console.log('data : ', rawTx.data);
     
     // tx 만들어 주실때 chain : ropsten 해주시고
     var tx = new Tx(rawTx, { chain: 'ropsten' });
@@ -204,11 +203,11 @@ export const donateTransaction = ({ toAddress, amount, fromAddress, fromPrivateK
     // 트랜잭션 서명 해주시고
     tx.sign(privateKeyBuffer);
     if (tx.verifySignature()) {
-      console.log('서명 완료!');
-      console.log(
-        '서명에서 추적한 발신자 주소: ',
-        tx.getSenderAddress().toString('hex')
-      );
+      // console.log('서명 완료!');
+      // console.log(
+      //   '서명에서 추적한 발신자 주소: ',
+      //   tx.getSenderAddress().toString('hex')
+      // );
     }
 
     const serializedTx = tx.serialize();
@@ -219,13 +218,13 @@ export const donateTransaction = ({ toAddress, amount, fromAddress, fromPrivateK
     web3.eth
       .sendSignedTransaction(raw)
       .once('transactionHash', (hash) => {
-        console.info(
-          'transactionHash',
-          'https://ropsten.etherscan.io/tx/' + hash
-        );
+        // console.info(
+        //   'transactionHash',
+        //   'https://ropsten.etherscan.io/tx/' + hash
+        // );
       })
       .once('receipt', (receipt) => {
-        console.info('receipt', receipt);
+        // console.info('receipt', receipt);
       })
       .on('error', console.error);
   });
