@@ -41,7 +41,7 @@ const Wallet = ({ wallet, memberRole, onSubmitCharge, onSubmigWithdraw, modal, s
       setMyWallet({
         ...myWallet,
         address: wallet.contractAddress,
-        addressShort: wallet.contractAddress.substring(0, 7),
+        addressShort: wallet.contractAddress.substring(0, 7) || '',
       });
     }
   }, [wallet]);

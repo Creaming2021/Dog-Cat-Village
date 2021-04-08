@@ -147,14 +147,7 @@ const SignIn = ({
                                      : commons["text-blue"]
                                  }`}
             onClick={() => goToFindPassword(type)}>
-            비밀번호 찾기</button>
-          <button
-            className={`${commons["btn-text"]} 
-                        ${commons["text-right"]}
-                        ${type === "CONSUMER"
-                          ? commons["text-yellow"]
-                          : commons["text-blue"]}`}>
-            자동 로그인</button> <br />
+            비밀번호 찾기</button> <br />
           <ButtonLarge
             content="LOGIN"
             onClick={onSubmitSignIn}

@@ -128,7 +128,8 @@ const MemberContainer = () => {
   // 회원가입 요청
   const signUp = (): void => {
     dispatch(MemberActions.signUpAsync.request(signUpInput));
-    history.push('/');
+    alert("인증메일을 발송했습니다.");
+    goToMain();
   };
 
   // 비밀번호찾기 요청

@@ -28,7 +28,7 @@ export interface TransactionAddressRequireType {
 
 export interface TransactionAddressType {
   consumerAddress: string;
-  consumerPrivateKet: string;
+  consumerPrivateKey: string;
   shelterAddress: string;
 }
 

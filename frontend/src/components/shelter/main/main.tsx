@@ -5,14 +5,12 @@ import AdoptContainer from "../../../containers/adoptContainer";
 import ShelterContainer from "../../../containers/shelterContainer";
 import { RootState } from "../../../modules";
 import Nav from "../../nav/nav";
-import Donation from "../donation/donation";
 import Home from "../home/home";
 import styles from "./main.module.css";
 import ChattingContainer from "../../../containers/chattingContainer";
 import { ModalMedium } from "../../common/common";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import DonatorContainer from "../../../containers/donatorContainer";
 import DonationContainer from "../../../containers/donationContainer";
 
 export type MainProps = {
@@ -80,7 +78,9 @@ const Main = ({ match }: MainProps ) => {
 
         {donation &&
           <ModalMedium>
-            <DonationContainer onClose={onCloseDonation}/>
+            <DonationContainer 
+              onClose={onCloseDonation}
+              shelterId={+match.params.id}/>
           </ModalMedium>
         }
 
