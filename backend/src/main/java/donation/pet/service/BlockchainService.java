@@ -50,7 +50,7 @@ public class BlockchainService {
 
 
     public void insertAddress(BlockchainRequestDto dto) {
-        Member member = memberRepository.findByEmail(dto.getEmail())
+        Member member = memberRepository.findById(dto.getId())
                 .orElseThrow(() -> new BaseException(ErrorCode.MEMBER_NOT_FOUND));
         member.createContractAddress(dto.getContractAddress(), dto.getPrivateKey());
     }
