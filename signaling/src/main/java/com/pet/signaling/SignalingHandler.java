@@ -199,7 +199,7 @@ public class SignalingHandler extends TextWebSocketHandler {
 //                log.info("SessionID = {}, ConsumerId = {}", userSession.getSession().getId(), userSession.getMemberId());
 //            }
 //            log.info("===================================================================");
-        }
+        } {
     }
 
     private synchronized void stop(WebSocketSession session) throws IOException {
