@@ -255,36 +255,31 @@ public class SignalingHandler extends TextWebSocketHandler {
   }
 
   private synchronized void stop(WebSocketSession session) throws IOException {
-//    String sessionId = session.getId();
-//
-//    Room room = signalingRepository.findRoom(sessionId);
-//    // consumer 인 경우
-//    if (room == null) {
-//      Room joinRoom = signalingRepository.findConsumerJoinRoom(sessionId);
-//      if (joinRoom != null) {
-//        log.info("================== 퇴실 ====================");
-//        log.info("sessionid : {}", session.getId());
-//        signalingRepository.deleteConsumer(sessionId);
-//        log.info("============================================");
-//      }
-//    } else  {  // shelter 인 경우
-//      log.info("============ {}, ({}) 방 파괴 =============", room.getRoomName(), room.getShelterSession().getMemberId());
-//      for(UserSession consumer : room.getConsumers().values()) {
-//        log.info("시청자 : {} / {}", consumer.getSession().getId(), consumer.getMemberId());
-//        JsonObject response = new JsonObject();
-//        response.addProperty("id", "stopCommunication");
-//        consumer.sendMessage(response);
-//        signalingRepository.deleteConsumer(consumer.getSession().getId());
-//      }
-//      log.info("======================================================");
-//      log.info("Releasing media pipeline");
-//      MediaPipeline mediaPipeline = room.getShelterSession().getWebRtcEndpoint().getMediaPipeline();
-//      if (mediaPipeline != null) {
-//        mediaPipeline.release();
-//      }
-//      mediaPipeline = null;
-//      room.setShelterSession(null);
-//    }
+    String sessionId = session.getId();
+
+    // Shelter 일 경우
+    if (signalingRepository.isShelter(sessionId)) {
+      Room room = signalingRepository.findRoom(sessionId);
+      for (UserSession consumer : room.getConsumers().values()) {
+        JsonObject response = new JsonObject();
+        response.addProperty("id", "stopCommunication");
+        consumer.sendMessage(response);
+        signalingRepository.deleteConsumer(consumer.getSession().getId());
+      }
+      UserSession shelter = room.getShelterSession();
+      MediaPipeline mediaPipeline = shelter.getWebRtcEndpoint().getMediaPipeline();
+      if (mediaPipeline == null) {
+        mediaPipeline.release();
+      }
+      mediaPipeline = null;
+      shelter = null;
+      signalingRepository.deleteShelter(session.getId());
+
+    } else if (signalingRepository.isConsumer(sessionId)) {
+      UserSession consumer = signalingRepository.findConsumer(sessionId);
+      consumer.getWebRtcEndpoint().release();
+      signalingRepository.deleteConsumer(sessionId);
+    }
   }
 
   @Override

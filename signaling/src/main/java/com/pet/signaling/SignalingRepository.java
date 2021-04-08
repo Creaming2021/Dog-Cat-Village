@@ -101,4 +101,20 @@ public class SignalingRepository {
         }
         return rooms.get(shelterId).getShelterSession();
     }
+
+    public void deleteConsumer(String sessionId) {
+        // 연결된 쉘터 가져오기
+        Long consumerId = sessionIdMap.get(sessionId);
+        Long shelterId = consumerShelterMap.get(consumerId);
+        Room room = rooms.get(shelterId);
+        room.getConsumers().remove(consumerId);
+        consumerShelterMap.remove(consumerId);
+        sessionIdMap.remove(sessionId);
+    }
+
+    public void deleteShelter(String sessionId) {
+        Long shelterId = sessionIdMap.get(sessionId);
+        rooms.remove(shelterId);
+        sessionIdMap.remove(sessionId);
+    }
 }
