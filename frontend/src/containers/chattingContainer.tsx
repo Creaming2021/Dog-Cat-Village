@@ -99,7 +99,8 @@ const ChattingContainer = ({ listSet, selectedShelterId }: ChattingContainerProp
     let socket = new Sockjs(serverUrl);
     console.log("sockjs가 준 socket", socket);
 
-    if (stompClient !== null) {
+    if (loading) {
+      setLoading(false);
       stompClient.disconnect();
       setStompClient(Stomp.over(socket));
     } else {

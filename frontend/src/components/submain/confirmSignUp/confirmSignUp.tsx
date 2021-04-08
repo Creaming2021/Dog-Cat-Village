@@ -15,7 +15,6 @@ const ConfirmSignUp = ({ match }: ConfirmSignUpProps) => {
   useEffect(() => {
     console.log(match.params);
     if(match.params.result === 'success'){
-      // setNewAccount(match.params.result);
       setState(match.params.result);
     } else if (match.params.result === 'fail') {
         setState(match.params.result);
@@ -23,15 +22,6 @@ const ConfirmSignUp = ({ match }: ConfirmSignUpProps) => {
       setState('invalid');
     }
   }, []);
-
-  const setNewAccount = (id: number) => {
-    const newAccount = Blockchain.createAccount();
-    dispatch(BlockchainActions.setWalletInfoAsync.request({
-	    contractAddress: newAccount.address,
-	    privateKey: newAccount.privateKey,
-      id: id,
-    }));
-  }
   
   return (
     <>
