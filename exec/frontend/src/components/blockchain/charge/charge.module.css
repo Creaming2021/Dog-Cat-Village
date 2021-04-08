@@ -1,0 +1,14 @@
+.charge-container {
+	flex-direction: column;
+	display: flex;
+	align-items: center;
+	padding: 80px;
+}
+
+.charge-container input {
+	margin-bottom: 50px;
+}
+
+.charge-container button {
+	margin: 10px;
+}

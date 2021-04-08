@@ -1,0 +1,50 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+.mypage {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.user {
+  background-color: #fef6c7;
+}
+
+.shelter {
+  background-color: #e7ffff;
+}
+
+.upper-container {
+  height: 57px;
+  padding: 20px;
+}
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.left-container {
+  display: flex;
+  flex-direction: column;
+  margin-right: 30px;
+}
+
+.user-info-box {
+  margin-bottom: 25px;
+}
+
+.donation-list-box {
+  margin-right: 30px;
+}
+
+.etc-boxes {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
