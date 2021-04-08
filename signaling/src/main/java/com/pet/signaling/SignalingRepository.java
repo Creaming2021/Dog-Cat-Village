@@ -31,11 +31,28 @@ public class SignalingRepository {
 
     // 방 불러오기
     public Room findRoom(String sessionId) {
-        Long shelterId = consumerShelterMap.get(sessionId);
+        Long shelterId = sessionIdMap.get(sessionId);
         if (shelterId == null) {
             return null;
         }
         return rooms.get(shelterId);
+    }
+
+    // shelter인지 확인하기
+    public boolean isShelter(String sessionId) {
+        Long shelterId = sessionIdMap.get(sessionId);
+        if (shelterId == null) {
+            return false;
+        }
+        return rooms.containsKey(shelterId);
+    }
+    // consumer인지 확인하기
+    public boolean isConsumer(String sessionId) {
+        Long consumerId = sessionIdMap.get(sessionId);
+        if (consumerId == null) {
+            return false;
+        }
+        return consumerShelterMap.containsKey(consumerId);
     }
 
     // 방 추가하기
@@ -54,15 +71,7 @@ public class SignalingRepository {
         return rooms.get(shelterId);
     }
 
-    public Room findConsumerJoinRoom(String sessionId) {
-        Long consumerId = sessionIdMap.get(sessionId);
-        Long shelterId = consumerShelterMap.get(consumerId);
-        if (shelterId == null) {
-            return null;
-        }
-        return rooms.get(shelterId);
-    }
-
+    // 방에 시청자 추가하기
     public void addConsumer(UserSession shelterSession, UserSession consumerSession) {
         // room에 추가하기
         rooms.get(shelterSession.getMemberId()).getConsumers()
@@ -75,14 +84,6 @@ public class SignalingRepository {
         consumerShelterMap.put(consumerSession.getMemberId(), shelterSession.getMemberId());
     }
 
-    public void deleteConsumer(String sessionId) {
-        Long consumerId = sessionIdMap.get(sessionId);
-        Long shelterId = consumerShelterMap.get(consumerId);
-        consumerShelterMap.remove(consumerId);
-        sessionIdMap.remove(sessionId);
-        rooms.get(shelterId).getConsumers().remove(consumerId);
-    }
-
     public UserSession findConsumer(String sessionId) {
         // 컨슈머가 접속중인 shelter 찾기
         Long shelterId = consumerShelterMap.get(sessionId);
@@ -91,4 +92,29 @@ public class SignalingRepository {
         }
         return rooms.get(shelterId).getConsumers().get(sessionId);
     }
+
+
+
+
+
+
+    public Room findConsumerJoinRoom(String sessionId) {
+        Long consumerId = sessionIdMap.get(sessionId);
+        Long shelterId = consumerShelterMap.get(consumerId);
+        if (shelterId == null) {
+            return null;
+        }
+        return rooms.get(shelterId);
+    }
+
+
+
+    public void deleteConsumer(String sessionId) {
+        Long consumerId = sessionIdMap.get(sessionId);
+        Long shelterId = consumerShelterMap.get(consumerId);
+        consumerShelterMap.remove(consumerId);
+        sessionIdMap.remove(sessionId);
+        rooms.get(shelterId).getConsumers().remove(consumerId);
+    }
+
 }

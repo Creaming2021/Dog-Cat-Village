@@ -59,14 +59,13 @@ public class SignalingHandler extends TextWebSocketHandler {
         JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
 
         UserSession user = null;
-        Room room = signalingRepository.findRoom(session.getId());
-        if (room != null) {
-          if (room.getShelterSession().getSession() == session) {
-            user = room.getShelterSession();
-          } else {
-            user = signalingRepository.findConsumer(session.getId());
-          }
+
+        if (signalingRepository.isShelter(session.getId())) {
+          user = signalingRepository.findRoom(session.getId()).getShelterSession();
+        } else if (signalingRepository.isConsumer(session.getId())) {
+          user = signalingRepository.findConsumer(session.getId());
         }
+
         if (user != null) {
           IceCandidate cand =
                   new IceCandidate(candidate.get("candidate").getAsString(), candidate.get("sdpMid")
@@ -165,7 +164,7 @@ public class SignalingHandler extends TextWebSocketHandler {
       response.addProperty("id", "shelterResponse");
       response.addProperty("response", "rejected");
       response.addProperty("message",
-              "Another user is currently acting as sender. Try again later ...");
+              "이미 방송중입니다.");
       session.sendMessage(new TextMessage(response.toString()));
     }
   }
@@ -185,7 +184,7 @@ public class SignalingHandler extends TextWebSocketHandler {
       response.addProperty("id", "consumerResponse");
       response.addProperty("response", "rejected");
       response.addProperty("message",
-              "No active sender now. Become sender or . Try again later ...");
+              "참여할 방이 없습니다.");
       session.sendMessage(new TextMessage(response.toString()));
 
     } else {  // 방이 있으면
@@ -197,8 +196,7 @@ public class SignalingHandler extends TextWebSocketHandler {
         JsonObject response = new JsonObject();
         response.addProperty("id", "consumerResponse");
         response.addProperty("response", "rejected");
-        response.addProperty("message", "You are already viewing in this session. "
-                + "Use a different browser to add additional consumers.");
+        response.addProperty("message", "다른 방송을 시청중입니다.");
         session.sendMessage(new TextMessage(response.toString()));
         return;
       }
@@ -244,7 +242,7 @@ public class SignalingHandler extends TextWebSocketHandler {
 
       // 저장하기
       signalingRepository.addConsumer(shelterSession, consumerSession);
-      log.info("=================== {} ===================", room.getRoomName());
+      log.info("====================== {} ======================", room.getRoomName());
       for (UserSession userSession : room.getConsumers().values()) {
         log.info("SessionID = {}, ConsumerId = {}" , userSession.getSession().getId(), userSession.getMemberId());
       }
