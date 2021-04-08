@@ -20,43 +20,22 @@ type ChattingContainerProps = {
 }
 
 const ChattingContainer = ({ listSet, selectedShelterId }: ChattingContainerProps) => {
+  const [ message, setMessage]  = useState('');
+
+  const onChange = (e:any) => {
+    const value = e.target.value;
+    setMessage(value);
+  }
+
   const member = useSelector((state: RootState) => state.member.memberInfo);
-  const chatList = useSelector((state: RootState) => state.chat.chatList);
   const selectedChat = useSelector((state: RootState) => state.chat.selectedChat);
-  const currentRoomId = useSelector((state: RootState) => state.chat.currentRoomId);
   const dispatch = useDispatch();
 
-  const initialMessage = {
-    roomId: '',
-    myId: -1,
-    oppId: -1,
-    oppName: '',
-    msg: '',
-    date: '',
-  }
+  let connected;
 
-  const [loading, setLoading] = useState(false);
-  const [stompClient, setStompClient] = useState<any>(null);
-  const [message, setMessage] = useState<MessageState>({ message: initialMessage, send: false});
-  const [subscribeState, setSubScribeState] = useState<boolean>(false);
-
-  // 메세지 입력 수정
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    setMessage({
-      ...message,
-      message: {
-        ...message.message,
-        [name]: value,
-      }
-    });
-  }
-
-  // 채팅 리스트 불러오기
   useEffect(() => {
-    createSocket();
-    getChatList();
+    connect();
+    getChatDetail("33585559-cdad-4a3f-af44-063b24277a17", 2);
 
     // 채팅 시작하기
     if( member.data && selectedShelterId ) {
@@ -65,182 +44,93 @@ const ChattingContainer = ({ listSet, selectedShelterId }: ChattingContainerProp
     }
   }, []);
 
-  useEffect(() => {
-    // 채팅방 들어가기
-    if(currentRoomId.data && selectedShelterId) 
-      getChatDetail(currentRoomId.data.roomId, selectedShelterId);
-  }, [currentRoomId]);
+  let stompClient:any = null;
 
-  // 소켓 연결하기
-  useEffect(() => {
-    connectSocket();
-  }, [stompClient]);  
+  const connect = () => {
 
-  // 해당 채팅방에서 전송할 메세지 객체 셋팅하기
-  useEffect(() => {
-    if(stompClient !== null && selectedChat.data !== null) {
-      setMessage({
-        message: initialMessage,
-        send: false,
-      });
-    } else if(stompClient !== null) {
-      stompClient.disconnect();
-    }
-  }, [selectedChat]);
-
-  // 전송 요청하기
-  useEffect(() => {
-    if(message.send){
-      sendMessage();
-
-      setMessage({
-        message: initialMessage,
-        send: false,
-      });
-    }
-  }, [message.send]);
-
-  // 소켓 객체 생성
-  const createSocket = () => {
-    const serverUrl = "https://j4b106.p.ssafy.io/api/ws";
+    const serverUrl = 'https://j4b106.p.ssafy.io/api/ws';
     let socket = new Sockjs(serverUrl);
+    console.log('sockjs가 준 socket', socket);
 
-    console.log("sockjs가 준 socket", socket);
-
-    if (loading) {
-      setLoading(false);
+    if(stompClient != null){
       stompClient.disconnect();
-      setStompClient(Stomp.over(socket));
+      stompClient = Stomp.over(socket);
     } else {
-      setStompClient(Stomp.over(socket));
+      stompClient = Stomp.over(socket);
     }
-    setSubScribeState(true);
-  };
+    console.log('소켓 연결 시도 stompClient', stompClient);
 
-  // 소켓 연결
-  const connectSocket = () => {
-    if( stompClient !== null && !loading ) {
-      setLoading(true);
+    stompClient.connect({}, (frame:any) => {
+        connected = true;
+        console.log('소켓 연결 성공', frame);
 
-      stompClient.connect(
-        {},
-        (frame: any) => {
-          console.log("소켓 연결 성공", frame);
-        },
-        (error: any) => {
-          console.log("소켓 연결 실패");
-        }
-      );
-    }
+        // 서버 메시지 end point 구독
+        // /message/${roomId}/${myId}
+        stompClient.subscribe('/message/33585559-cdad-4a3f-af44-063b24277a17', (res: any) => {
+          console.log('구독으로 받은 메시지들이 body에 담겨온다. ', res.body);
+          
+        })
+
+    }, (error:any) => {
+      console.log('소켓 연결 실패');
+      connected = false; 
+    });
+    
   }
 
-  // 채팅 리스트 불러오기
-  const getChatList = () => {
-    if(member.data) {
-      dispatch(ChatAction.getChatListAsync.request(member.data.memberId));
-    }
-  }
 
-  // 메세지 전송 버튼 클릭
+
   const onSubmitSendMessage = () => {
+
     // 한국 시간 변경
     const curr = new Date();
     const utc = curr.getTime();
     const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
     const kr_curr = new Date(utc + KR_TIME_DIFF);
 
-    setMessage({
-      ...message,
-      message: {
-        ...message.message,
-        date: kr_curr.toString(),
-      },
-      send: true,
-    });
-  }
+    const message = {
+      roomId: "33585559-cdad-4a3f-af44-063b24277a17",
+      myId: 3,
+      oppId: 2,
+      msg: " 롸 ? 😮 ? ",
+      date: kr_curr,
+      oppName: "OK"
+    };
 
-  // 메세지 전송
-  const sendMessage = () => {
-    stompClient.send("/app/receive", {}, JSON.stringify(message.message));
 
-    setMessage({ message: initialMessage, send: false});
-  };
+    console.log('메시지 전송!')
+    stompClient.send('/app/receive', {}, JSON.stringify(message));
 
-  useEffect(() => {
-    if(stompClient && subscribeState){
-      stompClient.subscribe(
-        `/message/${selectedChat.data?.roomId}`,
-        (res: any) => {
-          const data = JSON.parse(res.body);
-          addMessageList({
-            date: data.date,
-            msg: data.msg,
-            myId: data.myId,
-            oppName: data.oppName,
-            roomId: data.roomId,
-            oppId: data.oppId,
-          });
-        }
-      );
-    }
-  }, [stompClient, subscribeState]);
-
-  // 서버 메시지 end point 구독
-  const subscribeChattingRoom = () => {
-    if(stompClient === null) {
-      createSocket();
-    }
-  }
-
-  // 채팅방 메세지 리스트에 추가 하는 액션
-  const addMessageList = (newMessage: MessageType) => {
-    dispatch(ChatAction.addMessageList(newMessage));
-  }
-
-  // 채팅방 하나 클릭
-  const onClickChattingRoom = (roomId: string, oppId: number) => {
-    getChatDetail(roomId, oppId);
-    resetNotice(oppId);
   }
 
   // chat detail 불러오는 요청 보내기
   const getChatDetail = (id: string, oppId: number) => {
     dispatch(ChatAction.getChatDetailAsync.request({
-      roomId: id,
-      myId: member.data?.memberId || -1,
-      oppId: oppId,
-      endNum: 100,
-      startNum: 0,
-    }));
+        roomId: id,
+        myId: member.data?.memberId || -1,
+        oppId: oppId,
+        endNum: 100,
+        startNum: 0,
+      }));
   }
 
-  // 알람 끄는 요청
-  const resetNotice = (oppId: number) => {
-    dispatch(ChatAction.resetNoticeAsync.request({ 
-      myId : member.data?.memberId || -1, 
-      oppId : oppId,
-    }));
-  };
-
   return (
-    <div className={styles['chatting-container']}>
-      { listSet &&
-        <ChatList 
-          chatList={chatList.data || []}
-          onClick={onClickChattingRoom}/>
-      }      
-      { selectedChat.data 
-      ? <ChatRoom
-          selectedChat={selectedChat.data}
-          onSubmitSendMessage={onSubmitSendMessage}
-          message={message.message.msg}
-          onChange={onChange}
-          subscribeChattingRoom={subscribeChattingRoom}/>
-      : <div>
-        채팅방을 클릭하세요
-      </div>
-      }
-    </div>
+    // <div className={styles['chatting-container']}>
+    //   { listSet &&
+    //     <ChatList 
+    //       chatList={chatList.data || []}
+    //       onClick={onClickChattingRoom}/>
+    //   }      
+     <ChatRoom
+        selectedChat={selectedChat.data}
+        onSubmitSendMessage={onSubmitSendMessage}
+        message={message}
+        onChange={onChange}/>
+      
+    // <div className="App">
+    //   <p>난 슬플때,, 채팅을 해</p>
+    //   <button onClick={() => onSubmitSendMessage()}>메시지 전송</button>
+    // </div>
   );
 };
 
