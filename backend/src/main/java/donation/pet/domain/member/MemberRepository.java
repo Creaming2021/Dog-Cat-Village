@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByEmail(String email);
@@ -12,5 +13,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByAccept(String token);
     Optional<Member> findByTempLink(String token);
 
-    List<Member> findByContractAddressIn(List<String> addressList);
+    List<Member> findByContractAddressIn(Set<String> addressList);
 }
