@@ -13,6 +13,7 @@ import donation.pet.dto.pet.PetSimpleDto;
 import donation.pet.dto.shelter.*;
 import donation.pet.exception.BaseException;
 import donation.pet.exception.ErrorCode;
+import donation.pet.util.MailUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
