@@ -268,7 +268,7 @@ public class SignalingHandler extends TextWebSocketHandler {
       }
       UserSession shelter = room.getShelterSession();
       MediaPipeline mediaPipeline = shelter.getWebRtcEndpoint().getMediaPipeline();
-      if (mediaPipeline == null) {
+      if (mediaPipeline != null) {
         mediaPipeline.release();
       }
       mediaPipeline = null;

@@ -86,11 +86,12 @@ public class SignalingRepository {
 
     public UserSession findConsumer(String sessionId) {
         // 컨슈머가 접속중인 shelter 찾기
-        Long shelterId = consumerShelterMap.get(sessionId);
+        Long consumerId = sessionIdMap.get(sessionId);
+        Long shelterId = consumerShelterMap.get(consumerId);
         if (shelterId == null) {
             return null;
         }
-        return rooms.get(shelterId).getConsumers().get(sessionId);
+        return rooms.get(shelterId).getConsumers().get(consumerId);
     }
 
     public UserSession findShelter(String sessionId) {
