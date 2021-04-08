@@ -43,12 +43,12 @@ const MyPage = ({ memberInfo }) => {
               </div>
             </div>
             <div className={styles['donation-list-box']}>
-              <DonatorContainer userTypeBoolean={userTypeBoolean} />
+              <DonatorContainer userTypeBoolean={userTypeBoolean} check={false} />
             </div>
             <div className={styles['etc-boxes']}>
               {
                 userTypeBoolean 
-                ? <DonatedShelterListContainer /> 
+                ? <DonatorContainer userTypeBoolean={userTypeBoolean} check={true} />
                 : <>
                     {/* <ContributionChart /> */}
                     <AdoptedAnimalsChart />

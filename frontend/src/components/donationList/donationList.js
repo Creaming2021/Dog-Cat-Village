@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import styles from './donationList.module.css';
 import DonationListItem from './donationListItem';
 
-const DonationList = ({ sendDataList, receiveDataList, userTypeBoolean }) => {
+const DonationList = ({ dataList, userTypeBoolean }) => {
   const [ moreBtnState, setMoreBtnState ] = useState(false);
   const [ values, setValues ] = useState({ type: 'all', input: '' });
   const [ donationDataList, setDonationDataList ] = useState([]);
   const [ changeArray, setChangeArray ] = useState([]);
 
   useEffect(() => {
-    setDonationDataList([...sendDataList, ...receiveDataList]);
-  }, [sendDataList, receiveDataList]);
+    setDonationDataList([...dataList]);
+  }, [dataList]);
 
   useEffect(() => {
     // console.log(donationDataList);

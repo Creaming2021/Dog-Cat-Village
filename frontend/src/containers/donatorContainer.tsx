@@ -11,9 +11,10 @@ import * as BlockchainActions from "../modules/blockchain";
 
 type DonatorContainerProps = {
   userTypeBoolean: boolean;
+  check: boolean;
 };
 
-const DonatorContainer = ({ userTypeBoolean }: DonatorContainerProps) => {
+const DonatorContainer = ({ userTypeBoolean, check }: DonatorContainerProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
   const wallet = useSelector((state: RootState) => state.blockchain.walletInfo);
   const transactionList = useSelector(
@@ -79,8 +80,8 @@ const DonatorContainer = ({ userTypeBoolean }: DonatorContainerProps) => {
   return (
     <>
       <DonationList
-        sendDataList={sendDataList}
-        receiveDataList={receiveDataList}
+        dataList={ check? sendDataList : receiveDataList }
+        // receiveDataList={receiveDataList}
         userTypeBoolean={userTypeBoolean}
       />
     </>
