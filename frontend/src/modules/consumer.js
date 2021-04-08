@@ -13,7 +13,7 @@ export const getUserInfo = (id) => async dispatch => {
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
     }
   });
-  console.log(response)
+  // console.log(response)
   dispatch({
     type: GET_CONSUMER_INFO,
     payload: response.data,
