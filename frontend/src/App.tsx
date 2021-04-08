@@ -33,9 +33,9 @@ function App() {
         {/* <ProtectedRouteConsumer path="/streaming" Component={StreamingListPage} exact/> */}
         {/* <Route path="/streaming" component={StreamingListPage} exact/> */}
 
-
         <ProtectedRouteConsumer path="/pet" Component={PetListContainer} exact/>
 
+        <Route path="/signup/:result/:id" component={ConfirmSignUp} exact/>
         <Route path="/signup/:result" component={ConfirmSignUp} exact/>
         <Route path="/password/:auth" component={PasswordContainer} exact/>
 

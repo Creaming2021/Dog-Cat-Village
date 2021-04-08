@@ -11,9 +11,10 @@ type ShelterContainerProps = {
   onChangeCategory: (category: string) => void,
   onClickChat: () => void,
   selectedShelterId: number,
+  onOpenDonation: () => void,
 }
 
-const ShelterContainer = ({ onChangeCategory, onClickChat, selectedShelterId }: ShelterContainerProps) => {
+const ShelterContainer = ({ onChangeCategory, onClickChat, selectedShelterId, onOpenDonation }: ShelterContainerProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
   const shelter = useSelector((state: RootState) => state.member.shelterInfo);
   const profile = useSelector((state: RootState) => state.shelter);
@@ -47,7 +48,8 @@ const ShelterContainer = ({ onChangeCategory, onClickChat, selectedShelterId }: 
         selectedShelterId={selectedShelterId}
         onChangeCategory={onChangeCategory} 
         onSubmitModify={ModifyShelterInfo}
-        onClickChat={onClickChat}/>
+        onClickChat={onClickChat}
+        onOpenDonation={onOpenDonation}/>
     </>
   );
 };

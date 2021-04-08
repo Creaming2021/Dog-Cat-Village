@@ -4,7 +4,7 @@ import { asyncState, createAsyncReducer, transformToArray } from "../lib/reducer
 import { takeEvery } from 'redux-saga/effects';
 import createAsyncSaga from "../lib/createAsyncSaga";
 import * as BlockchainAPI from '../service/blockchain';
-import { TransactionAddressRequireType, TransactionAddressType, TransactionListType, WalletType } from "../interface/blockchain";
+import { setWalletType, TransactionAddressRequireType, TransactionAddressType, TransactionListType, WalletType } from "../interface/blockchain";
 
 // 지갑 정보 조회 액션 타입
 const GET_WALLET_INFO = 'blockchain/GET_WALLET_INFO';
@@ -43,7 +43,7 @@ export const setWalletInfoAsync = createAsyncAction(
   SET_WALLET_INFO, 
   SET_WALLET_INFO_SUCCESS, 
   SET_WALLET_INFO_ERROR 
-)<WalletType, any, AxiosError>();
+)<setWalletType, any, AxiosError>();
 
 // 아이디를 주소로 변환
 export const changeIdToAddressAsync = createAsyncAction(

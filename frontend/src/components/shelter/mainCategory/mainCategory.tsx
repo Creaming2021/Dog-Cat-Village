@@ -57,9 +57,10 @@ type MainCategoryProps = {
   onSubmitModify: (modifyInput: ModifyShelterInfoType) => void,
   onClickChat: () => void,
   selectedShelterId: number,
+  onOpenDonation: () => void,
 };
 
-const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModify, onClickChat, selectedShelterId }: MainCategoryProps) => {
+const MainCategory = ({ onOpenDonation, onChangeCategory, member, shelter, profile, onSubmitModify, onClickChat, selectedShelterId }: MainCategoryProps) => {
   const initialState = {
     siteUrl: shelter?.siteUrl || '',
     introduce: shelter?.introduce ||'',
@@ -118,7 +119,7 @@ const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModi
           onClick={onClick}
           buttonColor="bg-green"
         />
-        <ButtonLarge
+        <ButtonMedium
           content="1:1 채팅"
           value="chatting"
           onClick={member?.memberRole === "SHELTER" ? onClick : onClickChat}
@@ -131,15 +132,15 @@ const MainCategory = ({ onChangeCategory, member, shelter, profile, onSubmitModi
             onClick={onClick}
             buttonColor="bg-green"
             />
-        }
+        }*/}
         { member?.memberRole === "CONSUMER" &&
           <ButtonMedium
             content="후원하기 "
             value="donation"
-            onClick={onClick}
+            onClick={onOpenDonation}
             buttonColor="bg-green"
             />
-        } */}
+        }
         <div className={`${styles["introduction-box"]}`}>
           { member?.memberId === selectedShelterId &&
               <FontAwesomeIcon

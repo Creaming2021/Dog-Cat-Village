@@ -128,13 +128,6 @@ const MemberContainer = () => {
   // 회원가입 요청
   const signUp = (): void => {
     dispatch(MemberActions.signUpAsync.request(signUpInput));
-    
-    const newAccount = Blockchain.createAccount();
-    dispatch(BlockchainActions.setWalletInfoAsync.request({
-	    contractAddress: newAccount.address,
-	    privateKey: newAccount.privateKey
-    }));
-    
     history.push('/');
   };
 

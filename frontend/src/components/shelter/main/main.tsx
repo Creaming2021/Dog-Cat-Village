@@ -12,6 +12,8 @@ import ChattingContainer from "../../../containers/chattingContainer";
 import { ModalMedium } from "../../common/common";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DonatorContainer from "../../../containers/donatorContainer";
+import DonationContainer from "../../../containers/donationContainer";
 
 export type MainProps = {
   match : any;
@@ -23,6 +25,7 @@ const Main = ({ match }: MainProps ) => {
   const [ category, setCategory ] = useState<string>("home");
   const [ chatting, setChatting ] = useState(false);
   const [ selectedShelterId, setSelectedShelterId ] = useState<number>(-1);
+  const [ donation, setDonation ] = useState(false);
 
   useEffect(() => {
     setSelectedShelterId(+match.params.id);
@@ -35,6 +38,14 @@ const Main = ({ match }: MainProps ) => {
   const onChangeCategory = (category: string): void => {
     setCategory(category);
   };
+  
+  const onOpenDonation = () => {
+    setDonation(true);
+  }
+  
+  const onCloseDonation = () => {
+    setDonation(false);
+  }
 
   return (
     <div className={styles["sub-main-container"]}>
@@ -43,7 +54,8 @@ const Main = ({ match }: MainProps ) => {
         <ShelterContainer 
           onChangeCategory={onChangeCategory} 
           onClickChat={onClickChat}
-          selectedShelterId={selectedShelterId}/>
+          selectedShelterId={selectedShelterId}
+          onOpenDonation={onOpenDonation}/>
 
         {category === "home" && 
           <Home type={member.data?.memberRole || ''} 
@@ -66,9 +78,13 @@ const Main = ({ match }: MainProps ) => {
             <ChattingContainer listSet={false} selectedShelterId={selectedShelterId}/>
           </ModalMedium>}  
 
-        {/* {category === "donation" && <Donation />}
+        {donation &&
+          <ModalMedium>
+            <DonationContainer onClose={onCloseDonation}/>
+          </ModalMedium>
+        }
 
-        {category === "adopt" && <AdoptContainer/>} */}
+        { /*{category === "adopt" && <AdoptContainer/>} */}
       </div>
     </div>
   );

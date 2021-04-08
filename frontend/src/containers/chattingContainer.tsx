@@ -81,6 +81,8 @@ const ChattingContainer = ({ listSet, selectedShelterId }: ChattingContainerProp
         message: initialMessage,
         send: false,
       });
+    } else if(stompClient !== null) {
+      stompClient.disconnect();
     }
   }, [selectedChat]);
 
@@ -93,7 +95,7 @@ const ChattingContainer = ({ listSet, selectedShelterId }: ChattingContainerProp
 
   // 소켓 객체 생성
   const createSocket = () => {
-    const serverUrl = "http://j4b106.p.ssafy.io/api/ws";
+    const serverUrl = "https://j4b106.p.ssafy.io/api/ws";
     let socket = new Sockjs(serverUrl);
     console.log("sockjs가 준 socket", socket);
 
@@ -156,6 +158,10 @@ const ChattingContainer = ({ listSet, selectedShelterId }: ChattingContainerProp
 
   // 서버 메시지 end point 구독
   const subscribeChattingRoom = () => {
+    if(stompClient === null) {
+      createSocket();
+    }
+
     stompClient.subscribe(
       `/message/${selectedChat.data?.roomId}`,
       (res: any) => {

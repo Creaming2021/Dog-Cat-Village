@@ -12,15 +12,15 @@ axios.defaults.validateStatus = (status) => status >= 200 && status < 300;
 
 // 로그인 이외의 모든 요청 성공 시
 export const handleResponse = (response: any) => {
-  console.log("로그인 요청 이외의 성공 핸들러");
-  console.log(response);
+  // console.log("로그인 요청 이외의 성공 핸들러");
+  // console.log(response);
   return response;
 };
 
 // 로그인 요청 성공 시
 export const handleAuthResponse = (response: any) => {
-  console.log("로그인 요청 성공 핸들러");
-  console.log(response);
+  // console.log("로그인 요청 성공 핸들러");
+  // console.log(response);
 
   // 토큰 저장
   localStorage.setItem('access_token', response.access_token);
@@ -31,34 +31,34 @@ export const handleAuthResponse = (response: any) => {
 
 // 로그인, 회원가입, 비밀번호 찾기, 비밀번호 설정 에러 처리
 export const handleError = (e: any) => {
-  console.log("일반 에러 핸들러");
-  if (e.response) {
-    alert(e.response.data.errorMessage);
-    console.log("응답은 있는데 오류", e.response.status);
-    console.log(e.response.headers);
-  } else if(e.request){
-    alert("응답 없음" + e.request);
-  } else {
-    alert("요청 이상" + e.message);
-  }
-  console.log(e.response.data.errorMessage);
+  // console.log("일반 에러 핸들러");
+  // if (e.response) {
+  //   alert(e.response.data.errorMessage);
+  //   console.log("응답은 있는데 오류", e.response.status);
+  //   console.log(e.response.headers);
+  // } else if(e.request){
+  //   alert("응답 없음" + e.request);
+  // } else {
+  //   alert("요청 이상" + e.message);
+  // }
+  // console.log(e.response.data.errorMessage);
   return e;
 };
 
 // 위의 요청 이외의 에러 처리
 export const handleSecurityError = (e: any) => {
-  console.log("보안 에러 핸들러");
-  if (e.response) {
-    console.log(e.response);
-    alert(e.response.data.errorMessage);
-    console.log("응답은 있는데 오류", e.response.status);
-    console.log(e.response.headers);
-  } else if(e.request){
-    alert("응답 없음" + e.request);
-  } else {
-    alert("요청 이상" + e.message);
-  }
-  console.log(e.response.data.errorMessage);
+  // console.log("보안 에러 핸들러");
+  // if (e.response) {
+  //   console.log(e.response);
+  //   alert(e.response.data.errorMessage);
+  //   console.log("응답은 있는데 오류", e.response.status);
+  //   console.log(e.response.headers);
+  // } else if(e.request){
+  //   alert("응답 없음" + e.request);
+  // } else {
+  //   alert("요청 이상" + e.message);
+  // }
+  // console.log(e.response.data.errorMessage);
   return e;
 };
 
