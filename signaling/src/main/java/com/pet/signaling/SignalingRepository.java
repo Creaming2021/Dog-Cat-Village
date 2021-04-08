@@ -24,12 +24,12 @@ public class SignalingRepository {
         return rooms;
     }
 
-    // 방 불러오기
+    // shelterId로 방 불러오기
     public Room findRoom(Long shelterId) {
         return rooms.get(shelterId);
     }
 
-    // 방 불러오기
+    // sessionId로 방 불러오기
     public Room findRoom(String sessionId) {
         Long shelterId = sessionIdMap.get(sessionId);
         if (shelterId == null) {
@@ -93,4 +93,12 @@ public class SignalingRepository {
         return rooms.get(shelterId).getConsumers().get(sessionId);
     }
 
+    public UserSession findShelter(String sessionId) {
+        // 쉘터의 id 변환
+        Long shelterId = sessionIdMap.get(sessionId);
+        if (shelterId == null) {
+            return null;
+        }
+        return rooms.get(shelterId).getShelterSession();
+    }
 }

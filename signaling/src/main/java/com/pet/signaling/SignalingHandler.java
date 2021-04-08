@@ -55,19 +55,26 @@ public class SignalingHandler extends TextWebSocketHandler {
           handleErrorResponse(t, session, "consumerResponse");
         }
         break;
-//      case "onIceCandidate": {
-//        JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
-//
-//        UserSession user = null;
-//
-//        if (user != null) {
-//          IceCandidate cand =
-//                  new IceCandidate(candidate.get("candidate").getAsString(), candidate.get("sdpMid")
-//                          .getAsString(), candidate.get("sdpMLineIndex").getAsInt());
-//          user.addCandidate(cand);
-//        }
-//        break;
-//      }
+      case "onIceCandidate": {
+        JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
+
+        UserSession user = null;
+
+        // 쉘터가 비어있는지 확인
+        if (signalingRepository.isShelter(session.getId())) {
+          user = signalingRepository.findShelter(session.getId());
+        } else if (signalingRepository.isConsumer(session.getId())) {
+          user = signalingRepository.findConsumer(session.getId());
+        }
+
+        if (user != null) {
+          IceCandidate cand =
+                  new IceCandidate(candidate.get("candidate").getAsString(), candidate.get("sdpMid")
+                          .getAsString(), candidate.get("sdpMLineIndex").getAsInt());
+          user.addCandidate(cand);
+        }
+        break;
+      }
       case "stop":
         stop(session);
         break;
@@ -239,7 +246,7 @@ public class SignalingHandler extends TextWebSocketHandler {
       nextWebRtc.gatherCandidates();
 
 
-      log.info("====================== {} ======================", room.getRoomName());
+      log.info("================== RoomName : {} ==================", room.getRoomName());
       for (UserSession userSession : room.getConsumers().values()) {
         log.info("SessionID = {}, ConsumerId = {}" , userSession.getSession().getId(), userSession.getMemberId());
       }
