@@ -255,14 +255,16 @@ const checkNameReducer = createReducer<MemberState, MemberAction>(
       ...state,
       checkName: asyncState.load(),
     }),
-    [CHECK_NAME_SUCCESS]: (state) => ({
+    [CHECK_NAME_SUCCESS]: (state) => {
+    alert("사용할 수 있는 닉네임 입니다.");
+    return {
       ...state,
       checkName: {
         loading: false,
         error: null,
         data: true,
       },
-    }),
+    }},
     [CHECK_NAME_ERROR]: (state, action) => {
       alert("사용하실 수 없는 닉네임 입니다.");
       return {
