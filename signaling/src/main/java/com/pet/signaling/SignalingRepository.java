@@ -93,28 +93,4 @@ public class SignalingRepository {
         return rooms.get(shelterId).getConsumers().get(sessionId);
     }
 
-
-
-
-
-
-    public Room findConsumerJoinRoom(String sessionId) {
-        Long consumerId = sessionIdMap.get(sessionId);
-        Long shelterId = consumerShelterMap.get(consumerId);
-        if (shelterId == null) {
-            return null;
-        }
-        return rooms.get(shelterId);
-    }
-
-
-
-    public void deleteConsumer(String sessionId) {
-        Long consumerId = sessionIdMap.get(sessionId);
-        Long shelterId = consumerShelterMap.get(consumerId);
-        consumerShelterMap.remove(consumerId);
-        sessionIdMap.remove(sessionId);
-        rooms.get(shelterId).getConsumers().remove(consumerId);
-    }
-
 }

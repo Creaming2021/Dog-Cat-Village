@@ -58,15 +58,12 @@ public class SignalingHandler extends TextWebSocketHandler {
       case "onIceCandidate": {
         JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
 
-        UserSession shelterSession = signalingRepository.findRoom(session.getId()).getShelterSession();
         UserSession user = null;
 
-        if (shelterSession != null) {
-          if (shelterSession.getSession() == session) {
-            user = shelterSession;
-          } else if (signalingRepository.isConsumer(session.getId())) {
-            user = signalingRepository.findConsumer(session.getId());
-          }
+        if (signalingRepository.isShelter(session.getId())) {
+          user = signalingRepository.findRoom(session.getId()).getShelterSession();
+        } else if (signalingRepository.isConsumer(session.getId())) {
+          user = signalingRepository.findConsumer(session.getId());
         }
 
         if (user != null) {
@@ -117,6 +114,9 @@ public class SignalingHandler extends TextWebSocketHandler {
     if (!signalingRepository.getRooms().containsKey(shelterId)) {
       UserSession shelterSession = new UserSession(session);
       shelterSession.setMemberId(shelterId);
+      // 방 만들기
+      signalingRepository.addRoom(session.getId() , new Room(shelterSession, roomName));
+
 
       MediaPipeline pipeline = kurento.createMediaPipeline();
       shelterSession.setWebRtcEndpoint(new WebRtcEndpoint.Builder(pipeline).build());
@@ -151,8 +151,6 @@ public class SignalingHandler extends TextWebSocketHandler {
       }
       shelterWebRtc.gatherCandidates();
 
-      // 방 만들기
-      signalingRepository.addRoom(session.getId() , new Room(shelterSession, roomName));
 
       ConcurrentHashMap<Long, Room> rooms = signalingRepository.getRooms();
       log.info("============================ ROOM LIST ============================");
@@ -208,6 +206,8 @@ public class SignalingHandler extends TextWebSocketHandler {
 
       UserSession consumerSession = new UserSession(session);
       consumerSession.setMemberId(consumerId);
+      // 저장하기
+      signalingRepository.addConsumer(shelterSession, consumerSession);
 
       WebRtcEndpoint nextWebRtc = new WebRtcEndpoint
               .Builder(shelterSession.getWebRtcEndpoint().getMediaPipeline()).build();
@@ -243,8 +243,7 @@ public class SignalingHandler extends TextWebSocketHandler {
       }
       nextWebRtc.gatherCandidates();
 
-      // 저장하기
-      signalingRepository.addConsumer(shelterSession, consumerSession);
+
       log.info("====================== {} ======================", room.getRoomName());
       for (UserSession userSession : room.getConsumers().values()) {
         log.info("SessionID = {}, ConsumerId = {}" , userSession.getSession().getId(), userSession.getMemberId());
@@ -254,36 +253,36 @@ public class SignalingHandler extends TextWebSocketHandler {
   }
 
   private synchronized void stop(WebSocketSession session) throws IOException {
-    String sessionId = session.getId();
-
-    Room room = signalingRepository.findRoom(sessionId);
-    // consumer 인 경우
-    if (room == null) {
-      Room joinRoom = signalingRepository.findConsumerJoinRoom(sessionId);
-      if (joinRoom != null) {
-        log.info("================== 퇴실 ====================");
-        log.info("sessionid : {}", session.getId());
-        signalingRepository.deleteConsumer(sessionId);
-        log.info("============================================");
-      }
-    } else  {  // shelter 인 경우
-      log.info("============ {}, ({}) 방 파괴 =============", room.getRoomName(), room.getShelterSession().getMemberId());
-      for(UserSession consumer : room.getConsumers().values()) {
-        log.info("시청자 : {} / {}", consumer.getSession().getId(), consumer.getMemberId());
-        JsonObject response = new JsonObject();
-        response.addProperty("id", "stopCommunication");
-        consumer.sendMessage(response);
-        signalingRepository.deleteConsumer(consumer.getSession().getId());
-      }
-      log.info("======================================================");
-      log.info("Releasing media pipeline");
-      MediaPipeline mediaPipeline = room.getShelterSession().getWebRtcEndpoint().getMediaPipeline();
-      if (mediaPipeline != null) {
-        mediaPipeline.release();
-      }
-      mediaPipeline = null;
-      room.setShelterSession(null);
-    }
+//    String sessionId = session.getId();
+//
+//    Room room = signalingRepository.findRoom(sessionId);
+//    // consumer 인 경우
+//    if (room == null) {
+//      Room joinRoom = signalingRepository.findConsumerJoinRoom(sessionId);
+//      if (joinRoom != null) {
+//        log.info("================== 퇴실 ====================");
+//        log.info("sessionid : {}", session.getId());
+//        signalingRepository.deleteConsumer(sessionId);
+//        log.info("============================================");
+//      }
+//    } else  {  // shelter 인 경우
+//      log.info("============ {}, ({}) 방 파괴 =============", room.getRoomName(), room.getShelterSession().getMemberId());
+//      for(UserSession consumer : room.getConsumers().values()) {
+//        log.info("시청자 : {} / {}", consumer.getSession().getId(), consumer.getMemberId());
+//        JsonObject response = new JsonObject();
+//        response.addProperty("id", "stopCommunication");
+//        consumer.sendMessage(response);
+//        signalingRepository.deleteConsumer(consumer.getSession().getId());
+//      }
+//      log.info("======================================================");
+//      log.info("Releasing media pipeline");
+//      MediaPipeline mediaPipeline = room.getShelterSession().getWebRtcEndpoint().getMediaPipeline();
+//      if (mediaPipeline != null) {
+//        mediaPipeline.release();
+//      }
+//      mediaPipeline = null;
+//      room.setShelterSession(null);
+//    }
   }
 
   @Override
