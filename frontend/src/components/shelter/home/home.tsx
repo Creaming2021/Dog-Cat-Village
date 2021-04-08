@@ -129,7 +129,7 @@ const DonationCard = ({ id, nickname, imageUrl, coin }: DonationCardProps) => {
 
 type HomeProps = {
   type: string,
-  shelterId: string,
+  shelterId: number,
   memberId: number | undefined,
 };
 
