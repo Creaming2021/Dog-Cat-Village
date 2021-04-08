@@ -55,25 +55,19 @@ public class SignalingHandler extends TextWebSocketHandler {
           handleErrorResponse(t, session, "consumerResponse");
         }
         break;
-      case "onIceCandidate": {
-        JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
-
-        UserSession user = null;
-
-        if (signalingRepository.isShelter(session.getId())) {
-          user = signalingRepository.findRoom(session.getId()).getShelterSession();
-        } else if (signalingRepository.isConsumer(session.getId())) {
-          user = signalingRepository.findConsumer(session.getId());
-        }
-
-        if (user != null) {
-          IceCandidate cand =
-                  new IceCandidate(candidate.get("candidate").getAsString(), candidate.get("sdpMid")
-                          .getAsString(), candidate.get("sdpMLineIndex").getAsInt());
-          user.addCandidate(cand);
-        }
-        break;
-      }
+//      case "onIceCandidate": {
+//        JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
+//
+//        UserSession user = null;
+//
+//        if (user != null) {
+//          IceCandidate cand =
+//                  new IceCandidate(candidate.get("candidate").getAsString(), candidate.get("sdpMid")
+//                          .getAsString(), candidate.get("sdpMLineIndex").getAsInt());
+//          user.addCandidate(cand);
+//        }
+//        break;
+//      }
       case "stop":
         stop(session);
         break;
@@ -117,12 +111,13 @@ public class SignalingHandler extends TextWebSocketHandler {
       // 방 만들기
       signalingRepository.addRoom(session.getId() , new Room(shelterSession, roomName));
 
-
       MediaPipeline pipeline = kurento.createMediaPipeline();
       shelterSession.setWebRtcEndpoint(new WebRtcEndpoint.Builder(pipeline).build());
 
       WebRtcEndpoint shelterWebRtc = shelterSession.getWebRtcEndpoint();
+
       shelterWebRtc.addIceCandidateFoundListener(new EventListener<IceCandidateFoundEvent>() {
+
         @Override
         public void onEvent(IceCandidateFoundEvent event) {
           JsonObject response = new JsonObject();
@@ -151,7 +146,7 @@ public class SignalingHandler extends TextWebSocketHandler {
       }
       shelterWebRtc.gatherCandidates();
 
-
+      ////////// 방 리스트 출력
       ConcurrentHashMap<Long, Room> rooms = signalingRepository.getRooms();
       log.info("============================ ROOM LIST ============================");
       for (Room r : rooms.values()) {
