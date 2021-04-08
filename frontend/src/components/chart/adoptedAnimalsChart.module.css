@@ -9,7 +9,7 @@ button {
 
 .chart-container {
   width: 40rem;
-  height: 24.5rem;
+  height: 820px;
   background-color: white;
   border-radius: 30px;
   display: flex;
@@ -22,13 +22,13 @@ button {
   width: 34rem;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
 }
 
 .year-btn {
   background-color: transparent;
   border: none;
-  font-size: 25px;
+  font-size: 2rem;
   color: #858585;
 }
 
@@ -37,12 +37,12 @@ button {
 }
 
 .year-text {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 900;
 }
 
 .chart-box {
   width: 34rem;
-  height: 17rem;
+  height: 40rem;
   background-color: transparent;
 }
