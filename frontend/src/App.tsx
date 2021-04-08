@@ -1,20 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import styles from './App.module.css';
 import MemberContainer from './containers/memberContainer';
 import ProfileContainer from './containers/profileContainer';
-import StreamingListPage from './components/streamingListPage/streamingListPage';
 import UserMainPage from './components/userMainPage/userMainPage';
 import UserStreamingPage from './components/userStreamingPage/userStreamingPage';
-import ErrorAlert, { ProtectedRouteConsumer, ProtectedRouteShelter, ProtectedRouteAdmin } from './components/error/errorAlert';
+import ErrorAlert, { ProtectedRouteConsumer } from './components/error/errorAlert';
 import PasswordContainer from './containers/passwordContainer';
 import ConfirmSignUp from './components/submain/confirmSignUp/confirmSignUp';
 import Main from '../src/components/shelter/main/main';
 import PetListContainer from './containers/petListContainer';
 import ShelterListContainer from './containers/shelterListContainer';
-import MyPage from './components/myPage/myPage';
-import ConsumerEnter from './components/submain/consumer/consumerEnter';
-import ChargeFinish from './components/blockchain/chargeFinish/chargeFinish';
 
 
 function App() {
