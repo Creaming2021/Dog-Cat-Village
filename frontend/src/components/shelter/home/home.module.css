@@ -1,5 +1,5 @@
 .streaming {
-  width: 50%;
+  width: 70%;
   height: 820px;
   background-color: #F3FBE4;
   border-radius: 10px;
@@ -7,6 +7,20 @@
   margin: 20px 25px 0px 0px;
   float: left;
   padding-top: 350px;
+  position: relative;
+}
+
+.streaming video {
+  height: 710px;
+  width: 100%;
+  background-color: black;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.streaming button {
+  margin-top: 385px;
 }
 
 .donation {
