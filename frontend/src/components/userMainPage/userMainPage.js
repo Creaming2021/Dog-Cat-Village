@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import styles from './userMainPage.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVideo, faCoins,  faDog } from '@fortawesome/free-solid-svg-icons';
@@ -51,6 +52,7 @@ const todayAdoptedAnimalCount = (animalCount) => {
 const UserMainPage = (props) => {
   const [boardToggle, setBoardToggle] = useState(true);
   const [animalCount, setAnimalCount] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     security.get('/adopts/today/count', {
@@ -86,17 +88,17 @@ const UserMainPage = (props) => {
         {todayAdoptedAnimalCount(animalCount)}
       </div>
       <div className={styles['lower-part']}>
-        <div className={styles['vod-container']} onClick={() => {props.history.push('/')}}>
+        <div className={styles['vod-container']} onClick={() => {history.push('/shelter')}}>
           <FontAwesomeIcon icon={faVideo} className={styles['video-icon']} />
           <div className={styles['vod-text']}>동물 보러 가기</div>
         </div>
-        <div className={styles['donate-container']} onClick={() => {props.history.push('/')}}>
+        <div className={styles['donate-container']} onClick={() => {history.push('/profile')}}>
           <FontAwesomeIcon icon={faCoins} className={styles['coin-icon']} />
-          <div className={styles['donate-text']}>기부 하러 가기</div>
+          <div className={styles['donate-text']}>코인 충전 하기</div>
         </div>
-        <div className={styles['adopt-container']} onClick={() => {props.history.push('/')}}>
+        <div className={styles['adopt-container']} onClick={() => {history.push('/pet')}}>
           <FontAwesomeIcon icon={faDog} className={styles['dog-icon']} />
-          <div className={styles['adopt-text']}>입양 보러 가기</div>
+          <div className={styles['adopt-text']}>입양 하러 가기</div>
         </div>
       </div>
     </>
