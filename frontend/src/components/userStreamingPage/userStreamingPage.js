@@ -8,7 +8,6 @@ import kurentoUtils from 'kurento-utils';
 import pingpong from '../shelter/streaming/pingpong';
 
 const UserStreamingPage = ({ match }) => {
-  console.log("새로고침1");
 
   const shelterId = match.params.shelterId;
   const memberId = match.params.memberId;
@@ -18,8 +17,6 @@ const UserStreamingPage = ({ match }) => {
   var video;
 
   window.onload = function() {
-    console.log("새로고침2");
-
     if(ws.extensions !== null){
       pingpong(ws);
     }
@@ -34,7 +31,6 @@ const UserStreamingPage = ({ match }) => {
   }
 
   window.onbeforeunload = function() {
-    console.log("새로고침3");
     ws.close();
   }
 

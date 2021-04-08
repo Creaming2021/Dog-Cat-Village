@@ -2,7 +2,7 @@
     서버한테 유저 관련 요청 보낼 함수 세팅 파일
 */
 
-import { SignInInputType, SignInResponseType, SignUpInputType, SetPasswordRequestType } from '../interface/member';
+import { SignInInputType, SignInResponseType, SignUpInputType, SetPasswordRequestType, SignUpRequestType } from '../interface/member';
 import { security, basic, auth } from './instance';
 
 // 로그인 정보 확인
@@ -18,14 +18,16 @@ export const signIn = async ({ username, password, memberRole }: SignInInputType
 
 // 회원 가입 하기
 export const signUp = async ({ emailId, emailSite, name, password, 
-          phoneNumber1, phoneNumber2, phoneNumber3, memberRole }: SignUpInputType) => {
+          phoneNumber1, phoneNumber2, phoneNumber3, memberRole, contractAddress, privateKey }: SignUpRequestType) => {
   const response = await basic.post<undefined>(
     `members/signup`, 
     { email: `${emailId}@${emailSite}`, 
       phoneNumber: `${phoneNumber1}${phoneNumber2}${phoneNumber3}`,
       name, 
       password,
-      memberRole 
+      memberRole,
+      contractAddress,
+      privateKey, 
     });
   return response.data;
 };
