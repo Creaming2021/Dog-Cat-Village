@@ -14,7 +14,7 @@ const WalletContainer = () => {
 
   useEffect(() => {
     getWalletInfo();
-  }, []);
+  }, [member]);
 
   const getWalletInfo = () => {
     if( member.data ){
@@ -24,12 +24,13 @@ const WalletContainer = () => {
 
   const onSubmitCharge = (amount: string) => {
     dispatch(BlockchainActions.chargeCoinAsync.request(amount));
-    Blockchain.sendTransaction(
-      { toAddress: wallet.data?.contractAddress, 
-        amount: amount,
-        fromAddress: '',
-        fromPrivateKey: '',
+    Blockchain.chargeTransaction(
+      { 
+        toAddress: wallet.data?.contractAddress, 
+        amount: amount
       });
+      
+    Blockchain.sendTransaction({ toAddress: wallet.data?.contractAddress });
     setModal('');
   }
 

@@ -57,7 +57,7 @@ export const getTransactionListAsync = createAsyncAction(
   GET_TRANSACTION_LIST, 
   GET_TRANSACTION_LIST_SUCCESS, 
   GET_TRANSACTION_LIST_ERROR 
-)<string, TransactionListType[], AxiosError>();
+)<string, TransactionListType, AxiosError>();
 
 // 지갑 충전하기 액션 객체 생성함수
 export const chargeCoinAsync = createAsyncAction( 
@@ -76,7 +76,7 @@ const chargeCoinSaga = createAsyncSaga(chargeCoinAsync, BlockchainAPI.chargeCoin
 // blockchain saga 생성
 export function* blockchainSaga() {
   yield takeEvery(GET_WALLET_INFO, getWalletInfoSaga);
-  yield takeEvery(SET_WALLET_INFO, changeIdToAddressSaga);
+  yield takeEvery(CHANGE_ID_TO_ADDRESS, changeIdToAddressSaga);
   yield takeEvery(SET_WALLET_INFO, setWalletInfoSaga);
   yield takeEvery(GET_TRANSACTION_LIST, getTransactionListSaga);
   yield takeEvery(CHARGE_COIN, chargeCoinSaga);
@@ -103,7 +103,7 @@ type BlockchainState = {
   },
   transactionList: {
     loading: boolean;
-    data: TransactionListType[] | null;
+    data: TransactionListType | null;
     error: Error | null;
   },
   changeTransaction: {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DonatedShelterList from "../components/donatedShelterList/donatedShelterList";
-import { TransactionListType } from "../interface/blockchain";
+import { TransactionItemType, TransactionListType } from "../interface/blockchain";
 import { RootState } from "../modules";
 import * as BlockchainActions from "../modules/blockchain";
 
@@ -11,7 +11,7 @@ const DonatedShelterListContainer = () => {
   const wallet = useSelector((state: RootState) => state.blockchain.walletInfo);
   const dispatch = useDispatch();
 
-  const [ filteredTransactionList, setFilteredTransactionList ] = useState<TransactionListType[]>([]);
+  const [ filteredTransactionList, setFilteredTransactionList ] = useState<TransactionItemType[]>([]);
 
   useEffect(() => {
     getTransactionList();
@@ -20,7 +20,7 @@ const DonatedShelterListContainer = () => {
   useEffect(() => {
     if(transactionList.data){
       // const result = transactionList.data.filter(transaction => transaction.fromId == member.data?.memberId);
-      setFilteredTransactionList({ ...transactionList.data });
+      setFilteredTransactionList({ ...transactionList.data.transactionList });
     }
   }, [transactionList]);
 

@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import styles from './donationList.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import DonationListItem from './donationListItem';
-import { Search } from '../common/common';
 
 const DonationList = ({ sendDataList, receiveDataList, userTypeBoolean }) => {
   const [ moreBtnState, setMoreBtnState ] = useState(false);
   const [ values, setValues ] = useState({ type: 'all', input: '' });
   const [ donationDataList, setDonationDataList ] = useState([]);
+  const [ changeArray, setChangeArray ] = useState([]);
 
   useEffect(() => {
-    setDonationDataList({ ...sendDataList, ...receiveDataList });
-  }, []);
+    setDonationDataList([...sendDataList, ...receiveDataList]);
+  }, [sendDataList, receiveDataList]);
+
+  useEffect(() => {
+    // console.log(donationDataList);
+    setChangeArray(Array.from(donationDataList));
+  }, [donationDataList]);
 
   const controlMoreBtn = () => {
     setMoreBtnState(!moreBtnState);
-    console.log(moreBtnState);
+    // console.log(moreBtnState);
   };
 
   return (
@@ -49,13 +52,13 @@ const DonationList = ({ sendDataList, receiveDataList, userTypeBoolean }) => {
           <div className={ moreBtnState === true 
                           ? `${styles['list-container']} ${styles['list-container-active']}` 
                           : styles['list-container']}>
-            { donationDataList.length > 0
-              ? donationDataList.map((data) => {
+            { changeArray
+              ? changeArray.map((data, index) => {
                   return (
-                    <>
+                    <div key={index}>
                       <hr className={styles['list-line']}/>
                       <DonationListItem data={data} key={data.id} />
-                    </>
+                    </div>
                   )
                 })
               : <div className={styles.comment}>거래 기록이 없습니다.</div>

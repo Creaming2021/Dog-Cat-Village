@@ -75,7 +75,7 @@ const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState, consumerInfo,
     if (userTypeBoolean) {
       dispatch(putUserInfo({
         id: memberInfo.data.memberId,
-        data        
+        data: data,        
       }));
     } else {
       dispatch(putShelterInfo({

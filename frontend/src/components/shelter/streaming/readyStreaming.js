@@ -107,7 +107,6 @@ const ReadyStreaming = ({ member, shelterId, roomName }) => {
       id: 'shelter',
       sdpOffer: offerSdp,
       shelterId: shelterId, // 보호소 아이디
-      roomName: roomName, // 방송 이름, 없으면 introduce
     }
     sendMessage(message);
   }
