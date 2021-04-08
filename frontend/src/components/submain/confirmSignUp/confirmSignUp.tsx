@@ -15,7 +15,7 @@ const ConfirmSignUp = ({ match }: ConfirmSignUpProps) => {
   useEffect(() => {
     console.log(match.params);
     if(match.params.result === 'success'){
-      setNewAccount(match.params.result);
+      // setNewAccount(match.params.result);
       setState(match.params.result);
     } else if (match.params.result === 'fail') {
         setState(match.params.result);

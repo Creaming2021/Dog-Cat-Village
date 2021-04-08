@@ -7,11 +7,12 @@ import * as BlockchainAction from '../modules/blockchain';
 
 type DonationContainerProp = {
   onClose: () => void,
+	shelterId: number,
 }
 
-const DonationContainer = ({ onClose }: DonationContainerProp) => {
+const DonationContainer = ({ onClose, shelterId }: DonationContainerProp) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
-	const wallet = useSelector((state: RootState) => state.blockchain.walletInfo);
+	const changeTransaction = useSelector((state: RootState) => state.blockchain.changeTransaction);
 	const dispatch = useDispatch();
 
 	const [ balance, setBalance ] = useState<number>(0);
@@ -24,16 +25,30 @@ const DonationContainer = ({ onClose }: DonationContainerProp) => {
 
 	useEffect(() => {
 		if(member.data){
-			dispatch(BlockchainAction.getWalletInfoAsync.request(member.data.memberId));
+			dispatch(BlockchainAction.changeIdToAddressAsync.request(
+				{ consumerId: member.data.memberId, shelterId: shelterId }));
 		}
 	}, [member]);
 
-
-	const onDonation = () => {
-
+	useEffect(() => {
+		if(changeTransaction.data){
+			BlockchainAPI.getTokenBalance(changeTransaction.data.consumerAddress)
+			.then((res) => setBalance(res));
+		}
+	}, [changeTransaction]);
+ 
+	const onDonation = (amount: number) => {
+		if(balance < amount) {
+			alert("코인을 다시 설정해 주세요.");
+		} else {
+			BlockchainAPI.sendTransaction(
+				{ toAddress: changeTransaction.data?.shelterAddress, 
+					amount: amount,
+					fromAddress: changeTransaction.data?.consumerAddress,
+					fromPrivateKey: changeTransaction.data?.consumerPrivateKey,
+				});
+		}
 	}
-
-
 
 	return (
 		<Donate 

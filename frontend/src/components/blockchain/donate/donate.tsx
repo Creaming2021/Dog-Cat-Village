@@ -5,7 +5,7 @@ import styles from './donate.module.css';
 
 type DonateProp = {
   onClose: () => void,
-  onDonation: () => void,
+  onDonation: (amount: number) => void,
   balance: number,
 }
 
@@ -18,11 +18,15 @@ const Donate = ({ onClose, onDonation, balance }: DonateProp) => {
     setAmount(value);
   }
 
+  const onSubmitDonation = () => {
+    onDonation(amount);
+  }
+
   return (
     <div className={styles['donate-container']}>
       <div className={styles.text}>현재 보유 코인 : {balance}</div>
       <input className={commons['input-large']} name="amount" onChange={onChange} value={amount}/><br/>
-      <ButtonMedium onClick={onDonation} content="후원하기" buttonColor="bg-blue" />
+      <ButtonMedium onClick={onSubmitDonation} content="후원하기" buttonColor="bg-blue" />
       <ButtonMedium onClick={onClose} content="취소하기" buttonColor="bg-yellow" />
     </div>
   );
