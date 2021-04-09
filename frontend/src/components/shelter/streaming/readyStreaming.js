@@ -41,13 +41,13 @@ const ReadyStreaming = ({ member, shelterId, roomName }) => {
     ws.onClose();
   }
 
-  // useEffect(() => {
-  //   if(ws && ws.extensions){
-  //     pingpong(ws);
+  useEffect(() => {
+    if(ws && ws.extensions){
+      pingpong(ws);
 
       
-  //   }
-  // }, [ws]);
+    }
+  }, [ws]);
 
   ws.onmessage = function(message) {
     var parsedMessage = JSON.parse(message.data);
