@@ -9,51 +9,73 @@ import pingpong from "./pingpong";
 // 	member: SignInResponseType | null,
 // };
 
+var ws = new WebSocket("wss://j4b106.p.ssafy.io/live");
+
+
 const ReadyStreaming = ({ member, shelterId, roomName }) => {
-  const [start, setStart] = useState(false);
-  const [ws, setWs] = useState(null);
+  // const [start, setStart] = useState(false);
+  // const [ws, setWs] = useState(null);
 
   // var ws;
   var webRtcPeer;
   var video;
+  let start;
 
-  useEffect(() => {
+  window.onload = function() {
+    ws = new WebSocket("wss://j4b106.p.ssafy.io/live");
+    video = document.getElementById('video');
     console.log(ws);
-  }, [start]);
 
-  useEffect(() => {
-    if(ws && ws.extensions){
-      pingpong(ws);
 
-      ws.onmessage = function(message) {
-        var parsedMessage = JSON.parse(message.data);
-        console.info('Received message: ' + message.data);
+    // start = true;
+  }
   
-        switch (parsedMessage.id) {
-        case 'shelterResponse':
-          presenterResponse(parsedMessage);
-          break;
-        case 'iceCandidate':
-          webRtcPeer.addIceCandidate(parsedMessage.candidate, function(error) {
-            if (error)
-              return console.error('Error adding candidate: ' + error);
-          });
-          break;
-        case 'stopCommunication':
-          dispose();
-          break;
-        default:
-          console.error('Unrecognized message', parsedMessage);
-        }
-      }
+  // useEffect(() => {
+  //   // setWs(new WebSocket("wss://j4b106.p.ssafy.io/live"));
+  //   ws = new WebSocket("wss://j4b106.p.ssafy.io/live");
+  //   video = document.getElementById('video');
+  //   console.log(ws);
+  // }, []);
+  
+  window.onbeforeunload = function() {
+    ws.onClose();
+  }
+
+  // useEffect(() => {
+  //   if(ws && ws.extensions){
+  //     pingpong(ws);
+
+      
+  //   }
+  // }, [ws]);
+
+  ws.onmessage = function(message) {
+    var parsedMessage = JSON.parse(message.data);
+    console.info('Received message: ' + message.data);
+
+    switch (parsedMessage.id) {
+    case 'shelterResponse':
+      presenterResponse(parsedMessage);
+      break;
+    case 'iceCandidate':
+      webRtcPeer.addIceCandidate(parsedMessage.candidate, function(error) {
+        if (error)
+          return console.error('Error adding candidate: ' + error);
+      });
+      break;
+    case 'stopCommunication':
+      dispose();
+      break;
+    default:
+      console.error('Unrecognized message', parsedMessage);
     }
-  }, [ws]);
+  }
 
   const onClick = () => {
-    setStart(true);
+    // setStart(true);
 		// alert(`방송 시작 처리하시면 됩니다. memberId = ${member?.memberId}`);
-
-    setWs(new WebSocket("wss://j4b106.p.ssafy.io/live"));
+    
+    // setWs(new WebSocket("wss://j4b106.p.ssafy.io/live"));
     
     video = document.getElementById('video');
     // viewer();
@@ -61,9 +83,7 @@ const ReadyStreaming = ({ member, shelterId, roomName }) => {
 
       // disableStopButton();
 
-    window.onbeforeunload = function() {
-      ws.onClose();
-    }
+     start = true;
   };
 
   function presenterResponse(message) {
@@ -139,15 +159,16 @@ const ReadyStreaming = ({ member, shelterId, roomName }) => {
   // 연결 해제
   const close = () => {
     console.log(ws);
-    ws.close();
     dispose();
-    setStart(false);
+    ws.close();
+    // setStart(false);
+    start = false;
   }
 
   return (
     <div className={styles.streaming}>
       <video id="video" muted autoPlay controls/>
-      { start 
+      {/* { start 
       ? <ButtonLarge
         content="스트리밍 중지하기"
         onClick={close}
@@ -158,7 +179,16 @@ const ReadyStreaming = ({ member, shelterId, roomName }) => {
           onClick={onClick}
           buttonColor="bg-white-green"
         />
-      }
+      } */}
+      <ButtonLarge
+          content="스트리밍 시작하기"
+          onClick={onClick}
+          buttonColor="bg-white-green" /> 
+      <ButtonLarge
+        content="스트리밍 중지하기"
+        onClick={close}
+        buttonColor="bg-white-green" />
+      
     </div>
   );
 };
