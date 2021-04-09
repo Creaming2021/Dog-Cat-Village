@@ -168,7 +168,7 @@ const ReadyStreaming = ({ member, shelterId, roomName }) => {
   return (
     <div className={styles.streaming}>
       <video id="video" muted autoPlay controls/>
-      { start 
+      {/* { start 
       ? <ButtonLarge
         content="스트리밍 중지하기"
         onClick={close}
@@ -179,7 +179,16 @@ const ReadyStreaming = ({ member, shelterId, roomName }) => {
           onClick={onClick}
           buttonColor="bg-white-green"
         />
-      }
+      } */}
+      <ButtonLarge
+          content="스트리밍 시작하기"
+          onClick={onClick}
+          buttonColor="bg-white-green" /> 
+      <ButtonLarge
+        content="스트리밍 중지하기"
+        onClick={close}
+        buttonColor="bg-white-green" />
+      
     </div>
   );
 };
