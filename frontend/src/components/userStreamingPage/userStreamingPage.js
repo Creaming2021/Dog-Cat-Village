@@ -7,12 +7,13 @@ import { faUserCircle, faBone, faPaw, faFish } from '@fortawesome/free-solid-svg
 import kurentoUtils from 'kurento-utils';
 import pingpong from '../shelter/streaming/pingpong';
 
+var ws = new WebSocket("wss://j4b106.p.ssafy.io/live");
+
 const UserStreamingPage = ({ match }) => {
 
   const shelterId = match.params.shelterId;
   const memberId = match.params.memberId;
 
-  var ws = new WebSocket("wss://j4b106.p.ssafy.io/live");
   var webRtcPeer;
   var video;
 
