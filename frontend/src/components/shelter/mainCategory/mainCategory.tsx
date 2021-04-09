@@ -119,12 +119,12 @@ const MainCategory = ({ onOpenDonation, onChangeCategory, member, shelter, profi
           onClick={onClick}
           buttonColor="bg-green"
         />
-        <ButtonMedium
+        {/* <ButtonMedium
           content="1:1 채팅"
           value="chatting"
           onClick={member?.memberRole === "SHELTER" ? onClick : onClickChat}
           buttonColor="bg-green"
-        />
+        /> */}
         {/* { member?.memberRole === "SHELTER" &&
           <ButtonMedium
             content="입양 신청"

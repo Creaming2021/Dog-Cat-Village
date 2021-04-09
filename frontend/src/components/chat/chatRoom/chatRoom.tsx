@@ -22,32 +22,27 @@ const Message = ({ message }: messageProps) => {
 }
 
 type ChatRoomProps = {
-	selectedChat: SelectedChatType,
+	selectedChat: SelectedChatType | null,
 	onSubmitSendMessage: () => void,
 	message: string,
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-	subscribeChattingRoom: () => void,
 }
 
-const ChatRoom = ({ selectedChat, onSubmitSendMessage, message, onChange, subscribeChattingRoom }: ChatRoomProps) => {
+const ChatRoom = ({ selectedChat, onSubmitSendMessage, message, onChange }: ChatRoomProps) => {
 	
 	const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.nativeEvent.key === "Enter") {
       onSubmitSendMessage();
     }
   };
-
-	useEffect(() => {
-		subscribeChattingRoom();
-	}, []);
 	
 	return (
 		<div className={styles['chat-room-container']}>
-			{ selectedChat.messageList.length === 0
+			{ selectedChat && selectedChat.messageList.length === 0
 			? <div className={styles.comment}>대화를 시작해보세요.</div>
 			:
 				<div className={styles['message-container']}>
-					{selectedChat.messageList.map((message, index) => 
+					{selectedChat && selectedChat.messageList.map((message, index) => 
 						<Message key={index} message={message}/>
 						)}
 				</div>
