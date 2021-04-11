@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DonationList from "../components/donationList/donationList";
 import {
+  TransactionItemType,
   TransactionListType,
   TranscationFilteredListType,
 } from "../interface/blockchain";
@@ -10,12 +11,13 @@ import * as BlockchainActions from "../modules/blockchain";
 
 type DonatorContainerProps = {
   userTypeBoolean: boolean;
+  check: boolean;
 };
 
-const DonatorContainer = ({ userTypeBoolean }: DonatorContainerProps) => {
+const DonatorContainer = ({ userTypeBoolean, check }: DonatorContainerProps) => {
   const member = useSelector((state: RootState) => state.member.memberInfo);
   const wallet = useSelector((state: RootState) => state.blockchain.walletInfo);
-  const transctionList = useSelector(
+  const transactionList = useSelector(
     (state: RootState) => state.blockchain.transactionList
   );
   const dispatch = useDispatch();
@@ -24,9 +26,9 @@ const DonatorContainer = ({ userTypeBoolean }: DonatorContainerProps) => {
     useState<TranscationFilteredListType[]>([]);
   const [receiveDataList, setReceiveDataList] = 
     useState<TranscationFilteredListType[]>([]);
-  const [sendList, setSendList] = useState<TransactionListType[]>([]);
+  const [sendList, setSendList] = useState<TransactionItemType[]>([]);
   const [receiveList, setReceiveList] = 
-    useState<TransactionListType[]>([]);
+    useState<TransactionItemType[]>([]);
 
   useEffect(() => {
     getWalletInfo();
@@ -37,46 +39,25 @@ const DonatorContainer = ({ userTypeBoolean }: DonatorContainerProps) => {
   }, [wallet]);
 
   useEffect(() => {
-    if (transctionList.data) {
-      [].forEach.call(
-        transctionList.data,
-        (item: TransactionListType) => {
-          if(item.fromId === member.data?.memberId){
-            setSendList(sendList.concat(item));
-          }
-        }
-      );
+    if (transactionList.data) {
+      const array = Array.from(transactionList.data.transactionList);
 
-      [].forEach.call(
-        transctionList.data,
-        (item: TransactionListType) => {
-          if(item.toId === member.data?.memberId){
-            setReceiveList(receiveList.concat(item));
-          }
-        }
-      );
+      setSendList(array.filter( item => item.fromId === member.data?.memberId ));
+      setReceiveList(array.filter( item => item.toId === member.data?.memberId ));
 
-      setSendDataList(
-        sendList.map((item) => ({
-          id: item.toId,
-          img: item.toProfileImage,
-          amount: +item.value,
-          transaction: item.toName,
-          date: item.time,
-        }))
-      );
-
-      setReceiveDataList(
-        receiveList.map((item) => ({
-          id: item.toId,
-          img: item.toProfileImage,
-          amount: +item.value,
-          transaction: item.toName,
-          date: item.time,
-        }))
-      );
+      setSendDataList(sendList.map(item => change(item, item.toName)));
+      setReceiveDataList(receiveList.map(item => change(item, item.fromName)));
     }
-  }, [transctionList]);
+  }, [transactionList]);
+
+  const change = (item: TransactionItemType, name: string) => ({
+    id: item.toId,
+    img: item.toProfileImage,
+    amount: item.value,
+    transaction: item.toName,
+    date: '' + item.time.year +'.'+ item.time.monthValue +'.'+ item.time.dayOfMonth,
+    name: name,
+  })
 
   const getWalletInfo = () => {
     if (member.data) {
@@ -99,8 +80,8 @@ const DonatorContainer = ({ userTypeBoolean }: DonatorContainerProps) => {
   return (
     <>
       <DonationList
-        sendDataList={sendDataList}
-        receiveDataList={receiveDataList}
+        dataList={ check? sendDataList : receiveDataList }
+        // receiveDataList={receiveDataList}
         userTypeBoolean={userTypeBoolean}
       />
     </>

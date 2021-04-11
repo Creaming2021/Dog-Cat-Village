@@ -133,7 +133,8 @@ const Home = ({ type, shelterId, memberId }: HomeProps) => {
   const history = useHistory();
 
   const onClick = () => {
-    history.push(`/streaming/${shelterId}/${memberId}`)
+    window.location.replace(`/streaming/${shelterId}/${memberId}`);
+    // history.push(`/streaming/${shelterId}/${memberId}`)
   }
   
   return (

@@ -16,7 +16,11 @@ export interface SignUpRequestType {
   name: string;
   password: string;
   passwordConfirm: string;
-  phoneNumber: string;
+  phoneNumber1: string;
+  phoneNumber2: string;
+  phoneNumber3: string;
+  contractAddress: string;
+  privateKey: string;
   memberRole: string;
 }
 

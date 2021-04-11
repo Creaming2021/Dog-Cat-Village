@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -42,8 +43,7 @@ public class KakaoPayController {
         log.info("kakaoPaySuccess pg_token : " + pg_token);
         KakaoPayApprovalDto result = kakaoPayService.kakaoPayInfo(kakaopayId, pg_token);
 
-//        return ResponseEntity.status(HttpStatus.OK).body(result.getQuantity());
-//        response.sendRedirect("https://j4b106.p.ssafy.io/profile/" + result.getQuantity());
+        response.sendRedirect("https://j4b106.p.ssafy.io/profile");
     }
 
     @GetMapping("/cancel")

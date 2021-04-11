@@ -7,7 +7,7 @@ const DonationListItem = ({ data }) => {
       <img src={data.img} className={styles['item-img']} />
       <div className={styles['middle-box']}>
         <div className={styles['item-amount']} >{data.amount}</div>
-        <div className={styles['item-transcation']} >{data.transcation}</div>
+        <div className={styles['item-transcation']} >{data.name}</div>
       </div>
       <div className={styles['right-box']}>
         <div className={styles['item-balance']} >{data.balance}</div>

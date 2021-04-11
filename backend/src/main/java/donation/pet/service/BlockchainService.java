@@ -63,6 +63,7 @@ public class BlockchainService {
 
         // 주소 취합 후 쿼리 보내기
         List<Member> findMembers = getMembers(transactionDto);
+        findMembers.forEach(member -> System.out.println(member.getId()));
 
         // 결과 dto 구하기
         List<BlockchainTransactionDto> transactionDtos = getTransactionDtos(transactionDto, findMembers);
@@ -86,20 +87,22 @@ public class BlockchainService {
         return transactionDto.getResult().stream().map(contractDto -> {
 
             String fromAddress = contractDto.getFrom();
-            Long fromId = 0L;
-            String fromName = "";
-            String fromProfileImage = "";
             Optional<Member> member = getMember(fromAddress, findMembers);
+
+            Long fromId = 0L;
+            String fromName = "UNKNOWN";
+            String fromProfileImage = "https://dh5000fovb2wz.cloudfront.net/UNKNOWN.jpg";
             if (member.isPresent()) {
                 fromId = member.get().getId();
                 fromName = member.get().getName();
                 fromProfileImage = member.get().getProfileImage();
             }
 
+
             String toAddress = contractDto.getTo();
             Long toId = 0L;
-            String toName = "";
-            String toProfileImage = "";
+            String toName = "UNKNOWN";
+            String toProfileImage = "https://dh5000fovb2wz.cloudfront.net/UNKNOWN.jpg";
             member = getMember(toAddress, findMembers);
             if (member.isPresent()) {
                 toId = member.get().getId();
@@ -125,7 +128,7 @@ public class BlockchainService {
     }
 
     private List<Member> getMembers(TransactionDto transactionDto) {
-        List<String> addressList = new ArrayList<>();
+        Set<String> addressList = new HashSet<>();
         transactionDto.getResult().forEach(contractDto -> {
             addressList.add(contractDto.getFrom());
             addressList.add(contractDto.getTo());
@@ -135,7 +138,7 @@ public class BlockchainService {
 
     private Optional<Member> getMember(String address, List<Member> findMembers) {
         return findMembers.stream()
-                .filter(member -> member.getContractAddress().equals(address)).findFirst();
+                .filter(member -> member.getContractAddress().equalsIgnoreCase(address)).findFirst();
     }
 
 }

@@ -54,7 +54,7 @@ const UserInfo = ({ userTypeBoolean, memberInfo }) => {
         ? <UserInfoEdit setProfileImg={setProfileImg} setEditState={setEditState} userTypeBoolean={userTypeBoolean} memberInfo={memberInfo} consumerInfo={consumerInfo} />
         : <div className={styles['user-info']}>
             <div className={styles['user-img-box']}>
-              <ImageLarge src={profileImg || (userTypeBoolean ? consumerInfo.profileImage : shelterInfo.profileImage)} alt={"fakeimgdata"} />
+              <ImageLarge src={profileImg || (userTypeBoolean ? consumerInfo.profileImage : shelterInfo.profileImage)}/>
               <div className={styles['user-description']}>
                 <h2>{userTypeBoolean ? consumerInfo.name : shelterInfo.name}</h2>
                 <h4>({userTypeBoolean ? consumerInfo.email : shelterInfo.email})</h4>

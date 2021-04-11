@@ -44,13 +44,14 @@ export default function createAsyncSaga<T1, P1, T2, P2, T3, P3>(
       yield put(asyncActionCreator.success(result));
     } catch (e) {
       const exception: string[] = ['member/SIGN_UP', 'member/SIGN_IN',
-                                  'member/FIND_PW', 'member/SET_PW'];
+                                  'member/FIND_PW', 'member/SET_PW', 'member/CHECK_NAME'];
       // 요청 실패시 핸들러에 보내기
       if(exception.indexOf(action.type) >= 0){
         handleError(e);
       }else {
         handleSecurityError(e);
         // console.log("리프레쉬 토큰 요청");
+        console.log(e.errorMessage || '오류가 발생했습니다.');
         getAccessToken();
       }
       yield put(asyncActionCreator.failure(e));

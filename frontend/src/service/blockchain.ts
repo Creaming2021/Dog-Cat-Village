@@ -35,7 +35,7 @@ export const setWalletInfo = async ( walletInfo: WalletType ) => {
 
 // 마블 코인 거래 내역 리스트
 export const getTransactionList = async ( address: string ) => {
-  const response = await security.get<TransactionListType[]>(`blockchain/address/${address}`, {
+  const response = await security.get<TransactionListType>(`blockchain/address/${address}`, {
     'headers': {
       'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
     }
@@ -54,7 +54,8 @@ export const chargeCoin = async ( amount: string ) => {
       'params': { amount }
     });
   // console.log(`axios 요청 응답 : ${response.data}`)  // url, amount, kakaopayId
-  window.open(response.data.url, 'kakao pay', "top=100, left=200, width=500, height=600, location=no"); // url로 보냄.
+  window.location.href = response.data.url;
+  // window.open(response.data.url, 'kakao pay', "top=100, left=200, width=500, height=600, location=no"); // url로 보냄.
   //https://j4b106.p.ssafy.io/blockchain/ 프론트 라우터 주소 => get 결제 완료 후 도착하는 url
   return response.data;
 }

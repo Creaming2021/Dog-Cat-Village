@@ -16,6 +16,8 @@ import java.util.Set;
 @Getter
 public class MemberSignupRequestDto {
 
+    private String contractAddress;
+    private String privateKey;
     private String memberRole;
     private String email;
     private String password;
@@ -30,6 +32,9 @@ public class MemberSignupRequestDto {
                 .roles(roles)
                 .accept(accept)
                 .tempLink("none")
+                .phoneNumber(phoneNumber)
+                .contractAddress(contractAddress)
+                .privateKey(privateKey)
                 .build();
     }
 
@@ -41,6 +46,9 @@ public class MemberSignupRequestDto {
                 .roles(roles)
                 .accept(accept)
                 .tempLink("none")
+                .phoneNumber(phoneNumber)
+                .contractAddress(contractAddress)
+                .privateKey(privateKey)
                 .build();
     }
 }

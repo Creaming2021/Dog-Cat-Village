@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RootState } from "../modules/index";
 import { useSelector, useDispatch } from "react-redux";
 import * as MemberActions from "../modules/member";
-import { SignInInputType, SignUpInputType } from "../interface/member";
+import { SignInInputType, SignUpInputType, SignUpRequestType } from "../interface/member";
 import Nav from "../components/nav/nav";
 import Main from "../components/submain/main/main";
 import FindPassword from "../components/submain/findPassword/findPassword";
@@ -127,7 +127,15 @@ const MemberContainer = () => {
 
   // 회원가입 요청
   const signUp = (): void => {
-    dispatch(MemberActions.signUpAsync.request(signUpInput));
+    const newAccount = Blockchain.createAccount();
+
+    const SignUpRequest: SignUpRequestType = {
+      ...signUpInput,
+      contractAddress: newAccount.address,
+      privateKey: newAccount.privateKey,
+    }
+
+    dispatch(MemberActions.signUpAsync.request(SignUpRequest));
     alert("인증메일을 발송했습니다.");
     goToMain();
   };

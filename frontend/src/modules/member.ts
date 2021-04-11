@@ -13,6 +13,7 @@ import {
   SignInInputType,
   SignUpInputType,
   SetPasswordRequestType,
+  SignUpRequestType,
 } from "../interface/member";
 import { ModifyShelterInfoType, ShelterInfoType } from "../interface/shelter";
 import * as ShelterAPI from "../service/shelter";
@@ -79,7 +80,7 @@ export const signUpAsync = createAsyncAction(
   SIGN_UP,
   SIGN_UP_SUCCESS,
   SIGN_UP_ERROR
-)<SignUpInputType, any, AxiosError>();
+)<SignUpRequestType, any, AxiosError>();
 
 // 비밀번호 찾기 요청 액션 객체 생성함수
 export const findPWAsync = createAsyncAction(
@@ -254,18 +255,22 @@ const checkNameReducer = createReducer<MemberState, MemberAction>(
       ...state,
       checkName: asyncState.load(),
     }),
-    [CHECK_NAME_SUCCESS]: (state) => ({
+    [CHECK_NAME_SUCCESS]: (state) => {
+    alert("사용할 수 있는 닉네임 입니다.");
+    return {
       ...state,
       checkName: {
         loading: false,
         error: null,
         data: true,
       },
-    }),
-    [CHECK_NAME_ERROR]: (state, action) => ({
-      ...state,
-      checkName: asyncState.error(action.payload),
-    }),
+    }},
+    [CHECK_NAME_ERROR]: (state, action) => {
+      alert("사용하실 수 없는 닉네임 입니다.");
+      return {
+        ...state,
+        checkName: asyncState.error(action.payload),
+      }},
   }
 );
 

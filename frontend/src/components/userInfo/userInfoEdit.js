@@ -19,7 +19,6 @@ const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState, consumerInfo,
   const [editPhoneNumber3, setEditPhoneNumber3] = useState('');
   const dispatch = useDispatch();
   const memberCheck = useSelector((state) => state.member.checkName);
-  // const consumerInfo = useSelector((state) => state.consumer);
   const shelterInfo = useSelector((state) => state.shelter);
 
   useEffect(() => {
@@ -67,10 +66,16 @@ const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState, consumerInfo,
 
     if (!memberInfo.data) return;
 
+    
+    if(currentPassword === ''){
+      alert("현재 비밀번호를 입력하세요.");
+      return ;
+    }
+
     if (userTypeBoolean) {
       dispatch(putUserInfo({
         id: memberInfo.data.memberId,
-        data        
+        data: data,        
       }));
     } else {
       dispatch(putShelterInfo({
@@ -121,7 +126,7 @@ const UserInfoEdit = ({ userTypeBoolean, memberInfo, setEditState, consumerInfo,
   return (
     <div className={styles['user-info-edit']}>
       <div className={styles['user-info-img']}>
-        <ImageSmall src={imgUrl || (userTypeBoolean ? consumerInfo.profileImage : shelterInfo.profileImage) } alt={'fakeimgdata'} />
+        <ImageSmall src={imgUrl || (userTypeBoolean ? consumerInfo.profileImage : shelterInfo.profileImage)} />
         <label htmlFor="img-file" className={`${styles['user-img-edit-btn']} ${!userTypeBoolean && styles['blue-btn']}`}>
           프로필 이미지 편집
         </label>

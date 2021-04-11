@@ -7,24 +7,28 @@ import { faUserCircle, faBone, faPaw, faFish } from '@fortawesome/free-solid-svg
 import kurentoUtils from 'kurento-utils';
 import pingpong from '../shelter/streaming/pingpong';
 
+var ws = new WebSocket("wss://j4b106.p.ssafy.io/live");
+
 const UserStreamingPage = ({ match }) => {
 
   const shelterId = match.params.shelterId;
   const memberId = match.params.memberId;
 
-  var ws = new WebSocket("wss://j4b106.p.ssafy.io/live");
   var webRtcPeer;
   var video;
 
   window.onload = function() {
+    if(ws.extensions !== null){
+      pingpong(ws);
+    }
+
     video = document.getElementById('video');
     viewer();
     // presenter();
     // disableStopButton();
-
-    if(ws.extensions !== null){
-      pingpong(ws);
-    }
+    
+    console.log(ws);
+    
   }
 
   window.onbeforeunload = function() {
@@ -36,10 +40,7 @@ const UserStreamingPage = ({ match }) => {
     console.info('Received message: ' + message.data);
 
     switch (parsedMessage.id) {
-    // case 'presenterResponse':
-    //   presenterResponse(parsedMessage);
-    //   break;
-    case 'viewerResponse':
+    case 'consumerResponse':
       viewerResponse(parsedMessage);
       break;
     case 'iceCandidate':
@@ -186,6 +187,7 @@ const UserStreamingPage = ({ match }) => {
         <div className={styles['streaming-container']}>
           {/*  쿠렌토화면 넣어야함  */}
           <video id="video" muted autoPlay controls height="100%" width="1300px"/>
+          {/* <video id="video" muted autoPlay controls/> */}
         </div>
         {/* <div className={styles['streaming-info-container']}>
           <div className={styles['shelter-img']}>
