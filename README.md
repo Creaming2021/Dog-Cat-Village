@@ -1,163 +1,138 @@
-# 특화 프로젝트 Sub2
-### 21.03.08 - 21.03.19
+# Welcome to 멍냥이 빌리지
 
-1. 아이디어 기획 회의
-2. 블록체인 사용 방향 확정
-3. 블록체인 사용 기술 선정 및 공부 진행
+![logo](./documents/images/logo.png)
 
-## 이더리움 공식문서
-[https://ethereum.org/ko/](https://ethereum.org/ko/)
+> 멍냥이 빌리지 (Village) 웹사이트 
 
-## 공부 방법
-[좀비게임] (https://cryptozombies.io/ko/)   
-[인프런 lottery 강의] (https://www.inflearn.com/course/ethereum-dapp)
+## 🏠 [Homepage](https://j4b106.p.ssafy.io)
 
-# 마블 - 엔드게임 (B106)
+<br>
 
-# 👪팀원 소개
+## 👨‍👩‍👦팀원소개
 
-- 성진옥
-- 김다윤
-- 박성호
-- 박지영
-- 차민석
+![team](./documents/images/team_photo.png)
 
-# 📅 프로젝트 개요
+**Jin Ok Seong**
+- Github: [@wlsdhr0831](https://github.com/wlsdhr0831)
 
-- **진행기간** : 2021.3.2 ~ 2021.4.9
+**Ji Yeong Park**
+- Github: [@](https://github.com/)
+
+**Seong Ho Park**
+- Github: [@solser12](https://github.com/solser12)
+
+**Min Seok Cha**
+- Github: [@meloncha](https://github.com/meloncha)
+
+**Da Yun Kim**
+- Github: [@daaaaaayoon](https://github.com/daaaaaayoon)
+
+<br>
+
+## 📆 프로젝트 개요
+
+- **진행 기간** : 2021.3.2 ~ 2021.4.9
 - **목표**
     - 유기동물 보호소에 기부를 하고 싶은 사람,
     - 기부금의 사용내역을 투명하게 확인하고 싶은 사람,
     - 기부를 받고 싶은 유기동물 보호소,
     - 유기동물들의 랜선 집사가 되고 싶은 사람,
     - 유기동물을 입양 하고 싶은 사람,
-    - 이 모든 사람들을 위한 웹 사이트 만들기
-- **웹사이트 이름** :
-    - 유기동물 보호소 후원 & 입양 매칭 서비스
-- **마스코트 : 김쿠로, 3살**
+    - ⭐ 이 모든 사람들을 위한 웹 사이트 만들기
+- **웹사이트 이름**: 멍냥이 빌리지
+  - 블록체인을 이용한 유기동물 보호소 기부 플랫폼
 
- ![쿠로쨩](./document/img/kuro.jpeg)
+## 📘 Tech Log
++ [Convention](./documents/Convention.md)
++ [Wireframe](./documents/WireFrame.pdf)
++ [화면 정의서](./documents/StoryBoard.pdf)
++ [Swagger-UI](./documents/swagger-ui)
 
-# 📘 Tech Log
+## 🔗Tech Stack
 
-- 1주차
-- 2주차
-- 3주차
-- 4주차
-- 5주차
-- 6주차
-- Convention
+<details>
+  <summary>BlockChain</summary>
+  <ul>
+      <li>web3.js</li>
+      <li>Ethereum TestNet</li>
+      <li>Custom Token (MABL)</li>
+      <li>metamask</li>
+  </ul>
+</details>
+<details>
+  <summary>Frontend</summary>
+  <ul>
+      <li>react</li>
+      <li>redux, redux-saga</li>
+      <li>typescript</li>
+      <li>postcss</li>
+  </ul>
+</details>
+<details>
+  <summary>Backend</summary>
+  <ul>
+      <li>Spring Boot</li>
+      <li>Spring Data JPA</li>
+      <li>Spring Security</li>
+      <li>Swagger</li>
+      <li>Docker & Jenkins</li>
+      <li>Redis</li>
+      <li>WebRTC(Kurento)</li>
+  </ul>
+</details>
+<details>
+  <summary>협업툴</summary>
+  <ul>
+      <li>GitLab</li>
+      <li>Jira</li>
+      <li>Swagger</li>
+      <li>Webex</li>
+      <li>Mattermost</li>
+      <li>figma</li>
+      <li>Notion</li>
+  </ul>
+</details>
 
-# 🖥 코딩 스타일 컨벤션
+## Data Flow 
+![flow](./documents/images/flow.PNG)
 
-**자바** : [https://google.github.io/styleguide/javaguide.html](https://google.github.io/styleguide/javaguide.html)
+## 주요 기능
+### 개인 유저 Profile
+- 회원 정보 RUD
+- 내 지갑 주소, 금액, 내역 확인
 
-(번역본 : [https://myeonguni.tistory.com/1596](https://myeonguni.tistory.com/1596))
+### 보호소 유저 Profile
+- 회원 정보 CRUD
+- 내 지갑 주소, 금액, 내역 확인
+- 월별 입양 보낸 동물 수 확인
 
-**자바스크립트** : [https://google.github.io/styleguide/jsguide.html](https://google.github.io/styleguide/jsguide.html)
+### 보호소 유저 메인 페이지
+- 소개글
+- 사이트 링크
+- 메인 배너 이미지
+- 보호소 전화번호
+- 보호소 이메일
+- 보호 하고 있는 동물 CRUD
+- 1:1 채팅
 
-(번역본 : [https://velog.io/@cada/series/자바스크립트](https://velog.io/@cada/series/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8))
+### 보호소 스트리밍
+- 실시간 영상 송출
 
-**HTML / CSS** : [https://google.github.io/styleguide/htmlcssguide.html](https://google.github.io/styleguide/htmlcssguide.html)
+### 보호소 검색
+- 검색 필터 :  보호소 이름
+- 이름, 썸네일, 소개글 제공
+- 클릭 시 보호소 메인 페이지로 이동
 
-(번역본 : [https://velog.io/@rlatmdgns94/guide](https://velog.io/@rlatmdgns94/guide))
+### 유기 동물 검색
+- 검색 필터 : 모두/개/고양이/기타, 이름으로 검색
+- 이름, 썸네일, 성별, 나이, 생일 정보 제공
+- 클릭 시 동물 상세 모달창
 
-```
-class 네이밍 - kebab-case 케밥 케이스 사용
-id 네이밍 - camelCase 사용
+### 유기 동물
+- 이름, 이미지, 성별, 나이, 생일, 품종, 몸무게, 성격, 특징, 중성화 수술 정보 제공
+- 보호소 유저가 소개글 CRUD
 
-네이밍은 목적가 형식에 맞게 작성한다. / Bad / masseages -> msg
-네이밍의 조합은 '형태-의미-순서-상태'을 기본 순서로 사용한다.
-네이밍 규칙의 언더스코어(_) 조합은 파일, 폴더, 이미지에 사용한다.
-
-.btn-cancle-01-off{...}
-```
-
-**Jira atlassian** : [https://www.atlassian.com/ko/agile/project-management/epics-stories-themes](https://www.atlassian.com/ko/agile/project-management/epics-stories-themes)
-
-**GitFlow :** [https://woowabros.github.io/experience/2017/10/30/baemin-mobile-git-branch-strategy.html](https://woowabros.github.io/experience/2017/10/30/baemin-mobile-git-branch-strategy.html)
-
-**Commit 작성방법 :** [https://djkeh.github.io/articles/How-to-write-a-git-commit-message-kor/](https://djkeh.github.io/articles/How-to-write-a-git-commit-message-kor/)
-
-**Commit 템플릿 만들어보기 :** [https://junwoo45.github.io/2020-02-06-commit_template/](https://junwoo45.github.io/2020-02-06-commit_template/)
-
-```bash
-// 템플릿 적용 시키기
-git config commit.template .gittemplate
-
-// 템플릿 이용해서 commit 하기
-git commit
-
-a 누르고 나오는 템플릿 양식에 맞춰서 
-작성하여 esc -> :wq! 치고 저장하면 완료
-저장 없이 취소 하고 싶을 때는 :q!
-```
-
-![vi명령어](./document/img/vi.png)
-
-```jsx
-[타입] 제목
-제목은 최대 50 글자까지만 입력
-#####################################
-
-본문은 한 줄에 최대 72 글자까지만 입력
-#####################################
-
-꼬릿말은 아래에 작성: ex) 이슈 번호
-#####################################
-
---- COMMIT END ---
-[타입] 리스트
-feat : 기능 (새로운 기능)
-fix : 버그 (버그 수정)
-refactor: 리팩토링
-style : 스타일 (코드 형식, 세미콜론 추가: 비즈니스 로직에 변경 없음)
-docs : 문서 (문서 추가, 수정, 삭제)
-test : 테스트 (테스트 코드 추가, 수정, 삭제: 비즈니스 로직에 변경 없음)
-chore : 기타 변경사항 (빌드 스크립트 수정 등)
-------------------
-제목 첫 글자를 대문자로
-제목은 명령문으로
-제목 끝에 마침표(.) 금지
-제목과 본문을 한 줄 띄워 분리하기
-본문은 "어떻게" 보다 "무엇을", "왜"를 설명한다.
-본문에 여러줄의 메시지를 작성할 땐 "-"로 구분
-------------------
-```
-
-![jira사용법1](./document/img/jira-example.png)
-
-![jira사용법2](./document/img/jira-example2.png)
-
-![commit](./document/img/commit-example.png)
-
-![gitflow](./document/img/gitflow.png)
-
-- Proposal
-- Wireframe
-- Video Plan & Proposal
-
-# ❗기술 흐름도
-
-# 🔗Tech Stack
-
-- **BlockChain**
-- **Backend**
-
-- **Frontend**
-    - React
-    - Redux
-    - Typescript
-    - Axios
-    - Figma
-- **협업툴**
-    - GitLab
-    - Jira
-    - Swagger
-    - Webex
-    - Mattermost
-
-# ⚙️Install and Usage
+## ⚙️Install and Usage
 
 ### Frontend
 
@@ -174,72 +149,44 @@ chore : 기타 변경사항 (빌드 스크립트 수정 등)
     ```
 
 ### Backend
+- Java (Open JDK 11)를 설치합니다.
+- Gradle을 설치합니다.
+- Docker를 설치합니다.
+> Maria DB 컨테이너 실행
+- `docker run --name-db -p 3306:3306 -e MYSQL_ROOT_PASSWORD=패스워드 -d mariddb`
+- `docker exec -it maria-db mysql -u root -p`
 
-# 📕 파일 구조
+## 👀페이지 소개
+### main
+![](./documents/capture/main.PNG)
+### 로그인
+![](./documents/capture/signin1.PNG)
+![](./documents/capture/signin2.PNG)
+### 회원가입
+![](./documents/capture/signup1.PNG)
+![](./documents/capture/signup2.PNG)
+### 비밀번호 찾기
+![](./documents/capture/findpw1.PNG)
+![](./documents/capture/findpw2.PNG)
+### 개인 유저 메인
+![](./documents/capture/home.PNG)
+### 마이페이지
+![](./documents/capture/consumerMypage.PNG)
+![](./documents/capture/charge.PNG)
+![](./documents/capture/shelterMypage.PNG)
+### 보호소 메인 페이지
+![](./documents/capture/shelterMainpage1.PNG)
+![](./documents/capture/shelterMainpage2.PNG)
+![](./documents/capture/shelterMainpage3.PNG)
+### 보호소 리스트
+![](./documents/capture/shelterList.PNG)
+### 동물 리스트
+![](./documents/capture/animalList.PNG)
+### 스트리밍
+![](./documents/capture/streaming.PNG)
 
-# ⭐주요 기능
-
-### 개인 유저 Profile
-
-- 회원 정보 RUD
-- 내 지갑 주소, 금액, 내역 확인
-- 내가 후원하고 있는 보호소 목록
-
-### 보호소 유저 Profile
-
-- 회원 정보 RUD
-- 내 지갑 주소, 금액, 내역 확인
-- 월별 후원 받은 금액 확인
-- 월별 입양 보낸 동물 수 확인
-
-### 보호소 유저 메인 페이지
-
-- 소개글
-- 사이트 링크
-- 메인 배너 이미지
-- 보호소 전화번호
-- 보호소 이메일
-- 후원 누적 금액
-- 후원 사람 수 / 명단
-- 보호 하고 있는 동물 CRUD
-- 보호소 평가 내용 ( 별점, 글 등등 )
-
-    ⇒ 작성 조건 미정
-
-- 공지사항 / 게시판 + 댓글 기능
-
-### 보호소 스트리밍
-
-- 실시간 영상 송출
-- 실시간 채팅
-- 실시간 후원
-- 정기 후원 신청
-- 시청자 수, 좋아요, 방송 시작 후 모금 금액
-- 방송 시간
-
-### 보호소 검색
-
-- 검색 필터 :  보호소 이름, 지역
-- 정렬 필터 : 랜덤화 (default), 보호소 이름 순
-- 이름, 썸네일, 소개글, 후원하고 있는 사람 수, 보호하고 있는 동물 수, 현재 라이브 진행 여부 정보 제공
-- 클릭시 보호소 메인 페이지로 이동
-
-### 유기 동물 검색
-
-- 검색 필터 : 개 / 고양이, 지역
-- 정렬 필터 : 랜덤 (default), 안락사 시기 순
-- 이름, 썸네일, 성별, 나이, 보호소 이름 정보 제공
-- 클릭시 동물 상세 페이지로 이동
-
-### 유기 동물
-
-- 이름, 이미지, 성별, 나이, 안락사 예정 날짜, 성격, 특징, 발견 장소 정보 조회
-- 보호소 유저가 소개글 CRUD
-
-# 👀페이지 소개
-
-# 🎞️최종 산출물
-
+## 🎞️최종 산출물
 - **최종 발표 UCC**
-![](./document/PT/대전1반_B106_UCC경진대회.mp4)
-- **![최종 발표 pdf](./document/PT/대전1반_B106_발표자료.pdf)**
+![UCC](./documents/PT/대전1반_B106_UCC경진대회.mp4)
+- **최종 발표**
+![최종 발표 pdf](./documents/PT/대전1반_B106_발표자료.pdf)
