@@ -20,6 +20,7 @@
 
 **Seong Ho Park**
 - Github: [@solser12](https://github.com/solser12)
+<<<<<<< HEAD
 
 **Min Seok Cha**
 - Github: [@meloncha](https://github.com/meloncha)
@@ -29,6 +30,17 @@
 
 <br>
 
+=======
+
+**Min Seok Cha**
+- Github: [@meloncha](https://github.com/meloncha)
+
+**Da Yun Kim**
+- Github: [@daaaaaayoon](https://github.com/daaaaaayoon)
+
+<br>
+
+>>>>>>> master
 ## 📆 프로젝트 개요
 
 - **진행 기간** : 2021.3.2 ~ 2021.4.9
@@ -43,10 +55,17 @@
   - 블록체인을 이용한 유기동물 보호소 기부 플랫폼
 
 ## 📘 Tech Log
+<<<<<<< HEAD
 + [Convention](./documents/Convention.md)
 + [Wireframe](./documents/WireFrame.pdf)
 + [화면 정의서](./documents/StoryBoard.pdf)
 + [Swagger-UI](./documents/swagger-ui)
+=======
++ [Convention](./documents/docs/Convention.md)
++ [Wireframe](./documents/docs/WireFrame.pdf)
++ [화면 정의서](./documents/docs/StoryBoard.pdf)
++ [Swagger-UI](./documents/docs/swagger-ui)
+>>>>>>> master
 
 ## 🔗Tech Stack
 
@@ -133,6 +152,7 @@
 - 보호소 유저가 소개글 CRUD
 
 ## ⚙️Install and Usage
+<<<<<<< HEAD
 
 ### Frontend
 
@@ -185,6 +205,33 @@
 ### 스트리밍
 ![](./documents/capture/streaming.PNG)
 
+=======
+
+### Frontend
+
+- frontend 폴더로 들어와 필요한 패키지를 설치합니다.
+
+    ```java
+    npm i
+    ```
+
+- frontend 폴더 (react 프로젝트)를 실행합니다.
+
+    ```bash
+    npm start
+    ```
+
+### Backend
+- Java (Open JDK 11)를 설치합니다.
+- Gradle을 설치합니다.
+- Docker를 설치합니다.
+> Maria DB 컨테이너 실행
+- `docker run --name-db -p 3306:3306 -e MYSQL_ROOT_PASSWORD=패스워드 -d mariddb`
+- `docker exec -it maria-db mysql -u root -p`
+
+## 👀페이지 소개
+
+>>>>>>> master
 ## 🎞️최종 산출물
 - **최종 발표 UCC**
 ![UCC](./documents/PT/대전1반_B106_UCC경진대회.mp4)
