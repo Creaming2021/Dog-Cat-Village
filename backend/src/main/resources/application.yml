@@ -8,8 +8,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://j4b106.p.ssafy.io/b106?useUnicode=true&charaterEncoding=utf-8
-    username: root
-    password: j4B106_dogcat
+    username: { ID }
+    password: { PASSWORD }
 
   jpa:
     generate-ddl: true
@@ -23,16 +23,16 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ekdbs628@gmail.com
-    password: MacBye^^
+    username: { EMAIL }
+    password: { PASSWORD }
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
-#  jackson:
-#    deserialization: true
+  #  jackson:
+  #    deserialization: true
   redis:
     host: j4b106.p.ssafy.io
     port: 6379
@@ -46,8 +46,8 @@ logging:
 cloud:
   aws:
     credentials:
-      access-key: AKIATO7XDVM2IJOGXWHJ
-      secret-key: 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
+      access-key: { ACCESS-KEY }
+      secret-key: { SECRET-KEY }
     s3:
       bucket: j4b106.p.ssafy.io
     region:
