@@ -1,0 +1,63 @@
+server:
+  servlet:
+    context-path: /api
+  error:
+    include-message: always
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://j4b106.p.ssafy.io/b106?useUnicode=true&charaterEncoding=utf-8
+    username: { ID }
+    password: { PASSWORD }
+
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: { EMAIL }
+    password: { PASSWORD }
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  #  jackson:
+  #    deserialization: true
+  redis:
+    host: j4b106.p.ssafy.io
+    port: 6379
+
+logging:
+  level:
+    org:
+    springframwork:
+      security: debug
+
+cloud:
+  aws:
+    credentials:
+      access-key: { ACCESS-KEY }
+      secret-key: { SECRET-KEY }
+    s3:
+      bucket: j4b106.p.ssafy.io
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+my-app:
+  admin-email: admin@ssafy.com
+  admin-password: ssafy
+  client-id: ssafy
+  client-secret: ssafy
+  server-url: https://j4b106.p.ssafy.io
