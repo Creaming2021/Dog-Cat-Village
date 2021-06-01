@@ -203,7 +203,7 @@
 - `docker exec -it maria-db mysql -u root -p`
 
 ## 🎞️최종 산출물
-- **최종 발표 UCC**
-![UCC](https://youtu.be/g5luusiiY0s)
-- **최종 발표**
+- **최종 발표 UCC**     
+[UCC](https://youtu.be/g5luusiiY0s)
+- **최종 발표**     
 ![최종 발표 pdf](./documents/PT/대전1반_B106_발표자료.pdf)
