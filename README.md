@@ -170,9 +170,9 @@
 ![](./documents/capture/charge.PNG)
 ![](./documents/capture/shelterMypage.PNG)
 ### 보호소 메인 페이지
-![](./documents/capture/shelterMainpage1.PNG)
-![](./documents/capture/shelterMainpage2.PNG)
-![](./documents/capture/shelterMainpage3.PNG)
+![](./documents/capture/shelterMainPage1.PNG)
+![](./documents/capture/shelterMainPage2.PNG)
+![](./documents/capture/shelterMainPage3.PNG)
 ### 보호소 리스트
 ![](./documents/capture/shelterList.PNG)
 ### 동물 리스트
@@ -204,6 +204,6 @@
 
 ## 🎞️최종 산출물
 - **최종 발표 UCC**
-![UCC](./documents/PT/대전1반_B106_UCC경진대회.mp4)
+![UCC](https://youtu.be/g5luusiiY0s)
 - **최종 발표**
 ![최종 발표 pdf](./documents/PT/대전1반_B106_발표자료.pdf)
