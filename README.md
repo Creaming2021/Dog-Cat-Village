@@ -90,7 +90,7 @@
 </details>
 
 ## Data Flow 
-![flow](./documents/images/flow.PNG)
+![flow](./documents/images/flow1.PNG)
 ![flow](./documents/images/flow2.PNG)
 
 ## 주요 기능
