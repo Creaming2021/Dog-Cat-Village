@@ -91,6 +91,7 @@
 
 ## Data Flow 
 ![flow](./documents/images/flow.PNG)
+![flow](./documents/images/flow2.PNG)
 
 ## 주요 기능
 ### 개인 유저 Profile
